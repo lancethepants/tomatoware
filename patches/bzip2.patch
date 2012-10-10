@@ -1,0 +1,75 @@
+*** /home/lance/Makefile	2012-09-28 09:05:04.264361002 -0600
+--- ./Makefile	2012-09-28 09:08:01.532361002 -0600
+***************
+*** 15,30 ****
+  SHELL=/bin/sh
+  
+  # To assist in cross-compiling
+! CC=gcc
+! AR=ar
+! RANLIB=ranlib
+! LDFLAGS=
+  
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+  
+  # Where you want it installed when you do 'make install'
+! PREFIX=/usr/local
+  
+  
+  OBJS= blocksort.o  \
+--- 15,30 ----
+  SHELL=/bin/sh
+  
+  # To assist in cross-compiling
+! CC=mipsel-linux-gcc
+! AR=mipsel-linux-ar
+! RANLIB=mipsel-linux ranlib
+! LDFLAGS=-s -Wl,--gc-sections
+  
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+  
+  # Where you want it installed when you do 'make install'
+! PREFIX=/opt/tomato
+  
+  
+  OBJS= blocksort.o  \
+***************
+*** 89,103 ****
+  	chmod a+r $(PREFIX)/include/bzlib.h
+  	cp -f libbz2.a $(PREFIX)/lib
+  	chmod a+r $(PREFIX)/lib/libbz2.a
+  	cp -f bzgrep $(PREFIX)/bin/bzgrep
+! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
+! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
+  	chmod a+x $(PREFIX)/bin/bzgrep
+  	cp -f bzmore $(PREFIX)/bin/bzmore
+! 	ln -s -f $(PREFIX)/bin/bzmore $(PREFIX)/bin/bzless
+  	chmod a+x $(PREFIX)/bin/bzmore
+  	cp -f bzdiff $(PREFIX)/bin/bzdiff
+! 	ln -s -f $(PREFIX)/bin/bzdiff $(PREFIX)/bin/bzcmp
+  	chmod a+x $(PREFIX)/bin/bzdiff
+  	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
+  	chmod a+r $(PREFIX)/man/man1/bzgrep.1
+--- 89,108 ----
+  	chmod a+r $(PREFIX)/include/bzlib.h
+  	cp -f libbz2.a $(PREFIX)/lib
+  	chmod a+r $(PREFIX)/lib/libbz2.a
++ 	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
++ 	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
+  	cp -f bzgrep $(PREFIX)/bin/bzgrep
+! 	ln -s -f bzgrep $(PREFIX)/bin/bzegrep
+! 	ln -s -f bzgrep $(PREFIX)/bin/bzfgrep
+  	chmod a+x $(PREFIX)/bin/bzgrep
+  	cp -f bzmore $(PREFIX)/bin/bzmore
+! 	ln -s -f bzmore $(PREFIX)/bin/bzless
+  	chmod a+x $(PREFIX)/bin/bzmore
+  	cp -f bzdiff $(PREFIX)/bin/bzdiff
+! 	ln -s -f bzdiff $(PREFIX)/bin/bzcmp
+  	chmod a+x $(PREFIX)/bin/bzdiff
+  	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
+  	chmod a+r $(PREFIX)/man/man1/bzgrep.1

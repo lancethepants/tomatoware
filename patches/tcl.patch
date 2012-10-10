@@ -1,0 +1,35 @@
+*** /home/lance/Makefile	2012-09-14 13:08:38.617840002 -0600
+--- ./Makefile	2012-09-14 13:11:13.933840002 -0600
+***************
+*** 805,819 ****
+  	@echo "Installing time zone data"
+  	@LD_LIBRARY_PATH="`pwd`:$${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+! 	./${TCL_EXE} $(TOOL_DIR)/installData.tcl \
+! 	    $(TOP_DIR)/library/tzdata "$(SCRIPT_INSTALL_DIR)"/tzdata
+  
+  install-msgs: ${TCL_EXE}
+  	@echo "Installing message catalogs"
+  	@LD_LIBRARY_PATH="`pwd`:$${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+! 	./${TCL_EXE} $(TOOL_DIR)/installData.tcl \
+! 	    $(TOP_DIR)/library/msgs "$(SCRIPT_INSTALL_DIR)"/msgs
+  
+  install-doc: doc
+  	@for i in "$(MAN_INSTALL_DIR)" "$(MAN1_INSTALL_DIR)" "$(MAN3_INSTALL_DIR)" "$(MANN_INSTALL_DIR)" ; \
+--- 805,819 ----
+  	@echo "Installing time zone data"
+  	@LD_LIBRARY_PATH="`pwd`:$${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+! #	./${TCL_EXE} $(TOOL_DIR)/installData.tcl \
+! #	    $(TOP_DIR)/library/tzdata "$(SCRIPT_INSTALL_DIR)"/tzdata
+  
+  install-msgs: ${TCL_EXE}
+  	@echo "Installing message catalogs"
+  	@LD_LIBRARY_PATH="`pwd`:$${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+! #	./${TCL_EXE} $(TOOL_DIR)/installData.tcl \
+! #	    $(TOP_DIR)/library/msgs "$(SCRIPT_INSTALL_DIR)"/msgs
+  
+  install-doc: doc
+  	@for i in "$(MAN_INSTALL_DIR)" "$(MAN1_INSTALL_DIR)" "$(MAN3_INSTALL_DIR)" "$(MANN_INSTALL_DIR)" ; \
