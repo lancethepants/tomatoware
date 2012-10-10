@@ -11,6 +11,8 @@ CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make"
 
+mkdir -p src && cd src
+
 ########## ##################################################################
 # LIBFFI # ##################################################################
 ########## ##################################################################
