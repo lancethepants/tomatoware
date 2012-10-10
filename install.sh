@@ -2,6 +2,7 @@
 
 export PATH=$PATH:`pwd`/toolchains/brcm_K26/hndtools-mipsel-linux/bin:`pwd`/toolchains/brcm_K26/hndtools-mipsel-uclibc/bin
 
+Patches=`pwd`/patches
 WGET="wget --prefer-family=IPv4"
 RPATH=/opt/lib
 DEST=`pwd`/tomato
@@ -67,8 +68,8 @@ $WGET http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
 tar zxvf bzip2-1.0.6.tar.gz
 cd bzip2-1.0.6
 
-patch < ../../patches/bzip2.patch
-patch < ../../patches/bzip2_so.patch
+patch < $Patches/bzip2.patch
+patch < $Patches/bzip2_so.patch
 
 $MAKE
 $MAKE -f Makefile-libbz2_so
@@ -126,7 +127,7 @@ tar zxvf openssl-1.0.1c.tar.gz
 
 cd openssl-1.0.1c
 
-patch < ../../patches/openssl.patch
+patch < $Patches/openssl.patch
 #patch -p1 < ../../patches/110-optimize-for-size.patch
 #patch -p1 < ../../patches/130-perl-path.patch
 #patch -p1 < ../../patches/140-makefile-dirs.patch
@@ -179,7 +180,7 @@ $WGET ftp://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
 tar zxvf readline-6.2.tar.gz
 cd readline-6.2
 
-patch < ../../patches/readline.patch
+patch < $Patches/readline.patch
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
@@ -227,7 +228,7 @@ $CONFIGURE \
 ac_cv_func_strtod=yes \
 tcl_cv_strtod_buggy=1
 
-patch < ../../../patches/tcl.patch
+patch < $Patches/tcl.patch
 
 $MAKE
 make install prefix=$DEST exec_prefix=$DEST libdir=$DEST/lib includedir=$DEST/include
@@ -292,9 +293,9 @@ $WGET http://polarssl.org/code/releases/polarssl-1.1.4-gpl.tgz
 tar zxvf polarssl-1.1.4-gpl.tgz
 cd polarssl-1.1.4
 
-patch < ../../patches/polarssl.patch
+patch < $Patches/polarssl.patch
 cd library
-patch < ../../../patches/polarssl_lib.patch
+patch < $Patches/polarssl_lib.patch
 cd ..
 
 $MAKE
@@ -408,7 +409,7 @@ $WGET http://www.golug.it/pub/yenc/yenc-0.4.0.tar.gz
 tar zxvf yenc-0.4.0.tar.gz
 cd yenc-0.4.0
 
-patch < ../../patches/yenc.patch
+patch < $Patches/yenc.patch
 PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
 mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
 mkdir -p $DEST/python_modules
@@ -429,7 +430,7 @@ $WGET http://downloads.sourceforge.net/project/parchive/par2cmdline/0.4/par2cmdl
 tar zxvf par2cmdline-0.4.tar.gz
 cd par2cmdline-0.4
 
-patch reedsolomon.cpp ../../patches/reedsolomon.cpp.patch
+patch reedsolomon.cpp $Patches/reedsolomon.cpp.patch
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
@@ -451,7 +452,7 @@ tar zxvf unrarsrc-4.2.4.tar.gz
 cd unrar
 
 mv makefile.unix Makefile
-patch < ../../patches/unrar.patch
+patch < $Patches/unrar.patch
 
 $MAKE CXX=mipsel-linux-g++ CXXFLAGS=$CPPFLAGS STRIP=mipsel-linux-strip
 make install DESTDIR=$DEST
@@ -494,7 +495,7 @@ $WGET http://download.pureftpd.org/pub/ucarp/ucarp-1.5.2.tar.gz
 tar zxvf ucarp-1.5.2.tar.gz
 cd ucarp-1.5.2
 
-patch < ../../patches/ucarp.patch
+patch < $Patches/ucarp.patch
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
