@@ -1,0 +1,25 @@
+*** /home/lance/configure	2012-09-13 19:17:25.561840001 -0600
+--- ./configure	2012-09-13 19:17:45.865840002 -0600
+***************
+*** 10450,10459 ****
+  $as_echo_n "checking configuration for building shared libraries... " >&6; }
+          eval `TERMCAP_LIB=$TERMCAP_LIB ${CONFIG_SHELL-/bin/sh} ${srcdir}/support/shobj-conf -C "${CC}" -c ${host_cpu} -o ${host_os} -v ${host_vendor}`
+  
+! #	case "$SHLIB_LIBS" in
+! #	*curses*|*termcap*|*termlib*)	;;
+! #	*)			SHLIB_LIBS="$SHLIB_LIBS $TERMCAP_LIB" ;;
+! #	esac
+  
+  
+  
+--- 10450,10459 ----
+  $as_echo_n "checking configuration for building shared libraries... " >&6; }
+          eval `TERMCAP_LIB=$TERMCAP_LIB ${CONFIG_SHELL-/bin/sh} ${srcdir}/support/shobj-conf -C "${CC}" -c ${host_cpu} -o ${host_os} -v ${host_vendor}`
+  
+! 	case "$SHLIB_LIBS" in
+! 	*curses*|*termcap*|*termlib*)	;;
+! 	*)			SHLIB_LIBS="$SHLIB_LIBS $TERMCAP_LIB" ;;
+! 	esac
+  
+  
+  
