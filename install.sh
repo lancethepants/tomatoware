@@ -299,7 +299,7 @@ patch < $Patches/polarssl_lib.patch
 cd ..
 
 $MAKE
-make install
+make install DESTDIR=$DEST
 ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
 cd ../..
 

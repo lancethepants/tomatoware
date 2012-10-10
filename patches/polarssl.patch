@@ -1,11 +1,7 @@
-*** /home/lance/Makefile	2012-09-28 10:37:39.712361002 -0600
---- ./Makefile	2012-09-28 10:39:22.404361001 -0600
+*** ./Makefile	2011-06-21 02:59:00.000000000 -0600
+--- /home/lance/Makefile	2012-10-09 19:55:48.904100002 -0600
 ***************
-*** 1,13 ****
-  
-! DESTDIR=/usr/local
-  PREFIX=polarssl_
-  
+*** 5,13 ****
   .SILENT:
   
   all:
@@ -15,11 +11,7 @@
   
   install:
   	mkdir -p $(DESTDIR)/include/polarssl
---- 1,13 ----
-  
-! DESTDIR=/opt/tomato
-  PREFIX=polarssl_
-  
+--- 5,13 ----
   .SILENT:
   
   all:
