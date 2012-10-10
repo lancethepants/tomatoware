@@ -120,16 +120,13 @@ cd ../..
 
 mkdir openssl && cd openssl
 
-#$WGET http://www.openssl.org/source/openssl-1.0.1c.tar.gz
-$WGET http://www.openssl.org/source/openssl-0.9.8x.tar.gz
+$WGET http://www.openssl.org/source/openssl-1.0.1c.tar.gz
 
-#tar zxvf openssl-1.0.1c.tar.gz
-tar zxvf openssl-0.9.8x.tar.gz
+tar zxvf openssl-1.0.1c.tar.gz
 
-#cd openssl-1.0.1c
-cd openssl-0.9.8x
+cd openssl-1.0.1c
 
-patch < ../../patches/openssl2.patch
+patch < ../../patches/openssl.patch
 #patch -p1 < ../../patches/110-optimize-for-size.patch
 #patch -p1 < ../../patches/130-perl-path.patch
 #patch -p1 < ../../patches/140-makefile-dirs.patch
@@ -140,23 +137,16 @@ patch < ../../patches/openssl2.patch
 #patch -p1 < ../../patches/190-remove_timestamp_check.patch
 #patch -p1 < ../../patches/200-etrax_support.patch
 
-#./Configure linux-mipsel \
+./Configure linux-mipsel \
 -ffunction-sections -fdata-sections \
 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 --prefix=/opt shared zlib-dynamic threads \
 --with-zlib-include=$DEST/include \
 --with-zlib-lib=$DEST/lib
 
-./Configure linux-mipsel \
--ffunction-sections -fdata-sections \
--Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
---prefix=/opt shared no-zlib threads
-
-
 $MAKE CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
 make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 cd ../..
-
 
 
 ########### #################################################################
