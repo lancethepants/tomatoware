@@ -1,10 +1,10 @@
 #!/bin/sh
 
-export PATH=$PATH:/opt/brcm_new/hndtools-mipsel-linux/bin:/opt/brcm_new/hndtools-mipsel-uclibc/bin
+export PATH=$PATH:`pwd`/toolchains/brcm_K26/hndtools-mipsel-linux/bin:`pwd`/toolchains/brcm_K26/hndtools-mipsel-uclibc/bin
 
 WGET="wget --prefer-family=IPv4"
 RPATH=/opt/lib
-DEST=/opt/tomato
+DEST=`pwd`/tomato
 LDFLAGS="-L$DEST/lib -s -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
