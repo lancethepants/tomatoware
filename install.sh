@@ -77,7 +77,7 @@ patch < $PATCHES/bzip2_so.patch
 
 $MAKE
 $MAKE -f Makefile-libbz2_so
-make install
+make install PREFIX=$DEST
 
 ######## ####################################################################
 # ZLIB # ####################################################################
