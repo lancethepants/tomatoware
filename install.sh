@@ -1,9 +1,6 @@
 #!/bin/sh
 
 BASE=`pwd`
-
-export PATH=$PATH:$BASE/toolchains/brcm_K26/hndtools-mipsel-linux/bin:$BASE/toolchains/brcm_K26/hndtools-mipsel-uclibc/bin
-
 SRC=$BASE/src
 WGET="wget --prefer-family=IPv4"
 PATCHES=$BASE/patches
@@ -16,6 +13,12 @@ CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make"
 
 mkdir -p $SRC
+
+$WGET http://wl500g-repo.googlecode.com/files/entware-toolchain-r4667-amd64.tgz
+tar zxvf entware-toolchain-r4667-amd64.tgz
+mv opt/entware-toolchain/ ./toolchain
+rm -rf opt/ entware-toolchain-r4667-amd64.tgz
+export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
 ########## ##################################################################
 # LIBFFI # ##################################################################
