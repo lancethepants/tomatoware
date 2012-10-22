@@ -25,7 +25,7 @@
 ! LDFLAGS=-s  -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections
   
   BIGFILES=-D_FILE_OFFSET_BITS=64
-! CFLAGS=-Wall -O2 -g $(BIGFILES)
+! CFLAGS=-fPIC -Wall -O2 -g $(BIGFILES)
   
   # Where you want it installed when you do 'make install'
   PREFIX=/usr/local
