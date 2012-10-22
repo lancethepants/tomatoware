@@ -1,5 +1,5 @@
 *** /home/lance/Makefile	2012-10-20 19:37:35.107474000 -0600
---- ./Makefile	2012-10-21 20:02:58.695474000 -0600
+--- ./Makefile	2012-10-21 20:56:01.363474000 -0600
 ***************
 *** 15,27 ****
   SHELL=/bin/sh
@@ -22,7 +22,7 @@
 ! CC=mipsel-linux-gcc
 ! AR=mipsel-linux-ar
 ! RANLIB=mipsel-linux-ranlib
-! LDFLAGS=-s -Wl,--gc-sections
+! LDFLAGS=-s  -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections
   
   BIGFILES=-D_FILE_OFFSET_BITS=64
 ! CFLAGS=-Wall -O2 -g $(BIGFILES)
