@@ -1,7 +1,7 @@
-*** /home/lance/Makefile	2012-09-28 09:05:04.264361002 -0600
---- ./Makefile	2012-09-28 09:08:01.532361002 -0600
+*** /home/lance/Makefile	2012-10-20 19:37:35.107474000 -0600
+--- ./Makefile	2012-10-21 20:02:58.695474000 -0600
 ***************
-*** 15,30 ****
+*** 15,27 ****
   SHELL=/bin/sh
   
   # To assist in cross-compiling
@@ -11,30 +11,42 @@
 ! LDFLAGS=
   
   BIGFILES=-D_FILE_OFFSET_BITS=64
-  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+! CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
   
   # Where you want it installed when you do 'make install'
-! PREFIX=/usr/local
-  
-  
-  OBJS= blocksort.o  \
---- 15,30 ----
+  PREFIX=/usr/local
+--- 15,27 ----
   SHELL=/bin/sh
   
   # To assist in cross-compiling
 ! CC=mipsel-linux-gcc
 ! AR=mipsel-linux-ar
-! RANLIB=mipsel-linux ranlib
+! RANLIB=mipsel-linux-ranlib
 ! LDFLAGS=-s -Wl,--gc-sections
   
   BIGFILES=-D_FILE_OFFSET_BITS=64
-  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+! CFLAGS=-Wall -O2 -g $(BIGFILES)
   
   # Where you want it installed when you do 'make install'
-! PREFIX=/opt/tomato
+  PREFIX=/usr/local
+***************
+*** 35,42 ****
+        decompress.o \
+        bzlib.o
   
+! all: libbz2.a bzip2 bzip2recover test
+! 
+  bzip2: libbz2.a bzip2.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
   
-  OBJS= blocksort.o  \
+--- 35,41 ----
+        decompress.o \
+        bzlib.o
+  
+! all: libbz2.a bzip2 bzip2recover 
+  bzip2: libbz2.a bzip2.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+  
 ***************
 *** 89,103 ****
   	chmod a+r $(PREFIX)/include/bzlib.h
@@ -52,15 +64,15 @@
   	chmod a+x $(PREFIX)/bin/bzdiff
   	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
   	chmod a+r $(PREFIX)/man/man1/bzgrep.1
---- 89,108 ----
+--- 88,107 ----
   	chmod a+r $(PREFIX)/include/bzlib.h
   	cp -f libbz2.a $(PREFIX)/lib
   	chmod a+r $(PREFIX)/lib/libbz2.a
-+ 	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
-+ 	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
++ #	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
++ #	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
++ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
++ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
++ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
   	cp -f bzgrep $(PREFIX)/bin/bzgrep
 ! 	ln -s -f bzgrep $(PREFIX)/bin/bzegrep
 ! 	ln -s -f bzgrep $(PREFIX)/bin/bzfgrep
