@@ -1,12 +1,12 @@
-*** /home/lance/Makefile	2012-09-17 16:57:16.919296000 -0600
---- ./Makefile	2012-09-17 16:58:20.403296001 -0600
+*** /home/lance/Makefile	2012-10-21 23:09:31.659474000 -0600
+--- ./Makefile	2012-10-21 23:18:56.975474000 -0600
 ***************
 *** 8,13 ****
 --- 8,14 ----
   DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
   STRIP=strip
   DESTDIR=/usr
-+ LDFLAGS="-Wl,-rpath,/opt/lib"
++ LDFLAGS=-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,/opt/lib
   
   # Linux using LCC
   #CXX=lcc
