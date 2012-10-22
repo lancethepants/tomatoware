@@ -142,6 +142,7 @@ patch < $PATCHES/openssl.patch
 
 ./Configure linux-mipsel \
 -ffunction-sections -fdata-sections \
+-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 --prefix=/opt shared zlib-dynamic threads \
 --with-zlib-include=$DEST/include \
