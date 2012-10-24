@@ -41,4 +41,4 @@ ln -sf libssp.so.0.0.0 $DEST_LIB/libssp.so.0
 
 cd $BASE/tomato
 
-tar zvcf ../opt.tgz bin/ docs/ include/ lib/ man/ python_modules/ sbin/ share/ ssl/
+tar zvcf $BASE/opt.tgz bin/ docs/ include/ lib/ man/ python_modules/ sbin/ share/ ssl/
