@@ -1,5 +1,5 @@
-*** /home/lance/Makefile	2012-10-20 19:37:35.107474000 -0600
---- ./Makefile	2012-10-21 20:56:01.363474000 -0600
+*** /home/lance/Makefile	2012-10-25 12:38:47.533922001 -0600
+--- ./Makefile	2012-10-25 12:39:15.053922001 -0600
 ***************
 *** 15,27 ****
   SHELL=/bin/sh
@@ -68,11 +68,11 @@
   	chmod a+r $(PREFIX)/include/bzlib.h
   	cp -f libbz2.a $(PREFIX)/lib
   	chmod a+r $(PREFIX)/lib/libbz2.a
-+ #	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
-+ #	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
-+ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
-+ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
-+ #	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
++ 	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
++ 	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
++ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
   	cp -f bzgrep $(PREFIX)/bin/bzgrep
 ! 	ln -s -f bzgrep $(PREFIX)/bin/bzegrep
 ! 	ln -s -f bzgrep $(PREFIX)/bin/bzfgrep

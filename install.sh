@@ -76,8 +76,10 @@ tar zxvf bzip2-1.0.6.tar.gz
 cd bzip2-1.0.6
 
 patch < $PATCHES/bzip2.patch
+patch < $PATCHES/bzip2_so.patch
 
 $MAKE
+$MAKE -f Makefile-libbz2_so
 make install PREFIX=$DEST
 
 ######## ####################################################################
