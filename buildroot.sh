@@ -29,7 +29,6 @@ sudo chown lance:lance /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec
 # GLIB # ####################################################################
 ######## ####################################################################
 
-cd $SRC
 mkdir glib && cd glib
 $WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.35/glib-2.35.1.tar.xz
 tar xvJf glib-2.35.1.tar.xz
