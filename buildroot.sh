@@ -20,7 +20,6 @@ mv opt/entware-toolchain/ ./toolchain
 rm -rf opt/ entware-toolchain-r4667-amd64.tgz
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
-cd $DEST
 sudo rm -rf /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
 sudo mkdir /opt/bin /opt/docs /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux
 sudo chown lance:lance /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
@@ -29,6 +28,7 @@ sudo chown lance:lance /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec
 # GLIB # ####################################################################
 ######## ####################################################################
 
+cd $SRC
 mkdir glib && cd glib
 $WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.35/glib-2.35.1.tar.xz
 tar xvJf glib-2.35.1.tar.xz
