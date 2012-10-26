@@ -25,6 +25,76 @@ sudo rm -rf bin/ docs/ include/ lib/ libexec/ man/ sbin/ share/ mipsel-linux/
 sudo mkdir bin docs include lib libexec man sbin share mipsel-linux
 sudo chown lance:lance bin/ docs/ include/ lib/ libexec/ man/ sbin/ share/ mipsel-linux/
 
+######## ####################################################################
+# GLIB # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir glib && cd glib
+$WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.35/glib-2.35.1.tar.xz
+tar xvJf glib-2.35.1.tar.xz
+cd glib-2.35.1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+########### #################################################################
+# GETTEXT # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir gettext && cd gettext
+$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
+tar zxvf gettext-0.18.1.1.tar.gz
+cd gettext-0.18.1.1
+
+patch -p1 < $PATCHES/spawn.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+############## ##############################################################
+# PKG-CONFIG # ##############################################################
+############## ##############################################################
+
+cd $SRC
+mkdir pkg-config && cd pkg-config
+$WGET http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.tar.gz
+tar zxvf pkg-config-0.27.tar.gz
+cd pkg-config-0.27
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-internal-glib
+
+
+######## ####################################################################
+# PERL # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir perl && cd perl
+$WGET http://www.cpan.org/src/5.0/perl-5.16.0.tar.gz
+tar zxvf perl-5.16.0.tar.gz
+cp $PATCHES/perl-5.16.0-cross-0.7.tar.gz .
+tar zxvf perl-5.16.0-cross-0.7.tar.gz
+	
+LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+./configure --target=mipsel-linux --prefix=/opt
+
+$MAKE
+make install
 
 ############ ################################################################
 # BINUTILS # ################################################################
@@ -125,5 +195,8 @@ CFLAGS=$CFLAGS \
 --enable-languages=c,c++ \
 --with-gnu-as --with-gnu-ld --disable-nls -enable-werror=no --disable-libstdcxx-pch
 
-make
+$MAKE
 make install
+
+
+
