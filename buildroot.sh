@@ -21,9 +21,9 @@ rm -rf opt/ entware-toolchain-r4667-amd64.tgz
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
 cd $DEST
-sudo rm -rf bin/ docs/ include/ lib/ libexec/ man/ sbin/ share/ mipsel-linux/
-sudo mkdir bin docs include lib libexec man sbin share mipsel-linux
-sudo chown lance:lance bin/ docs/ include/ lib/ libexec/ man/ sbin/ share/ mipsel-linux/
+sudo rm -rf /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
+sudo mkdir /opt/bin /opt/docs /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux
+sudo chown lance:lance /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
 
 ######## ####################################################################
 # GLIB # ####################################################################
