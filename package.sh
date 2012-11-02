@@ -39,6 +39,13 @@ cp -f $SOURCE_LIB/libssp.so.0.0.0 $DEST_LIB
 ln -sf libssp.so.0.0.0 $DEST_LIB/libssp.so
 ln -sf libssp.so.0.0.0 $DEST_LIB/libssp.so.0
 
+cp -f $SOURCE_LIB/libutil-0.9.32.so $DEST_LIB
+ln -sf libutil-0.9.32.so $DEST_LIB/libutil.so
+ln -sf libutil-0.9.32.so $DEST_LIB/libutil.so.0
+
+cp -f $SOURCE_LIB/libgcc_s.so.1 $DEST_LIB
+ln -sf libgcc_s.so.1 $DEST_LIB/libgcc_s.so
+
 cd $BASE/tomato
 
 tar zvcf $BASE/opt.tgz bin/ docs/ include/ lib/ man/ python_modules/ sbin/ share/ ssl/
