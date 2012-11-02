@@ -53,9 +53,9 @@ make install prefix=$DEST
 
 cd $SRC
 mkdir sqlite && cd sqlite
-$WGET http://www.sqlite.org/sqlite-autoconf-3071400.tar.gz
-tar zxvf sqlite-autoconf-3071400.tar.gz
-cd sqlite-autoconf-3071400
+$WGET http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz
+tar zxvf sqlite-autoconf-3071401.tar.gz
+cd sqlite-autoconf-3071401
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
