@@ -10,6 +10,6 @@ sudo apt-get install gcc g++ binutils patch bzip2 flex bison make gettext unzip 
 sudo apt-get install libc6 libncurses5-dev  automake automake1.7 automake1.9
 sudo apt-get install git-core
 
-install.sh wil download the necessary toolchain and software packages and will compile it with the /opt prefix.  This is designed to run in /opt, much like optware for embedded devices.
+install.sh will download the necessary toolchain and software packages and will compile it with the /opt prefix.  This is designed to run in /opt, much like optware for embedded devices.
 
 package.sh will compress everything into opt.tgz, which can then be transferred to /opt in the target device to be extracted.
