@@ -14,10 +14,14 @@ MAKE="make"
 
 mkdir -p $SRC
 
+if [ ! -d toolchain ]
+then
 $WGET http://wl500g-repo.googlecode.com/files/entware-toolchain-r4667-amd64.tgz
 tar zxvf entware-toolchain-r4667-amd64.tgz
 mv opt/entware-toolchain/ ./toolchain
 rm -rf opt/ entware-toolchain-r4667-amd64.tgz
+fi
+
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
 ########## ##################################################################
