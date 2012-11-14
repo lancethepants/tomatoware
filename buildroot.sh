@@ -162,6 +162,7 @@ $WGET http://www.cpan.org/src/5.0/perl-5.16.0.tar.gz
 tar zxvf perl-5.16.0.tar.gz
 cp $PATCHES/perl-5.16.0-cross-0.7.tar.gz .
 tar zxvf perl-5.16.0-cross-0.7.tar.gz
+cd perl-5.16.0
 	
 LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
 CPPFLAGS=$CPPFLAGS \
