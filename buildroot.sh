@@ -14,30 +14,78 @@ MAKE="make"
 
 mkdir -p $SRC
 
+if [ ! -d toolchain ]
+then
 $WGET http://wl500g-repo.googlecode.com/files/entware-toolchain-r4667-amd64.tgz
 tar zxvf entware-toolchain-r4667-amd64.tgz
 mv opt/entware-toolchain/ ./toolchain
 rm -rf opt/ entware-toolchain-r4667-amd64.tgz
+fi
+
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
-sudo rm -rf /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
-sudo mkdir /opt/bin /opt/docs /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux
-sudo chown lance:lance /opt/bin/ /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
+sudo rm -rf /opt/bin/ /opt/docs/ /opt/etc/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
+sudo mkdir /opt/bin /opt/docs /opt/etc /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux
+sudo chown lance:lance /opt/bin/ /opt/etc /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
 
 ######## ####################################################################
-# GLIB # ####################################################################
+# ZLIB # ####################################################################
 ######## ####################################################################
 
 cd $SRC
-mkdir glib && cd glib
-$WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.35/glib-2.35.1.tar.xz
-tar xvJf glib-2.35.1.tar.xz
-cd glib-2.35.1
+mkdir zlib && cd zlib
+$WGET http://zlib.net/zlib-1.2.7.tar.gz
+tar zxvf zlib-1.2.7.tar.gz
+cd zlib-1.2.7
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+CROSS_PREFIX=mipsel-linux- \
+./configure \
+--prefix=/opt 
+
+$MAKE
+make install
+
+########## ##################################################################
+# LIBFFI # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir libffi && cd libffi
+$WGET ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+tar zxvf libffi-3.0.11.tar.gz
+cd libffi-3.0.11
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE
+
+$MAKE
+make install
+
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
+
+############ ################################################################
+# LIBICONV # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir libiconv && cd libiconv
+$WGET http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar zxvf libiconv-1.14.tar.gz
+cd libiconv-1.14
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
 
 ########### #################################################################
 # GETTEXT # #################################################################
@@ -59,6 +107,33 @@ $CONFIGURE
 $MAKE
 make install
 
+######## ####################################################################
+# GLIB # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir glib && cd glib
+$WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.26/glib-2.26.1.tar.gz
+tar zxvf glib-2.26.1.tar.gz
+cd glib-2.26.1
+
+patch < $PATCHES/001-automake-compat.patch
+patch -p1 < $PATCHES/002-missing-gthread-include.patch
+patch < $PATCHES/010-move-iconv-to-libs.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-libiconv=gnu  \
+glib_cv_stack_grows=no \
+glib_cv_uscore=no \
+ac_cv_func_posix_getpwuid_r=yes \
+ac_cv_func_posix_getgrgid_r=yes
+
+$MAKE
+make install
+
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
 ############## ##############################################################
@@ -72,9 +147,10 @@ cd pkg-config-0.27
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-internal-glib
+$CONFIGURE 
 
+$MAKE
+make install
 
 ######## ####################################################################
 # PERL # ####################################################################
@@ -196,6 +272,7 @@ CFLAGS=$CFLAGS \
 
 $MAKE
 make install
+
 
 
 
