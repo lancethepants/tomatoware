@@ -172,25 +172,6 @@ CFLAGS=$CFLAGS \
 $MAKE
 make install
 
-############ ################################################################
-# BINUTILS # ################################################################
-############ ################################################################
-
-cd $SRC
-mkdir binutils && cd binutils
-$WGET http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
-tar zxvf binutils-2.22.tar.gz
-mkdir build-binutils && cd build-binutils
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-../binutils-2.22/$CONFIGURE \
---disable-werror
-
-$MAKE
-make install
-
 ####### #####################################################################
 # GMP # #####################################################################
 ####### #####################################################################
@@ -242,6 +223,26 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE
+
+$MAKE
+make install
+
+############ ################################################################
+# BINUTILS # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir binutils && cd binutils
+$WGET http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
+tar zxvf binutils-2.22.tar.gz
+mkdir build-binutils && cd build-binutils
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+../binutils-2.22/$CONFIGURE \
+--disable-werror \
+--disable-nls
 
 $MAKE
 make install
