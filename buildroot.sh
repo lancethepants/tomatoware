@@ -104,27 +104,6 @@ $CONFIGURE
 $MAKE
 make install
 
-
-########### #################################################################
-# GETTEXT # #################################################################
-########### #################################################################
-
-cd $SRC
-mkdir gettext && cd gettext
-$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
-tar zxvf gettext-0.18.1.1.tar.gz
-cd gettext-0.18.1.1
-
-patch -p1 < $PATCHES/spawn.patch
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install
-
 ######## ####################################################################
 # GLIB # ####################################################################
 ######## ####################################################################
@@ -148,6 +127,26 @@ glib_cv_stack_grows=no \
 glib_cv_uscore=no \
 ac_cv_func_posix_getpwuid_r=yes \
 ac_cv_func_posix_getgrgid_r=yes
+
+$MAKE
+make install
+
+########### #################################################################
+# GETTEXT # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir gettext && cd gettext
+$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
+tar zxvf gettext-0.18.1.1.tar.gz
+cd gettext-0.18.1.1
+
+patch -p1 < $PATCHES/spawn.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
 
 $MAKE
 make install
