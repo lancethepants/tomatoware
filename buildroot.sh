@@ -24,9 +24,27 @@ fi
 
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
-sudo rm -rf /opt/bin/ /opt/docs/ /opt/etc/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
-sudo mkdir /opt/bin /opt/docs /opt/etc /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux
-sudo chown lance:lance /opt/bin/ /opt/etc /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/
+sudo rm -rf /opt/bin/ /opt/docs/ /opt/etc/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/ /opt/var/
+sudo mkdir /opt/bin /opt/docs /opt/etc /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux /opt/var
+sudo chown lance:lance /opt/bin/ /opt/etc /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/ /opt/var/
+
+######### ###################################################################
+# BZIP2 # ###################################################################
+######### ###################################################################
+
+cd $SRC
+mkdir bzip2 && cd bzip2 
+$WGET http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+tar zxvf bzip2-1.0.6.tar.gz
+cd bzip2-1.0.6
+
+patch < $PATCHES/bzip2.patch
+patch < $PATCHES/bzip2_so.patch
+
+$MAKE
+$MAKE -f Makefile-libbz2_so
+make install PREFIX=$DEST
+
 
 ######## ####################################################################
 # ZLIB # ####################################################################
@@ -275,6 +293,225 @@ CFLAGS=$CFLAGS \
 $MAKE
 make install
 
+############ ################################################################
+# AUTOCONF # ################################################################
+############ ################################################################
 
+cd $SRC
+mkdir autoconf && cd autoconf
+$WGET http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+tar zxvf autoconf-2.69.tar.gz
+cd autoconf-2.69
 
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+############ ################################################################
+# AUTOMAKE # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir automake && cd automake
+$WGET http://ftp.gnu.org/gnu/automake/automake-1.12.4.tar.gz
+tar zxvf automake-1.12.4.tar.gz
+cd automake-1.12.4
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+######### ###################################################################
+# BISON # ###################################################################
+######### ###################################################################
+
+cd $SRC
+mkdir bison && cd bison
+$WGET http://ftp.gnu.org/gnu/bison/bison-2.6.5.tar.gz
+tar zxvf bison-2.6.5.tar.gz
+cd bison-2.6.5
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+######### ###################################################################
+# CHECK # ###################################################################
+######### ###################################################################
+
+cd $SRC
+mkdir check && cd check
+$WGET http://downloads.sourceforge.net/project/check/check/0.9.9/check-0.9.9.tar.gz
+tar zxvf check-0.9.9.tar.gz
+cd check-0.9.9
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+############# ###############################################################
+# COREUTILS # ###############################################################
+############# ###############################################################
+
+cd $SRC
+mkdir coreutils && cd coreutils
+$WGET http://ftp.gnu.org/gnu/coreutils/coreutils-8.16.tar.xz
+tar xvJf coreutils-8.16.tar.xz
+cd coreutils-8.16
+
+patch -p1 < $PATCHES/002-fix_compile_with_uclibc.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--enable-install-program=hostname \
+fu_cv_sys_stat_statfs2_bsize=yes \
+gl_cv_func_working_mkstemp=yes
+
+$MAKE
+make install
+
+############# ###############################################################
+# DIFFUTILS # ###############################################################
+############# ###############################################################
+
+cd $SRC
+mkdir diffutils && cd diffutils
+$WGET http://ftp.gnu.org/gnu/diffutils/diffutils-3.2.tar.gz
+tar zxvf diffutils-3.2.tar.gz
+cd diffutils-3.2
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+############# ###############################################################
+# FINDUTILS # ###############################################################
+############# ###############################################################
+
+cd $SRC
+mkdir findutils && cd findutils
+$WGET http://ftp.gnu.org/pub/gnu/findutils/findutils-4.4.2.tar.gz
+tar zxvf findutils-4.4.2.tar.gz
+cd findutils-4.4.2
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+gl_cv_func_wcwidth_works=yes
+
+$MAKE
+make install
+
+######## ####################################################################
+# FLEX # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir flex && cd flex
+$WGET http://downloads.sourceforge.net/project/flex/flex-2.5.37.tar.gz
+tar zxvf flex-2.5.37.tar.gz
+cd flex-2.5.37
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+######## ####################################################################
+# GAWK # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir gawk && cd gawk
+$WGET http://ftp.gnu.org/gnu/gawk/gawk-4.0.1.tar.gz
+tar zxvf gawk-4.0.1.tar.gz
+cd gawk-4.0.1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+########### #################################################################
+# LIBTOOL # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir libtool && cd  libtool
+$WGET http://gnu.mirrors.pair.com/gnu/libtool/libtool-2.4.2.tar.gz
+tar zxvf libtool-2.4.2.tar.gz
+cd libtool-2.4.2
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+###### ######################################################################
+# M4 # ######################################################################
+###### ######################################################################
+
+cd $SRC
+mkdir m4 && cd m4
+$WGET http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.gz
+tar zxvf m4-1.4.16.tar.gz
+cd m4-1.4.16
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
+
+######## ####################################################################
+# MAKE # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir make && cd make
+$WGET http://ftp.gnu.org/gnu/make/make-3.82.tar.gz
+tar zxvf make-3.82.tar.gz
+cd make-3.82
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install
 
