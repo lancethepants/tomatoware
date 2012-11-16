@@ -296,7 +296,7 @@ make install prefix=$DEST HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE
 
 cd $SRC
 mkdir polarssl && cd polarssl
-$WGET http://polarssl.org/code/releases/polarssl-1.1.4-gpl.tgz
+$WGET https://polarssl.org/download/polarssl-1.1.4-gpl.tgz
 tar zxvf polarssl-1.1.4-gpl.tgz
 cd polarssl-1.1.4
 
