@@ -10,7 +10,7 @@ LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-se
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
-MAKE="make"
+MAKE="make -j2"
 
 mkdir -p $SRC
 
@@ -23,51 +23,6 @@ rm -rf opt/ entware-toolchain-r4667-amd64.tgz
 fi
 
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
-
-########## ##################################################################
-# LIBFFI # ##################################################################
-########## ##################################################################
-
-cd $SRC
-mkdir libffi && cd libffi
-$WGET ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
-tar zxvf libffi-3.0.11.tar.gz
-cd libffi-3.0.11
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---bindir=$DEST/bin \
---sbindir=$DEST/sbin \
---libexecdir=$DEST/libexec \
---sysconfdir=$DEST/etc \
---sharedstatedir=$DEST/com \
---localstatedir=$DEST/var \
---libdir=$DEST/lib \
---includedir=$DEST/include \
---datarootdir=$DEST/share 
-
-$MAKE
-make install prefix=$DEST
-
-########## ##################################################################
-# SQLITE # ##################################################################
-########## ##################################################################
-
-cd $SRC
-mkdir sqlite && cd sqlite
-$WGET http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz
-tar zxvf sqlite-autoconf-3071401.tar.gz
-cd sqlite-autoconf-3071401
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install prefix=$DEST
 
 ######### ###################################################################
 # BZIP2 # ###################################################################
@@ -125,6 +80,25 @@ $CONFIGURE \
 $MAKE
 make install prefix=$DEST
 
+############ ################################################################
+# POLARSSL # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir polarssl && cd polarssl
+$WGET https://polarssl.org/download/polarssl-1.1.4-gpl.tgz
+tar zxvf polarssl-1.1.4-gpl.tgz
+cd polarssl-1.1.4
+
+patch < $PATCHES/polarssl.patch
+cd library
+patch < $PATCHES/polarssl_lib.patch
+cd ..
+
+$MAKE
+make install DESTDIR=$DEST
+ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
+
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
@@ -152,9 +126,55 @@ patch < $PATCHES/openssl.patch
 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 --prefix=/opt shared no-zlib no-zlib-dynamic  \
 
-$MAKE CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
+make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
 make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 
+########### #################################################################
+# LIBPCAP # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir libpcap && cd libpcap
+$WGET http://www.tcpdump.org/release/libpcap-1.3.0.tar.gz
+tar zxvf libpcap-1.3.0.tar.gz
+cd libpcap-1.3.0
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-pcap=linux \
+--enable-ipv6
+
+$MAKE
+make install prefix=$DEST
+
+########## ##################################################################
+# LIBFFI # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir libffi && cd libffi
+$WGET ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+tar zxvf libffi-3.0.11.tar.gz
+cd libffi-3.0.11
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--bindir=$DEST/bin \
+--sbindir=$DEST/sbin \
+--libexecdir=$DEST/libexec \
+--sysconfdir=$DEST/etc \
+--sharedstatedir=$DEST/com \
+--localstatedir=$DEST/var \
+--libdir=$DEST/lib \
+--includedir=$DEST/include \
+--datarootdir=$DEST/share 
+
+$MAKE
+make install prefix=$DEST
 
 ########### #################################################################
 # NCURSES # #################################################################
@@ -261,6 +281,24 @@ $MAKE
 make install prefix=$DEST
 
 ########## ##################################################################
+# SQLITE # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir sqlite && cd sqlite
+$WGET http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz
+tar zxvf sqlite-autoconf-3071401.tar.gz
+cd sqlite-autoconf-3071401
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install prefix=$DEST
+
+########## ##################################################################
 # PYTHON # ##################################################################
 ########## ##################################################################
 
@@ -289,83 +327,6 @@ cp ../Python-2.7.3-native/Parser/pgen Parser/hostpgen
 
 $MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=x86_64-linux-gnu
 make install prefix=$DEST HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
-
-############ ################################################################
-# POLARSSL # ################################################################
-############ ################################################################
-
-cd $SRC
-mkdir polarssl && cd polarssl
-$WGET https://polarssl.org/download/polarssl-1.1.4-gpl.tgz
-tar zxvf polarssl-1.1.4-gpl.tgz
-cd polarssl-1.1.4
-
-patch < $PATCHES/polarssl.patch
-cd library
-patch < $PATCHES/polarssl_lib.patch
-cd ..
-
-$MAKE
-make install DESTDIR=$DEST
-ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
-
-########### #################################################################
-# LIBPCAP # #################################################################
-########### #################################################################
-
-cd $SRC
-mkdir libpcap && cd libpcap
-$WGET http://www.tcpdump.org/release/libpcap-1.3.0.tar.gz
-tar zxvf libpcap-1.3.0.tar.gz
-cd libpcap-1.3.0
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-pcap=linux \
---enable-ipv6
-
-$MAKE
-make install prefix=$DEST
-
-########### #################################################################
-# OPENVPN # #################################################################
-########### #################################################################
-
-cd $SRC
-mkdir openvpn && cd openvpn
-$WGET http://swupdate.openvpn.org/community/releases/openvpn-2.3_beta1.tar.gz
-tar zxvf openvpn-2.3_beta1.tar.gz
-cd openvpn-2.3_beta1
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-crypto-library=polarssl \
---disable-plugin-auth-pam
-
-$MAKE
-make install prefix=$DEST
-
-######## ####################################################################
-# TINC # ####################################################################
-######## ####################################################################
-
-cd $SRC
-mkdir tinc && cd tinc
-$WGET http://www.tinc-vpn.org/packages/tinc-1.0.19.tar.gz
-tar zxvf tinc-1.0.19.tar.gz
-cd tinc-1.0.19
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install prefix=$DEST
 
 ############## ##############################################################
 # SETUPTOOLS # ##############################################################
@@ -423,6 +384,32 @@ cd $SRC/python/Python-2.7.3/build/
 rm -rf lib.linux-x86_64-2.7/
 mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
 
+############# ###############################################################
+# pyOpenSSL # ###############################################################
+############# ###############################################################
+
+cd $SRC/python/Python-2.7.3/build/
+mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
+cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
+
+cd $SRC
+mkdir pyopenssl && cd pyopenssl
+$WGET http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-0.13.tar.gz
+tar zxvf pyOpenSSL-0.13.tar.gz
+cd pyOpenSSL-0.13
+
+PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
+sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
+PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
+mv dist/pyOpenSSL-0.13-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13-py2.7.egg
+
+mkdir -p $DEST/python_modules
+cp dist/pyOpenSSL-0.13-py2.7.egg $DEST/python_modules
+
+cd $SRC/python/Python-2.7.3/build/
+rm -rf lib.linux-x86_64-2.7/
+mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
+
 ############### #############################################################
 # PAR2CMDLINE # #############################################################
 ############### #############################################################
@@ -460,32 +447,6 @@ patch < $PATCHES/unrar.patch
 $MAKE CXX=mipsel-linux-g++ CXXFLAGS=$CPPFLAGS STRIP=mipsel-linux-strip
 make install DESTDIR=$DEST
 
-############# ###############################################################
-# pyOpenSSL # ###############################################################
-############# ###############################################################
-
-cd $SRC/python/Python-2.7.3/build/
-mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
-
-cd $SRC
-mkdir pyopenssl && cd pyopenssl
-$WGET http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-0.13.tar.gz
-tar zxvf pyOpenSSL-0.13.tar.gz
-cd pyOpenSSL-0.13
-
-PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
-sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
-PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
-mv dist/pyOpenSSL-0.13-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13-py2.7.egg
-
-mkdir -p $DEST/python_modules
-cp dist/pyOpenSSL-0.13-py2.7.egg $DEST/python_modules
-
-cd $SRC/python/Python-2.7.3/build/
-rm -rf lib.linux-x86_64-2.7/
-mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
-
 ######### ###################################################################
 # UCARP # ###################################################################
 ######### ###################################################################
@@ -497,6 +458,44 @@ tar zxvf ucarp-1.5.2.tar.gz
 cd ucarp-1.5.2
 
 patch < $PATCHES/ucarp.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install prefix=$DEST
+
+########### #################################################################
+# OPENVPN # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir openvpn && cd openvpn
+$WGET http://swupdate.openvpn.org/community/releases/openvpn-2.3_beta1.tar.gz
+tar zxvf openvpn-2.3_beta1.tar.gz
+cd openvpn-2.3_beta1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-crypto-library=polarssl \
+--disable-plugin-auth-pam
+
+$MAKE
+make install prefix=$DEST
+
+######## ####################################################################
+# TINC # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir tinc && cd tinc
+$WGET http://www.tinc-vpn.org/packages/tinc-1.0.19.tar.gz
+tar zxvf tinc-1.0.19.tar.gz
+cd tinc-1.0.19
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
@@ -524,3 +523,4 @@ $CONFIGURE \
 
 $MAKE
 make install prefix=$DEST
+
