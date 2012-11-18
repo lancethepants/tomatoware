@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BASE=`pwd`
-DEST_LIB=$BASE/tomato/lib
+DEST_LIB=$BASE/opt/lib
 SOURCE_LIB=$BASE/toolchain/lib
 
 cp -f $SOURCE_LIB/ld-uClibc-0.9.32.so $DEST_LIB
@@ -46,7 +46,7 @@ ln -sf libutil-0.9.32.so $DEST_LIB/libutil.so.0
 cp -f $SOURCE_LIB/libgcc_s.so.1 $DEST_LIB
 ln -sf libgcc_s.so.1 $DEST_LIB/libgcc_s.so
 
-cd $BASE/tomato/python_modules
+cd $BASE/opt/python_modules
 
 if [ ! -d setuptools ]
 then
@@ -56,7 +56,7 @@ wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.g
 
 fi
 
-cd $BASE/tomato/python_modules
+cd $BASE/opt/python_modules
 
 if [ ! -d markdown ]
 then
@@ -66,7 +66,7 @@ wget http://pypi.python.org/packages/source/M/Markdown/Markdown-2.2.1.tar.gz
 
 fi
 
-cd $BASE/tomato/python_modules
+cd $BASE/opt/python_modules
 
 echo "#!/bin/sh" > install_modules.sh
 
@@ -91,6 +91,6 @@ echo "easy_install -Z yenc-0.4.0-py2.7.egg" >> install_modules.sh
 
 chmod +x install_modules.sh
 
-cd $BASE/tomato
+cd $BASE/opt
 
 tar zvcf $BASE/opt.tgz bin/ docs/ include/ lib/ man/ python_modules/ sbin/ share/ ssl/
