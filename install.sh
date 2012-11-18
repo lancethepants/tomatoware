@@ -5,8 +5,8 @@ SRC=$BASE/src
 WGET="wget --prefer-family=IPv4"
 PATCHES=$BASE/patches
 RPATH=/opt/lib
-DEST=$BASE/tomato
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH"
+DEST=$BASE/opt
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath=$RPATH -Wl,-rpath-link=$RPATH"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
@@ -130,6 +130,63 @@ make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
 make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 
 ########### #################################################################
+# GETTEXT # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir gettext && cd gettext
+$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
+tar zxvf gettext-0.18.1.1.tar.gz
+cd gettext-0.18.1.1
+
+patch -p1 < $PATCHES/spawn.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
+
+########### #################################################################
+# LIBCURL # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir libcurl && cd libcurl
+$WGET http://curl.haxx.se/download/curl-7.28.0.tar.gz
+tar zxvf curl-7.28.0.tar.gz
+cd curl-7.28.0
+
+LDFLAGS="-static $LDFLAGS"  \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--enable-ipv6
+
+$MAKE
+make install prefix=$DEST
+
+######### ###################################################################
+# EXPAT # ###################################################################
+######### ###################################################################
+
+cd $SRC
+mkdir expat && cd expat
+$WGET http://downloads.sourceforge.net/project/expat/expat/2.1.0/expat-2.1.0.tar.gz
+tar zxvf expat-2.1.0.tar.gz
+cd expat-2.1.0
+
+LDFLAGS=$LDFLAGS  \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install prefix=$DEST
+
+########### #################################################################
 # LIBPCAP # #################################################################
 ########### #################################################################
 
@@ -172,6 +229,24 @@ $CONFIGURE \
 --libdir=$DEST/lib \
 --includedir=$DEST/include \
 --datarootdir=$DEST/share 
+
+$MAKE
+make install prefix=$DEST
+
+############ ################################################################
+# LIBICONV # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir libiconv && cd libiconv
+$WGET http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar zxvf libiconv-1.14.tar.gz
+cd libiconv-1.14
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
 
 $MAKE
 make install prefix=$DEST
@@ -297,6 +372,26 @@ $CONFIGURE
 
 $MAKE
 make install prefix=$DEST
+
+######## ####################################################################
+# PERL # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir perl && cd perl
+$WGET http://www.cpan.org/src/5.0/perl-5.16.0.tar.gz
+tar zxvf perl-5.16.0.tar.gz
+cp $PATCHES/perl-5.16.0-cross-0.7.tar.gz .
+tar zxvf perl-5.16.0-cross-0.7.tar.gz
+cd perl-5.16.0
+
+LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+./configure --target=mipsel-linux --prefix=/opt
+
+make
+make install --prefix=/opt
 
 ########## ##################################################################
 # PYTHON # ##################################################################
@@ -524,3 +619,24 @@ $CONFIGURE \
 $MAKE
 make install prefix=$DEST
 
+####### #####################################################################
+# GIT # #####################################################################
+####### #####################################################################
+
+cd $SRC
+mkdir git && cd git
+$WGET https://github.com/git/git/archive/v1.8.0.tar.gz
+tar zxvf v1.8.0.tar.gz
+cd git-1.8.0
+
+make configure
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+ac_cv_fread_reads_directories=yes \
+ac_cv_snprintf_returns_bogus=yes
+
+$MAKE
+make install prefix=$DEST
