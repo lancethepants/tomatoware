@@ -149,17 +149,19 @@ $CONFIGURE
 $MAKE
 make install DESTDIR=$BASE
 
-########### #################################################################
-# LIBCURL # #################################################################
-########### #################################################################
+######## ####################################################################
+# CURL # ####################################################################
+######## ####################################################################
 
 cd $SRC
-mkdir libcurl && cd libcurl
+mkdir curl && cd curl
 $WGET http://curl.haxx.se/download/curl-7.28.0.tar.gz
 tar zxvf curl-7.28.0.tar.gz
 cd curl-7.28.0
 
-LDFLAGS="-static $LDFLAGS"  \
+patch < $PATCHES/curl.patch
+
+LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
