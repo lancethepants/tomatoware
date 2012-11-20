@@ -393,7 +393,7 @@ CFLAGS=$CFLAGS \
 ./configure --target=mipsel-linux --prefix=/opt
 
 make
-make install --prefix=/opt
+make install DESTDIR=$BASE
 
 ########## ##################################################################
 # PYTHON # ##################################################################
