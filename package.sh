@@ -93,4 +93,4 @@ chmod +x install_modules.sh
 
 cd $BASE/opt
 
-tar zvcf $BASE/opt.tgz bin/ docs/ include/ lib/ man/ python_modules/ sbin/ share/ ssl/
+tar zvcf $BASE/opt.tgz bin/ docs/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/
