@@ -631,14 +631,35 @@ $WGET https://github.com/git/git/archive/v1.8.0.tar.gz
 tar zxvf v1.8.0.tar.gz
 cd git-1.8.0
 
-make configure
+make distclean
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE \
-ac_cv_fread_reads_directories=yes \
-ac_cv_snprintf_returns_bogus=yes
+make \
+CC=mipsel-linux-gcc \
+AR=mipsel-linux-ar \
+prefix=/opt \
+FREAD_READS_DIRECTORIES=no \
+SNPRINTF_RETURNS_BOGUS=no \
+NO_TCLTK=yes \
+NO_R_TO_GCC_LINKER=yes \
+NO_GETTEXT=yes \
+NO_ICONV=yes \
+EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread"
 
-$MAKE
-make install prefix=$DEST
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+make \
+CC=mipsel-linux-gcc \
+AR=mipsel-linux-ar \
+prefix=/opt \
+FREAD_READS_DIRECTORIES=no \
+SNPRINTF_RETURNS_BOGUS=no \
+NO_TCLTK=yes \
+NO_R_TO_GCC_LINKER=yes \
+NO_GETTEXT=yes \
+NO_ICONV=yes \
+EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread" \
+install DESTDIR=$BASE
