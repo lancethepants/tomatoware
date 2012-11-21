@@ -686,3 +686,26 @@ $CONFIGURE
 
 $MAKE
 make install prefix=$DEST
+
+########### #################################################################
+# OPENSSH # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir openssh && cd openssh
+$WGET http://openbsd.mirrorcatalogs.com/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
+tar zxvf openssh-6.1p1.tar.gz
+cd openssh-6.1p1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-pid-dir=/var/run \
+--with-privsep-path=/var/empty \
+--disable-strip
+
+patch < $PATCHES/openssh.patch
+
+$MAKE
+make install DESTDIR=$BASE
