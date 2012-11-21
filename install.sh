@@ -165,10 +165,14 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
---enable-ipv6
+--with-ca-bundle=/opt/ssl/certs/curl-ca-bundle.crt
 
 $MAKE
 make install prefix=$DEST
+
+mkdir -p $DEST/ssl/certs
+cd $DEST/ssl/certs
+wget http://curl.haxx.se/ca/cacert.pem
 
 ######### ###################################################################
 # EXPAT # ###################################################################
