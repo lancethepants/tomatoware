@@ -663,3 +663,21 @@ NO_GETTEXT=yes \
 NO_ICONV=yes \
 EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread" \
 install DESTDIR=$BASE
+
+########## ##################################################################
+# STRACE # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir strace && cd strace
+$WGET http://downloads.sourceforge.net/project/strace/strace/4.7/strace-4.7.tar.xz
+tar xvJf strace-4.7.tar.xz
+cd strace-4.7
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install prefix=$DEST
