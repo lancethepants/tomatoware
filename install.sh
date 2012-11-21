@@ -173,6 +173,7 @@ make install prefix=$DEST
 mkdir -p $DEST/ssl/certs
 cd $DEST/ssl/certs
 wget http://curl.haxx.se/ca/cacert.pem
+mv cacert.pem curl-ca-bundle.crt
 
 ######### ###################################################################
 # EXPAT # ###################################################################
