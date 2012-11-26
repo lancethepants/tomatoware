@@ -59,7 +59,7 @@ CROSS_PREFIX=mipsel-linux- \
 --prefix=/opt 
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # LZO # #####################################################################
@@ -78,7 +78,7 @@ $CONFIGURE \
 --enable-shared=yes 
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # POLARSSL # ################################################################
@@ -168,7 +168,7 @@ $CONFIGURE \
 --with-ca-bundle=/opt/ssl/certs/curl-ca-bundle.crt
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 mkdir -p $DEST/ssl/certs
 cd $DEST/ssl/certs
@@ -191,7 +191,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # LIBPCAP # #################################################################
@@ -211,7 +211,7 @@ $CONFIGURE \
 --enable-ipv6
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########## ##################################################################
 # LIBFFI # ##################################################################
@@ -226,19 +226,10 @@ cd libffi-3.0.11
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE \
---bindir=$DEST/bin \
---sbindir=$DEST/sbin \
---libexecdir=$DEST/libexec \
---sysconfdir=$DEST/etc \
---sharedstatedir=$DEST/com \
---localstatedir=$DEST/var \
---libdir=$DEST/lib \
---includedir=$DEST/include \
---datarootdir=$DEST/share 
+$CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # LIBICONV # ################################################################
@@ -256,7 +247,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # NCURSES # #################################################################
@@ -277,7 +268,7 @@ $CONFIGURE \
 --enable-rpath 
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ############### #############################################################
 # LIBREADLINE # #############################################################
@@ -297,7 +288,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # LIBGDBM # #################################################################
@@ -315,7 +306,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # tcl # #####################################################################
@@ -340,7 +331,7 @@ tcl_cv_strtod_buggy=1
 patch < $PATCHES/tcl.patch
 
 $MAKE
-make install prefix=$DEST exec_prefix=$DEST libdir=$DEST/lib includedir=$DEST/include
+make install DESTDIR=$BASE
 
 ######### ###################################################################
 # bsdbm # ###################################################################
@@ -360,7 +351,7 @@ CFLAGS=$CFLAGS \
 --with-tcl=$DEST/lib
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########## ##################################################################
 # SQLITE # ##################################################################
@@ -378,7 +369,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # PERL # ####################################################################
@@ -428,7 +419,7 @@ cp ../Python-2.7.3-native/python ./hostpython
 cp ../Python-2.7.3-native/Parser/pgen Parser/hostpgen
 
 $MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=x86_64-linux-gnu
-make install prefix=$DEST HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
+make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
 
 ############## ##############################################################
 # SETUPTOOLS # ##############################################################
@@ -531,7 +522,7 @@ $CONFIGURE
 
 make clean 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ######### ###################################################################
 # UNRAR # ###################################################################
@@ -567,7 +558,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # OPENVPN # #################################################################
@@ -587,7 +578,7 @@ $CONFIGURE \
 --disable-plugin-auth-pam
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # TINC # ####################################################################
@@ -605,7 +596,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # DNSCRYPT # ################################################################
@@ -624,7 +615,7 @@ $CONFIGURE \
 --enable-plugins
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # GIT # #####################################################################
@@ -685,7 +676,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install prefix=$DEST
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # OPENSSH # #################################################################
