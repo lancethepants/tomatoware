@@ -5,12 +5,12 @@ SRC=$BASE/src
 WGET="wget --prefer-family=IPv4"
 PATCHES=$BASE/patches
 RPATH=/opt/lib
-DEST=/opt
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH"
+DEST=$BASE/opt
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
-MAKE="make"
+MAKE="make -j2"
 
 mkdir -p $SRC
 
@@ -23,86 +23,6 @@ rm -rf opt/ entware-toolchain-r4667-amd64.tgz
 fi
 
 export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
-
-sudo rm -rf /opt/bin/ /opt/docs/ /opt/etc/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/ /opt/var/
-sudo mkdir /opt/bin /opt/docs /opt/etc /opt/include /opt/lib /opt/libexec /opt/man /opt/sbin /opt/share /opt/mipsel-linux /opt/var
-sudo chown lance:lance /opt/bin/ /opt/etc /opt/docs/ /opt/include/ /opt/lib/ /opt/libexec/ /opt/man/ /opt/sbin/ /opt/share/ /opt/mipsel-linux/ /opt/var/
-
-######### ###################################################################
-# BZIP2 # ###################################################################
-######### ###################################################################
-
-cd $SRC
-mkdir bzip2 && cd bzip2 
-$WGET http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
-tar zxvf bzip2-1.0.6.tar.gz
-cd bzip2-1.0.6
-
-patch < $PATCHES/bzip2.patch
-patch < $PATCHES/bzip2_so.patch
-
-$MAKE
-$MAKE -f Makefile-libbz2_so
-make install PREFIX=$DEST
-
-
-######## ####################################################################
-# ZLIB # ####################################################################
-######## ####################################################################
-
-cd $SRC
-mkdir zlib && cd zlib
-$WGET http://zlib.net/zlib-1.2.7.tar.gz
-tar zxvf zlib-1.2.7.tar.gz
-cd zlib-1.2.7
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-CROSS_PREFIX=mipsel-linux- \
-./configure \
---prefix=/opt 
-
-$MAKE
-make install
-
-########## ##################################################################
-# LIBFFI # ##################################################################
-########## ##################################################################
-
-cd $SRC
-mkdir libffi && cd libffi
-$WGET ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
-tar zxvf libffi-3.0.11.tar.gz
-cd libffi-3.0.11
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install
-
-export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
-
-############ ################################################################
-# LIBICONV # ################################################################
-############ ################################################################
-
-cd $SRC
-mkdir libiconv && cd libiconv
-$WGET http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-tar zxvf libiconv-1.14.tar.gz
-cd libiconv-1.14
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install
 
 ######## ####################################################################
 # GLIB # ####################################################################
@@ -129,27 +49,7 @@ ac_cv_func_posix_getpwuid_r=yes \
 ac_cv_func_posix_getgrgid_r=yes
 
 $MAKE
-make install
-
-########### #################################################################
-# GETTEXT # #################################################################
-########### #################################################################
-
-cd $SRC
-mkdir gettext && cd gettext
-$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
-tar zxvf gettext-0.18.1.1.tar.gz
-cd gettext-0.18.1.1
-
-patch -p1 < $PATCHES/spawn.patch
-
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
-
-$MAKE
-make install
+make install DESTDIR=$BASE
 
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
@@ -164,30 +64,11 @@ cd pkg-config-0.27
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE 
+$CONFIGURE \
+--with-pc-path=$DEST/lib/pkgconfig
 
 $MAKE
-make install
-
-######## ####################################################################
-# PERL # ####################################################################
-######## ####################################################################
-
-cd $SRC
-mkdir perl && cd perl
-$WGET http://www.cpan.org/src/5.0/perl-5.16.0.tar.gz
-tar zxvf perl-5.16.0.tar.gz
-cp $PATCHES/perl-5.16.0-cross-0.7.tar.gz .
-tar zxvf perl-5.16.0-cross-0.7.tar.gz
-cd perl-5.16.0
-	
-LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-./configure --target=mipsel-linux --prefix=/opt
-
-$MAKE
-make install
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # GMP # #####################################################################
@@ -203,10 +84,10 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
---enable-cxx 
+--enable-cxx
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # MPFR # ####################################################################
@@ -224,7 +105,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # MPC # #####################################################################
@@ -239,10 +120,14 @@ cd mpc-1.0.1
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE
+$CONFIGURE \
+--with-mpfr-include=$DEST/include \
+--with-mpfr-lib=$DEST/lib \
+--with-gmp-include=$DEST/include \
+--with-gmp-lib=$DEST/lib
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # BINUTILS # ################################################################
@@ -262,7 +147,7 @@ CFLAGS=$CFLAGS \
 --disable-nls
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ####### #####################################################################
 # GCC # #####################################################################
@@ -290,7 +175,7 @@ CFLAGS=$CFLAGS \
 --with-gnu-as --with-gnu-ld --disable-nls -enable-werror=no --disable-libstdcxx-pch
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # AUTOCONF # ################################################################
@@ -308,7 +193,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############ ################################################################
 # AUTOMAKE # ################################################################
@@ -326,7 +211,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######### ###################################################################
 # BISON # ###################################################################
@@ -344,7 +229,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######### ###################################################################
 # CHECK # ###################################################################
@@ -362,7 +247,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############# ###############################################################
 # COREUTILS # ###############################################################
@@ -385,7 +270,7 @@ fu_cv_sys_stat_statfs2_bsize=yes \
 gl_cv_func_working_mkstemp=yes
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############# ###############################################################
 # DIFFUTILS # ###############################################################
@@ -403,7 +288,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ############# ###############################################################
 # FINDUTILS # ###############################################################
@@ -422,7 +307,7 @@ $CONFIGURE \
 gl_cv_func_wcwidth_works=yes
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # FLEX # ####################################################################
@@ -440,7 +325,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # GAWK # ####################################################################
@@ -458,7 +343,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ########### #################################################################
 # LIBTOOL # #################################################################
@@ -476,7 +361,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ###### ######################################################################
 # M4 # ######################################################################
@@ -494,7 +379,7 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
+make install DESTDIR=$BASE
 
 ######## ####################################################################
 # MAKE # ####################################################################
@@ -512,5 +397,4 @@ CFLAGS=$CFLAGS \
 $CONFIGURE
 
 $MAKE
-make install
-
+make install DESTDIR=$BASE
