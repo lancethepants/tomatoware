@@ -412,3 +412,25 @@ $CONFIGURE
 
 $MAKE
 make install DESTDIR=$BASE
+
+############## ##############################################################
+# UTIL-LINUX # ##############################################################
+############## ##############################################################
+
+cd $SRC
+mkdir util-linux && cd util-linux
+$WGET http://www.kernel.org/pub/linux/utils/util-linux/v2.21/util-linux-2.21.2.tar.gz
+tar zxvf util-linux-2.21.2.tar.gz
+cd util-linux-2.21.2
+
+patch -p1 < $PATCHES/000-compile.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--disable-nls \
+--disable-wall
+
+$MAKE
+make install DESTDIR=$BASE
