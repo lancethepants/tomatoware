@@ -26,7 +26,9 @@ export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
 
 ######## ####################################################################
 # GLIB # ####################################################################
-######## ####################################################################
+######## ###################################################################
+
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC
 mkdir glib && cd glib
@@ -51,9 +53,14 @@ ac_cv_func_posix_getgrgid_r=yes
 $MAKE
 make install DESTDIR=$BASE
 
+unset PKG_CONFIG_LIBDIR
+
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
 ############## ##############################################################
+
+sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
+$DEST/lib/libglib-2.0.la
 
 cd $SRC
 mkdir pkg-config && cd pkg-config
@@ -69,6 +76,9 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+sed -i 's,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,g' \
+$DEST/lib/libglib-2.0.la
 
 ####### #####################################################################
 # GMP # #####################################################################
@@ -111,6 +121,9 @@ make install DESTDIR=$BASE
 # MPC # #####################################################################
 ####### #####################################################################
 
+sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
+$DEST/lib/libmpfr.la
+
 cd $SRC
 mkdir mpc && cd mpc
 $WGET http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
@@ -121,13 +134,14 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
---with-mpfr-include=$DEST/include \
---with-mpfr-lib=$DEST/lib \
---with-gmp-include=$DEST/include \
---with-gmp-lib=$DEST/lib
+--with-mpfr=$DEST \
+--with-gmp=$DEST
 
 $MAKE
 make install DESTDIR=$BASE
+
+sed -i 's,'"$DEST"'\/lib\/libgmp.la,\/opt\/lib\/libgmp.la,g' \
+$DEST/lib/libmpfr.la
 
 ############ ################################################################
 # BINUTILS # ################################################################
