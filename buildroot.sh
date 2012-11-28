@@ -434,3 +434,40 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+######### ###################################################################
+# PATCH # ###################################################################
+######### ###################################################################
+
+cd $SRC
+mkdir patch && cd patch
+$WGET http://ftp.gnu.org/gnu/patch/patch-2.7.1.tar.gz
+tar zxvf patch-2.7.1.tar.gz
+cd patch-2.7.1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
+
+######## ####################################################################
+# WGET # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir wget && cd wget
+$WGET http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
+tar zxvf wget-1.14.tar.gz
+cd wget-1.14
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-ssl=openssl
+
+$MAKE
+make install DESTDIR=$BASE
