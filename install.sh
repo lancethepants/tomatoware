@@ -700,3 +700,22 @@ patch < $PATCHES/openssh.patch
 
 $MAKE
 make install DESTDIR=$BASE
+
+######## ####################################################################
+# HTOP # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir htop && cd htop
+$WGET http://downloads.sourceforge.net/project/htop/htop/1.0.2/htop-1.0.2.tar.gz
+tar zxvf htop-1.0.2.tar.gz
+cd htop-1.0.2
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--disable-unicode
+
+$MAKE
+make install DESTDIR=$BASE
