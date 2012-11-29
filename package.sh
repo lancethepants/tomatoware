@@ -1,8 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE=`pwd`
+
+DEST=$BASE/opt
+SOURCE_INCLUDE=$BASE/toolchain/include
 SOURCE_LIB=$BASE/toolchain/lib
-DEST_LIB=$BASE/opt/lib
+DEST_LIB=$DEST/lib
+
+cp -rf $SOURCE_INCLUDE $DEST
+
+shopt -s extglob
 cp -r $SOURCE_LIB/!(gcc) $DEST_LIB
 
 cd $BASE/opt/python_modules
@@ -53,4 +60,3 @@ chmod +x install_modules.sh
 cd $BASE/opt
 
 tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/
-
