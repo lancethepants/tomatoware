@@ -471,3 +471,21 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+######## ####################################################################
+# GREP # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir grep && cd grep
+$WGET http://mirrors.syringanetworks.net/gnu/grep/grep-2.9.tar.gz
+tar zxvf grep-2.9.tar.gz
+cd grep-2.9
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
