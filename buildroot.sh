@@ -172,6 +172,10 @@ mkdir gcc && cd gcc
 $WGET http://www.netgull.com/gcc/releases/gcc-4.6.3/gcc-4.6.3.tar.gz
 tar zxvf gcc-4.6.3.tar.gz
 
+cd gcc-4.6.3
+patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
+cd ..
+
 mkdir gcc-build && cd gcc-build
 
 LDFLAGS=$LDFLAGS \
