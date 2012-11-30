@@ -391,6 +391,27 @@ CFLAGS=$CFLAGS \
 make
 make install DESTDIR=$BASE
 
+######## ####################################################################
+# PCRE # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir pcre && cd pcre
+$WGET ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.31.tar.gz
+tar zxvf pcre-8.31.tar.gz
+cd pcre-8.31
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--enable-pcregrep-libz \
+--enable-pcregrep-libbz2 \
+--enable-pcretest-libreadline
+
+$MAKE
+make install DESTDIR=$BASE
+
 ########## ##################################################################
 # PYTHON # ##################################################################
 ########## ##################################################################
