@@ -740,3 +740,23 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+########## ##################################################################
+# SCREEN # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir screen && cd screen
+$WGET http://ftp.gnu.org/gnu/screen/screen-4.0.3.tar.gz
+tar zxvf screen-4.0.3.tar.gz
+cd screen-4.0.3
+
+patch < $PATCHES/100-cross_compile_fix.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
