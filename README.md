@@ -5,16 +5,16 @@ Tomatoware is a set of scripts to create a native compiling environment for toma
 In fact, tomatoware is firmware agnostic, and should work with DD-WRT and other mipsel based firmwares.
 
 This project is calld tomatoware because it originally started with the TomatoUSB toolchain, and was designed to use the libraries already built into the TomatoUSB firmware.
-I soon found that the TomatoUSB toolchain is somewhat antiquated, and insufficent for the purposed of this project.
+I soon found that the TomatoUSB toolchain is somewhat antiquated, and insufficent for the purpose of this project.
 I decided to use the more up-to-date toolchain provided from entware. http://code.google.com/p/wl500g-repo/
 
-This project compiles the packages necessary to allow you to compile applications natively on your mipsel device.
+This project compiles the necessary packages to allow you to compile applications natively on your mipsel device.
 I wanted this to mimic the 'buildroot' package available from optware.
 I really like the idea of freeing users to compile code on their own, instead of being soley dependant on package managers.
 
 This repo should also be helpful for those wishing to cross-compile their own applications.  
-I've added a few extra packages to install.sh for myself, mostly for Usenet usage.
 You should be able to follow the model in the scripts, and mimic it for other applications.
+I've added a few extra packages to install.sh for myself, mostly for Usenet usage.
 Some applications are more fussy than others when cross-compiling, google is your friend.
 
 To be safe, I'm going to say that this is NOT compatible with entware. 
