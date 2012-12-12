@@ -386,7 +386,7 @@ cd perl-5.16.0
 LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-./configure --target=mipsel-linux --prefix=/opt
+./configure --target=mipsel-linux --prefix=/opt -Dusethreads
 
 make
 make install DESTDIR=$BASE
