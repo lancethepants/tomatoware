@@ -165,15 +165,15 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
---with-ca-bundle=/opt/ssl/certs/curl-ca-bundle.crt
+--with-ca-path=/opt/ssl/certs
 
 $MAKE
 make install DESTDIR=$BASE
 
 mkdir -p $DEST/ssl/certs
 cd $DEST/ssl/certs
-wget http://curl.haxx.se/ca/cacert.pem
-mv cacert.pem curl-ca-bundle.crt
+curl http://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+c_rehash .
 
 ######### ###################################################################
 # EXPAT # ###################################################################
