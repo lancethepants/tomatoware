@@ -760,3 +760,24 @@ $CONFIGURE
 
 $MAKE
 make install DESTDIR=$BASE
+
+######## ####################################################################
+# BASH # ####################################################################
+######## ####################################################################
+
+cd $SRC
+mkdir bash && cd bash
+$WGET http://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
+tar zxvf bash-4.2.tar.gz
+cd bash-4.2
+
+patch < $PATCHES/bash/001-compile-fix.patch
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-installed-readline
+
+$MAKE
+make install DESTDIR=$BASE
