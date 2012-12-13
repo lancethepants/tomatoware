@@ -389,6 +389,27 @@ $CONFIGURE
 $MAKE
 make install DESTDIR=$BASE
 
+########### #################################################################
+# LIBXSLT # #################################################################
+########### #################################################################
+
+cd $SRC
+mkdir libxslt && cd libxslt
+$WGET ftp://xmlsoft.org/libxslt/libxslt-1.1.28.tar.gz
+tar zxvf libxslt-1.1.28.tar.gz
+cd libxslt-1.1.28
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-libxml-src=$SRC/libxml2/libxml2-2.9.0 \
+--without-python \
+--without-crypto
+
+$MAKE
+make install DESTDIR=$BASE
+
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
