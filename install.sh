@@ -393,6 +393,9 @@ make install DESTDIR=$BASE
 # LIBXSLT # #################################################################
 ########### #################################################################
 
+sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+$DEST/lib/libxml2.la
+
 cd $SRC
 mkdir libxslt && cd libxslt
 $WGET ftp://xmlsoft.org/libxslt/libxslt-1.1.28.tar.gz
@@ -409,6 +412,9 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
+$DEST/lib/libxml2.la
 
 ######## ####################################################################
 # PERL # ####################################################################
