@@ -750,7 +750,7 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir openssh && cd openssh
-$WGET http://openbsd.mirrorcatalogs.com/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
+$WGET http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
 tar zxvf openssh-6.1p1.tar.gz
 cd openssh-6.1p1
 
