@@ -169,7 +169,7 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir gcc && cd gcc
-$WGET http://www.netgull.com/gcc/releases/gcc-4.6.3/gcc-4.6.3.tar.gz
+$WGET http://ftp.gnu.org/gnu/gcc/gcc-4.6.3/gcc-4.6.3.tar.gz
 tar zxvf gcc-4.6.3.tar.gz
 
 cd gcc-4.6.3
