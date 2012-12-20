@@ -868,3 +868,23 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+########## ##################################################################
+# NZBGET # ##################################################################
+########## ##################################################################
+
+cd $SRC
+mkdir nzbget && cd nzbget
+$WGET http://downloads.sourceforge.net/project/nzbget/nzbget-stable/9.0/nzbget-9.0.tar.gz
+tar zxvf nzbget-9.0.tar.gz
+cd nzbget-9.0
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--with-libsigc-includes=$DEST/include/sigc++-2.0/ \
+--with-libsigc-libraries=$DEST/lib
+
+$MAKE
+make install DESTDIR=$BASE
