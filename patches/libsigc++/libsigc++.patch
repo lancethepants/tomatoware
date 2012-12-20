@@ -1,0 +1,36 @@
+*** /home/lance/Makefile	2012-12-19 17:03:02.139732000 -0700
+--- ./Makefile	2012-12-19 17:05:39.691732000 -0700
+***************
+*** 122,128 ****
+  	distdir dist dist-all distcheck
+  ETAGS = etags
+  CTAGS = ctags
+! DIST_SUBDIRS = sigc++ tests examples docs
+  DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+  distdir = $(PACKAGE)-$(VERSION)
+  top_distdir = $(distdir)
+--- 122,128 ----
+  	distdir dist dist-all distcheck
+  ETAGS = etags
+  CTAGS = ctags
+! DIST_SUBDIRS = sigc++ tests docs
+  DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+  distdir = $(PACKAGE)-$(VERSION)
+  top_distdir = $(distdir)
+***************
+*** 306,312 ****
+  ACLOCAL_AMFLAGS = -I build ${ACLOCAL_FLAGS}
+  #doc_subdirs = 
+  doc_subdirs = docs
+! SUBDIRS = sigc++ tests examples $(doc_subdirs)
+  sigc_configdir = $(libdir)/$(SIGCXX_MODULE_NAME)/include
+  nodist_sigc_config_HEADERS = sigc++config.h
+  pkgconfigdir = $(libdir)/pkgconfig
+--- 306,312 ----
+  ACLOCAL_AMFLAGS = -I build ${ACLOCAL_FLAGS}
+  #doc_subdirs = 
+  doc_subdirs = docs
+! SUBDIRS = sigc++ tests $(doc_subdirs)
+  sigc_configdir = $(libdir)/$(SIGCXX_MODULE_NAME)/include
+  nodist_sigc_config_HEADERS = sigc++config.h
+  pkgconfigdir = $(libdir)/pkgconfig

@@ -416,6 +416,26 @@ make install DESTDIR=$BASE
 sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
 $DEST/lib/libxml2.la
 
+############# ###############################################################
+# LIBSIGC++ # ###############################################################
+############# ###############################################################
+
+cd $SRC
+mkdir libsigc++ && cd libsigc++
+$WGET http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.3/libsigc++-2.3.1.tar.xz
+tar xvJf libsigc++-2.3.1.tar.xz
+cd libsigc++-2.3.1
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+patch < $PATCHES/libsigc++/libsigc++.patch
+
+$MAKE
+make install DESTDIR=$BASE
+
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
