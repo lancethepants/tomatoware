@@ -883,8 +883,19 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
+--with-libxml2-includes=$DEST/include/libxml2 \
+--with-libxml2-libraries=$DEST/lib \
+--with-libcurses-includes=$DEST/include \
+--with-libcurses-libraries=$DEST/lib \
 --with-libsigc-includes=$DEST/include/sigc++-2.0/ \
---with-libsigc-libraries=$DEST/lib
+--with-libsigc-libraries=$DEST/lib \
+--with-libpar2-includes=$DEST/include \
+--with-libpar2-libraries=$DEST/lib \
+--with-tlslib=OpenSSL \
+--with-openssl-includes=$DEST/include \
+--with-openssl-libraries=$DEST/lib \
+--with-zlib-includes=$DEST/include \
+--with-zlib-libraries=$DEST/lib
 
 $MAKE
 make install DESTDIR=$BASE
