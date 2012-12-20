@@ -436,6 +436,28 @@ patch < $PATCHES/libsigc++/libsigc++.patch
 $MAKE
 make install DESTDIR=$BASE
 
+########### #################################################################
+# LIBPAR2 # #################################################################
+########### #################################################################
+
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
+
+cd $SRC
+mkdir libpar2 && cd libpar2
+$WGET http://downloads.sourceforge.net/project/parchive/libpar2/0.2/libpar2-0.2.tar.gz
+tar zxvf libpar2-0.2.tar.gz
+cd libpar2-0.2
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
+CFLAGS=$CFLAGS \
+$CONFIGURE 
+
+$MAKE
+make install DESTDIR=$BASE
+
+unset PKG_CONFIG_LIBDIR
+
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
