@@ -917,3 +917,26 @@ $CONFIGURE \
 
 $MAKE
 make install DESTDIR=$BASE
+
+################ ############################################################
+# TRANSMISSION # ############################################################
+################ ############################################################
+
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
+
+cd $SRC
+mkdir transmission && cd transmission
+$WGET http://download.transmissionbt.com/files/transmission-2.75.tar.bz2
+tar xvjf transmission-2.75.tar.bz2
+cd transmission-2.75
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE \
+--enable-lightweight
+
+$MAKE
+make install DESTDIR=$BASE
+
+unset PKG_CONFIG_LIBDIR
