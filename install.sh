@@ -458,6 +458,24 @@ make install DESTDIR=$BASE
 
 unset PKG_CONFIG_LIBDIR
 
+############ ################################################################
+# LIBEVENT # ################################################################
+############ ################################################################
+
+cd $SRC
+mkdir libevent && cd libevent
+$WGET https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+tar zxvf libevent-2.0.21-stable.tar.gz
+cd libevent-2.0.21-stable
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
+
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
