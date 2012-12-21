@@ -8,7 +8,7 @@ RPATH=/opt/lib
 DEST=$BASE/opt
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
-CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
+CFLAGS="-mtune=mips32 -mips32 -g2 -Os -s -ffunction-sections -fdata-sections"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j2"
 
@@ -922,21 +922,19 @@ make install DESTDIR=$BASE
 # TRANSMISSION # ############################################################
 ################ ############################################################
 
-export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
-
 cd $SRC
 mkdir transmission && cd transmission
 $WGET http://download.transmissionbt.com/files/transmission-2.75.tar.bz2
 tar xvjf transmission-2.75.tar.bz2
 cd transmission-2.75
 
+LIBEVENT_CFLAGS="-I$DEST/include -I$DEST/include/ncurses" \
+LIBEVENT_LIBS=$DEST/lib/libevent.la \
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
 --enable-lightweight
 
-$MAKE
+$MAKE CFLAGS=-liconv
 make install DESTDIR=$BASE
-
-unset PKG_CONFIG_LIBDIR
