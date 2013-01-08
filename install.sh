@@ -14,15 +14,7 @@ MAKE="make -j2"
 
 mkdir -p $SRC
 
-if [ ! -d toolchain ]
-then
-$WGET http://wl500g-repo.googlecode.com/files/entware-toolchain-r4667-amd64.tgz
-tar zxvf entware-toolchain-r4667-amd64.tgz
-mv opt/entware-toolchain/ ./toolchain
-rm -rf opt/ entware-toolchain-r4667-amd64.tgz
-fi
-
-export PATH=$PATH:$BASE/toolchain/bin:$BASE/toolchain/mipsel-linux/bin
+export PATH=$PATH:/opt/entware-toolchain/bin/:/opt/entware-toolchain/mipsel-linux/bin/
 
 ######### ###################################################################
 # BZIP2 # ###################################################################
