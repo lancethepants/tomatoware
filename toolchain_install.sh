@@ -19,3 +19,5 @@ sudo $WGET http://wl500g-repo.googlecode.com/files/entware-toolchain-r4667-amd64
 sudo tar zxvf entware-toolchain-r4667-amd64.tgz -C /
 sudo rm -rf opt/ entware-toolchain-r4667-amd64.tgz
 fi
+
+cd $BASE
