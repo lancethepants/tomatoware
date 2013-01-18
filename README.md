@@ -37,18 +37,4 @@ package.sh adds the entware libraries and will compress everything into opt.tgz,
 Currently I'm compiling this on Ubuntu Server 12.04 and 12.10.
 The following packages should be sufficient to compile this software.
 
-sudo apt-get install \
-autoconf automake automake1.7 automake1.9 \
-bash binutils bison bzip2 \
-cvs diffutils dpkg-dev file \
-flex g++ g++-4.4 gawk \
-gcc gcc-multilib gettext git-core \
-gperf groff-base intltool libbz2-dev \
-libc6:i386 libcurl4-openssl-dev libgc-dev libglib2.0-dev \
-libslang2 libtool make patch \
-perl pkg-config python python-dev \
-lib32z1 libc6 libexpat1-dev libffi-dev \
-libncurses5 libncurses5-dev libreadline6-dev libssl-dev \
-libstdc++6-4.4-dev libxml-parser-perl m4 sed \
-shtool sqlite subversion tar \
-texinfo zlib1g zlib1g-dev unzip
+sudo apt-get install autoconf automake automake1.7 automake1.9 bash binutils bison bzip2 cvs diffutils dpkg-dev file flex g++ g++-4.4 gawk gcc gcc-multilib gettext git-core gperf groff-base intltool libbz2-dev libc6:i386 libcurl4-openssl-dev libgc-dev libglib2.0-dev libslang2 libtool make patch perl pkg-config python python-dev lib32z1 libc6 libexpat1-dev libffi-dev libncurses5 libncurses5-dev libreadline6-dev libssl-dev libstdc++6-4.4-dev libxml-parser-perl m4 sed shtool sqlite subversion tar texinfo zlib1g zlib1g-dev unzip
