@@ -10,7 +10,10 @@ LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
-MAKE="make -j2"
+MAKE="make -j`nproc`"
+echo "`nproc` CPU(S) detected"
+echo "Will use parallel building if available"
+sleep 5 
 
 mkdir -p $SRC
 
