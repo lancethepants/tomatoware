@@ -34,14 +34,21 @@ buildroot.sh continues where install.sh left off, and compiled the actual progra
 
 package.sh adds the entware libraries and will compress everything into opt.tgz, which can then be transferred to /opt in the target device to be extracted.
 
-Currently I'm compiling this on Ubuntu Server 12.04
+Currently I'm compiling this on Ubuntu Server 12.04 and 12.10.
 The following packages should be sufficient to compile this software.
 
-sudo apt-get install libncurses5 libncurses5-dev m4 bison flex libstdc++6-4.4-dev g++-4.4 g++ libtool sqlite
-
-sudo apt-get install gcc g++ binutils patch bzip2 flex bison make gettext unzip zlib1g-dev
-
-sudo apt-get install libc6 libncurses5-dev  automake automake1.7 automake1.9
-
-sudo apt-get install git-core
-
+sudo apt-get install \
+autoconf automake automake1.7 automake1.9 \
+bash binutils bison bzip2 \
+cvs diffutils dpkg-dev file \
+flex g++ g++-4.4 gawk \
+gcc gcc-multilib gettext git-core \
+gperf groff-base intltool libbz2-dev \
+libc6:i386 libcurl4-openssl-dev libgc-dev libglib2.0-dev \
+libslang2 libtool make patch \
+perl pkg-config python python-dev \
+lib32z1 libc6 libexpat1-dev libffi-dev \
+libncurses5 libncurses5-dev libreadline6-dev libssl-dev \
+libstdc++6-4.4-dev libxml-parser-perl m4 sed \
+shtool sqlite subversion tar \
+texinfo zlib1g zlib1g-dev unzip
