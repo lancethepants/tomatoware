@@ -741,16 +741,16 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir git && cd git
-$WGET https://github.com/git/git/archive/v1.8.0.tar.gz
-tar zxvf v1.8.0.tar.gz
-cd git-1.8.0
+$WGET https://github.com/git/git/archive/v1.8.1.1.tar.gz
+tar zxvf v1.8.1.1.tar.gz
+cd git-1.8.1.1
 
 make distclean
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-make \
+$MAKE \
 CC=mipsel-linux-gcc \
 AR=mipsel-linux-ar \
 prefix=/opt \
