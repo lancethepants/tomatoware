@@ -352,9 +352,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir sqlite && cd sqlite
-$WGET http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz
-tar zxvf sqlite-autoconf-3071401.tar.gz
-cd sqlite-autoconf-3071401
+$WGET http://www.sqlite.org/sqlite-autoconf-3071502.tar.gz
+tar zxvf sqlite-autoconf-3071502.tar.gz
+cd sqlite-autoconf-3071502
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
