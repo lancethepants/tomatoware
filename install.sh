@@ -495,9 +495,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir pcre && cd pcre
-$WGET ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.31.tar.gz
-tar zxvf pcre-8.31.tar.gz
-cd pcre-8.31
+$WGET ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.32.tar.gz
+tar zxvf pcre-8.32.tar.gz
+cd pcre-8.32
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
