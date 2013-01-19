@@ -81,9 +81,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir polarssl && cd polarssl
-$WGET https://polarssl.org/download/polarssl-1.1.4-gpl.tgz
-tar zxvf polarssl-1.1.4-gpl.tgz
-cd polarssl-1.1.4
+$WGET https://polarssl.org/download/polarssl-1.1.5-gpl.tgz
+tar zxvf polarssl-1.1.5-gpl.tgz
+cd polarssl-1.1.5
 
 patch < $PATCHES/polarssl.patch
 cd library
