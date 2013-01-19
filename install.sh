@@ -309,9 +309,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir tcl && cd tcl
-$WGET http://downloads.sourceforge.net/project/tcl/Tcl/8.5.12/tcl8.5.12-src.tar.gz
-tar zxvf tcl8.5.12-src.tar.gz
-cd tcl8.5.12/unix
+$WGET http://prdownloads.sourceforge.net/tcl/tcl8.6.0-src.tar.gz
+tar zxvf tcl8.6.0-src.tar.gz
+cd tcl8.6.0/unix
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
@@ -322,8 +322,6 @@ $CONFIGURE \
 --enable-symbols \
 ac_cv_func_strtod=yes \
 tcl_cv_strtod_buggy=1
-
-patch < $PATCHES/tcl.patch
 
 $MAKE
 make install DESTDIR=$BASE
