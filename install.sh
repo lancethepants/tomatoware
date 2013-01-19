@@ -150,9 +150,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir curl && cd curl
-$WGET http://curl.haxx.se/download/curl-7.28.0.tar.gz
-tar zxvf curl-7.28.0.tar.gz
-cd curl-7.28.0
+$WGET http://curl.haxx.se/download/curl-7.28.1.tar.gz
+tar zxvf curl-7.28.1.tar.gz
+cd curl-7.28.1
 
 patch < $PATCHES/curl.patch
 
