@@ -723,15 +723,14 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir dnscrypt && cd dnscrypt
-$WGET https://github.com/downloads/opendns/dnscrypt-proxy/dnscrypt-proxy-1.1.0.tar.gz
-tar zxvf dnscrypt-proxy-1.1.0.tar.gz
-cd dnscrypt-proxy-1.1.0
+$WGET https://github.com/downloads/opendns/dnscrypt-proxy/dnscrypt-proxy-1.2.0.tar.gz
+tar zxvf dnscrypt-proxy-1.2.0.tar.gz
+cd dnscrypt-proxy-1.2.0
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE \
---enable-plugins
+$CONFIGURE
 
 $MAKE
 make install DESTDIR=$BASE
