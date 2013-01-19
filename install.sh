@@ -130,9 +130,9 @@ make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranl
 
 cd $SRC
 mkdir gettext && cd gettext
-$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
-tar zxvf gettext-0.18.1.1.tar.gz
-cd gettext-0.18.1.1
+$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.2.tar.gz
+tar zxvf gettext-0.18.2.tar.gz
+cd gettext-0.18.2
 
 patch -p1 < $PATCHES/spawn.patch
 
