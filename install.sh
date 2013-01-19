@@ -916,9 +916,9 @@ make install DESTDIR=$BASE
 
 cd $SRC
 mkdir transmission && cd transmission
-$WGET http://download.transmissionbt.com/files/transmission-2.75.tar.bz2
-tar xvjf transmission-2.75.tar.bz2
-cd transmission-2.75
+$WGET http://download.transmissionbt.com/files/transmission-2.76.tar.xz
+tar xvJf transmission-2.76.tar.xz
+cd transmission-2.76
 
 LIBEVENT_CFLAGS="-I$DEST/include -I$DEST/include/ncurses" \
 LIBEVENT_LIBS=$DEST/lib/libevent.la \
