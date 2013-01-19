@@ -119,7 +119,7 @@ patch < $PATCHES/openssl.patch
 -ffunction-sections -fdata-sections \
 -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
---prefix=/opt shared no-zlib no-zlib-dynamic  \
+--prefix=/opt shared no-zlib no-zlib-dynamic
 
 make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
 make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
