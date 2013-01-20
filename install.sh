@@ -23,9 +23,7 @@ export PATH=$PATH:/opt/entware-toolchain/bin/:/opt/entware-toolchain/mipsel-linu
 # BZIP2 # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir bzip2 && cd bzip2 
-$WGET http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+cd $SRC/bzip2
 tar zxvf bzip2-1.0.6.tar.gz
 cd bzip2-1.0.6
 
@@ -40,9 +38,7 @@ make install PREFIX=$DEST
 # ZLIB # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir zlib && cd zlib
-$WGET http://zlib.net/zlib-1.2.7.tar.gz
+cd $SRC/zlib
 tar zxvf zlib-1.2.7.tar.gz
 cd zlib-1.2.7
 
@@ -60,9 +56,7 @@ make install DESTDIR=$BASE
 # LZO # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir lzo && cd lzo
-$WGET http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz
+cd $SRC/lzo
 tar zxvf lzo-2.06.tar.gz
 cd lzo-2.06
 
@@ -79,9 +73,7 @@ make install DESTDIR=$BASE
 # POLARSSL # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir polarssl && cd polarssl
-$WGET https://polarssl.org/download/polarssl-1.1.5-gpl.tgz
+cd $SRC/polarssl
 tar zxvf polarssl-1.1.5-gpl.tgz
 cd polarssl-1.1.5
 
@@ -98,9 +90,7 @@ ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
 # OPENSSL # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir openssl && cd openssl
-$WGET http://www.openssl.org/source/openssl-1.0.1c.tar.gz
+cd $SRC/openssl
 tar zxvf openssl-1.0.1c.tar.gz
 cd openssl-1.0.1c
 
@@ -128,9 +118,7 @@ make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranl
 # GETTEXT # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir gettext && cd gettext
-$WGET http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.2.tar.gz
+cd $SRC/gettext
 tar zxvf gettext-0.18.2.tar.gz
 cd gettext-0.18.2
 
@@ -148,9 +136,7 @@ make install DESTDIR=$BASE
 # CURL # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir curl && cd curl
-$WGET http://curl.haxx.se/download/curl-7.28.1.tar.gz
+cd $SRC/curl
 tar zxvf curl-7.28.1.tar.gz
 cd curl-7.28.1
 
@@ -174,9 +160,7 @@ c_rehash .
 # EXPAT # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir expat && cd expat
-$WGET http://downloads.sourceforge.net/project/expat/expat/2.1.0/expat-2.1.0.tar.gz
+cd $SRC/expat
 tar zxvf expat-2.1.0.tar.gz
 cd expat-2.1.0
 
@@ -192,9 +176,7 @@ make install DESTDIR=$BASE
 # LIBPCAP # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir libpcap && cd libpcap
-$WGET http://www.tcpdump.org/release/libpcap-1.3.0.tar.gz
+cd $SRC/libpcap
 tar zxvf libpcap-1.3.0.tar.gz
 cd libpcap-1.3.0
 
@@ -212,9 +194,7 @@ make install DESTDIR=$BASE
 # LIBFFI # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir libffi && cd libffi
-$WGET ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+cd $SRC/libff
 tar zxvf libffi-3.0.11.tar.gz
 cd libffi-3.0.11
 
@@ -230,9 +210,7 @@ make install DESTDIR=$BASE
 # LIBICONV # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir libiconv && cd libiconv
-$WGET http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+cd $SRC/libiconv
 tar zxvf libiconv-1.14.tar.gz
 cd libiconv-1.14
 
@@ -248,9 +226,7 @@ make install DESTDIR=$BASE
 # NCURSES # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir ncurses && cd ncurses
-$WGET http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
+cd $SRC/ncurses
 tar zxvf ncurses-5.9.tar.gz
 cd ncurses-5.9
 
@@ -269,9 +245,7 @@ make install DESTDIR=$BASE
 # LIBREADLINE # #############################################################
 ############### #############################################################
 
-cd $SRC
-mkdir libreadline && cd libreadline
-$WGET ftp://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
+cd $SRC/libreadline
 tar zxvf readline-6.2.tar.gz
 cd readline-6.2
 
@@ -289,9 +263,7 @@ make install DESTDIR=$BASE
 # LIBGDBM # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir libgdbm && cd libgdbm
-$WGET ftp://ftp.gnu.org/gnu/gdbm/gdbm-1.10.tar.gz
+cd $SRC/libgdbm
 tar zxvf gdbm-1.10.tar.gz
 cd gdbm-1.10
 
@@ -307,9 +279,7 @@ make install DESTDIR=$BASE
 # tcl # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir tcl && cd tcl
-$WGET http://prdownloads.sourceforge.net/tcl/tcl8.6.0-src.tar.gz
+cd $SRC/tcl
 tar zxvf tcl8.6.0-src.tar.gz
 cd tcl8.6.0/unix
 
@@ -330,9 +300,7 @@ make install DESTDIR=$BASE
 # bdb # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir bdb && cd bdb
-$WGET http://download.oracle.com/berkeley-db/db-4.7.25.tar.gz
+cd $SRC/bdb
 tar zxvf db-4.7.25.tar.gz
 cd  db-4.7.25/build_unix
 
@@ -350,9 +318,7 @@ make install DESTDIR=$BASE
 # SQLITE # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir sqlite && cd sqlite
-$WGET http://www.sqlite.org/sqlite-autoconf-3071502.tar.gz
+cd $SRC/sqlite
 tar zxvf sqlite-autoconf-3071502.tar.gz
 cd sqlite-autoconf-3071502
 
@@ -368,9 +334,7 @@ make install DESTDIR=$BASE
 # LIBXML # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir libxml2 && cd libxml2
-$WGET ftp://xmlsoft.org/libxml2/libxml2-2.9.0.tar.gz
+cd $SRC/libxml2
 tar zxvf libxml2-2.9.0.tar.gz
 cd libxml2-2.9.0
 
@@ -389,9 +353,7 @@ make install DESTDIR=$BASE
 sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 $DEST/lib/libxml2.la
 
-cd $SRC
-mkdir libxslt && cd libxslt
-$WGET ftp://xmlsoft.org/libxslt/libxslt-1.1.28.tar.gz
+cd $SRC/libxslt
 tar zxvf libxslt-1.1.28.tar.gz
 cd libxslt-1.1.28
 
@@ -413,9 +375,7 @@ $DEST/lib/libxml2.la
 # LIBSIGC++ # ###############################################################
 ############# ###############################################################
 
-cd $SRC
-mkdir libsigc++ && cd libsigc++
-$WGET http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.3/libsigc++-2.3.1.tar.xz
+cd $SRC/libsigc++
 tar xvJf libsigc++-2.3.1.tar.xz
 cd libsigc++-2.3.1
 
@@ -435,9 +395,7 @@ make install DESTDIR=$BASE
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
-cd $SRC
-mkdir libpar2 && cd libpar2
-$WGET http://downloads.sourceforge.net/project/parchive/libpar2/0.2/libpar2-0.2.tar.gz
+cd $SRC/libpar2
 tar zxvf libpar2-0.2.tar.gz
 cd libpar2-0.2
 
@@ -455,9 +413,7 @@ unset PKG_CONFIG_LIBDIR
 # LIBEVENT # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir libevent && cd libevent
-$WGET https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+cd $SRC/libevent
 tar zxvf libevent-2.0.21-stable.tar.gz
 cd libevent-2.0.21-stable
 
@@ -473,9 +429,7 @@ make install DESTDIR=$BASE
 # PERL # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir perl && cd perl
-$WGET http://www.cpan.org/src/5.0/perl-5.16.0.tar.gz
+cd $SRC/perl
 tar zxvf perl-5.16.0.tar.gz
 cp $PATCHES/perl-5.16.0-cross-0.7.1.tar.gz .
 tar zxvf perl-5.16.0-cross-0.7.1.tar.gz
@@ -493,9 +447,7 @@ make install DESTDIR=$BASE
 # PCRE # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir pcre && cd pcre
-$WGET ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.32.tar.gz
+cd $SRC/pcre
 tar zxvf pcre-8.32.tar.gz
 cd pcre-8.32
 
@@ -514,9 +466,7 @@ make install DESTDIR=$BASE
 # PYTHON # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir python && cd python
-$WGET http://python.org/ftp/python/2.7.3/Python-2.7.3.tgz
+cd $SRC/python
 tar zxvf Python-2.7.3.tgz
 cp -r Python-2.7.3 Python-2.7.3-native
 
@@ -544,9 +494,7 @@ make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPIL
 # SETUPTOOLS # ##############################################################
 ############## ##############################################################
 
-cd $SRC
-mkdir setuptools && cd setuptools
-$WGET http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz
+cd $SRC/setuptools
 tar zxvf setuptools-0.6c11.tar.gz
 
 ########### #################################################################
@@ -557,9 +505,7 @@ cd $SRC/python/Python-2.7.3/build/
 mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
 cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
 
-cd $SRC
-mkdir cheetah && cd cheetah
-$WGET http://pypi.python.org/packages/source/C/Cheetah/Cheetah-2.4.4.tar.gz
+cd $SRC/cheetah
 tar zxvf Cheetah-2.4.4.tar.gz
 cd Cheetah-2.4.4
 PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
@@ -580,9 +526,7 @@ cd $SRC/python/Python-2.7.3/build/
 mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
 cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
 
-cd $SRC
-mkdir yenc && cd yenc
-$WGET http://www.golug.it/pub/yenc/yenc-0.4.0.tar.gz
+cd $SRC/yenc
 tar zxvf yenc-0.4.0.tar.gz
 cd yenc-0.4.0
 
@@ -604,9 +548,7 @@ cd $SRC/python/Python-2.7.3/build/
 mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
 cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
 
-cd $SRC
-mkdir pyopenssl && cd pyopenssl
-$WGET http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-0.13.tar.gz
+cd $SRC/pyopenssl
 tar zxvf pyOpenSSL-0.13.tar.gz
 cd pyOpenSSL-0.13
 
@@ -626,9 +568,7 @@ mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
 # PAR2CMDLINE # #############################################################
 ############### #############################################################
 
-cd $SRC
-mkdir par2cmdline && cd par2cmdline
-$WGET http://downloads.sourceforge.net/project/parchive/par2cmdline/0.4/par2cmdline-0.4.tar.gz
+cd $SRC/par2cmdline
 tar zxvf par2cmdline-0.4.tar.gz
 cd par2cmdline-0.4
 
@@ -647,9 +587,7 @@ make install DESTDIR=$BASE
 # UNRAR # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir unrar && cd unrar
-$WGET http://www.rarlab.com/rar/unrarsrc-4.2.4.tar.gz
+cd $SRC/unrar
 tar zxvf unrarsrc-4.2.4.tar.gz
 cd unrar
 
@@ -663,9 +601,7 @@ make install DESTDIR=$DEST
 # UCARP # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir ucarp && cd ucarp
-$WGET http://download.pureftpd.org/pub/ucarp/ucarp-1.5.2.tar.gz
+cd $SRC/ucarp
 tar zxvf ucarp-1.5.2.tar.gz
 cd ucarp-1.5.2
 
@@ -683,9 +619,7 @@ make install DESTDIR=$BASE
 # OPENVPN # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir openvpn && cd openvpn
-$WGET http://swupdate.openvpn.org/community/releases/openvpn-2.3.0.tar.gz
+cd $SRC/openvpn
 tar zxvf openvpn-2.3.0.tar.gz
 cd openvpn-2.3.0
 
@@ -703,9 +637,7 @@ make install DESTDIR=$BASE
 # TINC # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir tinc && cd tinc
-$WGET http://www.tinc-vpn.org/packages/tinc-1.0.19.tar.gz
+cd $SRC/tinc
 tar zxvf tinc-1.0.19.tar.gz
 cd tinc-1.0.19
 
@@ -721,9 +653,7 @@ make install DESTDIR=$BASE
 # DNSCRYPT # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir dnscrypt && cd dnscrypt
-$WGET https://github.com/downloads/opendns/dnscrypt-proxy/dnscrypt-proxy-1.2.0.tar.gz
+cd $SRC/dnscrypt
 tar zxvf dnscrypt-proxy-1.2.0.tar.gz
 cd dnscrypt-proxy-1.2.0
 
@@ -739,9 +669,7 @@ make install DESTDIR=$BASE
 # GIT # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir git && cd git
-$WGET https://github.com/git/git/archive/v1.8.1.1.tar.gz
+cd $SRC/git
 tar zxvf v1.8.1.1.tar.gz
 cd git-1.8.1.1
 
@@ -782,9 +710,7 @@ install DESTDIR=$BASE
 # STRACE # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir strace && cd strace
-$WGET http://downloads.sourceforge.net/project/strace/strace/4.7/strace-4.7.tar.xz
+cd $SRC/strace
 tar xvJf strace-4.7.tar.xz
 cd strace-4.7
 
@@ -800,9 +726,7 @@ make install DESTDIR=$BASE
 # OPENSSH # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir openssh && cd openssh
-$WGET http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-6.1p1.tar.gz
+cd $SRC/openssh
 tar zxvf openssh-6.1p1.tar.gz
 cd openssh-6.1p1
 
@@ -823,9 +747,7 @@ make install DESTDIR=$BASE
 # HTOP # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir htop && cd htop
-$WGET http://downloads.sourceforge.net/project/htop/htop/1.0.2/htop-1.0.2.tar.gz
+cd $SRC/htop
 tar zxvf htop-1.0.2.tar.gz
 cd htop-1.0.2
 
@@ -842,9 +764,7 @@ make install DESTDIR=$BASE
 # SCREEN # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir screen && cd screen
-$WGET http://ftp.gnu.org/gnu/screen/screen-4.0.3.tar.gz
+cd $SRC/screen
 tar zxvf screen-4.0.3.tar.gz
 cd screen-4.0.3
 
@@ -862,9 +782,7 @@ make install DESTDIR=$BASE
 # BASH # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir bash && cd bash
-$WGET http://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
+cd $SRC/bash
 tar zxvf bash-4.2.tar.gz
 cd bash-4.2
 
@@ -883,9 +801,7 @@ make install DESTDIR=$BASE
 # NZBGET # ##################################################################
 ########## ##################################################################
 
-cd $SRC
-mkdir nzbget && cd nzbget
-$WGET http://downloads.sourceforge.net/project/nzbget/nzbget-stable/9.0/nzbget-9.0.tar.gz
+cd $SRC/nzbget
 tar zxvf nzbget-9.0.tar.gz
 cd nzbget-9.0
 
@@ -914,9 +830,7 @@ make install DESTDIR=$BASE
 # TRANSMISSION # ############################################################
 ################ ############################################################
 
-cd $SRC
-mkdir transmission && cd transmission
-$WGET http://download.transmissionbt.com/files/transmission-2.76.tar.xz
+cd $SRC/transmission
 tar xvJf transmission-2.76.tar.xz
 cd transmission-2.76
 
