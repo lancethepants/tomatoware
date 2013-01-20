@@ -490,3 +490,21 @@ $CONFIGURE
 
 $MAKE
 make install DESTDIR=$BASE
+
+####### #####################################################################
+# TAR # #####################################################################
+####### #####################################################################
+
+cd $SRC
+mkdir tar && cd tar
+$WGET http://ftp.gnu.org/gnu/tar/tar-1.26.tar.gz
+tar zxvf tar-1.26.tar.gz
+cd tar-1.26
+
+LDFLAGS=$LDFLAGS \
+CPPFLAGS=$CPPFLAGS \
+CFLAGS=$CFLAGS \
+$CONFIGURE
+
+$MAKE
+make install DESTDIR=$BASE
