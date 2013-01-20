@@ -25,9 +25,7 @@ export PATH=$PATH:/opt/entware-toolchain/bin/:/opt/entware-toolchain/mipsel-linu
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
-cd $SRC
-mkdir glib && cd glib
-$WGET http://ftp.acc.umu.se/pub/gnome/sources/glib/2.26/glib-2.26.1.tar.gz
+cd $SRC/glib
 tar zxvf glib-2.26.1.tar.gz
 cd glib-2.26.1
 
@@ -57,9 +55,7 @@ unset PKG_CONFIG_LIBDIR
 sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
 $DEST/lib/libglib-2.0.la
 
-cd $SRC
-mkdir pkg-config && cd pkg-config
-$WGET http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.tar.gz
+cd $SRC/pkg-config
 tar zxvf pkg-config-0.27.tar.gz
 cd pkg-config-0.27
 
@@ -79,9 +75,7 @@ $DEST/lib/libglib-2.0.la
 # GMP # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir gmp && cd gmp
-$WGET ftp://ftp.gmplib.org/pub/gmp-5.0.5/gmp-5.0.5.tar.bz2
+cd $SRC/gmp
 tar xvjf gmp-5.0.5.tar.bz2
 cd gmp-5.0.5
 
@@ -98,9 +92,7 @@ make install DESTDIR=$BASE
 # MPFR # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir mpfr && cd mpfr
-$WGET http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.gz
+cd $SRC/mpfr
 tar zxvf mpfr-3.1.1.tar.gz
 cd mpfr-3.1.1
 
@@ -119,9 +111,7 @@ make install DESTDIR=$BASE
 sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
 $DEST/lib/libmpfr.la
 
-cd $SRC
-mkdir mpc && cd mpc
-$WGET http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
+cd $SRC/mpc
 tar zxvf mpc-1.0.1.tar.gz
 cd mpc-1.0.1
 
@@ -142,9 +132,7 @@ $DEST/lib/libmpfr.la
 # BINUTILS # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir binutils && cd binutils
-$WGET http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
+cd $SRC/binutils
 tar zxvf binutils-2.22.tar.gz
 mkdir build-binutils && cd build-binutils
 
@@ -162,9 +150,7 @@ make install DESTDIR=$BASE
 # GCC # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir gcc && cd gcc
-$WGET http://ftp.gnu.org/gnu/gcc/gcc-4.6.3/gcc-4.6.3.tar.gz
+cd $SRC/gcc
 tar zxvf gcc-4.6.3.tar.gz
 
 cd gcc-4.6.3
@@ -196,9 +182,7 @@ ln -s gcc $DEST/bin/cc
 # AUTOCONF # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir autoconf && cd autoconf
-$WGET http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+cd $SRC/autoconf
 tar zxvf autoconf-2.69.tar.gz
 cd autoconf-2.69
 
@@ -214,9 +198,7 @@ make install DESTDIR=$BASE
 # AUTOMAKE # ################################################################
 ############ ################################################################
 
-cd $SRC
-mkdir automake && cd automake
-$WGET http://ftp.gnu.org/gnu/automake/automake-1.12.4.tar.gz
+cd $SRC/automake
 tar zxvf automake-1.12.4.tar.gz
 cd automake-1.12.4
 
@@ -232,9 +214,7 @@ make install DESTDIR=$BASE
 # BISON # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir bison && cd bison
-$WGET http://ftp.gnu.org/gnu/bison/bison-2.6.5.tar.gz
+cd $SRC/bison
 tar zxvf bison-2.6.5.tar.gz
 cd bison-2.6.5
 
@@ -250,9 +230,7 @@ make install DESTDIR=$BASE
 # CHECK # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir check && cd check
-$WGET http://downloads.sourceforge.net/project/check/check/0.9.9/check-0.9.9.tar.gz
+cd $SRC/check
 tar zxvf check-0.9.9.tar.gz
 cd check-0.9.9
 
@@ -268,9 +246,7 @@ make install DESTDIR=$BASE
 # COREUTILS # ###############################################################
 ############# ###############################################################
 
-cd $SRC
-mkdir coreutils && cd coreutils
-$WGET http://ftp.gnu.org/gnu/coreutils/coreutils-8.16.tar.xz
+cd $SRC/coreutils
 tar xvJf coreutils-8.16.tar.xz
 cd coreutils-8.16
 
@@ -291,9 +267,7 @@ make install DESTDIR=$BASE
 # DIFFUTILS # ###############################################################
 ############# ###############################################################
 
-cd $SRC
-mkdir diffutils && cd diffutils
-$WGET http://ftp.gnu.org/gnu/diffutils/diffutils-3.2.tar.gz
+cd $SRC/diffutils
 tar zxvf diffutils-3.2.tar.gz
 cd diffutils-3.2
 
@@ -309,9 +283,7 @@ make install DESTDIR=$BASE
 # FINDUTILS # ###############################################################
 ############# ###############################################################
 
-cd $SRC
-mkdir findutils && cd findutils
-$WGET http://ftp.gnu.org/pub/gnu/findutils/findutils-4.4.2.tar.gz
+cd $SRC/findutils
 tar zxvf findutils-4.4.2.tar.gz
 cd findutils-4.4.2
 
@@ -328,9 +300,7 @@ make install DESTDIR=$BASE
 # FLEX # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir flex && cd flex
-$WGET http://downloads.sourceforge.net/project/flex/flex-2.5.37.tar.gz
+cd $SRC/flex
 tar zxvf flex-2.5.37.tar.gz
 cd flex-2.5.37
 
@@ -346,9 +316,7 @@ make install DESTDIR=$BASE
 # GAWK # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir gawk && cd gawk
-$WGET http://ftp.gnu.org/gnu/gawk/gawk-4.0.1.tar.gz
+cd $SRC/gawk
 tar zxvf gawk-4.0.1.tar.gz
 cd gawk-4.0.1
 
@@ -364,9 +332,7 @@ make install DESTDIR=$BASE
 # LIBTOOL # #################################################################
 ########### #################################################################
 
-cd $SRC
-mkdir libtool && cd  libtool
-$WGET http://gnu.mirrors.pair.com/gnu/libtool/libtool-2.4.2.tar.gz
+cd $SRC/libtool
 tar zxvf libtool-2.4.2.tar.gz
 cd libtool-2.4.2
 
@@ -382,9 +348,7 @@ make install DESTDIR=$BASE
 # M4 # ######################################################################
 ###### ######################################################################
 
-cd $SRC
-mkdir m4 && cd m4
-$WGET http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.gz
+cd $SRC/m4
 tar zxvf m4-1.4.16.tar.gz
 cd m4-1.4.16
 
@@ -400,9 +364,7 @@ make install DESTDIR=$BASE
 # MAKE # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir make && cd make
-$WGET http://ftp.gnu.org/gnu/make/make-3.82.tar.gz
+cd $SRC/make
 tar zxvf make-3.82.tar.gz
 cd make-3.82
 
@@ -418,9 +380,7 @@ make install DESTDIR=$BASE
 # UTIL-LINUX # ##############################################################
 ############## ##############################################################
 
-cd $SRC
-mkdir util-linux && cd util-linux
-$WGET http://www.kernel.org/pub/linux/utils/util-linux/v2.21/util-linux-2.21.2.tar.gz
+cd $SRC/util-linux
 tar zxvf util-linux-2.21.2.tar.gz
 cd util-linux-2.21.2
 
@@ -440,9 +400,7 @@ make install DESTDIR=$BASE
 # PATCH # ###################################################################
 ######### ###################################################################
 
-cd $SRC
-mkdir patch && cd patch
-$WGET http://ftp.gnu.org/gnu/patch/patch-2.7.1.tar.gz
+cd $SRC/patch
 tar zxvf patch-2.7.1.tar.gz
 cd patch-2.7.1
 
@@ -458,9 +416,7 @@ make install DESTDIR=$BASE
 # WGET # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir wget && cd wget
-$WGET http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
+cd $SRC/wget
 tar zxvf wget-1.14.tar.gz
 cd wget-1.14
 
@@ -477,9 +433,7 @@ make install DESTDIR=$BASE
 # GREP # ####################################################################
 ######## ####################################################################
 
-cd $SRC
-mkdir grep && cd grep
-$WGET http://mirrors.syringanetworks.net/gnu/grep/grep-2.9.tar.gz
+cd $SRC/grep
 tar zxvf grep-2.9.tar.gz
 cd grep-2.9
 
@@ -495,9 +449,7 @@ make install DESTDIR=$BASE
 # TAR # #####################################################################
 ####### #####################################################################
 
-cd $SRC
-mkdir tar && cd tar
-$WGET http://ftp.gnu.org/gnu/tar/tar-1.26.tar.gz
+cd $SRC/tar
 tar zxvf tar-1.26.tar.gz
 cd tar-1.26
 
