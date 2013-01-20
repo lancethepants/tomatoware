@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ./toolchain_install.sh
 ./install.sh
