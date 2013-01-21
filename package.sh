@@ -4,7 +4,7 @@ BASE=`pwd`
 
 DEST=$BASE/opt
 TOOLCHAIN=/opt/entware-toolchain/
-SOURCE_INCLUDE=$TOOLCHIAN/include
+SOURCE_INCLUDE=$TOOLCHAIN/include
 SOURCE_LIB=$TOOLCHAIN/lib
 DEST_LIB=$DEST/lib
 
