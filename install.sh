@@ -430,18 +430,20 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/perl
-tar zxvf perl-5.16.0.tar.gz
-cp $PATCHES/perl-5.16.0-cross-0.7.1.tar.gz .
-tar zxvf perl-5.16.0-cross-0.7.1.tar.gz
-cd perl-5.16.0
+tar zxvf perl_precompiled.tgz -C $BASE
 
-LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-./configure --target=mipsel-linux --prefix=/opt -Dusethreads
+#tar zxvf perl-5.16.0.tar.gz
+#cp $PATCHES/perl-5.16.0-cross-0.7.1.tar.gz .
+#tar zxvf perl-5.16.0-cross-0.7.1.tar.gz
+#cd perl-5.16.0
 
-make
-make install DESTDIR=$BASE
+#LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
+#CPPFLAGS=$CPPFLAGS \
+#CFLAGS=$CFLAGS \
+#./configure --target=mipsel-linux --prefix=/opt -Dusethreads
+
+#make
+#make install DESTDIR=$BASE
 
 ######## ####################################################################
 # PCRE # ####################################################################
