@@ -91,8 +91,8 @@ ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
 ########### #################################################################
 
 cd $SRC/openssl
-tar zxvf openssl-1.0.1c.tar.gz
-cd openssl-1.0.1c
+tar zxvf openssl-1.0.1e.tar.gz
+cd openssl-1.0.1e
 
 patch < $PATCHES/openssl.patch
 #patch -p1 < ../../patches/110-optimize-for-size.patch
