@@ -640,8 +640,8 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/tinc
-tar zxvf tinc-1.0.19.tar.gz
-cd tinc-1.0.19
+tar zxvf tinc-1.0.20.tar.gz
+cd tinc-1.0.20
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
