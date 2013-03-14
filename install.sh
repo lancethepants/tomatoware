@@ -477,8 +477,7 @@ cd Python-2.7.3-native
 $MAKE
 
 cd ../Python-2.7.3
-$WGET http://www.droboports.com/app-repository/python-2-7-3/drobofs.patch
-patch < drobofs.patch
+patch < $PATCHES/python-drobo.patch
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
