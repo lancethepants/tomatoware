@@ -137,7 +137,7 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/curl
-tar curl-7.30.0.tar.gz
+tar zxvf curl-7.30.0.tar.gz
 cd curl-7.30.0
 
 patch < $PATCHES/curl.patch
