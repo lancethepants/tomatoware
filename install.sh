@@ -832,8 +832,8 @@ make install DESTDIR=$BASE
 ################ ############################################################
 
 cd $SRC/transmission
-tar xvJf transmission-2.76.tar.xz
-cd transmission-2.76
+tar xvJf transmission-2.77.tar.xz
+cd transmission-2.77
 
 LIBEVENT_CFLAGS="-I$DEST/include -I$DEST/include/ncurses" \
 LIBEVENT_LIBS=$DEST/lib/libevent.la \
