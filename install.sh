@@ -342,7 +342,8 @@ cd libxml2-2.9.1
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE
+$CONFIGURE \
+--without-python
 
 $MAKE
 make install DESTDIR=$BASE
