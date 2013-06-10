@@ -39,8 +39,8 @@ make install PREFIX=$DEST
 ######## ####################################################################
 
 cd $SRC/zlib
-tar zxvf zlib-1.2.7.tar.gz
-cd zlib-1.2.7
+tar zxvf zlib-1.2.8.tar.gz
+cd zlib-1.2.8
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
