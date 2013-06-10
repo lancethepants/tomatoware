@@ -93,8 +93,8 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/mpfr
-tar zxvf mpfr-3.1.1.tar.gz
-cd mpfr-3.1.1
+tar zxvf mpfr-3.1.2.tar.gz
+cd mpfr-3.1.2
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
