@@ -712,8 +712,8 @@ install DESTDIR=$BASE
 ########## ##################################################################
 
 cd $SRC/strace
-tar xvJf strace-4.7.tar.xz
-cd strace-4.7
+tar xvJf strace-4.8.tar.xz
+cd strace-4.8
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
