@@ -335,8 +335,8 @@ make install DESTDIR=$BASE
 ########## ##################################################################
 
 cd $SRC/libxml2
-tar zxvf libxml2-2.9.0.tar.gz
-cd libxml2-2.9.0
+tar zxvf libxml2-2.9.1.tar.gz
+cd libxml2-2.9.1
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
