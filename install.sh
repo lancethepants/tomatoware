@@ -803,8 +803,8 @@ make install DESTDIR=$BASE
 ########## ##################################################################
 
 cd $SRC/nzbget
-tar zxvf nzbget-9.0.tar.gz
-cd nzbget-9.0
+tar zxvf nzbget-10.2.tar.gz
+cd nzbget-10.2
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
