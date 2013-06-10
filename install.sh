@@ -450,8 +450,8 @@ tar zxvf perl_precompiled.tgz -C $BASE
 ######## ####################################################################
 
 cd $SRC/pcre
-tar zxvf pcre-8.32.tar.gz
-cd pcre-8.32
+tar zxvf pcre-8.33.tar.gz
+cd pcre-8.33
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
