@@ -195,8 +195,8 @@ make install DESTDIR=$BASE
 ########## ##################################################################
 
 cd $SRC/libffi
-tar zxvf libffi-3.0.11.tar.gz
-cd libffi-3.0.11
+tar zxvf libffi-3.0.13.tar.gz
+cd libffi-3.0.13
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
