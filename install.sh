@@ -728,8 +728,8 @@ make install DESTDIR=$BASE
 ########### #################################################################
 
 cd $SRC/openssh
-tar zxvf openssh-6.1p1.tar.gz
-cd openssh-6.1p1
+tar zxvf openssh-6.2p2.tar.gz
+cd openssh-6.2p2
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
