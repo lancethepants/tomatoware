@@ -133,13 +133,13 @@ $DEST/lib/libmpfr.la
 ############ ################################################################
 
 cd $SRC/binutils
-tar zxvf binutils-2.22.tar.gz
+tar zxvf binutils-2.23.2.tar.gz
 mkdir build-binutils && cd build-binutils
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-../binutils-2.22/$CONFIGURE \
+../binutils-2.23.2/$CONFIGURE \
 --disable-werror \
 --disable-nls
 
