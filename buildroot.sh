@@ -76,8 +76,8 @@ $DEST/lib/libglib-2.0.la
 ####### #####################################################################
 
 cd $SRC/gmp
-tar xvjf gmp-5.0.5.tar.bz2
-cd gmp-5.0.5
+tar xvjf gmp-5.1.2.tar.bz2
+cd gmp-5.1.2
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
