@@ -621,8 +621,8 @@ make install DESTDIR=$BASE
 ########### #################################################################
 
 cd $SRC/openvpn
-tar zxvf openvpn-2.3.0.tar.gz
-cd openvpn-2.3.0
+tar zxvf openvpn-2.3.2.tar.gz
+cd openvpn-2.3.2
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
