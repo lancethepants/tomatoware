@@ -319,8 +319,8 @@ make install DESTDIR=$BASE
 ########## ##################################################################
 
 cd $SRC/sqlite
-tar zxvf sqlite-autoconf-3071502.tar.gz
-cd sqlite-autoconf-3071502
+tar zxvf sqlite-autoconf-3071700.tar.gz
+cd sqlite-autoconf-3071700
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
