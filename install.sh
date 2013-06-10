@@ -217,7 +217,8 @@ cd libiconv-1.14
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-$CONFIGURE
+$CONFIGURE \
+--enable-static
 
 $MAKE
 make install DESTDIR=$BASE
