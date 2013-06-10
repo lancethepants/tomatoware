@@ -671,8 +671,8 @@ make install DESTDIR=$BASE
 ####### #####################################################################
 
 cd $SRC/git
-tar zxvf v1.8.1.1.tar.gz
-cd git-1.8.1.1
+tar zxvf git-1.8.3.tar.gz
+cd git-1.8.3
 
 make distclean
 
