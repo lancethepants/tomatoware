@@ -363,7 +363,7 @@ LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
---with-libxml-src=$SRC/libxml2/libxml2-2.9.0 \
+--with-libxml-src=$SRC/libxml2/libxml2-2.9.1 \
 --without-python \
 --without-crypto
 
