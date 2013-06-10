@@ -177,8 +177,8 @@ make install DESTDIR=$BASE
 ########### #################################################################
 
 cd $SRC/libpcap
-tar zxvf libpcap-1.3.0.tar.gz
-cd libpcap-1.3.0
+tar zxvf libpcap-1.4.0.tar.gz
+cd libpcap-1.4.0
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
