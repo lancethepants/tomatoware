@@ -56,8 +56,8 @@ sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/lib
 $DEST/lib/libglib-2.0.la
 
 cd $SRC/pkg-config
-tar zxvf pkg-config-0.27.tar.gz
-cd pkg-config-0.27
+tar zxvf pkg-config-0.28.tar.gz
+cd pkg-config-0.28
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
