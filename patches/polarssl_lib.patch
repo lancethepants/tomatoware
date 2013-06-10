@@ -1,28 +1,22 @@
-*** /home/lance/Makefile	2012-10-24 08:29:56.115474000 -0600
---- library/Makefile	2012-10-24 08:30:38.859474000 -0600
-***************
-*** 1,3 ****
---- 1,6 ----
-+ CC=mipsel-linux-gcc 
-+ LD=mipsel-linux-ld 
-+ AR=mipsel-linux-ar 
-  
-  # Also see "include/polarssl/config.h"
-  
-***************
-*** 11,17 ****
-  # CFLAGS += -D_BSD_EXTENSION
-  
-  # To compile as a shared library:
-! # CFLAGS += -fPIC
-  
-  SONAME=libpolarssl.so.0
-  
---- 14,20 ----
-  # CFLAGS += -D_BSD_EXTENSION
-  
-  # To compile as a shared library:
-!  CFLAGS += -fPIC
-  
-  SONAME=libpolarssl.so.0
-  
+--- /home/lance/Makefile	2013-06-10 13:27:34.002538000 -0600
++++ ./Makefile	2013-06-10 13:28:05.515068000 -0600
+@@ -1,4 +1,6 @@
+-
++CC=mipsel-linux-gcc 
++LD=mipsel-linux-ld 
++AR=mipsel-linux-ar 
+ # Also see "include/polarssl/config.h"
+ 
+ # To compile on MinGW: add "-lws2_32" to LDFLAGS or define WINDOWS in your
+@@ -18,9 +20,9 @@
+ # CFLAGS += -D_BSD_EXTENSION
+ 
+ # To compile as a shared library:
+-ifdef SHARED
++#ifdef SHARED
+ CFLAGS += -fPIC
+-endif
++#endif
+ 
+ SONAME=libpolarssl.so.0
+ 
