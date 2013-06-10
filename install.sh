@@ -74,8 +74,8 @@ make install DESTDIR=$BASE
 ############ ################################################################
 
 cd $SRC/polarssl
-tar zxvf polarssl-1.1.5-gpl.tgz
-cd polarssl-1.1.5
+tar zxvf polarssl-1.2.7-gpl.tgz
+cd polarssl-1.2.7
 
 patch < $PATCHES/polarssl.patch
 cd library
