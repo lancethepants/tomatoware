@@ -401,6 +401,9 @@ cd $SRC/libpar2
 tar zxvf libpar2-0.2.tar.gz
 cd libpar2-0.2
 
+patch < $PATCHES/libpar2-0.2-bugfixes.patch
+patch < $PATCHES/libpar2-0.2-cancel.patch
+
 LDFLAGS=$LDFLAGS \
 CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
 CFLAGS=$CFLAGS \
