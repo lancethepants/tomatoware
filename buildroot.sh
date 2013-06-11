@@ -231,8 +231,8 @@ make install DESTDIR=$BASE
 ######### ###################################################################
 
 cd $SRC/check
-tar zxvf check-0.9.9.tar.gz
-cd check-0.9.9
+tar zxvf check-0.9.10.tar.gz
+cd check-0.9.10
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
