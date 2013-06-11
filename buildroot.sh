@@ -272,8 +272,8 @@ make install DESTDIR=$BASE
 ############# ###############################################################
 
 cd $SRC/diffutils
-tar zxvf diffutils-3.2.tar.gz
-cd diffutils-3.2
+tar xvJf diffutils-3.3.tar.xz
+cd diffutils-3.3
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
