@@ -441,8 +441,8 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/grep
-tar zxvf grep-2.9.tar.gz
-cd grep-2.9
+tar xvJf grep-2.14.tar.xz 
+cd grep-2.14
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
