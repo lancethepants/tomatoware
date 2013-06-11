@@ -215,8 +215,8 @@ make install DESTDIR=$BASE
 ######### ###################################################################
 
 cd $SRC/bison
-tar zxvf bison-2.6.5.tar.gz
-cd bison-2.6.5
+tar zxvf bison-2.7.1.tar.gz
+cd bison-2.7.1
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
