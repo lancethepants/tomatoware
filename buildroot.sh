@@ -199,8 +199,8 @@ make install DESTDIR=$BASE
 ############ ################################################################
 
 cd $SRC/automake
-tar zxvf automake-1.12.4.tar.gz
-cd automake-1.12.4
+tar zxvf automake-1.13.3.tar.gz
+cd automake-1.13.3
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
