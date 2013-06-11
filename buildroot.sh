@@ -321,8 +321,11 @@ make install DESTDIR=$BASE
 ######## ####################################################################
 
 cd $SRC/gawk
-tar zxvf gawk-4.0.1.tar.gz
-cd gawk-4.0.1
+tar zxvf gawk-4.1.0.tar.gz
+cd gawk-4.1.0
+
+cp -v extension/Makefile.in{,.orig}
+sed -e 's/check-recursive all-recursive: check-for-shared-lib-support/check-recursive all-recursive:/' extension/Makefile.in.orig > extension/Makefile.in
 
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
