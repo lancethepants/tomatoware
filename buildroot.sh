@@ -151,9 +151,9 @@ make install DESTDIR=$BASE
 ####### #####################################################################
 
 cd $SRC/gcc
-tar zxvf gcc-4.6.4.tar.gz
+tar zxvf gcc-4.6.3.tar.gz
 
-cd gcc-4.6.4
+cd gcc-4.6.3
 patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
 cd ..
 
@@ -162,7 +162,7 @@ mkdir gcc-build && cd gcc-build
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
-../gcc-4.6.4/$CONFIGURE --target=mipsel-linux \
+../gcc-4.6.3/$CONFIGURE --target=mipsel-linux \
 --with-mpc-include=$DEST/include \
 --with-mpc-lib=$DEST/lib \
 --with-mpfr-include=$DEST/include \
