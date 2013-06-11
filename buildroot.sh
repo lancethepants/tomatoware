@@ -247,8 +247,8 @@ make install DESTDIR=$BASE
 ############# ###############################################################
 
 cd $SRC/coreutils
-tar xvJf coreutils-8.16.tar.xz
-cd coreutils-8.16
+tar xvJf coreutils-8.21.tar.xz 
+cd coreutils-8.21
 
 patch -p1 < $PATCHES/002-fix_compile_with_uclibc.patch
 
@@ -259,6 +259,10 @@ $CONFIGURE \
 --enable-install-program=hostname \
 fu_cv_sys_stat_statfs2_bsize=yes \
 gl_cv_func_working_mkstemp=yes
+
+cp -v Makefile{,.orig}
+sed -e 's/^#run_help2man\|^run_help2man/#&/' \
+  -e 's/^\##run_help2man/run_help2man/' Makefile.orig > Makefile
 
 $MAKE
 make install DESTDIR=$BASE
