@@ -4,6 +4,8 @@ tomatoware
 Tomatoware is a set of scripts to create a native compiling environment for tomato firmware supported routers.  
 In fact, tomatoware is firmware agnostic, and should work with DD-WRT and other mipsel based firmwares.
 
+Downloads for the project can be found at http://lancethepants.com/files
+
 This project is calld tomatoware because it originally started with the TomatoUSB toolchain, and was designed to use the libraries already built into the TomatoUSB firmware.
 I soon found that the TomatoUSB toolchain is somewhat antiquated, and insufficent for the purpose of this project.
 I decided to use the more up-to-date toolchain provided from entware. http://code.google.com/p/wl500g-repo/
