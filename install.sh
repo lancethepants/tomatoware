@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 BASE=`pwd`
 SRC=$BASE/src
 WGET="wget --prefer-family=IPv4"
@@ -17,336 +20,595 @@ sleep 5
 
 mkdir -p $SRC
 
-export PATH=$PATH:/opt/entware-toolchain/bin/:/opt/entware-toolchain/mipsel-linux/bin/
-
 ######### ###################################################################
 # BZIP2 # ###################################################################
 ######### ###################################################################
 
 cd $SRC/bzip2
-tar zxvf bzip2-1.0.6.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf bzip2-1.0.6 
+	tar zxvf bzip2-1.0.6.tar.gz
+	touch .extracted
+fi
+
 cd bzip2-1.0.6
 
-patch < $PATCHES/bzip2.patch
-patch < $PATCHES/bzip2_so.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/bzip2.patch
+	patch < $PATCHES/bzip2_so.patch
+	touch .patched
+fi
 
-$MAKE
-$MAKE -f Makefile-libbz2_so
-make install PREFIX=$DEST
+if [ ! -f .built ]; then
+	$MAKE
+	$MAKE -f Makefile-libbz2_so
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install PREFIX=$DEST
+	touch .installed
+fi
+
 
 ######## ####################################################################
 # ZLIB # ####################################################################
 ######## ####################################################################
 
 cd $SRC/zlib
-tar zxvf zlib-1.2.8.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf zlib-1.2.8
+	tar zxvf zlib-1.2.8.tar.gz
+	touch .extracted
+fi
+
 cd zlib-1.2.8
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-CROSS_PREFIX=mipsel-linux- \
-./configure \
---prefix=/opt 
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CROSS_PREFIX=mipsel-linux- \
+	./configure \
+	--prefix=/opt
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ####### #####################################################################
 # LZO # #####################################################################
 ####### #####################################################################
 
 cd $SRC/lzo
-tar zxvf lzo-2.06.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf lzo-2.06
+	tar zxvf lzo-2.06.tar.gz
+	touch .extracted
+fi
+
 cd lzo-2.06
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---enable-shared=yes 
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--enable-shared=yes 
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
 
-############ ################################################################
-# POLARSSL # ################################################################
-############ ################################################################
-
-cd $SRC/polarssl
-tar zxvf polarssl-1.2.7-gpl.tgz
-cd polarssl-1.2.7
-
-patch < $PATCHES/polarssl.patch
-cd library
-patch < $PATCHES/polarssl_lib.patch
-cd ..
-
-$MAKE
-make install DESTDIR=$DEST
-ln -s libpolarssl.so $DEST/lib/libpolarssl.so.0
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
 
 cd $SRC/openssl
-tar zxvf openssl-1.0.1e.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf openssl-1.0.1e
+	tar zxvf openssl-1.0.1e.tar.gz
+	touch .extracted
+fi
+
 cd openssl-1.0.1e
 
-patch < $PATCHES/openssl.patch
-#patch -p1 < ../../patches/110-optimize-for-size.patch
-#patch -p1 < ../../patches/130-perl-path.patch
-#patch -p1 < ../../patches/140-makefile-dirs.patch
-#patch -p1 < ../../patches/150-no_engines.patch
-#patch -p1 < ../../patches/160-disable_doc_tests.patch
-#patch -p1 < ../../patches/170-bash_path.patch
-#patch -p1 < ../../patches/180-fix_link_segfault.patch
-#patch -p1 < ../../patches/190-remove_timestamp_check.patch
-#patch -p1 < ../../patches/200-etrax_support.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/openssl.patch
+	touch .patched
+fi
 
-./Configure linux-mipsel \
--ffunction-sections -fdata-sections \
--Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
--Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
---prefix=/opt shared no-zlib no-zlib-dynamic
+if [ ! -f .configured ]; then
+	./Configure linux-mipsel \
+	-ffunction-sections -fdata-sections \
+	-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
+	-Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
+	--prefix=/opt shared no-zlib no-zlib-dynamic
+	touch .configured
+fi
 
-make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
-make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+if [ ! -f .built ]; then
+	make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
+	touch .built
+fi
 
+if [ ! -f .installed ]; then
+	make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+	touch .installed
+fi
 ########### #################################################################
 # GETTEXT # #################################################################
 ########### #################################################################
 
 cd $SRC/gettext
-tar zxvf gettext-0.18.2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf gettext-0.18.2
+	tar zxvf gettext-0.18.2.tar.gz
+	touch .extracted
+fi
+
 cd gettext-0.18.2
 
-patch -p1 < $PATCHES/spawn.patch
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/spawn.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######## ####################################################################
 # CURL # ####################################################################
 ######## ####################################################################
 
 cd $SRC/curl
-tar zxvf curl-7.30.0.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf curl-7.30.0
+	tar zxvf curl-7.30.0.tar.gz
+	touch .extracted
+fi
+
 cd curl-7.30.0
 
-patch < $PATCHES/curl.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/curl.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-ca-path=/opt/ssl/certs
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-ca-path=/opt/ssl/certs
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
 
-mkdir -p $DEST/ssl/certs
-cd $DEST/ssl/certs
-curl http://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
-c_rehash .
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .certs_installed ]; then
+	mkdir -p $DEST/ssl/certs
+	cd $DEST/ssl/certs
+	curl http://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+	c_rehash .
+	touch $SRC/curl/curl-7.30.0/.certs_installed
+fi
 
 ######### ###################################################################
 # EXPAT # ###################################################################
 ######### ###################################################################
 
 cd $SRC/expat
-tar zxvf expat-2.1.0.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf cd expat-2.1.0
+	tar zxvf expat-2.1.0.tar.gz
+	touch .extracted
+fi
+
 cd expat-2.1.0
 
-LDFLAGS=$LDFLAGS  \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS  \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # LIBPCAP # #################################################################
 ########### #################################################################
 
 cd $SRC/libpcap
-tar zxvf libpcap-1.4.0.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libpcap-1.4.0
+	tar zxvf libpcap-1.4.0.tar.gz
+	touch .extracted
+fi
+
 cd libpcap-1.4.0
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-pcap=linux \
---enable-ipv6
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-pcap=linux \
+	--enable-ipv6
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########## ##################################################################
 # LIBFFI # ##################################################################
 ########## ##################################################################
 
 cd $SRC/libffi
-tar zxvf libffi-3.0.13.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libffi-3.0.13
+	tar zxvf libffi-3.0.13.tar.gz
+	touch .extracted
+fi
+
 cd libffi-3.0.13
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ############ ################################################################
 # LIBICONV # ################################################################
 ############ ################################################################
 
 cd $SRC/libiconv
-tar zxvf libiconv-1.14.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libiconv-1.14
+	tar zxvf libiconv-1.14.tar.gz
+	touch .extracted
+fi
+
 cd libiconv-1.14
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---enable-static
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--enable-static
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # NCURSES # #################################################################
 ########### #################################################################
 
 cd $SRC/ncurses
-tar zxvf ncurses-5.9.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf ncurses-5.9
+	tar zxvf ncurses-5.9.tar.gz
+	touch .extracted
+fi
+
 cd ncurses-5.9
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-normal \
---with-shared \
---enable-rpath 
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-normal \
+	--with-shared \
+	--enable-rpath 
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ############### #############################################################
 # LIBREADLINE # #############################################################
 ############### #############################################################
 
 cd $SRC/libreadline
-tar zxvf readline-6.2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf readline-6.2
+	tar zxvf readline-6.2.tar.gz
+	touch .extracted
+fi
+
 cd readline-6.2
 
-patch < $PATCHES/readline.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/readline.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # LIBGDBM # #################################################################
 ########### #################################################################
 
 cd $SRC/libgdbm
-tar zxvf gdbm-1.10.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf gdbm-1.10
+	tar zxvf gdbm-1.10.tar.gz
+	touch .extracted
+fi
+
 cd gdbm-1.10
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ####### #####################################################################
 # tcl # #####################################################################
 ####### #####################################################################
 
 cd $SRC/tcl
-tar zxvf tcl8.6.0-src.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf cd tcl8.6.0/unix
+	tar zxvf tcl8.6.0-src.tar.gz
+	touch .extracted
+fi
+
 cd tcl8.6.0/unix
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---enable-threads \
---enable-shared \
---enable-symbols \
-ac_cv_func_strtod=yes \
-tcl_cv_strtod_buggy=1
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--enable-threads \
+	--enable-shared \
+	--enable-symbols \
+	ac_cv_func_strtod=yes \
+	tcl_cv_strtod_buggy=1
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ####### #####################################################################
 # bdb # #####################################################################
 ####### #####################################################################
 
 cd $SRC/bdb
-tar zxvf db-4.7.25.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf db-4.7.25
+	tar zxvf db-4.7.25.tar.gz
+	touch .extracted
+fi
+
 cd  db-4.7.25/build_unix
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-../dist/$CONFIGURE \
---enable-tcl \
---with-tcl=$DEST/lib
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	../dist/$CONFIGURE \
+	--enable-tcl \
+	--with-tcl=$DEST/lib
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########## ##################################################################
 # SQLITE # ##################################################################
 ########## ##################################################################
 
 cd $SRC/sqlite
-tar zxvf sqlite-autoconf-3071700.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf sqlite-autoconf-3071700
+	tar zxvf sqlite-autoconf-3071700.tar.gz
+	touch .extracted
+fi
+
 cd sqlite-autoconf-3071700
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########## ##################################################################
 # LIBXML # ##################################################################
 ########## ##################################################################
 
 cd $SRC/libxml2
-tar zxvf libxml2-2.9.1.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libxml2-2.9.1
+	tar zxvf libxml2-2.9.1.tar.gz
+	touch .extracted
+fi
+
 cd libxml2-2.9.1
 
+if [ ! -f .configured ]; then
 LDFLAGS=$LDFLAGS \
 CPPFLAGS=$CPPFLAGS \
 CFLAGS=$CFLAGS \
 $CONFIGURE \
 --without-python
+touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # LIBXSLT # #################################################################
@@ -356,19 +618,35 @@ sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 $DEST/lib/libxml2.la
 
 cd $SRC/libxslt
-tar zxvf libxslt-1.1.28.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libxslt-1.1.28
+	tar zxvf libxslt-1.1.28.tar.gz
+	touch .extracted
+fi
+
 cd libxslt-1.1.28
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-libxml-src=$SRC/libxml2/libxml2-2.9.1 \
---without-python \
---without-crypto
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-libxml-src=$SRC/libxml2/libxml2-2.9.1 \
+	--without-python \
+	--without-crypto
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
 $DEST/lib/libxml2.la
@@ -378,18 +656,37 @@ $DEST/lib/libxml2.la
 ############# ###############################################################
 
 cd $SRC/libsigc++
-tar xvJf libsigc++-2.3.1.tar.xz
+
+if [ ! -f .extracted ]; then
+	rm -rf libsigc++-2.3.1
+	tar xvJf libsigc++-2.3.1.tar.xz
+	touch .extracted
+fi
+
 cd libsigc++-2.3.1
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-patch < $PATCHES/libsigc++/libsigc++.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/libsigc++/libsigc++.patch
+	touch .patched
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # LIBPAR2 # #################################################################
@@ -398,19 +695,38 @@ make install DESTDIR=$BASE
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/libpar2
-tar zxvf libpar2-0.2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libpar2-0.2
+	tar zxvf libpar2-0.2.tar.gz
+	touch .extracted
+fi
+
 cd libpar2-0.2
 
-patch < $PATCHES/libpar2-0.2-bugfixes.patch
-patch < $PATCHES/libpar2-0.2-cancel.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/libpar2-0.2-bugfixes.patch
+	patch < $PATCHES/libpar2-0.2-cancel.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
-CFLAGS=$CFLAGS \
-$CONFIGURE 
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE 
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 unset PKG_CONFIG_LIBDIR
 
@@ -419,23 +735,43 @@ unset PKG_CONFIG_LIBDIR
 ############ ################################################################
 
 cd $SRC/libevent
-tar zxvf libevent-2.0.21-stable.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf libevent-2.0.21-stable
+	tar zxvf libevent-2.0.21-stable.tar.gz
+	touch .extracted
+fi
+
 cd libevent-2.0.21-stable
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
 
 cd $SRC/perl
-tar zxvf perl_precompiled.tgz -C $BASE
+
+if [ ! -f .installed ]; then
+	tar zxvf perl_precompiled.tgz -C $BASE
+	touch .installed
+fi
 
 #tar zxvf perl-5.16.0.tar.gz
 #cp $PATCHES/perl-5.16.0-cross-0.7.1.tar.gz .
@@ -455,282 +791,515 @@ tar zxvf perl_precompiled.tgz -C $BASE
 ######## ####################################################################
 
 cd $SRC/pcre
-tar zxvf pcre-8.33.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf pcre-8.33
+	tar zxvf pcre-8.33.tar.gz
+	touch .extracted
+fi
+
 cd pcre-8.33
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---enable-pcregrep-libz \
---enable-pcregrep-libbz2 \
---enable-pcretest-libreadline
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--enable-pcregrep-libz \
+	--enable-pcregrep-libbz2 \
+	--enable-pcretest-libreadline
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########## ##################################################################
 # PYTHON # ##################################################################
 ########## ##################################################################
 
 cd $SRC/python
-tar zxvf Python-2.7.3.tgz
-cp -r Python-2.7.3 Python-2.7.3-native
+
+if [ ! -f .extracted ]; then
+	rm -rf Python-2.7.3 Python-2.7.3-native
+	tar zxvf Python-2.7.3.tgz
+	touch .extracted
+fi
+
+if [ ! -f .copied ]; then
+	rm -rf Python-2.7.3-native
+	cp -r Python-2.7.3 Python-2.7.3-native
+	touch .copied
+fi
 
 cd Python-2.7.3-native
-./configure
-$MAKE
+
+if [ ! -f .built_native ]; then
+	./configure
+	$MAKE
+	touch .built_native
+fi
 
 cd ../Python-2.7.3
-patch < $PATCHES/python-drobo.patch
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-CC=mipsel-linux-gcc CXX=mipsel-linux-g++ AR=mipsel-linux-ar RANLIB=mipsel-linux-ranlib \
-$CONFIGURE --build=x86_64-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
+if [ ! -f .patched ]; then
+	patch < $PATCHES/python-drobo.patch
+	touch .patched
+fi
 
-cp ../Python-2.7.3-native/python ./hostpython
-cp ../Python-2.7.3-native/Parser/pgen Parser/hostpgen
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CC=mipsel-linux-gcc CXX=mipsel-linux-g++ AR=mipsel-linux-ar RANLIB=mipsel-linux-ranlib \
+	$CONFIGURE --build=x86_64-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
+	touch .configured
+fi
 
-$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=x86_64-linux-gnu
-make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
+if [ ! -f .copied ]; then
+	cp ../Python-2.7.3-native/python ./hostpython
+	cp ../Python-2.7.3-native/Parser/pgen Parser/hostpgen
+	touch .copied
+fi
+
+if [ ! -f .built ]; then
+	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=x86_64-linux-gnu
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
+	touch .installed
+fi
+
+if [ ! -f .mkdir ]; then
+	mkdir -p $DEST/python_modules
+	touch .mkdir
+fi
+
+cd $SRC/python/Python-2.7.3/build/
+
+if [ ! -f .rename_and_move ]; then
+	mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
+	cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
+	touch .rename_and_move
+fi
 
 ############## ##############################################################
 # SETUPTOOLS # ##############################################################
 ############## ##############################################################
 
 cd $SRC/setuptools
-tar zxvf setuptools-0.6c11.tar.gz
+
+if [ ! -f .extracted ]; then
+	tar zxvf setuptools-0.6c11.tar.gz
+	touch .extracted
+fi
 
 ########### #################################################################
 # CHEETAH # #################################################################
 ########### #################################################################
 
-cd $SRC/python/Python-2.7.3/build/
-mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
-
 cd $SRC/cheetah
-tar zxvf Cheetah-2.4.4.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf Cheetah-2.4.4
+	tar zxvf Cheetah-2.4.4.tar.gz
+	touch .extracted
+fi
+
 cd Cheetah-2.4.4
-PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
-mv dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg dist/Cheetah-2.4.4-py2.7.egg
 
-mkdir -p $DEST/python_modules
-cp dist/Cheetah-2.4.4-py2.7.egg $DEST/python_modules
+if [ ! -f .built ]; then
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	touch .built
+fi
 
-cd $SRC/python/Python-2.7.3/build/
-rm -rf lib.linux-x86_64-2.7/
-mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
+if [ ! -f .rename ]; then
+	mv dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg dist/Cheetah-2.4.4-py2.7.egg
+	touch .rename
+fi
+
+if [ ! -f .installed ]; then
+	cp dist/Cheetah-2.4.4-py2.7.egg $DEST/python_modules
+	touch .installed
+fi
 
 ######## ####################################################################
 # YENC # ####################################################################
 ######## ####################################################################
 
-cd $SRC/python/Python-2.7.3/build/
-mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
-
 cd $SRC/yenc
-tar zxvf yenc-0.4.0.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf yenc-0.4.0
+	tar zxvf yenc-0.4.0.tar.gz
+	touch .extracted
+fi
+
 cd yenc-0.4.0
 
-patch < $PATCHES/yenc.patch
-PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
-mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
-mkdir -p $DEST/python_modules
-cp dist/yenc-0.4.0-py2.7.egg $DEST/python_modules
+if [ ! -f .patched ]; then
+	patch < $PATCHES/yenc.patch
+	touch .patched
+fi
 
-cd $SRC/python/Python-2.7.3/build/
-rm -rf lib.linux-x86_64-2.7/
-mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
+if [ ! -f .built ]; then
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	touch .built
+fi
+
+if [ ! -f .renamed ]; then
+	mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
+	touch .renamed
+fi
+
+if [ ! -f .installed ]; then
+	cp dist/yenc-0.4.0-py2.7.egg $DEST/python_modules
+	touch .installed
+fi
 
 ############# ###############################################################
 # pyOpenSSL # ###############################################################
 ############# ###############################################################
 
-cd $SRC/python/Python-2.7.3/build/
-mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
-
 cd $SRC/pyopenssl
-tar zxvf pyOpenSSL-0.13.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf pyOpenSSL-0.13
+	tar zxvf pyOpenSSL-0.13.tar.gz
+	touch .extracted
+fi
+
 cd pyOpenSSL-0.13
 
-PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
-sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
-PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
-mv dist/pyOpenSSL-0.13-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13-py2.7.egg
+if [ ! -f .configured ]; then
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
+	touch .configured
+fi
 
-mkdir -p $DEST/python_modules
-cp dist/pyOpenSSL-0.13-py2.7.egg $DEST/python_modules
+if [ ! -f .patched ]; then
+	sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
+	touch .patched
+fi
 
-cd $SRC/python/Python-2.7.3/build/
-rm -rf lib.linux-x86_64-2.7/
-mv lib.linux-mipsel-2.7/ lib.linux-x86_64-2.7/
+if [ ! -f .built ]; then
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-0.6c11 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
+	touch .built
+fi
+
+if [ ! -f .renamed ]; then
+	mv dist/pyOpenSSL-0.13-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13-py2.7.egg
+	touch .renamed
+fi
+
+if [ ! -f .installed ]; then
+	cp dist/pyOpenSSL-0.13-py2.7.egg $DEST/python_modules
+	touch .installed
+fi
 
 ############### #############################################################
 # PAR2CMDLINE # #############################################################
 ############### #############################################################
 
 cd $SRC/par2cmdline
-tar zxvf par2cmdline-0.4.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf par2cmdline-0.4
+	tar zxvf par2cmdline-0.4.tar.gz
+	touch .extracted
+fi
+
 cd par2cmdline-0.4
 
-patch reedsolomon.cpp $PATCHES/reedsolomon.cpp.patch
+if [ ! -f .patched ]; then
+	patch reedsolomon.cpp $PATCHES/reedsolomon.cpp.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-make clean 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	make clean 
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######### ###################################################################
 # UNRAR # ###################################################################
 ######### ###################################################################
 
 cd $SRC/unrar
-tar zxvf unrarsrc-4.2.4.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf unrar
+	tar zxvf unrarsrc-4.2.4.tar.gz
+	touch .extracted
+fi
+
 cd unrar
 
-mv makefile.unix Makefile
-patch < $PATCHES/unrar.patch
+if [ ! -f .patched ]; then
+	mv makefile.unix Makefile
+	patch < $PATCHES/unrar.patch
+	touch .patched
+fi
 
-$MAKE CXX=mipsel-linux-g++ CXXFLAGS=$CPPFLAGS STRIP=mipsel-linux-strip
-make install DESTDIR=$DEST
+if [ ! -f .built ]; then
+	$MAKE CXX=mipsel-linux-g++ CXXFLAGS=$CPPFLAGS STRIP=mipsel-linux-strip
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ####### #####################################################################
 # GIT # #####################################################################
 ####### #####################################################################
 
 cd $SRC/git
-tar zxvf git-1.8.3.tar.gz
-cd git-1.8.3
 
-make distclean
+if [ ! -f .extracted ]; then
+	tar zxvf git-1.8.3.tar.gz
+	cd git-1.8.3
+	touch .extracted
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$MAKE \
-CC=mipsel-linux-gcc \
-AR=mipsel-linux-ar \
-prefix=/opt \
-FREAD_READS_DIRECTORIES=no \
-SNPRINTF_RETURNS_BOGUS=no \
-NO_TCLTK=yes \
-NO_R_TO_GCC_LINKER=yes \
-NO_GETTEXT=yes \
-NO_ICONV=yes \
-EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread"
+if [ ! -f .built ]; then
+	make distclean
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$MAKE \
+	CC=mipsel-linux-gcc \
+	AR=mipsel-linux-ar \
+	prefix=/opt \
+	FREAD_READS_DIRECTORIES=no \
+	SNPRINTF_RETURNS_BOGUS=no \
+	NO_TCLTK=yes \
+	NO_R_TO_GCC_LINKER=yes \
+	NO_GETTEXT=yes \
+	NO_ICONV=yes \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread"
+	touch .built
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-make \
-CC=mipsel-linux-gcc \
-AR=mipsel-linux-ar \
-prefix=/opt \
-FREAD_READS_DIRECTORIES=no \
-SNPRINTF_RETURNS_BOGUS=no \
-NO_TCLTK=yes \
-NO_R_TO_GCC_LINKER=yes \
-NO_GETTEXT=yes \
-NO_ICONV=yes \
-EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread" \
-install DESTDIR=$BASE
+if [ ! -f .installed ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	make \
+	CC=mipsel-linux-gcc \
+	AR=mipsel-linux-ar \
+	prefix=/opt \
+	FREAD_READS_DIRECTORIES=no \
+	SNPRINTF_RETURNS_BOGUS=no \
+	NO_TCLTK=yes \
+	NO_R_TO_GCC_LINKER=yes \
+	NO_GETTEXT=yes \
+	NO_ICONV=yes \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread" \
+	install DESTDIR=$BASE
+	touch .installed
+fi
+
 
 ########## ##################################################################
 # STRACE # ##################################################################
 ########## ##################################################################
 
 cd $SRC/strace
-tar xvJf strace-4.8.tar.xz
+
+if [ ! -f .extracted ]; then
+	rm -rf strace-4.8
+	tar xvJf strace-4.8.tar.xz
+	touch .extracted
+fi
+
 cd strace-4.8
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########### #################################################################
 # OPENSSH # #################################################################
 ########### #################################################################
 
 cd $SRC/openssh
-tar zxvf openssh-6.2p2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf openssh-6.2p2
+	tar zxvf openssh-6.2p2.tar.gz
+	touch .extracted
+fi
+
 cd openssh-6.2p2
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-pid-dir=/var/run \
---with-privsep-path=/var/empty \
---disable-strip
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-pid-dir=/var/run \
+	--with-privsep-path=/var/empty \
+	--disable-strip
+	touch .configured
+fi
 
-patch < $PATCHES/openssh.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/openssh.patch
+	touch .patched
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######## ####################################################################
 # HTOP # ####################################################################
 ######## ####################################################################
 
 cd $SRC/htop
-tar zxvf htop-1.0.2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf htop-1.0.2
+	tar zxvf htop-1.0.2.tar.gz
+	touch .extracted
+fi
+
 cd htop-1.0.2
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---disable-unicode
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--disable-unicode
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ########## ##################################################################
 # SCREEN # ##################################################################
 ########## ##################################################################
 
 cd $SRC/screen
-tar zxvf screen-4.0.3.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf screen-4.0.3
+	tar zxvf screen-4.0.3.tar.gz
+	touch .extracted
+fi
+
 cd screen-4.0.3
 
-patch < $PATCHES/100-cross_compile_fix.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/100-cross_compile_fix.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######## ####################################################################
 # BASH # ####################################################################
 ######## ####################################################################
 
 cd $SRC/bash
-tar zxvf bash-4.2.tar.gz
+
+if [ ! -f .extracted ]; then
+	rm -rf bash-4.2
+	tar zxvf bash-4.2.tar.gz
+	touch .extracted
+fi
+
 cd bash-4.2
 
-patch < $PATCHES/bash/001-compile-fix.patch
+if [ ! -f .patched ]; then
+	patch < $PATCHES/bash/001-compile-fix.patch
+	touch .patched
+fi
 
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---with-installed-readline
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--with-installed-readline
+	touch .configured
+fi
 
-$MAKE
-make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
