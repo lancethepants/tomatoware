@@ -1067,7 +1067,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	make install DESTDIR=$DEST
 	touch .installed
 fi
 
