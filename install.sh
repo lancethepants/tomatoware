@@ -123,23 +123,17 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1e
-	tar zxvf openssl-1.0.1e.tar.gz
+	rm -rf openssl-1.0.1c
+	tar zxvf openssl-1.0.1c.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1e
-
-if [ ! -f .patched ]; then
-	patch < $PATCHES/openssl.patch
-	touch .patched
-fi
+cd openssl-1.0.1c
 
 if [ ! -f .configured ]; then
 	./Configure linux-mipsel \
-	-ffunction-sections -fdata-sections \
 	-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
-	-Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
+	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=/opt shared no-zlib no-zlib-dynamic
 	touch .configured
 fi
