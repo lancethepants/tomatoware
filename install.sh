@@ -5,7 +5,6 @@ set -x
 
 BASE=`pwd`
 SRC=$BASE/src
-WGET="wget --prefer-family=IPv4"
 PATCHES=$BASE/patches
 RPATH=/opt/lib
 DEST=$BASE/opt

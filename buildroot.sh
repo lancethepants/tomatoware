@@ -2,22 +2,16 @@
 
 BASE=`pwd`
 SRC=$BASE/src
-WGET="wget --prefer-family=IPv4"
 PATCHES=$BASE/patches
 RPATH=/opt/lib
 DEST=$BASE/opt
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
-CFLAGS="-DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32"
+CFLAGS="-mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
-echo "`nproc` CPU(S) detected"
-echo "Will use parallel building if available"
-sleep 5 
 
 mkdir -p $SRC
-
-export PATH=$PATH:/opt/entware-toolchain/bin/:/opt/entware-toolchain/mipsel-linux/bin/
 
 ######## ####################################################################
 # GLIB # ####################################################################
