@@ -14,9 +14,6 @@ CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
-echo "`nproc` CPU(S) detected"
-echo "Will use parallel building if available"
-sleep 5 
 
 mkdir -p $SRC
 
@@ -592,12 +589,12 @@ fi
 cd libxml2-2.9.1
 
 if [ ! -f .configured ]; then
-LDFLAGS=$LDFLAGS \
-CPPFLAGS=$CPPFLAGS \
-CFLAGS=$CFLAGS \
-$CONFIGURE \
---without-python
-touch .configured
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--without-python
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
@@ -614,8 +611,11 @@ fi
 # LIBXSLT # #################################################################
 ########### #################################################################
 
-sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-$DEST/lib/libxml2.la
+if [ ! -f .edit_sed ]; then
+	sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	$DEST/lib/libxml2.la
+	touch .edit_sed
+fi
 
 cd $SRC/libxslt
 
@@ -648,8 +648,11 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
-$DEST/lib/libxml2.la
+if [ ! -f .restore_sed ]; then
+	sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
+	$DEST/lib/libxml2.la
+	touch .restore_sed
+fi
 
 ############# ###############################################################
 # LIBSIGC++ # ###############################################################
