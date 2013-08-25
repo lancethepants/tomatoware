@@ -896,6 +896,7 @@ fi
 cd $SRC/setuptools
 
 if [ ! -f .extracted ]; then
+	rm -rf setuptools-0.6c11
 	tar zxvf setuptools-0.6c11.tar.gz
 	touch .extracted
 fi
@@ -1077,10 +1078,12 @@ fi
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
+	rm -rf git-1.8.3
 	tar zxvf git-1.8.3.tar.gz
-	cd git-1.8.3
 	touch .extracted
 fi
+
+cd git-1.8.3
 
 if [ ! -f .built ]; then
 	make distclean
