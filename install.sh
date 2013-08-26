@@ -115,6 +115,38 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+############ ################################################################
+# XZ UTILS # ################################################################
+############ ################################################################
+
+cd $SRC/xz
+
+if [ ! -f .extracted ]; then
+        rm -rf xz-5.0.5
+        tar zxvf xz-5.0.5.tar.gz
+        touch .extracted
+fi
+
+cd xz-5.0.5
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
+
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
