@@ -311,6 +311,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .symlink ]; then
+	rm $DEST/bin/cc
 	ln -s gcc $DEST/bin/cc
 	touch .symlink
 fi
@@ -459,7 +460,6 @@ cd coreutils-8.21
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/002-fix_compile_with_uclibc.patch
-	if [ ! -f .patched ]; then
 	touch .patched
 fi
 
