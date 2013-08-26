@@ -1,17 +1,14 @@
 #!/bin/bash
 
+set -e
+set -x
+
 BASE=`pwd`
-
 DEST=$BASE/opt
-TOOLCHAIN=/opt/entware-toolchain/
-SOURCE_INCLUDE=$TOOLCHAIN/include
-SOURCE_LIB=$TOOLCHAIN/lib
-DEST_LIB=$DEST/lib
 
-cp -rf $SOURCE_INCLUDE $DEST
+cp -rf /opt/entware-toolchain/include $DEST
 
-shopt -s extglob
-cp -r $SOURCE_LIB/!(gcc) $DEST_LIB
+cp -rf /opt/entware-toolchain/lib $DEST
 
 cd $BASE/opt/python_modules
 
