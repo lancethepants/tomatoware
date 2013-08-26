@@ -1119,12 +1119,12 @@ fi
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
-	rm -rf git-1.8.3
-	tar zxvf git-1.8.3.tar.gz
+	rm -rf git-1.8.3.4
+	tar zxvf git-1.8.3.4.tar.gz
 	touch .extracted
 fi
 
-cd git-1.8.3
+cd git-1.8.3.4
 
 if [ ! -f .built ]; then
 	make distclean
@@ -1163,7 +1163,7 @@ if [ ! -f .installed ]; then
 	install DESTDIR=$BASE
 	touch .installed
 fi
-
+exit 1;
 
 ########## ##################################################################
 # STRACE # ##################################################################
