@@ -310,10 +310,8 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f .symlink ]; then
-	rm $DEST/bin/cc
+if [ ! -f $DEST/bin/cc ]; then
 	ln -s gcc $DEST/bin/cc
-	touch .symlink
 fi
 
 ############ ################################################################
