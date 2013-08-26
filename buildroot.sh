@@ -14,8 +14,6 @@ CFLAGS="-mtune=mips32 -mips32"
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
-mkdir -p $SRC
-
 ######## ####################################################################
 # GLIB # ####################################################################
 ######## ####################################################################
@@ -886,4 +884,36 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
+fi
+
+####### #####################################################################
+# SED # #####################################################################
+####### #####################################################################
+
+cd $SRC/sed
+
+if [ ! -f .extracted ]; then
+        rm -rf sed-4.2.2
+        tar zxvf sed-4.2.2.tar.gz
+        touch .extracted
+fi
+
+cd sed-4.2.2
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
 fi
