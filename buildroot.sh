@@ -124,9 +124,10 @@ cd $SRC/gmp
 if [ ! -f .extracted ]; then
 	rm -rf gmp-5.1.2
 	tar xvjf gmp-5.1.2.tar.bz2
-	cd gmp-5.1.2
 	touch .extracted
 fi
+
+cd gmp-5.1.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -234,9 +235,11 @@ cd $SRC/binutils
 if [ ! -f .extracted ]; then
 	rm -rf binutils-2.23.2 build-binutils
 	tar zxvf binutils-2.23.2.tar.gz
-	mkdir build-binutils && cd build-binutils
+	mkdir build-binutils
 	touch .extracted
 fi
+
+cd build-binutils
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -265,22 +268,20 @@ fi
 cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-4.6.3
+	rm -rf gcc-4.6.3 gcc-build
 	tar zxvf gcc-4.6.3.tar.gz
+	mkdir gcc-build
 	touch .extracted
 fi
 
+cd gcc-4.6.3
+
 if [ ! -f .patched ]; then
-	cd gcc-4.6.3
 	patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
-	cd ..
 	touch .patched
 fi
 
-if [ ! -f .mkdir ]; then
-	mkdir gcc-build && cd gcc-build
-	touch .mkdir
-fi
+cd ../gcc-build
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
