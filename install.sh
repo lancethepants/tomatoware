@@ -1378,3 +1378,7 @@ if [ ! -f .installed ]; then
         make install DESTDIR=$BASE STRIP=mipsel-linux-strip
         touch .installed
 fi
+
+if [ ! -f $DEST/bin/vi ]; then
+	ln -s vim $DEST/bin/vi
+fi
