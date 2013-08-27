@@ -383,12 +383,18 @@ fi
 cd $SRC/bison
 
 if [ ! -f .extracted ]; then
-	rm -rf bison-2.7.1
-	tar zxvf bison-2.7.1.tar.gz
+	rm -rf bison-3.0
+	tar zxvf bison-3.0.tar.gz
 	touch .extracted
 fi
 
-cd bison-2.7.1
+cd bison-3.0
+
+if [ ! -f .patched ]; then
+	cp -v Makefile.in{,.orig}
+	sed '/bison.help:/s/^/# /' Makefile.in.orig > Makefile.in
+	touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -407,7 +413,7 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
-
+exit 1;
 ######### ###################################################################
 # CHECK # ###################################################################
 ######### ###################################################################
