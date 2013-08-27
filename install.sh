@@ -1212,8 +1212,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	$CONFIGURE \
 	--with-pid-dir=/var/run \
-	--with-privsep-path=/var/empty \
-	--disable-strip
+	--with-privsep-path=/var/empty
 	touch .configured
 fi
 
@@ -1228,7 +1227,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	make install DESTDIR=$BASE STRIP_OPT=--strip-program=mipsel-linux-strip
 	touch .installed
 fi
 
