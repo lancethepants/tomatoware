@@ -34,15 +34,15 @@ echo "cd /opt/python_modules/setuptools" >> install_modules.sh
 echo "rm -rf setuptools-1.0" >> install_modules.sh
 echo "tar zxvf setuptools-1.0.tar.gz" >> install_modules.sh
 echo "cd setuptools-1.0/" >> install_modules.sh
-echo "./setup.py build" >> install_modules.sh
-echo "./setup.py install" >> install_modules.sh
+echo "python ./setup.py build" >> install_modules.sh
+echo "python ./setup.py install" >> install_modules.sh
 
 echo "cd /opt/python_modules/markdown" >> install_modules.sh
 echo "rm -rf Markdown-2.2.1" >> install_modules.sh
 echo "tar zxvf Markdown-2.2.1.tar.gz" >> install_modules.sh
 echo "cd Markdown-2.2.1/" >> install_modules.sh
-echo "./setup.py build" >> install_modules.sh
-echo "./setup.py install" >> install_modules.sh
+echo "python ./setup.py build" >> install_modules.sh
+echo "python ./setup.py install" >> install_modules.sh
 
 echo "cd /opt/python_modules" >> install_modules.sh
 echo "easy_install -Z Cheetah-2.4.4-py2.7.egg" >> install_modules.sh
