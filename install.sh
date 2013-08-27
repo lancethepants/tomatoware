@@ -1339,3 +1339,43 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
+
+####### #####################################################################
+# VIM # #####################################################################
+####### #####################################################################
+
+cd $SRC/vim
+
+if [ ! -f .extracted ]; then
+        rm -rf vim74
+        tar xvjf vim-7.4.tar.bz2
+        touch .extracted
+fi
+
+cd vim74
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        $CONFIGURE \
+	--with-tlib=ncurses \
+	--enable-multibyte \
+	vim_cv_toupper_broken=no \
+	vim_cv_terminfo=yes \
+	vim_cv_tty_group=world \
+	vim_cv_getcwd_broken=no \
+	vim_cv_stat_ignores_slash=no \
+	vim_cv_memmove_handles_overlap=yes
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE STRIP=mipsel-linux-strip
+        touch .installed
+fi
