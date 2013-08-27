@@ -923,3 +923,35 @@ if [ ! -f .installed ]; then
         make install DESTDIR=$BASE
         touch .installed
 fi
+
+########### #################################################################
+# TEXINFO # #################################################################
+########### #################################################################
+
+cd $SRC/texinfo
+
+if [ ! -f .extracted ]; then
+        rm -rf texinfo-5.1
+        tar zxvf texinfo-5.1.tar.gz
+        touch .extracted
+fi
+
+cd texinfo-5.1
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
