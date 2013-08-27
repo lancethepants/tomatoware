@@ -1139,9 +1139,7 @@ if [ ! -f .built ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	NO_GETTEXT=yes \
-	NO_ICONV=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv"
 	touch .built
 fi
 
@@ -1157,9 +1155,7 @@ if [ ! -f .installed ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	NO_GETTEXT=yes \
-	NO_ICONV=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv" \
 	install DESTDIR=$BASE
 	touch .installed
 fi
