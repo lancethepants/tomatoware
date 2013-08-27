@@ -14,20 +14,16 @@ cd $BASE/opt/python_modules
 
 if [ ! -d setuptools ]
 then
-
-mkdir setuptools && cd setuptools
-wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz
-
+	mkdir setuptools && cd setuptools
+	cp $BASE/src/setuptools/setuptools-1.0.tar.gz .
 fi
 
 cd $BASE/opt/python_modules
 
 if [ ! -d markdown ]
 then
-
-mkdir markdown && cd markdown
-wget http://pypi.python.org/packages/source/M/Markdown/Markdown-2.2.1.tar.gz
-
+	mkdir markdown && cd markdown
+	cp $BASE/src/markdown/Markdown-2.2.1.tar.gz .
 fi
 
 cd $BASE/opt/python_modules
@@ -35,9 +31,9 @@ cd $BASE/opt/python_modules
 echo "#!/bin/sh" > install_modules.sh
 
 echo "cd /opt/python_modules/setuptools" >> install_modules.sh
-echo "rm -rf setuptools-0.6c11" >> install_modules.sh
-echo "tar zxvf setuptools-0.6c11.tar.gz" >> install_modules.sh
-echo "cd setuptools-0.6c11/" >> install_modules.sh
+echo "rm -rf setuptools-1.0" >> install_modules.sh
+echo "tar zxvf setuptools-1.0.tar.gz" >> install_modules.sh
+echo "cd setuptools-1.0/" >> install_modules.sh
 echo "./setup.py build" >> install_modules.sh
 echo "./setup.py install" >> install_modules.sh
 
