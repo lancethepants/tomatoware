@@ -6,6 +6,8 @@ set -x
 BASE=`pwd`
 DEST=$BASE/opt
 
+find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
+
 cp -rf /opt/entware-toolchain/include $DEST
 
 cp -rf /opt/entware-toolchain/lib $DEST
