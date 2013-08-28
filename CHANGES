@@ -1,0 +1,24 @@
+0.4
+	Place 'set -e' and set x' in all scripts. This will show commands run, and kick out if any errors occur.
+	
+	Revised scripts to remember where they've stopped, if an error occurs.
+
+	Remove the following packages
+		Ucarp, Tinc, OpenVPN, NZBGet, Transmission
+		I maintain static binaries of some of these.  NZBGet static binary can be obtained from their site.
+		This project is different from optware/entware.  This is not another package manager for all general applications.
+		It is focused on creating a development environment.
+		I am throwing out most unnecessary packages that don't meet this purpose.
+		You can compile these using the project, that's what this is for.
+	
+	Added the following packages
+	xz utils, sed, texinfo, vim 
+	
+	Updated the following packages
+		gettext, curl, sqlite, setuptools, git, bison
+	
+	Changed to use OpenSSL from TomatoUSB/AsusWRT, which has some assembly optimizations.
+	
+	TODO
+		Add subversion package.
+		Convert to scripts to Makefiles.
