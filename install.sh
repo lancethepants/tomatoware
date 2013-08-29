@@ -214,6 +214,38 @@ if [ ! -f .installed ]; then
 fi
 
 ######## ####################################################################
+# FLEX # ####################################################################
+######## ####################################################################
+
+cd $SRC/flex
+
+if [ ! -f .extracted ]; then
+        rm -rf flex-2.5.37
+        tar zxvf flex-2.5.37.tar.gz
+        touch .extracted
+fi
+
+cd flex-2.5.37
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
+
+######## ####################################################################
 # CURL # ####################################################################
 ######## ####################################################################
 
@@ -1192,6 +1224,49 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+####### #####################################################################
+# PAM # #####################################################################
+####### #####################################################################
+
+cd $SRC/pam
+
+if [ ! -f .extracted ]; then
+	rm -rf Linux-PAM-1.1.6
+	tar zxvf Linux-PAM-1.1.6.tar.gz
+	touch .extracted
+fi
+
+cd Linux-PAM-1.1.6
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
+	patch -p1 < $PATCHES/pam/pam_destdir.patch
+	touch .patched
+fi
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	$CONFIGURE \
+	--enable-read-both-confs \
+	--disable-nls
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	sed -i 's,mkdir -p $(namespaceddir),mkdir -p $(DESTDIR)$(namespaceddir),g' \
+	modules/pam_namespace/Makefile
+	make install DESTDIR=$BASE
+	cp -r libpam/include/security/ $DEST/include
+	touch .installed
+fi
+
 ########### #################################################################
 # OPENSSH # #################################################################
 ########### #################################################################
@@ -1206,19 +1281,25 @@ fi
 
 cd openssh-6.2p2
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	$CONFIGURE \
 	--with-pid-dir=/var/run \
-	--with-privsep-path=/var/empty
+	--with-privsep-path=/var/empty \
+	--with-pam
 	touch .configured
 fi
 
-if [ ! -f .patched ]; then
-	patch < $PATCHES/openssh.patch
-	touch .patched
+if [ ! -f .makefile_patch ]; then
+	patch < $PATCHES/openssh/remove_check-config.patch
+	touch .makefile_patch
 fi
 
 if [ ! -f .built ]; then
