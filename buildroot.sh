@@ -559,38 +559,6 @@ if [ ! -f .installed ]; then
 fi
 
 ######## ####################################################################
-# FLEX # ####################################################################
-######## ####################################################################
-
-cd $SRC/flex
-
-if [ ! -f .extracted ]; then
-	rm -rf flex-2.5.37
-	tar zxvf flex-2.5.37.tar.gz
-	touch .extracted
-fi
-
-cd flex-2.5.37
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
-######## ####################################################################
 # GAWK # ####################################################################
 ######## ####################################################################
 
