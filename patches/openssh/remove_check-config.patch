@@ -1,0 +1,19 @@
+*** /home/lance/Makefile	2012-11-21 11:55:55.552553000 -0700
+--- ./Makefile	2012-11-21 11:56:41.292553000 -0700
+***************
+*** 232,238 ****
+  	$(AUTORECONF)
+  	-rm -rf autom4te.cache
+  
+! install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key check-config
+  install-nokeys: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf
+  install-nosysconf: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files
+  
+--- 232,238 ----
+  	$(AUTORECONF)
+  	-rm -rf autom4te.cache
+  
+! install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key
+  install-nokeys: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf
+  install-nosysconf: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files
+  
