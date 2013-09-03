@@ -1460,6 +1460,13 @@ if [ ! -f .installed ]; then
         touch .installed
 fi
 
+cd ..
+
+if [ ! -f .installed_config ]; then
+        cp .vimrc $DEST
+        touch .installed_config
+fi
+
 if [ ! -f $DEST/bin/vi ]; then
 	ln -s vim $DEST/bin/vi
 fi

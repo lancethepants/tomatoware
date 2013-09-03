@@ -7,7 +7,10 @@ BASE=`pwd`
 DEST=$BASE/opt
 
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
-sed -i 's,\/bin\/bash,\/opt\/bin\/bash,g' $DEST/bin/libgnutls-config
+
+if [ -f $DEST/bin/libgnutls-config ]; then
+	sed -i 's,\/bin\/bash,\/opt\/bin\/bash,g' $DEST/bin/libgnutls-config
+fi
 
 cp -rf /opt/entware-toolchain/include $DEST
 
@@ -81,4 +84,4 @@ chmod +x profile
 
 cd $BASE/opt
 
-tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun
+tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun .vimrc
