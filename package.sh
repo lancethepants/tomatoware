@@ -80,4 +80,4 @@ chmod +x profile
 
 cd $BASE/opt
 
-tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/
+tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun
