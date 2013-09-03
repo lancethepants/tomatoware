@@ -81,6 +81,13 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+cd ..
+
+if [ ! -f .installed_binary ]; then
+	cp libgnutls-config $DEST/bin        
+	touch .installed_binary
+fi
+
 unset PKG_CONFIG_LIBDIR
 
 ########### #################################################################
