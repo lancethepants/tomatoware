@@ -7,6 +7,7 @@ BASE=`pwd`
 DEST=$BASE/opt
 
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
+sed -i 's,\/bin\/bash,\/opt\/bin\/bash,g' $DEST/bin/libgnutls-config
 
 cp -rf /opt/entware-toolchain/include $DEST
 
