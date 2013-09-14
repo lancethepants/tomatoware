@@ -152,12 +152,12 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1c
-	tar zxvf openssl-1.0.1c.tar.gz
+	rm -rf openssl-1.0.1e
+	tar zxvf openssl-1.0.1e.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1c
+cd openssl-1.0.1e
 
 if [ ! -f .configured ]; then
 	./Configure linux-mipsel \
