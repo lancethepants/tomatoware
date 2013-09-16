@@ -1268,12 +1268,12 @@ fi
 cd $SRC/openssh
 
 if [ ! -f .extracted ]; then
-	rm -rf openssh-6.2p2
-	tar zxvf openssh-6.2p2.tar.gz
+	rm -rf openssh-6.3p1
+	tar zxvf openssh-6.3p1.tar.gz
 	touch .extracted
 fi
 
-cd openssh-6.2p2
+cd openssh-6.3p1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
@@ -1302,7 +1302,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE STRIP_OPT=--strip-program=mipsel-linux-strip
+	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=mipsel-linux-strip"
 	touch .installed
 fi
 
