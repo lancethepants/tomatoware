@@ -767,18 +767,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/libpar2
 
 if [ ! -f .extracted ]; then
-	rm -rf libpar2-0.2
-	tar zxvf libpar2-0.2.tar.gz
+	rm -rf libpar2-0.4
+	tar zxvf libpar2-0.4.tar.gz
 	touch .extracted
 fi
 
-cd libpar2-0.2
-
-if [ ! -f .patched ]; then
-	patch < $PATCHES/libpar2-0.2-bugfixes.patch
-	patch < $PATCHES/libpar2-0.2-cancel.patch
-	touch .patched
-fi
+cd libpar2-0.4
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
