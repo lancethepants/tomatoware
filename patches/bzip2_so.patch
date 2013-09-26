@@ -7,7 +7,7 @@
   SHELL=/bin/sh
 ! CC=gcc
   BIGFILES=-D_FILE_OFFSET_BITS=64
-  CFLAGS=-fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
+! CFLAGS=-fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
   
 --- 22,28 ----
   
@@ -15,5 +15,5 @@
   SHELL=/bin/sh
 ! CC=mipsel-linux-gcc
   BIGFILES=-D_FILE_OFFSET_BITS=64
-  CFLAGS=-fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
+! CFLAGS=-mtune=mips32 -mips32 -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
   

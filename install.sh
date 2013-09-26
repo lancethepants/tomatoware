@@ -11,6 +11,7 @@ DEST=$BASE/opt
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
+CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
@@ -64,6 +65,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	CROSS_PREFIX=mipsel-linux- \
 	./configure \
 	--prefix=/opt
@@ -98,6 +100,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-shared=yes 
 	touch .configured
@@ -131,6 +134,7 @@ if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
         CPPFLAGS=$CPPFLAGS \
         CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
         $CONFIGURE
         touch .configured
 fi
@@ -199,6 +203,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -231,6 +236,7 @@ if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
         CPPFLAGS=$CPPFLAGS \
         CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
         $CONFIGURE
         touch .configured
 fi
@@ -268,6 +274,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-ca-path=/opt/ssl/certs
 	touch .configured
@@ -309,6 +316,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS  \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -341,6 +349,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-pcap=linux \
 	--enable-ipv6
@@ -375,6 +384,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -407,6 +417,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-static
 	touch .configured
@@ -440,6 +451,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-normal \
 	--with-shared \
@@ -480,6 +492,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -512,6 +525,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -544,6 +558,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-threads \
 	--enable-shared \
@@ -581,6 +596,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	../dist/$CONFIGURE \
 	--enable-tcl \
 	--with-tcl=$DEST/lib
@@ -615,6 +631,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -647,6 +664,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--without-python
 	touch .configured
@@ -692,6 +710,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-libxml-src=$SRC/libxml2/libxml2-2.9.1 \
 	--without-python \
@@ -739,6 +758,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -778,6 +798,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE 
 	touch .configured
 fi
@@ -812,6 +833,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -845,6 +867,7 @@ fi
 #LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
 #CPPFLAGS=$CPPFLAGS \
 #CFLAGS=$CFLAGS \
+#CXXFLAGS=$CXXFLAGS \
 #./configure --target=mipsel-linux --prefix=/opt -Dusethreads
 
 #make
@@ -868,6 +891,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-pcregrep-libz \
 	--enable-pcregrep-libbz2 \
@@ -922,6 +946,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	CC=mipsel-linux-gcc CXX=mipsel-linux-g++ AR=mipsel-linux-ar RANLIB=mipsel-linux-ranlib \
 	$CONFIGURE --build=x86_64-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
 	touch .configured
@@ -1093,6 +1118,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -1129,7 +1155,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE CXX=mipsel-linux-g++ CXXFLAGS=$CPPFLAGS STRIP=mipsel-linux-strip
+	$MAKE
 	touch .built
 fi
 
@@ -1157,6 +1183,7 @@ if [ ! -f .built ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
 	CC=mipsel-linux-gcc \
 	AR=mipsel-linux-ar \
@@ -1173,6 +1200,7 @@ if [ ! -f .installed ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	make \
 	CC=mipsel-linux-gcc \
 	AR=mipsel-linux-ar \
@@ -1204,6 +1232,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -1242,6 +1271,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-read-both-confs \
 	--disable-nls
@@ -1284,6 +1314,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-pid-dir=/var/run \
 	--with-privsep-path=/var/empty \
@@ -1324,6 +1355,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--disable-unicode
 	touch .configured
@@ -1362,6 +1394,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -1399,6 +1432,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-installed-readline
 	touch .configured
@@ -1432,6 +1466,7 @@ if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
         CPPFLAGS=$CPPFLAGS \
         CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
         $CONFIGURE \
 	--with-tlib=ncurses \
 	--enable-multibyte \
