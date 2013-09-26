@@ -11,6 +11,7 @@ DEST=$BASE/opt
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
+CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
@@ -32,6 +33,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -66,6 +68,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--without-p11-kit
 	touch .configured
@@ -122,6 +125,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-libgnutls-prefix=$DEST
 	touch .configured
@@ -155,6 +159,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-ncurses=$DEST \
 	--with-crypto=$DEST \
