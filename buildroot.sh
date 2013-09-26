@@ -11,6 +11,7 @@ DEST=$BASE/opt
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
+CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
@@ -44,6 +45,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-libiconv=gnu  \
 	glib_cv_stack_grows=no \
@@ -92,6 +94,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-pc-path=$DEST/lib/pkgconfig
 	touch .configured
@@ -131,6 +134,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-cxx
 	touch .configured
@@ -164,6 +168,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -202,6 +207,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-mpfr=$DEST \
 	--with-gmp=$DEST
@@ -243,6 +249,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	../binutils-2.23.2/$CONFIGURE \
 	--disable-werror \
 	--disable-nls
@@ -285,6 +292,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	../gcc-4.6.3/$CONFIGURE --target=mipsel-linux \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
@@ -330,6 +338,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -362,6 +371,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -400,6 +410,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -432,6 +443,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -469,6 +481,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-install-program=hostname \
 	fu_cv_sys_stat_statfs2_bsize=yes \
@@ -511,6 +524,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -543,6 +557,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	gl_cv_func_wcwidth_works=yes
 	touch .configured
@@ -582,6 +597,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -614,6 +630,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -643,9 +660,10 @@ fi
 cd m4-1.4.16
 
 if [ ! -f .configured ]; then
-LDFLAGS=$LDFLAGS \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -678,6 +696,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -715,6 +734,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--disable-nls \
 	--disable-wall
@@ -749,6 +769,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -781,6 +802,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-ssl=openssl
 	touch .configured
@@ -814,6 +836,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -846,6 +869,7 @@ if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
 fi
@@ -878,6 +902,7 @@ if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
         CPPFLAGS=$CPPFLAGS \
         CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
         $CONFIGURE
         touch .configured
 fi
@@ -910,6 +935,7 @@ if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
         CPPFLAGS=$CPPFLAGS \
         CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
         $CONFIGURE
         touch .configured
 fi
