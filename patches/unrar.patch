@@ -1,12 +1,19 @@
-*** /home/lance/Makefile	2012-10-21 23:09:31.659474000 -0600
---- ./Makefile	2012-10-21 23:18:56.975474000 -0600
-***************
-*** 8,13 ****
---- 8,14 ----
-  DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-  STRIP=strip
-  DESTDIR=/usr
-+ LDFLAGS=-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,/opt/lib
-  
-  # Linux using LCC
-  #CXX=lcc
+--- Makefile.orig	2013-09-26 10:14:15.203435855 -0600
++++ Makefile	2013-09-26 10:15:40.099856910 -0600
+@@ -2,12 +2,13 @@
+ # Makefile for UNIX - unrar
+ 
+ # Linux using GCC
+-CXX=g++
+-CXXFLAGS=-O2
++CXX=mipsel-linux-g++
++CXXFLAGS=-mtune=mips32 -mips32
+ LIBFLAGS=-fPIC
+ DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+-STRIP=strip
++STRIP=mipsel-linux-strip
+ DESTDIR=/usr
++LDFLAGS=-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,/opt/lib
+ 
+ # Linux using LCC
+ #CXX=lcc
