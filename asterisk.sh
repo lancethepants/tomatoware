@@ -155,6 +155,11 @@ fi
 
 cd asterisk-11.5.1
 
+if [ ! -f .patched ]; then
+	sed -i 's,\/etc\/localtime,\/opt\/etc\/localtime,g' main/stdtime/localtime.c
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -189,6 +194,7 @@ cd ..
 if [ ! -f .installed_example ]; then
 	cp .autorun $DEST
 	tar zxvf asterisk_gv.tgz -C $DEST/etc        
-	tar zxvf config.tgz -C $DEST/etc	
+	tar zxvf config.tgz -C $DEST/etc
+	tar zxvf zoneinfo_etc.tgz -C $DEST/etc	
 	touch .installed_example
 fi
