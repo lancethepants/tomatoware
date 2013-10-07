@@ -1264,6 +1264,7 @@ cd Linux-PAM-1.1.6
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
 	patch -p1 < $PATCHES/pam/pam_destdir.patch
+	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,\/opt\/etc\/pam,g' {} \;
 	touch .patched
 fi
 
