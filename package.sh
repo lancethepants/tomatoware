@@ -52,7 +52,7 @@ echo "python ./setup.py install" >> install_modules.sh
 
 echo "cd /opt/python_modules" >> install_modules.sh
 echo "easy_install -Z Cheetah-2.4.4-py2.7.egg" >> install_modules.sh
-echo "easy_install -Z pyOpenSSL-0.13-py2.7.egg " >> install_modules.sh
+echo "easy_install -Z pyOpenSSL-0.13.1-py2.7.egg " >> install_modules.sh
 echo "easy_install -Z yenc-0.4.0-py2.7.egg" >> install_modules.sh
 
 chmod +x install_modules.sh
