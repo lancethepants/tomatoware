@@ -652,12 +652,12 @@ fi
 cd $SRC/m4
 
 if [ ! -f .extracted ]; then
-	rm -rf m4-1.4.16
-	tar zxvf m4-1.4.16.tar.gz
+	rm -rf m4-1.4.17
+	tar zxvf m4-1.4.17.tar.gz
 	touch .extracted
 fi
 
-cd m4-1.4.16
+cd m4-1.4.17
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -685,12 +685,12 @@ fi
 cd $SRC/make
 
 if [ ! -f .extracted ]; then
-	rm -rf make-3.82
-	tar zxvf make-3.82.tar.gz
+	rm -rf make-4.0
+	tar zxvf make-4.0.tar.gz
 	touch .extracted
 fi
 
-cd make-3.82
+cd make-4.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
