@@ -1254,16 +1254,15 @@ fi
 cd $SRC/pam
 
 if [ ! -f .extracted ]; then
-	rm -rf Linux-PAM-1.1.6
-	tar zxvf Linux-PAM-1.1.6.tar.gz
+	rm -rf Linux-PAM-1.1.8
+	tar zxvf Linux-PAM-1.1.8.tar.gz
 	touch .extracted
 fi
 
-cd Linux-PAM-1.1.6
+cd Linux-PAM-1.1.8
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
-	patch -p1 < $PATCHES/pam/pam_destdir.patch
 	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,\/opt\/etc\/pam,g' {} \;
 	touch .patched
 fi
