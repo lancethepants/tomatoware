@@ -5,6 +5,7 @@ set -x
 
 BASE=`pwd`
 DEST=$BASE/opt
+SRC=$BASE/src
 
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
 
@@ -15,6 +16,8 @@ fi
 cp -rf /opt/entware-toolchain/include $DEST
 
 cp -rf /opt/entware-toolchain/lib $DEST
+
+cp $SRC/.autorun $DEST
 
 cd $BASE/opt/python_modules
 
