@@ -3,3 +3,4 @@ if [ -f /var/notice/wan ]; then
 	for s in /opt/etc/config/*.wanup; do $s; done
 	for s in /opt/etc/config/*.fire; do $s; done 
 fi
+/bin/cp /opt/.vimrc /root
