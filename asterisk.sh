@@ -192,7 +192,6 @@ fi
 cd ..
 
 if [ ! -f .installed_example ]; then
-	cp .autorun $DEST
 	tar zxvf asterisk_gv.tgz -C $DEST/etc        
 	tar zxvf config.tgz -C $DEST/etc
 	tar zxvf zoneinfo_etc.tgz -C $DEST/etc	
