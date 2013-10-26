@@ -1172,12 +1172,12 @@ fi
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
-	rm -rf git-1.8.4
-	tar zxvf git-1.8.4.tar.gz
+	rm -rf git-1.8.4.1
+	tar zxvf git-1.8.4.1.tar.gz
 	touch .extracted
 fi
 
-cd git-1.8.4
+cd git-1.8.4.1
 
 if [ ! -f .built ]; then
 	make distclean
@@ -1193,7 +1193,7 @@ if [ ! -f .built ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv -lintl"
 	touch .built
 fi
 
@@ -1210,7 +1210,7 @@ if [ ! -f .installed ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv -lintl" \
 	install DESTDIR=$BASE
 	touch .installed
 fi
