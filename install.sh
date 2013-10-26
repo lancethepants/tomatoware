@@ -1500,3 +1500,36 @@ fi
 if [ ! -f $DEST/bin/vi ]; then
 	ln -s vim $DEST/bin/vi
 fi
+
+######## ####################################################################
+# TMUX # ####################################################################
+######## ####################################################################
+
+cd $SRC/tmux
+
+if [ ! -f .extracted ]; then
+        rm -rf tmux-1.8
+        tar zxvf tmux-1.8.tar.gz
+        touch .extracted
+fi
+
+cd tmux-1.8
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        CXXFLAGS=$CXXFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
