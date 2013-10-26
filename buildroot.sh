@@ -273,13 +273,13 @@ fi
 cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-4.6.3 gcc-build
-	tar zxvf gcc-4.6.3.tar.gz
+	rm -rf gcc-4.6.4 gcc-build
+	tar zxvf gcc-4.6.4.tar.gz
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-4.6.3
+cd gcc-4.6.4
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
@@ -293,7 +293,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../gcc-4.6.3/$CONFIGURE --target=mipsel-linux \
+	../gcc-4.6.4/$CONFIGURE --target=mipsel-linux \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
