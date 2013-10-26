@@ -24,7 +24,7 @@ cd $BASE/opt/python_modules
 if [ ! -d setuptools ]
 then
 	mkdir setuptools && cd setuptools
-	cp $BASE/src/setuptools/setuptools-1.0.tar.gz .
+	cp $BASE/src/setuptools/setuptools-1.1.6.tar.gz .
 fi
 
 cd $BASE/opt/python_modules
@@ -32,7 +32,7 @@ cd $BASE/opt/python_modules
 if [ ! -d markdown ]
 then
 	mkdir markdown && cd markdown
-	cp $BASE/src/markdown/Markdown-2.2.1.tar.gz .
+	cp $BASE/src/markdown/Markdown-2.3.1.tar.gz .
 fi
 
 cd $BASE/opt/python_modules
@@ -40,16 +40,16 @@ cd $BASE/opt/python_modules
 echo "#!/bin/sh" > install_modules.sh
 
 echo "cd /opt/python_modules/setuptools" >> install_modules.sh
-echo "rm -rf setuptools-1.0" >> install_modules.sh
-echo "tar zxvf setuptools-1.0.tar.gz" >> install_modules.sh
-echo "cd setuptools-1.0/" >> install_modules.sh
+echo "rm -rf setuptools-1.1.6" >> install_modules.sh
+echo "tar zxvf setuptools-1.1.6.tar.gz" >> install_modules.sh
+echo "cd setuptools-1.1.6/" >> install_modules.sh
 echo "python ./setup.py build" >> install_modules.sh
 echo "python ./setup.py install" >> install_modules.sh
 
 echo "cd /opt/python_modules/markdown" >> install_modules.sh
-echo "rm -rf Markdown-2.2.1" >> install_modules.sh
-echo "tar zxvf Markdown-2.2.1.tar.gz" >> install_modules.sh
-echo "cd Markdown-2.2.1/" >> install_modules.sh
+echo "rm -rf Markdown-2.3.1" >> install_modules.sh
+echo "tar zxvf Markdown-2.3.1.tar.gz" >> install_modules.sh
+echo "cd Markdown-2.3.1/" >> install_modules.sh
 echo "python ./setup.py build" >> install_modules.sh
 echo "python ./setup.py install" >> install_modules.sh
 

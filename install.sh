@@ -989,8 +989,8 @@ fi
 cd $SRC/setuptools
 
 if [ ! -f .extracted ]; then
-	rm -rf setuptools-1.0
-	tar zxvf setuptools-1.0.tar.gz
+	rm -rf setuptools-1.1.6
+	tar zxvf setuptools-1.1.6.tar.gz
 	touch .extracted
 fi
 
@@ -1009,7 +1009,7 @@ fi
 cd Cheetah-2.4.4
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.0 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.1.6 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
 	touch .built
 fi
 
@@ -1043,7 +1043,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.0 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.1.6 ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
 	touch .built
 fi
 
@@ -1082,7 +1082,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.0 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools-1.1.6 ../../python/Python-2.7.3/hostpython setup.py bdist_egg
 	touch .built
 fi
 
