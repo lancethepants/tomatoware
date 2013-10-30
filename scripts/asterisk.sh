@@ -84,10 +84,8 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-cd ..
-
 if [ ! -f .installed_binary ]; then
-	cp libgnutls-config $DEST/bin        
+	cp ../libgnutls-config $DEST/bin        
 	touch .installed_binary
 fi
 
@@ -189,11 +187,9 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-cd ..
-
 if [ ! -f .installed_example ]; then
-	tar zxvf asterisk_gv.tgz -C $DEST/etc        
-	tar zxvf config.tgz -C $DEST/etc
-	tar zxvf zoneinfo_etc.tgz -C $DEST/etc	
+	tar zxvf ../asterisk_gv.tgz -C $DEST/etc        
+	tar zxvf ../config.tgz -C $DEST/etc
+	tar zxvf ../zoneinfo_etc.tgz -C $DEST/etc	
 	touch .installed_example
 fi

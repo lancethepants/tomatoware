@@ -685,18 +685,6 @@ fi
 # LIBXSLT # #################################################################
 ########### #################################################################
 
-if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libxml2.la
-	touch .edit_sed
-fi
-
-if [ ! -f .edit_sed2 ]; then
-        sed -i 's,\/opt\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
-        $DEST/lib/libxml2.la
-        touch .edit_sed2
-fi
-
 cd $SRC/libxslt
 
 if [ ! -f .extracted ]; then
@@ -706,6 +694,18 @@ if [ ! -f .extracted ]; then
 fi
 
 cd libxslt-1.1.28
+
+if [ ! -f .edit_sed ]; then
+	sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	$DEST/lib/libxml2.la
+	touch .edit_sed
+fi
+
+if [ ! -f .edit_sed2 ]; then
+	sed -i 's,\/opt\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
+	$DEST/lib/libxml2.la
+	touch .edit_sed2
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -727,18 +727,6 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
-fi
-
-if [ ! -f .restore_sed ]; then
-	sed -i 's,'"$DEST"'\/lib\/libiconv.la,\/opt\/lib\/libiconv.la,g' \
-	$DEST/lib/libxml2.la
-	touch .restore_sed
-fi
-
-if [ ! -f .restore_sed2 ]; then
-        sed -i 's,'"$DEST"'\/lib\/liblzma.la,\/opt\/lib\/liblzma.la,g' \
-        $DEST/lib/libxml2.la
-        touch .restore_sed2
 fi
 
 ############# ###############################################################
@@ -919,13 +907,8 @@ cd $SRC/python
 if [ ! -f .extracted ]; then
 	rm -rf Python-2.7.3 Python-2.7.3-native
 	tar zxvf Python-2.7.3.tgz
-	touch .extracted
-fi
-
-if [ ! -f .copied ]; then
-	rm -rf Python-2.7.3-native
 	cp -r Python-2.7.3 Python-2.7.3-native
-	touch .copied
+	touch .extracted
 fi
 
 cd Python-2.7.3-native
