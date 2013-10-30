@@ -19,10 +19,7 @@ MAKE="make -j`nproc`"
 # GLIB # ####################################################################
 ######## ####################################################################
 
-if [ ! -f .exported ]; then
-	export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
-	touch .exported
-fi
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/glib
 
@@ -65,20 +62,11 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f .de-exported ]; then
-	unset PKG_CONFIG_LIBDIR
-	touch .de-exported
-fi
+unset PKG_CONFIG_LIBDIR
 
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
 ############## ##############################################################
-
-if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
-	$DEST/lib/libglib-2.0.la
-	touch .edit_sed
-fi
 
 cd $SRC/pkg-config
 
@@ -89,6 +77,12 @@ if [ ! -f .extracted ]; then
 fi
 
 cd pkg-config-0.28
+
+if [ ! -f .edit_sed ]; then
+	sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
+	$DEST/lib/libglib-2.0.la
+	touch .edit_sed
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -108,12 +102,6 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
-fi
-
-if [ ! -f .restore_sed ]; then
-	sed -i 's,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,g' \
-	$DEST/lib/libglib-2.0.la
-	touch .restore_sed
 fi
 
 ####### #####################################################################
@@ -187,12 +175,6 @@ fi
 # MPC # #####################################################################
 ####### #####################################################################
 
-if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
-	$DEST/lib/libmpfr.la
-	touch .edit_sed
-fi
-
 cd $SRC/mpc
 
 if [ ! -f .extracted ]; then
@@ -202,6 +184,12 @@ if [ ! -f .extracted ]; then
 fi
 
 cd mpc-1.0.1
+
+if [ ! -f .edit_sed ]; then
+	sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
+	$DEST/lib/libmpfr.la
+	touch .edit_sed
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -222,12 +210,6 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
-fi
-
-if [ ! -f .restore_sed ]; then
-	sed -i 's,'"$DEST"'\/lib\/libgmp.la,\/opt\/lib\/libgmp.la,g' \
-	$DEST/lib/libmpfr.la
-	touch .restore_sed
 fi
 
 ############ ################################################################
