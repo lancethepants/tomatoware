@@ -1473,10 +1473,8 @@ if [ ! -f .installed ]; then
         touch .installed
 fi
 
-cd ..
-
 if [ ! -f .installed_config ]; then
-        cp .vimrc $DEST
+        cp ../.vimrc $DEST
         touch .installed_config
 fi
 
