@@ -190,6 +190,7 @@ fi
 if [ ! -f .installed_example ]; then
 	tar zxvf ../asterisk_gv.tgz -C $DEST/etc        
 	tar zxvf ../config.tgz -C $DEST/etc
-	tar zxvf ../zoneinfo_etc.tgz -C $DEST/etc	
+	tar zxvf ../zoneinfo_etc.tgz -C $DEST/etc
+	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
 fi
