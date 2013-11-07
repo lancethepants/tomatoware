@@ -843,24 +843,35 @@ fi
 
 cd $SRC/perl
 
-if [ ! -f .installed ]; then
-	tar zxvf perl_precompiled.tgz -C $BASE
-	touch .installed
+if [ ! -f .extracted ]; then
+	rm -rf tar zxvf perl-5.18.1
+	tar zxvf perl-5.18.1.tar.gz
+	tar zxvf perl-5.18.1-cross-0.8.3.tar.gz
+        touch .extracted
 fi
 
-#tar zxvf perl-5.16.0.tar.gz
-#cp $PATCHES/perl-5.16.0-cross-0.7.1.tar.gz .
-#tar zxvf perl-5.16.0-cross-0.7.1.tar.gz
-#cd perl-5.16.0
+cd perl-5.18.1/
 
-#LDFLAGS="-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
-#CPPFLAGS=$CPPFLAGS \
-#CFLAGS=$CFLAGS \
-#CXXFLAGS=$CXXFLAGS \
-#./configure --target=mipsel-linux --prefix=/opt -Dusethreads
+if [ ! -f .configured ]; then
+	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure \
+	--prefix=$PREFIX \
+	--target=mipsel-linux
+        touch .configured
+fi
 
-#make
-#make install DESTDIR=$BASE
+if [ ! -f .built ]; then
+	make
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
 
 ######## ####################################################################
 # PCRE # ####################################################################
