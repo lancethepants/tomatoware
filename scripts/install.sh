@@ -847,7 +847,7 @@ if [ ! -f .extracted ]; then
 	rm -rf tar zxvf perl-5.18.1
 	tar zxvf perl-5.18.1.tar.gz
 	tar zxvf perl-5.18.1-cross-0.8.3.tar.gz
-        touch .extracted
+	touch .extracted
 fi
 
 cd perl-5.18.1/
@@ -860,7 +860,7 @@ if [ ! -f .configured ]; then
 	./configure \
 	--prefix=$PREFIX \
 	--target=mipsel-linux
-        touch .configured
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
