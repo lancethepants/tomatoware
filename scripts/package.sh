@@ -18,6 +18,7 @@ cp -rf /opt/entware-toolchain/include $DEST
 cp -rf /opt/entware-toolchain/lib $DEST
 
 cp $SRC/.autorun $DEST
+sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
 
 cd $BASE/$PREFIX/python_modules
 
