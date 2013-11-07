@@ -8,7 +8,7 @@ SRC=$BASE/src
 PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CXXFLAGS=$CFLAGS
