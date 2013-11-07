@@ -6,13 +6,13 @@ set -x
 BASE=`pwd`
 SRC=$BASE/src
 PATCHES=$BASE/patches
-RPATH=/opt/lib
-DEST=$BASE/opt
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+RPATH=$PREFIX/lib
+DEST=$BASE$PREFIX
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
 ########## ##################################################################
@@ -97,13 +97,13 @@ unset PKG_CONFIG_LIBDIR
 
 if [ ! -f .edit_sed ]; then
 	
-	sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 	$DEST/lib/libgnutls.la
 
-	sed -i 's,\/opt\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g' \
 	$DEST/lib/libgnutls.la
 
-	sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
 	$DEST/lib/libgnutls.la
 	
 	touch .edit_sed
@@ -154,7 +154,7 @@ fi
 cd asterisk-11.6.0
 
 if [ ! -f .patched ]; then
-	sed -i 's,\/etc\/localtime,\/opt\/etc\/localtime,g' main/stdtime/localtime.c
+	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
 	touch .patched
 fi
 

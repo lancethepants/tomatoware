@@ -13,7 +13,7 @@
 -STRIP=strip
 +STRIP=mipsel-linux-strip
  DESTDIR=/usr
-+LDFLAGS=-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,/opt/lib
++LDFLAGS=-Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
  
  # Linux using LCC
  #CXX=lcc

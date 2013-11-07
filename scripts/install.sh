@@ -6,13 +6,13 @@ set -x
 BASE=`pwd`
 SRC=$BASE/src
 PATCHES=$BASE/patches
-RPATH=/opt/lib
-DEST=$BASE/opt
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+RPATH=$PREFIX/lib
+DEST=$BASE$PREFIX
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
 ######### ###################################################################
@@ -68,7 +68,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	CROSS_PREFIX=mipsel-linux- \
 	./configure \
-	--prefix=/opt
+	--prefix=$PREFIX
 	touch .configured
 fi
 
@@ -165,9 +165,9 @@ cd openssl-1.0.1e
 
 if [ ! -f .configured ]; then
 	./Configure linux-mipsel \
-	-Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 \
+	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
-	--prefix=/opt shared no-zlib no-zlib-dynamic
+	--prefix=$PREFIX shared no-zlib no-zlib-dynamic
 	touch .configured
 fi
 
@@ -277,7 +277,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-ca-path=/opt/ssl/certs
+	--with-ca-path=$PREFIX/ssl/certs
 	touch .configured
 fi
 
@@ -696,13 +696,13 @@ fi
 cd libxslt-1.1.28
 
 if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 	$DEST/lib/libxml2.la
 	touch .edit_sed
 fi
 
 if [ ! -f .edit_sed2 ]; then
-	sed -i 's,\/opt\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
 	$DEST/lib/libxml2.la
 	touch .edit_sed2
 fi
@@ -1171,7 +1171,7 @@ if [ ! -f .built ]; then
 	$MAKE \
 	CC=mipsel-linux-gcc \
 	AR=mipsel-linux-ar \
-	prefix=/opt \
+	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
@@ -1188,7 +1188,7 @@ if [ ! -f .installed ]; then
 	make \
 	CC=mipsel-linux-gcc \
 	AR=mipsel-linux-ar \
-	prefix=/opt \
+	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
@@ -1247,7 +1247,7 @@ cd Linux-PAM-1.1.8
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
-	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,\/opt\/etc\/pam,g' {} \;
+	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,'"$PREFIX"'\/etc\/pam,g' {} \;
 	touch .patched
 fi
 

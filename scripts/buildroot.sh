@@ -6,13 +6,13 @@ set -x
 BASE=`pwd`
 SRC=$BASE/src
 PATCHES=$BASE/patches
-RPATH=/opt/lib
-DEST=$BASE/opt
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+RPATH=$PREFIX/lib
+DEST=$BASE$PREFIX
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
 CFLAGS="-mtune=mips32 -mips32"
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=/opt --host=mipsel-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
 MAKE="make -j`nproc`"
 
 ######## ####################################################################
@@ -79,7 +79,7 @@ fi
 cd pkg-config-0.28
 
 if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libiconv.la \/opt\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la '"$PREFIX"'\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
 	$DEST/lib/libglib-2.0.la
 	touch .edit_sed
 fi
@@ -186,7 +186,7 @@ fi
 cd mpc-1.0.1
 
 if [ ! -f .edit_sed ]; then
-	sed -i 's,\/opt\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
 	$DEST/lib/libmpfr.la
 	touch .edit_sed
 fi
@@ -264,6 +264,7 @@ fi
 cd gcc-4.6.4
 
 if [ ! -f .patched ]; then
+	sed -i 's,\/opt,'"$PREFIX"',g' $PATCHES/gcc-4.6.3-specs-1.patch
 	patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
 	touch .patched
 fi

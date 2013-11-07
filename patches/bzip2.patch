@@ -22,7 +22,7 @@
 ! CC=mipsel-linux-gcc
 ! AR=mipsel-linux-ar
 ! RANLIB=mipsel-linux-ranlib
-! LDFLAGS=-s  -Wl,--dynamic-linker=/opt/lib/ld-uClibc.so.0 -Wl,--gc-sections
+! LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,--gc-sections
   
   BIGFILES=-D_FILE_OFFSET_BITS=64
 ! CFLAGS=-mtune=mips32 -mips32 -fPIC -Wall -O2 -g $(BIGFILES)
