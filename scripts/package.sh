@@ -20,7 +20,7 @@ cp -rf /opt/entware-toolchain/lib $DEST
 cp $SRC/.autorun $DEST
 sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
 
-cd $BASE/$PREFIX/python_modules
+cd $BASE$PREFIX/python_modules
 
 if [ ! -d setuptools ]
 then
@@ -28,7 +28,7 @@ then
 	cp $BASE/src/setuptools/setuptools-1.1.6.tar.gz .
 fi
 
-cd $BASE/$PREFIX/python_modules
+cd $BASE$PREFIX/python_modules
 
 if [ ! -d markdown ]
 then
@@ -36,7 +36,7 @@ then
 	cp $BASE/src/markdown/Markdown-2.3.1.tar.gz .
 fi
 
-cd $BASE/$PREFIX/python_modules
+cd $BASE$PREFIX/python_modules
 
 echo "#!/bin/sh" > install_modules.sh
 
@@ -86,6 +86,6 @@ echo "alias uptime='/usr/bin/uptime'" >> profile
 
 chmod +x profile
 
-cd $BASE/$PREFIX
+cd $BASE$PREFIX
 
-tar zvcf $BASE/opt.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun .vimrc
+tar zvcf $BASE$PREFIX.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun .vimrc
