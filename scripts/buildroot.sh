@@ -809,12 +809,12 @@ fi
 cd $SRC/grep
 
 if [ ! -f .extracted ]; then
-	rm -rf grep-2.14
-	tar xvJf grep-2.14.tar.xz
+	rm -rf grep-2.15
+	tar xvJf grep-2.15.tar.xz
 	touch .extracted
 fi
  
-cd grep-2.14
+cd grep-2.15
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
