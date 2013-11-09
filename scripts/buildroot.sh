@@ -45,6 +45,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-libiconv=gnu  \
+	--enable-static \
 	glib_cv_stack_grows=no \
 	glib_cv_uscore=no \
 	ac_cv_func_posix_getpwuid_r=yes \
