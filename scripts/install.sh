@@ -456,7 +456,8 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--with-normal \
 	--with-shared \
-	--enable-rpath 
+	--enable-rpath \
+	--with-fallbacks=xterm
 	touch .configured
 fi
 
@@ -748,7 +749,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--enable-static
 	touch .configured
 fi
 
