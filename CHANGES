@@ -1,3 +1,8 @@
+0.6	Tomatoware can now be compiled with any /prefix desired.
+	Revert to cross-compiled perl.
+	Update Asterisk to version 11.6
+	Various other package updates.
+
 0.5	Update most packages to latest versions.
 	Added tmux package.
 	Look at git log for complete list of changes.
