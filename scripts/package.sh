@@ -25,7 +25,7 @@ cd $BASE$PREFIX/python_modules
 if [ ! -d setuptools ]
 then
 	mkdir setuptools && cd setuptools
-	cp $BASE/src/setuptools/setuptools-1.3.1.tar.gz .
+	cp $BASE/src/setuptools/setuptools-1.4.2.tar.gz .
 fi
 
 cd $BASE$PREFIX/python_modules
@@ -41,9 +41,9 @@ cd $BASE$PREFIX/python_modules
 echo "#!/bin/sh" > install_modules.sh
 
 echo "cd $PREFIX/python_modules/setuptools" >> install_modules.sh
-echo "rm -rf setuptools-1.3.1" >> install_modules.sh
-echo "tar zxvf setuptools-1.3.1.tar.gz" >> install_modules.sh
-echo "cd setuptools-1.3.1/" >> install_modules.sh
+echo "rm -rf setuptools-1.4.2" >> install_modules.sh
+echo "tar zxvf setuptools-1.4.2.tar.gz" >> install_modules.sh
+echo "cd setuptools-1.4.2/" >> install_modules.sh
 echo "python ./setup.py build" >> install_modules.sh
 echo "python ./setup.py install" >> install_modules.sh
 
