@@ -220,8 +220,8 @@ fi
 cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-2.23.2 build-binutils
-	tar zxvf binutils-2.23.2.tar.gz
+	rm -rf binutils-2.24 build-binutils
+	tar zxvf binutils-2.24.tar.gz
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -233,7 +233,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.23.2/$CONFIGURE \
+	../binutils-2.24/$CONFIGURE \
 	--disable-werror \
 	--disable-nls
 	touch .configured
