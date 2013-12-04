@@ -8,7 +8,7 @@ export PATCHES = $(BASE)/patches
 export RPATH = $(PREFIX)/lib
 export DEST = $(BASE)$(PREFIX)
 export LDFLAGS = -L$(DEST)/lib -s -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(RPATH) -Wl,-rpath-link,$(DEST)/lib
-export CPPFLAGS = -I$(DEST)/include -I$(DEST)/include/ncursesw
+export CPPFLAGS = -I$(DEST)/include -I$(DEST)/include/ncurses
 export CFLAGS = -mtune=mips32 -mips32
 export CXXFLAGS = $(CFLAGS)
 export CONFIGURE = ./configure --prefix=$(PREFIX) --host=mipsel-linux
