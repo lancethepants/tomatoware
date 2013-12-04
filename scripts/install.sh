@@ -9,7 +9,7 @@ PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
-CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
+CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
 CFLAGS="-mtune=mips32 -mips32"
 CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
@@ -454,6 +454,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--enable-widec \
 	--with-normal \
 	--with-shared \
 	--enable-rpath \
@@ -469,6 +470,18 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
+fi
+
+if [ ! -f .linked ]; then
+	ln -sf libncursesw.a $DEST/lib/libncurses.a
+	ln -sf libncursesw.so $DEST/lib/libncurses.so
+	ln -sf libncursesw_g.a $DEST/lib/libncurses_g.a
+	ln -sf libncurses++w.a $DEST/lib/libncurses++.a
+	ln -sf libncursesw.so.5.9 $DEST/lib/libncurses.so.5.9
+	ln -sf libncursesw.so.5 $DEST/lib/libncurses.so.5
+	ln -sf libncursesw.a $DEST/lib/libcurses.a
+	ln -sf ncursesw $DEST/include/ncurses
+	touch .linked
 fi
 
 ############### #############################################################
@@ -1353,8 +1366,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--disable-unicode
+	$CONFIGURE
 	touch .configured
 fi
 
