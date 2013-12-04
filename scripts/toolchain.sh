@@ -3,8 +3,6 @@
 set -e
 set -x
 
-BASE=`pwd`
-
 if [ ! -d /opt/entware-toolchain ]
 then
 

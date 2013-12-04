@@ -3,18 +3,6 @@
 set -e
 set -x
 
-BASE=`pwd`
-SRC=$BASE/src
-PATCHES=$BASE/patches
-RPATH=$PREFIX/lib
-DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
-CPPFLAGS="-I$DEST/include -I$DEST/include/ncurses"
-CFLAGS="-mtune=mips32 -mips32"
-CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
-MAKE="make -j`nproc`"
-
 ######### ###################################################################
 # BZIP2 # ###################################################################
 ######### ###################################################################
@@ -454,6 +442,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--enable-widec \
 	--with-normal \
 	--with-shared \
 	--enable-rpath \
@@ -1353,8 +1342,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--disable-unicode
+	$CONFIGURE
 	touch .configured
 fi
 
