@@ -3,10 +3,6 @@
 set -e
 set -x
 
-BASE=`pwd`
-DEST=$BASE$PREFIX
-SRC=$BASE/src
-
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
 
 if [ -f $DEST/bin/libgnutls-config ]; then
