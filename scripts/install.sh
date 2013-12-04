@@ -479,7 +479,6 @@ if [ ! -f .linked ]; then
 	ln -sf libncurses++w.a $DEST/lib/libncurses++.a
 	ln -sf libncursesw.so.5.9 $DEST/lib/libncurses.so.5.9
 	ln -sf libncursesw.so.5 $DEST/lib/libncurses.so.5
-	ln -sf libncursesw.a $DEST/lib/libcurses.a
 	ln -sf ncursesw $DEST/include/ncurses
 	touch .linked
 fi
