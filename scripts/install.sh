@@ -634,12 +634,12 @@ fi
 cd $SRC/sqlite
 
 if [ ! -f .extracted ]; then
-	rm -rf sqlite-autoconf-3080100
-	tar zxvf sqlite-autoconf-3080100.tar.gz
+	rm -rf sqlite-autoconf-3080200
+	tar zxvf sqlite-autoconf-3080200.tar.gz
 	touch .extracted
 fi
 
-cd sqlite-autoconf-3080100
+cd sqlite-autoconf-3080200
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -894,12 +894,12 @@ fi
 cd $SRC/pcre
 
 if [ ! -f .extracted ]; then
-	rm -rf pcre-8.33
-	tar zxvf pcre-8.33.tar.gz
+	rm -rf pcre-8.34
+	tar zxvf pcre-8.34.tar.gz
 	touch .extracted
 fi
 
-cd pcre-8.33
+cd pcre-8.34
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
