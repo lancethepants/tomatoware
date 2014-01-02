@@ -449,15 +449,16 @@ fi
 cd $SRC/coreutils
 
 if [ ! -f .extracted ]; then
-	rm -rf coreutils-8.21
-	tar xvJf coreutils-8.21.tar.xz 
+	rm -rf coreutils-8.22
+	tar xvJf coreutils-8.22.tar.xz 
 	touch .extracted
 fi
 
-cd coreutils-8.21
+cd coreutils-8.22
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/002-fix_compile_with_uclibc.patch
+	patch -p1 < $PATCHES/coreutils-8.22-noman-1.patch
 	touch .patched
 fi
 
