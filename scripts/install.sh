@@ -167,7 +167,9 @@ if [ ! -f .configured ]; then
 	./Configure linux-mipsel \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
-	--prefix=$PREFIX shared no-zlib no-zlib-dynamic
+	--prefix=$PREFIX shared zlib-dynamic \
+	--with-zlib-lib=$DEST/lib \
+	--with-zlib-include=$DEST/include
 	touch .configured
 fi
 
