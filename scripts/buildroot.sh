@@ -344,12 +344,12 @@ fi
 cd $SRC/automake
 
 if [ ! -f .extracted ]; then
-	rm -rf automake-1.14
-	tar zxvf automake-1.14.tar.gz
+	rm -rf automake-1.14.1
+	tar zxvf automake-1.14.1.tar.gz
 	touch .extracted
 fi
 
-cd automake-1.14
+cd automake-1.14.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
