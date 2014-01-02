@@ -1,3 +1,6 @@
+0.7	Update Asterisk to version 11.7.0
+        Various other package updates (view git commits).
+
 0.6	Tomatoware can now be compiled with any /prefix desired.
 	Revert to cross-compiled perl.
 	Update Asterisk to version 11.6
