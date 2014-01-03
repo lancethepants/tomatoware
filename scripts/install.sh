@@ -987,8 +987,17 @@ fi
 cd $SRC/python/Python-2.7.3/build/
 
 if [ ! -f .rename_and_move ]; then
-	mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-	cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
+
+	if [ -d lib.linux-x86_64-2.7 ]; then
+		mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
+		cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
+	fi
+
+	if [ -d lib.linux-i686-2.7 ]; then
+		mv lib.linux-i686-2.7 lib.linux-mipsel-2.7/
+		cp -R ../../Python-2.7.3-native/build/lib.linux-i686-2.7/ .
+	fi
+
 	touch .rename_and_move
 fi
 
@@ -1024,7 +1033,15 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .rename ]; then
-	mv dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg dist/Cheetah-2.4.4-py2.7.egg
+
+	if [ -f dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg ]; then
+		mv dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg dist/Cheetah-2.4.4-py2.7.egg
+	fi
+
+	if [ -f dist/Cheetah-2.4.4-py2.7-linux-i686.egg ]; then
+		mv dist/Cheetah-2.4.4-py2.7-linux-i686.egg dist/Cheetah-2.4.4-py2.7.egg
+	fi
+
 	touch .rename
 fi
 
@@ -1058,7 +1075,15 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .renamed ]; then
-	mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
+	
+	if [ -f dist/yenc-0.4.0-py2.7-linux-x86_64.egg ]; then
+		mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
+	fi
+
+	if [ -f dist/yenc-0.4.0-py2.7-linux-i686.egg ]; then
+		mv dist/yenc-0.4.0-py2.7-linux-i686.egg dist/yenc-0.4.0-py2.7.egg
+	fi
+
 	touch .renamed
 fi
 
@@ -1097,7 +1122,15 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .renamed ]; then
-	mv dist/pyOpenSSL-0.13.1-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13.1-py2.7.egg
+
+	if [ -f dist/pyOpenSSL-0.13.1-py2.7-linux-x86_64.egg ]; then
+		mv dist/pyOpenSSL-0.13.1-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13.1-py2.7.egg
+	fi
+
+	if [ -f dist/pyOpenSSL-0.13.1-py2.7-linux-i686.egg ]; then
+		mv dist/pyOpenSSL-0.13.1-py2.7-linux-i686.egg dist/pyOpenSSL-0.13.1-py2.7.egg
+	fi
+
 	touch .renamed
 fi
 
