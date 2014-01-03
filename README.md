@@ -7,17 +7,16 @@ In fact, tomatoware is firmware agnostic, and should work with dd-wrt and other 
 Downloads for the project can be found at http://lancethepants.com/files
 
 This project is called tomatoware because it originally began using the TomatoUSB toolchain, and was designed to use the libraries already found in TomatoUSB firmware.
-I soon found that the TomatoUSB toolchain is somewhat antiquated, and insufficent for the purpose of this project.
-I decided to use a more up-to-date toolchain provided from the entware project. http://code.google.com/p/wl500g-repo/
+It soon became apparent that the TomatoUSB toolchain is somewhat antiquated, and insufficient for the purpose of this project.
+The decision was made to use a more up-to-date toolchain provided from the entware project. http://code.google.com/p/wl500g-repo/
 
 This project allows you to compile applications natively on your mipsel device.
 I wanted this to mimic the 'buildroot' package available from optware.
-I really like the idea of freeing users to compile code on their own, instead of being soley dependant on package managers.
-
-To be safe, I'm going to say that this is NOT compatible with entware. 
-While is uses the same toolchain, many of the libraries are newer.
+I really like the idea of freeing users to compile code on their own, instead of being solely dependent on package managers.
 
 Running 'make' will compile the toolchain if it is not already installed, and then will compile tomatoware.
+
+Tomatoware now has the ability to be compiled for a different root prefix. This allow you to mount it to /mmc, /jffs, or any other desired location. This also allow tomatoware to co-exist and run along side with entware and not conflict.  By default tomatoware will compile with the /opt prefix.  To change it, run 'make PREFIX=/prefix' with the desired prefix.
 
 Currently I'm compiling this on Ubuntu Server 12.04 and 12.10. I've recently moved to a Debian 7 system, and just have compiled my own entware toolchain as noted above
 The following packages should be sufficient to compile this software.  These are probably more than necessary, but libraries I've needed anyway. Some of these are invalid for debian systems, just remove those packages and it should work just fine.
