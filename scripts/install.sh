@@ -959,7 +959,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	CC=mipsel-linux-gcc CXX=mipsel-linux-g++ AR=mipsel-linux-ar RANLIB=mipsel-linux-ranlib \
-	$CONFIGURE --build=x86_64-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
+	$CONFIGURE --build=`uname -m`-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
 	touch .configured
 fi
 
@@ -970,7 +970,7 @@ if [ ! -f .copied ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=x86_64-linux-gnu
+	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=`uname -m`-linux-gnu
 	touch .built
 fi
 
@@ -987,17 +987,8 @@ fi
 cd $SRC/python/Python-2.7.3/build/
 
 if [ ! -f .rename_and_move ]; then
-
-	if [ -d lib.linux-x86_64-2.7 ]; then
-		mv lib.linux-x86_64-2.7/ lib.linux-mipsel-2.7/
-		cp -R ../../Python-2.7.3-native/build/lib.linux-x86_64-2.7/ .
-	fi
-
-	if [ -d lib.linux-i686-2.7 ]; then
-		mv lib.linux-i686-2.7 lib.linux-mipsel-2.7/
-		cp -R ../../Python-2.7.3-native/build/lib.linux-i686-2.7/ .
-	fi
-
+	mv lib.linux-`uname -m`-2.7/ lib.linux-mipsel-2.7/
+	cp -R ../../Python-2.7.3-native/build/lib.linux-`uname -m`-2.7/ .
 	touch .rename_and_move
 fi
 
@@ -1033,15 +1024,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .rename ]; then
-
-	if [ -f dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg ]; then
-		mv dist/Cheetah-2.4.4-py2.7-linux-x86_64.egg dist/Cheetah-2.4.4-py2.7.egg
-	fi
-
-	if [ -f dist/Cheetah-2.4.4-py2.7-linux-i686.egg ]; then
-		mv dist/Cheetah-2.4.4-py2.7-linux-i686.egg dist/Cheetah-2.4.4-py2.7.egg
-	fi
-
+	mv dist/Cheetah-2.4.4-py2.7-linux-`uname -m`.egg dist/Cheetah-2.4.4-py2.7.egg
 	touch .rename
 fi
 
@@ -1075,15 +1058,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .renamed ]; then
-	
-	if [ -f dist/yenc-0.4.0-py2.7-linux-x86_64.egg ]; then
-		mv dist/yenc-0.4.0-py2.7-linux-x86_64.egg dist/yenc-0.4.0-py2.7.egg
-	fi
-
-	if [ -f dist/yenc-0.4.0-py2.7-linux-i686.egg ]; then
-		mv dist/yenc-0.4.0-py2.7-linux-i686.egg dist/yenc-0.4.0-py2.7.egg
-	fi
-
+	mv dist/yenc-0.4.0-py2.7-linux-`uname -m`.egg dist/yenc-0.4.0-py2.7.egg
 	touch .renamed
 fi
 
@@ -1122,15 +1097,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .renamed ]; then
-
-	if [ -f dist/pyOpenSSL-0.13.1-py2.7-linux-x86_64.egg ]; then
-		mv dist/pyOpenSSL-0.13.1-py2.7-linux-x86_64.egg dist/pyOpenSSL-0.13.1-py2.7.egg
-	fi
-
-	if [ -f dist/pyOpenSSL-0.13.1-py2.7-linux-i686.egg ]; then
-		mv dist/pyOpenSSL-0.13.1-py2.7-linux-i686.egg dist/pyOpenSSL-0.13.1-py2.7.egg
-	fi
-
+	mv dist/pyOpenSSL-0.13.1-py2.7-linux-`uname -m`.egg dist/pyOpenSSL-0.13.1-py2.7.egg
 	touch .renamed
 fi
 
