@@ -70,6 +70,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--enable-local-libopts \
 	--without-p11-kit
 	touch .configured
 fi
