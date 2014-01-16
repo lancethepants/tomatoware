@@ -619,6 +619,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	../dist/$CONFIGURE \
+	--enable-cxx \
 	--enable-tcl \
 	--with-tcl=$DEST/lib
 	touch .configured
