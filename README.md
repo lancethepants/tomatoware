@@ -28,6 +28,9 @@ Donation
 For those of you who have found my project, and are willing to appreciate my many hours of work (and also fulfilled requests), feel free to donate with some coins.
 
 Bitcoin: `14GENUi5JSGaKzfU9VdfYjaFKWbomTBatW`
+
 Litecoin: `LKgcmvnLQX7sCc3CUVxBwnf3d1hdfVVu8o`
+
 Feathercoin: `6pzJ1SfRijHqNs947q6aj7BNHAqQXaSA7V`
+
 Dogecoin: `DHdXAeg8Lrw4abL5GRquDgoiKp37xWmeRB`
