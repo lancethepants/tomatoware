@@ -14,7 +14,7 @@ This project allows you to compile applications natively on your mipsel device.
 I wanted this to mimic the 'buildroot' package available from optware.
 I really like the idea of freeing users to compile code on their own, instead of being solely dependent on package managers.
 
-COMPILING
+Compiling
 ==========
 
 Running 'make' will compile the toolchain if it is not already installed, and then will compile tomatoware.
