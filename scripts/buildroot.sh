@@ -267,6 +267,7 @@ cd gcc-4.6.4
 if [ ! -f .patched ]; then
 	sed -i 's,\/opt,'"$PREFIX"',g' $PATCHES/gcc-4.6.3-specs-1.patch
 	patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
+	patch -p1 < $PATCHES/040-gcc_bug_49696.patch
 	touch .patched
 fi
 
