@@ -195,3 +195,45 @@ if [ ! -f .installed_example ]; then
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
 fi
+
+######################## ####################################################
+# ASTERISK CHAN_DONGLE # ####################################################
+######################## ####################################################
+
+cd $SRC/asterisk
+
+if [ ! -f .extracted_chan_dongle ]; then
+	rm -rf asterisk-chan-dongle
+	tar zxvf asterisk-chan-dongle.tgz
+	touch .extracted_chan_dongle
+fi
+
+cd asterisk-chan-dongle
+
+if [ ! -f .pre-configured ]; then
+	git checkout asterisk11
+	aclocal
+	autoconf
+	automake -a || true
+	sed -i 's,\/opt\/local,'"$DEST"',g' ./configure
+	touch .pre-configured
+fi
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install
+	touch .installed
+fi
