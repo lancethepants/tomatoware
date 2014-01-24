@@ -212,14 +212,15 @@ cd asterisk-chan-dongle
 
 if [ ! -f .pre-configured ]; then
 	git checkout asterisk11
+	patch < $PATCHES/asterisk-chan-dongle.patch
 	aclocal
 	autoconf
 	automake -a || true
-	sed -i 's,\/opt\/local,'"$DEST"',g' ./configure
 	touch .pre-configured
 fi
 
 if [ ! -f .configured ]; then
+	DEST=$DEST \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
