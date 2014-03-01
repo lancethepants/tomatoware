@@ -1,19 +1,19 @@
---- Makefile.orig	2013-09-26 10:14:15.203435855 -0600
-+++ Makefile	2013-09-26 10:15:40.099856910 -0600
-@@ -2,12 +2,13 @@
+--- makefile.orig	2014-03-01 02:42:42.525022145 -0700
++++ makefile	2014-03-01 02:44:22.224241380 -0700
+@@ -2,12 +2,12 @@
  # Makefile for UNIX - unrar
  
  # Linux using GCC
 -CXX=g++
 -CXXFLAGS=-O2
 +CXX=mipsel-linux-g++
-+CXXFLAGS=-mtune=mips32 -mips32
++CXXFLAGS=-O2 -mtune=mips32 -mips32
  LIBFLAGS=-fPIC
- DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+ DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
 -STRIP=strip
+-LDFLAGS=-pthread
 +STRIP=mipsel-linux-strip
++LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
  DESTDIR=/usr
-+LDFLAGS=-Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
  
  # Linux using LCC
- #CXX=lcc
