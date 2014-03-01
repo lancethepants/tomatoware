@@ -536,12 +536,12 @@ fi
 cd $SRC/libgdbm
 
 if [ ! -f .extracted ]; then
-	rm -rf gdbm-1.10
-	tar zxvf gdbm-1.10.tar.gz
+	rm -rf gdbm-1.11
+	tar zxvf gdbm-1.11.tar.gz
 	touch .extracted
 fi
 
-cd gdbm-1.10
+cd gdbm-1.11
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
