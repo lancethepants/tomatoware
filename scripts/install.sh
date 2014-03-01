@@ -346,12 +346,12 @@ fi
 cd $SRC/libpcap
 
 if [ ! -f .extracted ]; then
-	rm -rf libpcap-1.5.2
-	tar zxvf libpcap-1.5.2.tar.gz
+	rm -rf libpcap-1.5.3
+	tar zxvf libpcap-1.5.3.tar.gz
 	touch .extracted
 fi
 
-cd libpcap-1.5.2
+cd libpcap-1.5.3
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
