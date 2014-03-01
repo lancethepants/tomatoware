@@ -1159,14 +1159,13 @@ cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-4.2.4.tar.gz
+	tar zxvf unrarsrc-5.0.14.tar.gz
 	touch .extracted
 fi
 
 cd unrar
 
 if [ ! -f .patched ]; then
-	mv makefile.unix Makefile
 	patch < $PATCHES/unrar.patch
 	touch .patched
 fi
