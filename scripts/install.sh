@@ -1520,12 +1520,12 @@ fi
 cd $SRC/tmux
 
 if [ ! -f .extracted ]; then
-        rm -rf tmux-1.8
-        tar zxvf tmux-1.8.tar.gz
+        rm -rf tmux-1.9a
+        tar zxvf tmux-1.9a.tar.gz
         touch .extracted
 fi
 
-cd tmux-1.8
+cd tmux-1.9a
 
 if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
@@ -1543,5 +1543,36 @@ fi
 
 if [ ! -f .installed ]; then
         make install DESTDIR=$BASE
+        touch .installed
+fi
+
+######### ###################################################################
+# UNZIP # ###################################################################
+######### ###################################################################
+
+cd $SRC/unzip
+
+if [ ! -f .extracted ]; then
+        rm -rf unzip60
+        tar zxvf unzip60.tar.gz
+        touch .extracted
+fi
+
+cd unzip60
+
+if [ ! -f .patched ]; then
+	patch unix/Makefile < $PATCHES/unzip.patch
+	touch .patched
+fi
+
+if [ ! -f .built ]; then
+	PREFIX=$PREFIX \
+	RPATH=$RPATH \
+	make -f unix/Makefile  linux_noasm
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make prefix=$DEST install
         touch .installed
 fi
