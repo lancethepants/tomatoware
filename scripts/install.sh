@@ -1431,12 +1431,12 @@ fi
 cd $SRC/bash
 
 if [ ! -f .extracted ]; then
-	rm -rf bash-4.2
-	tar zxvf bash-4.2.tar.gz
+	rm -rf bash-4.3
+	tar zxvf bash-4.3.tar.gz
 	touch .extracted
 fi
 
-cd bash-4.2
+cd bash-4.3
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
