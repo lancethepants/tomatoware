@@ -97,7 +97,6 @@ echo "alias uptime='/usr/bin/uptime'" >> profile
 chmod +x profile
 
 
-#Create tarball of the compile project.
+#Create tarball of the compiled project.
 cd $BASE$PREFIX
-
 tar zvcf $BASE$PREFIX.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun .vimrc
