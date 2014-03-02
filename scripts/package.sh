@@ -71,6 +71,7 @@ chmod +x install_modules.sh
 
 
 #Create $PREFIX/etc/profile
+mkdir -p $DEST/tmp
 cd $DEST/etc
 
 echo "#!/bin/sh" > profile
@@ -82,7 +83,7 @@ echo "" >> profile
 echo "export PATH='$PREFIX/usr/sbin:$PREFIX/sbin:$PREFIX/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
 echo "export TERM=xterm" >> profile
 echo "export TMP=$PREFIX/tmp" >> profile
-echo "export TEMP=$PREIFX/tmp" >> profile
+echo "export TEMP=$PREFIX/tmp" >> profile
 echo "export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig" >> profile
 echo "export M4=$PREFIX/bin/m4" >> profile
 echo "" >> profile
@@ -99,4 +100,4 @@ chmod +x profile
 
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
-tar zvcf $BASE$PREFIX.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ var/ .autorun .vimrc
+tar zvcf $BASE$PREFIX.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ var/ .autorun .vimrc
