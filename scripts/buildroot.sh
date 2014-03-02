@@ -179,12 +179,12 @@ fi
 cd $SRC/mpc
 
 if [ ! -f .extracted ]; then
-	rm -rf mpc-1.0.1
-	tar zxvf mpc-1.0.1.tar.gz
+	rm -rf mpc-1.0.2
+	tar zxvf mpc-1.0.2.tar.gz
 	touch .extracted
 fi
 
-cd mpc-1.0.1
+cd mpc-1.0.2
 
 if [ ! -f .edit_sed ]; then
 	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
