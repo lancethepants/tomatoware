@@ -1,87 +1,59 @@
-*** /home/lance/Makefile	2012-10-25 12:38:47.533922001 -0600
---- ./Makefile	2012-10-25 12:39:15.053922001 -0600
-***************
-*** 15,27 ****
-  SHELL=/bin/sh
-  
-  # To assist in cross-compiling
-! CC=gcc
-! AR=ar
-! RANLIB=ranlib
-! LDFLAGS=
-  
-  BIGFILES=-D_FILE_OFFSET_BITS=64
-! CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
-  
-  # Where you want it installed when you do 'make install'
-  PREFIX=/usr/local
---- 15,27 ----
-  SHELL=/bin/sh
-  
-  # To assist in cross-compiling
-! CC=mipsel-linux-gcc
-! AR=mipsel-linux-ar
-! RANLIB=mipsel-linux-ranlib
-! LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,--gc-sections
-  
-  BIGFILES=-D_FILE_OFFSET_BITS=64
-! CFLAGS=-mtune=mips32 -mips32 -fPIC -Wall -O2 -g $(BIGFILES)
-  
-  # Where you want it installed when you do 'make install'
-  PREFIX=/usr/local
-***************
-*** 35,42 ****
-        decompress.o \
-        bzlib.o
-  
-! all: libbz2.a bzip2 bzip2recover test
-! 
-  bzip2: libbz2.a bzip2.o
-  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
-  
---- 35,41 ----
-        decompress.o \
-        bzlib.o
-  
-! all: libbz2.a bzip2 bzip2recover 
-  bzip2: libbz2.a bzip2.o
-  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
-  
-***************
-*** 89,103 ****
-  	chmod a+r $(PREFIX)/include/bzlib.h
-  	cp -f libbz2.a $(PREFIX)/lib
-  	chmod a+r $(PREFIX)/lib/libbz2.a
-  	cp -f bzgrep $(PREFIX)/bin/bzgrep
-! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
-! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
-  	chmod a+x $(PREFIX)/bin/bzgrep
-  	cp -f bzmore $(PREFIX)/bin/bzmore
-! 	ln -s -f $(PREFIX)/bin/bzmore $(PREFIX)/bin/bzless
-  	chmod a+x $(PREFIX)/bin/bzmore
-  	cp -f bzdiff $(PREFIX)/bin/bzdiff
-! 	ln -s -f $(PREFIX)/bin/bzdiff $(PREFIX)/bin/bzcmp
-  	chmod a+x $(PREFIX)/bin/bzdiff
-  	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
-  	chmod a+r $(PREFIX)/man/man1/bzgrep.1
---- 88,107 ----
-  	chmod a+r $(PREFIX)/include/bzlib.h
-  	cp -f libbz2.a $(PREFIX)/lib
-  	chmod a+r $(PREFIX)/lib/libbz2.a
-+ 	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
-+ 	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
-+ 	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
-  	cp -f bzgrep $(PREFIX)/bin/bzgrep
-! 	ln -s -f bzgrep $(PREFIX)/bin/bzegrep
-! 	ln -s -f bzgrep $(PREFIX)/bin/bzfgrep
-  	chmod a+x $(PREFIX)/bin/bzgrep
-  	cp -f bzmore $(PREFIX)/bin/bzmore
-! 	ln -s -f bzmore $(PREFIX)/bin/bzless
-  	chmod a+x $(PREFIX)/bin/bzmore
-  	cp -f bzdiff $(PREFIX)/bin/bzdiff
-! 	ln -s -f bzdiff $(PREFIX)/bin/bzcmp
-  	chmod a+x $(PREFIX)/bin/bzdiff
-  	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
-  	chmod a+r $(PREFIX)/man/man1/bzgrep.1
+--- Makefile.orig	2014-03-02 17:54:05.883131863 -0700
++++ Makefile	2014-03-02 17:54:53.580780745 -0700
+@@ -15,16 +15,15 @@
+ SHELL=/bin/sh
+ 
+ # To assist in cross-compiling
+-CC=gcc
+-AR=ar
+-RANLIB=ranlib
+-LDFLAGS=
++CC=mipsel-linux-gcc
++AR=mipsel-linux-ar
++RANLIB=mipsel-linux-ranlib
++LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,--gc-sections
+ 
+ BIGFILES=-D_FILE_OFFSET_BITS=64
+-CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
++CFLAGS=-mtune=mips32 -mips32 -fPIC -Wall -O2 -g $(BIGFILES)
+ 
+ # Where you want it installed when you do 'make install'
+-PREFIX=/usr/local
+ 
+ 
+ OBJS= blocksort.o  \
+@@ -35,8 +34,7 @@
+       decompress.o \
+       bzlib.o
+ 
+-all: libbz2.a bzip2 bzip2recover test
+-
++all: libbz2.a bzip2 bzip2recover 
+ bzip2: libbz2.a bzip2.o
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+ 
+@@ -89,15 +87,20 @@
+ 	chmod a+r $(PREFIX)/include/bzlib.h
+ 	cp -f libbz2.a $(PREFIX)/lib
+ 	chmod a+r $(PREFIX)/lib/libbz2.a
++	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
++	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
++	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
++	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
++	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
+ 	cp -f bzgrep $(PREFIX)/bin/bzgrep
+-	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
+-	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
++	ln -s -f bzgrep $(PREFIX)/bin/bzegrep
++	ln -s -f bzgrep $(PREFIX)/bin/bzfgrep
+ 	chmod a+x $(PREFIX)/bin/bzgrep
+ 	cp -f bzmore $(PREFIX)/bin/bzmore
+-	ln -s -f $(PREFIX)/bin/bzmore $(PREFIX)/bin/bzless
++	ln -s -f bzmore $(PREFIX)/bin/bzless
+ 	chmod a+x $(PREFIX)/bin/bzmore
+ 	cp -f bzdiff $(PREFIX)/bin/bzdiff
+-	ln -s -f $(PREFIX)/bin/bzdiff $(PREFIX)/bin/bzcmp
++	ln -s -f bzdiff $(PREFIX)/bin/bzcmp
+ 	chmod a+x $(PREFIX)/bin/bzdiff
+ 	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
+ 	chmod a+r $(PREFIX)/man/man1/bzgrep.1
