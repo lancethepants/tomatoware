@@ -13,6 +13,7 @@ find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
 
 #Make sure all perl scripts have the correct interpreter path.
 grep -Irl "\#\!\/usr\/bin\/perl" $DEST | xargs sed -i -e '1,1s,\#\!\/usr\/bin\/perl,\#\!'"$PREFIX"'\/bin\/perl,g'
+grep -Irl "\#\! \/usr\/bin\/perl" $DEST | xargs sed -i -e '1,1s,\#\! \/usr\/bin\/perl,\#\! '"$PREFIX"'\/bin\/perl,g'
 
 #Set correct path in gnutls script.
 if [ -f $DEST/bin/libgnutls-config ]; then
