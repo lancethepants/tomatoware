@@ -1,3 +1,37 @@
+0.8	
+	Update asterisk to 11.8.0
+	Update OpenSSL to 1.0.1f
+	Update gnutls to 3.2.12.1
+	Update git to 1.9.0
+	Update OpenSSH to 6.5p1
+	Update bash to 4.3
+	Update Perl to 5.18.2
+	Update tmux to 1.9a
+	Update unrar to 5.0.14
+	Update wget to 1.15
+	Update curl to 7.35.0
+	Update grep to 2.18
+	Update libpcap to 1.5.3
+	Update sqlite to 3.8.3.1
+	Update setuptools to 2.2
+	Update Check to 0.9.12
+	Update MPC to 1.0.2
+	Update gdbm to 1.11
+
+	Add asterisk chan_dongle module (USB modem capability)
+	Add package unzip 6.0
+
+	gcc bugfix for a MIPS specific internal compiler error
+
+	Enable Berkeley DB c++ api
+	Enable gnutls local libopts
+
+	Fix broken bzip2 for /opt prefix Tomatoware
+	Fix code that would break in 32bit build environments (untested)
+
+	Correct all perl scripts to use corrected interpreter path.
+	Updates to README file
+
 0.7	Update Asterisk to version 11.7.0
         Various other package updates (view git commits).
 
