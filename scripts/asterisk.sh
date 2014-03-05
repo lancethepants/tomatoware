@@ -58,7 +58,7 @@ cd $SRC/gnutls
 
 if [ ! -f .extracted ]; then
 	rm -rf gnutls-3.2.12
-	tar xvJf gnutls-3.2.12.tar.xz
+	tar xvJf gnutls-3.2.12.1.tar.xz
 	touch .extracted
 fi
 
