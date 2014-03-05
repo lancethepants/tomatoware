@@ -1,0 +1,15 @@
+--- common.mk.orig	2014-03-04 21:33:56.135973476 -0700
++++ common.mk	2014-03-04 21:39:37.659367170 -0700
+@@ -40,9 +40,9 @@
+ endif
+ 
+ PATCH_DIR=../patches/$(PKG_VERSION)
+-PKG_SOURCE_URL:=ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$(PKG_VERSION) \
+-	http://mirrors.rcn.net/pub/sourceware/gcc/releases/gcc-$(PKG_VERSION) \
+-	ftp://ftp.gnu.org/gnu/gcc/releases/gcc-$(PKG_VERSION)
++PKG_SOURCE_URL:=ftp://ftp.gnu.org/gnu/gcc/gcc-$(PKG_VERSION) \
++	ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$(PKG_VERSION) \
++	http://mirrors.rcn.net/pub/sourceware/gcc/releases/gcc-$(PKG_VERSION)
+ PKG_SOURCE:=gcc-$(PKG_VERSION).tar.bz2
+ STAGING_DIR_HOST:=$(TOOLCHAIN_DIR)
+ BUILD_DIR_HOST:=$(BUILD_DIR_TOOLCHAIN)

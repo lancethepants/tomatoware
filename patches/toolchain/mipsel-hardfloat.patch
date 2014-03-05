@@ -1,0 +1,10 @@
+--- Makefile.orig	2014-03-04 21:46:49.161769945 -0700
++++ Makefile	2014-03-04 21:55:14.706713329 -0700
+@@ -69,6 +69,7 @@
+ 
+ $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION): $(TOP)/downloads/$(TARGET)
+ 	svn checkout --revision $(TOOLCHAIN_REVISION) http://wl500g.googlecode.com/svn/toolchain $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)
++	patch -p1 $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)/toolchain/gcc/common.mk < $(PATCHES)/toolchain/toolchain_gcc_common.mk.patch
+ 
+ /opt/entware-toolchain:
+ 	@echo Making /opt/entware-toolchain directory, root password needed...
