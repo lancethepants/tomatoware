@@ -81,7 +81,14 @@ echo "# Please note it's not a system-wide settings, it's only for a current" >>
 echo "# terminal session. Point your f\w (if necessery) to execute $PREFIX/etc/profile" >> profile
 echo "# at console logon." >> profile
 echo "" >> profile
-echo "export PATH='$PREFIX/usr/sbin:$PREFIX/sbin:$PREFIX/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
+
+if [ $PREFIX = "/opt" ];
+then
+	echo "export PATH='opt/usr/sbin:opt/sbin:opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
+else
+	echo "export PATH='$PREFIX/sbin:$PREFIX/bin:opt/usr/sbin:opt/sbin:opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
+fi
+
 echo "export TERM=xterm" >> profile
 echo "export TMP=$PREFIX/tmp" >> profile
 echo "export TEMP=$PREFIX/tmp" >> profile
@@ -93,7 +100,6 @@ echo "#export LANG='ru_RU.UTF-8'" >> profile
 echo "#export LC_ALL='ru_RU.UTF-8'" >> profile
 echo "" >> profile
 echo "alias ls='ls --color'" >> profile
-echo "alias o='cd $PREFIX'" >> profile
 echo "alias uptime='/usr/bin/uptime'" >> profile
 
 chmod +x profile
