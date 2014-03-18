@@ -147,12 +147,12 @@ fi
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-11.8.0
-	tar zxvf asterisk-11.8.0.tar.gz
+	rm -rf asterisk-11.8.1
+	tar zxvf asterisk-11.8.1.tar.gz
 	touch .extracted
 fi
 
-cd asterisk-11.8.0
+cd asterisk-11.8.1
 
 if [ ! -f .patched ]; then
 	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
