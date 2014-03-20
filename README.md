@@ -5,9 +5,11 @@ Tomatoware is a project that creates a native development environment for Tomato
 In fact, tomatoware is firmware agnostic, and should work with dd-wrt and other mipsel based firmwares.
 
 Downloads for the project can be found on the github project releases page. https://github.com/lancethepants/tomatoware/releases
+
 Downloads for the project can also be found at http://lancethepants.com/files
 
 This project is called tomatoware because it originally began using the TomatoUSB toolchain, and was designed to use the libraries already found in TomatoUSB firmware.
+
 It soon became apparent that the TomatoUSB toolchain is somewhat antiquated, and insufficient for the purpose of this project.
 The decision was made to use a more up-to-date toolchain provided from the entware project. http://code.google.com/p/wl500g-repo/
 
