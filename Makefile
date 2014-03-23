@@ -1,4 +1,5 @@
 export PREFIX=/opt
+export PATH := $(PATH):/opt/entware-toolchain-$(subst /,,$(PREFIX))/bin/:/opt/entware-toolchain-$(subst /,,$(PREFIX))/mipsel-linux/bin
 
 tomatoware:
 	./scripts/toolchain.sh
