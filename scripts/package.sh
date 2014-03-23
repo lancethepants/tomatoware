@@ -21,8 +21,8 @@ if [ -f $DEST/bin/libgnutls-config ]; then
 fi
 
 #Copy lib and include files from toolchain for use in the deployment system.
-cp -rf /opt/entware-toolchain/include $DEST
-cp -rf /opt/entware-toolchain/lib $DEST
+cp -rf /opt/entware-toolchain-${PREFIX#?}/include $DEST
+cp -rf /opt/entware-toolchain-${PREFIX#?}/lib $DEST
 
 #Copy and set correct interpreter path for the .autorun file
 cp $SRC/.autorun $DEST
