@@ -287,7 +287,16 @@ if [ ! -f .configured ]; then
 	--with-gmp-lib=$DEST/lib \
 	--enable-version-specific-runtime-libs \
 	--enable-languages=c,c++ \
-	--with-gnu-as --with-gnu-ld --disable-nls -enable-werror=no --disable-libstdcxx-pch
+	--enable-threads=posix \
+	--with-mips-plt \
+	--enable-libssp \
+	--enable-shared \
+	--enable-tls \
+	--with-gnu-as \
+	--with-gnu-ld \
+	--disable-nls \
+	--disable-werror \
+	--disable-libstdcxx-pch
 	touch .configured
 fi
 
