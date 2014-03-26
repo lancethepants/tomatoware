@@ -10,9 +10,9 @@ RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
-CFLAGS="-mtune=mips32 -mips32"
+CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=$ARCH-linux"
 MAKE="make -j`nproc`"
 
 ######## ####################################################################
@@ -273,12 +273,22 @@ fi
 
 cd ../gcc-build
 
+if [ "$ARCH" == "mipsel" ];then
+	os=mipsel-linux
+	gccextraconfig=--with-mips-plt
+fi
+
+if [ "$ARCH" == "arm" ];then
+	os=arm-linux-uclibcgnueabi
+	gccextraconfig=--with-abi=aapcs-linux
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../gcc-4.6.4/$CONFIGURE --target=mipsel-linux \
+	../gcc-4.6.4/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -288,7 +298,6 @@ if [ ! -f .configured ]; then
 	--enable-version-specific-runtime-libs \
 	--enable-languages=c,c++ \
 	--enable-threads=posix \
-	--with-mips-plt \
 	--enable-libssp \
 	--enable-shared \
 	--enable-tls \
@@ -296,7 +305,8 @@ if [ ! -f .configured ]; then
 	--with-gnu-ld \
 	--disable-nls \
 	--disable-werror \
-	--disable-libstdcxx-pch
+	--disable-libstdcxx-pch \
+	$gccextraconfig
 	touch .configured
 fi
 
