@@ -10,9 +10,9 @@ RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
-CFLAGS="-mtune=mips32 -mips32"
+CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=mipsel-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=$ARCH-linux"
 MAKE="make -j`nproc`"
 
 ######### ###################################################################
@@ -66,7 +66,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CROSS_PREFIX=mipsel-linux- \
+	CROSS_PREFIX=$ARCH-linux- \
 	./configure \
 	--prefix=$PREFIX
 	touch .configured
@@ -168,8 +168,16 @@ if [ ! -f .patched ]; then
 	touch .patched
 fi
 
+if [ "$ARCH" == "mipsel" ];then
+	os=linux-mipsel
+fi
+
+if [ "$ARCH" == "arm" ];then
+	os=linux-armv4
+fi
+
 if [ ! -f .configured ]; then
-	./Configure linux-mipsel \
+	./Configure $os \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=$PREFIX shared zlib zlib-dynamic \
@@ -179,12 +187,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib
+	make CC=$ARCH-linux-gcc
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install CC=mipsel-linux-gcc AR="mipsel-linux-ar r" RANLIB=mipsel-linux-ranlib INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+	make install CC=$ARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 	touch .installed
 fi
 
@@ -881,7 +889,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
 	--prefix=$PREFIX \
-	--target=mipsel-linux
+	--target=$ARCH-linux
 	touch .configured
 fi
 
@@ -964,7 +972,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CC=mipsel-linux-gcc CXX=mipsel-linux-g++ AR=mipsel-linux-ar RANLIB=mipsel-linux-ranlib \
+	CC=$ARCH-linux-gcc CXX=$ARCH-linux-g++ AR=$ARCH-linux-ar RANLIB=$ARCH-linux-ranlib \
 	$CONFIGURE --build=`uname -m`-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
 	touch .configured
 fi
@@ -976,12 +984,12 @@ if [ ! -f .copied ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=mipsel-linux BUILDARCH=`uname -m`-linux-gnu
+	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=$ARCH-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=$ARCH-linux BUILDARCH=`uname -m`-linux-gnu
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=mipsel-linux- CROSS_COMPILE_TARGET=yes
+	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=$ARCH-linux- CROSS_COMPILE_TARGET=yes
 	touch .installed
 fi
 
@@ -993,7 +1001,7 @@ fi
 cd $SRC/python/Python-2.7.3/build/
 
 if [ ! -f .rename_and_move ]; then
-	mv lib.linux-`uname -m`-2.7/ lib.linux-mipsel-2.7/
+	mv lib.linux-`uname -m`-2.7/ lib.linux-$ARCH-2.7/
 	cp -R ../../Python-2.7.3-native/build/lib.linux-`uname -m`-2.7/ .
 	touch .rename_and_move
 fi
@@ -1201,8 +1209,8 @@ if [ ! -f .built ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
-	CC=mipsel-linux-gcc \
-	AR=mipsel-linux-ar \
+	CC=$ARCH-linux-gcc \
+	AR=$ARCH-linux-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -1218,8 +1226,8 @@ if [ ! -f .installed ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	make \
-	CC=mipsel-linux-gcc \
-	AR=mipsel-linux-ar \
+	CC=$ARCH-linux-gcc \
+	AR=$ARCH-linux-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -1349,7 +1357,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=mipsel-linux-strip"
+	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$ARCH-linux-strip"
 	touch .installed
 fi
 
@@ -1500,7 +1508,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE STRIP=mipsel-linux-strip
+        make install DESTDIR=$BASE STRIP=$ARCH-linux-strip
         touch .installed
 fi
 
