@@ -234,6 +234,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	../binutils-2.24/$CONFIGURE \
+	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
 	touch .configured
