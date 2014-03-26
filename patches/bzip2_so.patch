@@ -13,7 +13,7 @@
   
   
   SHELL=/bin/sh
-! CC=mipsel-linux-gcc
+! CC=$(ARCH)-linux-gcc
   BIGFILES=-D_FILE_OFFSET_BITS=64
-! CFLAGS=-mtune=mips32 -mips32 -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
+! CFLAGS=$(EXTRACFLAGS) -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
   
