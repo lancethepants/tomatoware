@@ -1,4 +1,8 @@
 export PREFIX=/opt
+export ARCH=mipsel
+
+export EXTRACFLAGS=-mtune=mips32 -mips32
+
 export PATH := $(PATH):/opt/entware-toolchain-$(subst /,,$(PREFIX))/bin/:/opt/entware-toolchain-$(subst /,,$(PREFIX))/mipsel-linux/bin
 
 tomatoware:
