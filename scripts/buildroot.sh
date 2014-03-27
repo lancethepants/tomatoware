@@ -12,7 +12,7 @@ LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpa
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=$ARCH-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
 MAKE="make -j`nproc`"
 
 ######## ####################################################################
@@ -274,12 +274,12 @@ fi
 
 cd ../gcc-build
 
-if [ "$ARCH" == "mipsel" ];then
+if [ "$DESTARCH" == "mipsel" ];then
 	os=mipsel-linux
 	gccextraconfig=--with-mips-plt
 fi
 
-if [ "$ARCH" == "arm" ];then
+if [ "$DESTARCH" == "arm" ];then
 	os=arm-linux-uclibcgnueabi
 	gccextraconfig=--with-abi=aapcs-linux
 fi
