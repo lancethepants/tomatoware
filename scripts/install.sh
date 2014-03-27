@@ -12,7 +12,7 @@ LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpa
 CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=$ARCH-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
 MAKE="make -j`nproc`"
 
 ######### ###################################################################
@@ -66,7 +66,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CROSS_PREFIX=$ARCH-linux- \
+	CROSS_PREFIX=$DESTARCH-linux- \
 	./configure \
 	--prefix=$PREFIX
 	touch .configured
@@ -168,11 +168,11 @@ if [ ! -f .patched ]; then
 	touch .patched
 fi
 
-if [ "$ARCH" == "mipsel" ];then
+if [ "$DESTARCH" == "mipsel" ];then
 	os=linux-mipsel
 fi
 
-if [ "$ARCH" == "arm" ];then
+if [ "$DESTARCH" == "arm" ];then
 	os=linux-armv4
 fi
 
@@ -187,12 +187,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make CC=$ARCH-linux-gcc
+	make CC=$DESTARCH-linux-gcc
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install CC=$ARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+	make install CC=$DESTARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 	touch .installed
 fi
 
@@ -889,7 +889,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
 	--prefix=$PREFIX \
-	--target=$ARCH-linux
+	--target=$DESTARCH-linux
 	touch .configured
 fi
 
@@ -972,7 +972,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CC=$ARCH-linux-gcc CXX=$ARCH-linux-g++ AR=$ARCH-linux-ar RANLIB=$ARCH-linux-ranlib \
+	CC=$DESTARCH-linux-gcc CXX=$DESTARCH-linux-g++ AR=$DESTARCH-linux-ar RANLIB=$DESTARCH-linux-ranlib \
 	$CONFIGURE --build=`uname -m`-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
 	touch .configured
 fi
@@ -984,12 +984,12 @@ if [ ! -f .copied ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=$ARCH-linux- CROSS_COMPILE_TARGET=yes HOSTARCH=$ARCH-linux BUILDARCH=`uname -m`-linux-gnu
+	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=$DESTARCH-linux- CROSS_COMPILE_TARGET=yes HOSTDESTARCH=$DESTARCH-linux BUILDDESTARCH=`uname -m`-linux-gnu
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=$ARCH-linux- CROSS_COMPILE_TARGET=yes
+	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=$DESTARCH-linux- CROSS_COMPILE_TARGET=yes
 	touch .installed
 fi
 
@@ -1001,7 +1001,7 @@ fi
 cd $SRC/python/Python-2.7.3/build/
 
 if [ ! -f .rename_and_move ]; then
-	mv lib.linux-`uname -m`-2.7/ lib.linux-$ARCH-2.7/
+	mv lib.linux-`uname -m`-2.7/ lib.linux-$DESTARCH-2.7/
 	cp -R ../../Python-2.7.3-native/build/lib.linux-`uname -m`-2.7/ .
 	touch .rename_and_move
 fi
@@ -1209,8 +1209,8 @@ if [ ! -f .built ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
-	CC=$ARCH-linux-gcc \
-	AR=$ARCH-linux-ar \
+	CC=$DESTARCH-linux-gcc \
+	AR=$DESTARCH-linux-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -1226,8 +1226,8 @@ if [ ! -f .installed ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	make \
-	CC=$ARCH-linux-gcc \
-	AR=$ARCH-linux-ar \
+	CC=$DESTARCH-linux-gcc \
+	AR=$DESTARCH-linux-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -1357,7 +1357,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$ARCH-linux-strip"
+	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$DESTARCH-linux-strip"
 	touch .installed
 fi
 
@@ -1508,7 +1508,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE STRIP=$ARCH-linux-strip
+        make install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
         touch .installed
 fi
 
