@@ -6,13 +6,13 @@
  # Linux using GCC
 -CXX=g++
 -CXXFLAGS=-O2
-+CXX=$(ARCH)-linux-g++
++CXX=$(DESTARCH)-linux-g++
 +CXXFLAGS=-O2 $(EXTRACFLAGS)
  LIBFLAGS=-fPIC
  DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
 -STRIP=strip
 -LDFLAGS=-pthread
-+STRIP=$(ARCH)-linux-strip
++STRIP=$(DESTARCH)-linux-strip
 +LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
  DESTDIR=/usr
  

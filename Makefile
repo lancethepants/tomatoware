@@ -1,5 +1,5 @@
 export PREFIX=/opt
-export ARCH=mipsel
+export DESTARCH=mipsel
 
 export EXTRACFLAGS=-mtune=mips32 -mips32
 
