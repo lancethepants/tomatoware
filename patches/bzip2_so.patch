@@ -13,7 +13,7 @@
   
   
   SHELL=/bin/sh
-! CC=$(ARCH)-linux-gcc
+! CC=$(DESTARCH)-linux-gcc
   BIGFILES=-D_FILE_OFFSET_BITS=64
 ! CFLAGS=$(EXTRACFLAGS) -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
   
