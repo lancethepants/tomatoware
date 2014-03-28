@@ -1,10 +1,52 @@
---- Makefile.orig	2014-03-04 21:46:49.161769945 -0700
-+++ Makefile	2014-03-04 21:55:14.706713329 -0700
-@@ -69,6 +69,7 @@
+--- Makefile.orig	2014-03-28 08:13:15.142993690 -0600
++++ Makefile	2014-03-28 08:13:45.115963385 -0600
+@@ -69,6 +69,10 @@
  
  $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION): $(TOP)/downloads/$(TARGET)
  	svn checkout --revision $(TOOLCHAIN_REVISION) http://wl500g.googlecode.com/svn/toolchain $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)
 +	patch -p1 $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)/toolchain/gcc/common.mk < $(PATCHES)/toolchain/toolchain_gcc_common.mk.patch
++ifeq ($(DESTARCH), arm)
++	cp $(PATCHES)/toolchain/defconfig $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)/defconfig
++endif
  
  /opt/entware-toolchain:
  	@echo Making /opt/entware-toolchain directory, root password needed...
+@@ -91,4 +95,38 @@
+ 	@echo Root access may needed to remove toolchain...
+ 	@sudo rm -fr /opt/entware-toolchain
+ 
++.kernel-2.6.36:
++	cd $(TOP); \
++	wget https://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.36.4.tar.xz; \
++	tar xvJf linux-2.6.36.4.tar.xz; \
++	cd linux-2.6.36.4; \
++	patch -p1 < $(PATCHES)/toolchain/kernel.patch
++	@touch $@
++	
++	
++.toolchain-2.6.36: build-toolchain \
++	    /opt/entware-toolchain
++	sudo tar -C / -xf $(TOP)/downloads/$(TARGET)/entware-toolchain-r$(TOOLCHAIN_REVISION).tgz
++	@touch $@
++
++build-toolchain: \
++	    .kernel-2.6.36 \
++	    $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION) \
++	    $(TOP)/downloads/$(TARGET) \
++	    /opt/entware-toolchain
++	mkdir -p $(TOP)/toolchain-1.9.2.7-rtn/src
++	cp --recursive --update --force $(TOP)/downloads/toolchain-src-r$(TOOLCHAIN_REVISION)/* $(TOP)/toolchain-1.9.2.7-rtn/src
++	cp -f $(TOP)/toolchain-1.9.2.7-rtn/src/defconfig $(TOP)/toolchain-1.9.2.7-rtn/src/.config
++	sed -i -e 's|^\(CONFIG_EXTERNAL_KERNEL_TREE\)=.*|\1=\"$(TOP)/linux-2.6.36.4\"|g' $(TOP)/toolchain-1.9.2.7-rtn/src/.config
++	sed -i -e 's|^\(CONFIG_DOWNLOAD_FOLDER\)=.*|\1=\"$(TOP)/downloads\"|g' $(TOP)/toolchain-1.9.2.7-rtn/src/.config
++	cp -f ./*-uclibc-*.patch  $(TOP)/toolchain-1.9.2.7-rtn/src/toolchain/uClibc/patches/0.9.32/
++	patch -d $(TOP) -p3 -i $(CURDIR)/0.9.32-config.patch
++	patch -d $(TOP) -p3 -i $(CURDIR)/add-mirrors.patch
++	patch -d $(TOP) -p3 -i $(CURDIR)/define-toolchain-path.patch
++	@echo Compiling toolchain...
++	$(MAKE) -C "$(TOP)/toolchain-1.9.2.7-rtn/src" V=99
++	rm -fr $(TOP)/toolchain-1.9.2.7-rtn
++	tar -czf $(TOP)/downloads/$(TARGET)/entware-toolchain-r$(TOOLCHAIN_REVISION).tgz /opt/entware-toolchain
++	@echo Toolchain files ready.
++
+ .PHONY: clean cleanall all
