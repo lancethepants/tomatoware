@@ -20,6 +20,11 @@ then
 	002-uclibc-ldconfig-opt.patch \
 	003-uclibc-dl-defs.patch \
 	004-uclibc-ldd-opt.patch
+	
+	if [ "$DESTARCH" == "arm" ];then
+		sed -i 's,.toolchain .kernel,.toolchain-2.6.36 .kernel-2.6.36,g' Makefile
+	fi	
+
 	make
 
 
