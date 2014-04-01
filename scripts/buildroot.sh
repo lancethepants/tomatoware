@@ -9,7 +9,7 @@ PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
 LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
-CPPFLAGS="-I$DEST/include -I$DEST/include/ncursesw"
+CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
