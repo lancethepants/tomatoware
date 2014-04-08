@@ -156,12 +156,12 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1f
-	tar zxvf openssl-1.0.1f.tar.gz
+	rm -rf openssl-1.0.1g
+	tar zxvf openssl-1.0.1g.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1f
+cd openssl-1.0.1g
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/openssl.patch
