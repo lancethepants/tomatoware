@@ -11,8 +11,8 @@ then
 
 	mkdir $BASE/toolchain
 	cd $BASE/toolchain
-	svn co http://wl500g-repo.googlecode.com/svn/trunk/ ./rtn
-	cd ./rtn/toolchain/mipsel-hardfloat
+	git clone https://github.com/Entware/entware.git
+	cd ./entware/toolchain/mipsel-hardfloat
 	patch -p1 Makefile < $PATCHES/toolchain/mipsel-hardfloat.patch
 	sed -i 's,\/opt\/entware-toolchain,\/opt\/entware-toolchain-'"$DESTARCH"'-'"${PREFIX#?}"',g' Makefile define-toolchain-path.patch
 	sed -i 's,\/opt,'"$PREFIX"',g' \
