@@ -140,6 +140,47 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######## ####################################################################
+# SRTP # ####################################################################
+######## ####################################################################
+
+cd $SRC/srtp
+
+if [ ! -f .extracted ]; then
+	rm -rf srtp
+	tar zxvf srtp-1.4.4.tgz
+	touch .extracted
+fi
+
+cd srtp
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libsrtp/1003_fix_mips_namespace_collision.patch
+	patch -p1 < $PATCHES/libsrtp/1005_fix_data_alignment.patch
+	patch -p1 < $PATCHES/libsrtp/1007_update_Doxyfile.patch
+	patch -p1 < $PATCHES/libsrtp/1008_shared-lib.patch
+	touch .patched
+fi
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ############ ################################################################
 # ASTERISK # ################################################################
 ############ ################################################################
@@ -165,12 +206,13 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-ncurses=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
 	--with-iksemel=$DEST \
 	--with-libcurl=$DEST \
+	--with-ncurses=$DEST \
 	--with-sqlite3=$DEST \
+	--with-srtp=$DEST \
 	--with-ssl=$DEST \
 	--with-uuid=$DEST \
 	--with-z=$DEST
@@ -178,7 +220,8 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	ASTCFLAGS=$CPPFLAGS \
+	ASTLDFLAGS=$LDFLAGS \
+	ASTCFLAGS="$CPPFLAGS $CFLAGS" \
 	$MAKE
 	touch .built
 fi
