@@ -10,7 +10,7 @@ ifeq ($(DESTARCH), arm)
         export EXTRACFLAGS=
 endif
 
-export PATH := $(PATH):/opt/entware-toolchain-$(DESTARCH)-$(subst /,,$(PREFIX))/bin/:/opt/entware-toolchain-$(DESTARCH)-$(subst /,,$(PREFIX))/mipsel-linux/bin
+export PATH := $(PATH):/opt/entware-toolchain-$(DESTARCH)$(subst /,-,$(PREFIX))/bin/:/opt/entware-toolchain-$(DESTARCH)$(subst /,-,$(PREFIX))/mipsel-linux/bin
 
 tomatoware:
 	./scripts/toolchain.sh
