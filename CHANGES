@@ -1,3 +1,22 @@
+0.8.6
+	Update asterisk to 11.8.1
+	Update OpenSSL to 1.0.1g
+	Update OpenSSH to 6.6p1
+	Update setuptools to 3.3
+	Update sqlite to 3.8.4.3
+	Update gnutls to 3.2.13
+	Update gmp to 6.0.0a
+	Update git to 1.9.1
+	Update unrar to 5.1.2
+	Update curl to 7.36.0
+	Update flex to 2.5.39
+	Update gettext to 0.18.3.2
+
+	Add srtp capability to asterisk.
+	Prepare for arm port.
+	Ncurses better detection.
+	binutils better library detection with sysroot.
+
 0.8	
 	Update asterisk to 11.8.0
 	Update OpenSSL to 1.0.1f
