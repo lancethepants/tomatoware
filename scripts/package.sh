@@ -42,7 +42,7 @@ cd $BASE$PREFIX/python_modules
 if [ ! -d markdown ]
 then
 	mkdir markdown && cd markdown
-	cp $BASE/src/markdown/Markdown-2.3.1.tar.gz .
+	cp $BASE/src/markdown/Markdown.tar.gz .
 fi
 
 cd $BASE$PREFIX/python_modules
@@ -57,9 +57,9 @@ echo "python ./setup.py build" >> install_modules.sh
 echo "python ./setup.py install" >> install_modules.sh
 
 echo "cd $PREFIX/python_modules/markdown" >> install_modules.sh
-echo "rm -rf Markdown-2.3.1" >> install_modules.sh
-echo "tar zxvf Markdown-2.3.1.tar.gz" >> install_modules.sh
-echo "cd Markdown-2.3.1/" >> install_modules.sh
+echo "rm -rf Markdown" >> install_modules.sh
+echo "tar zxvf Markdown.tar.gz" >> install_modules.sh
+echo "cd Markdown/" >> install_modules.sh
 echo "python ./setup.py build" >> install_modules.sh
 echo "python ./setup.py install" >> install_modules.sh
 
