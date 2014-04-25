@@ -275,8 +275,14 @@ fi
 cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ];then
+
 	os=mipsel-linux
-	gccextraconfig=--with-mips-plt
+
+	if [ "$FLOAT" == "soft" ];then
+		gccextraconfig="--with-arch=mips32 --with-mips-plt --with-float=soft"
+	else
+		gccextraconfig="--with-arch=mips32 --with-mips-plt"
+	fi
 fi
 
 if [ "$DESTARCH" == "arm" ];then
