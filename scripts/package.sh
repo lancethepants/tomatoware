@@ -21,8 +21,8 @@ if [ -f $DEST/bin/libgnutls-config ]; then
 fi
 
 #Copy lib and include files from toolchain for use in the deployment system.
-cp -rf /opt/entware-toolchain-$DESTARCH${PREFIX////-}/include $DEST
-cp -rf /opt/entware-toolchain-$DESTARCH${PREFIX////-}/lib $DEST
+cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/include $DEST
+cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/lib $DEST
 
 #Copy and set correct interpreter path for the .autorun file
 cp $SRC/.autorun $DEST
@@ -107,4 +107,4 @@ chmod +x profile
 
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
-tar zvcf $BASE/$DESTARCH${PREFIX////-}.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ var/ .autorun .vimrc
+tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ var/ .autorun .vimrc
