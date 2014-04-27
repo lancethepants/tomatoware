@@ -1372,12 +1372,12 @@ fi
 cd $SRC/htop
 
 if [ ! -f .extracted ]; then
-	rm -rf htop-1.0.2
-	tar zxvf htop-1.0.2.tar.gz
+	rm -rf htop-1.0.3
+	tar zxvf htop-1.0.3.tar.gz
 	touch .extracted
 fi
 
-cd htop-1.0.2
+cd htop-1.0.3
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
