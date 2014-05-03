@@ -123,30 +123,30 @@ fi
 cd $SRC/xz
 
 if [ ! -f .extracted ]; then
-        rm -rf xz-5.0.5
-        tar zxvf xz-5.0.5.tar.gz
-        touch .extracted
+	rm -rf xz-5.0.5
+	tar zxvf xz-5.0.5.tar.gz
+	touch .extracted
 fi
 
 cd xz-5.0.5
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE
-        touch .configured
+	$CONFIGURE
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 ########### #################################################################
@@ -241,32 +241,32 @@ fi
 cd $SRC/flex
 
 if [ ! -f .extracted ]; then
-        rm -rf flex-2.5.39
-        tar zxvf flex-2.5.39.tar.gz
-        touch .extracted
+	rm -rf flex-2.5.39
+	tar zxvf flex-2.5.39.tar.gz
+	touch .extracted
 fi
 
 cd flex-2.5.39
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE \
+	$CONFIGURE \
 	ac_cv_func_malloc_0_nonnull=yes \
 	ac_cv_func_realloc_0_nonnull=yes
-        touch .configured
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 ######## ####################################################################
@@ -1482,19 +1482,19 @@ fi
 cd $SRC/vim
 
 if [ ! -f .extracted ]; then
-        rm -rf vim74
-        tar xvjf vim-7.4.tar.bz2
-        touch .extracted
+	rm -rf vim74
+	tar xvjf vim-7.4.tar.bz2
+	touch .extracted
 fi
 
 cd vim74
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE \
+	$CONFIGURE \
 	--with-tlib=ncurses \
 	--enable-multibyte \
 	vim_cv_toupper_broken=no \
@@ -1503,22 +1503,22 @@ if [ ! -f .configured ]; then
 	vim_cv_getcwd_broken=no \
 	vim_cv_stat_ignores_slash=no \
 	vim_cv_memmove_handles_overlap=yes
-        touch .configured
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
-        touch .installed
+	make install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
+	touch .installed
 fi
 
 if [ ! -f .installed_config ]; then
-        cp ../.vimrc $DEST
-        touch .installed_config
+	cp ../.vimrc $DEST
+	touch .installed_config
 fi
 
 if [ ! -f $DEST/bin/vi ]; then
@@ -1532,30 +1532,30 @@ fi
 cd $SRC/tmux
 
 if [ ! -f .extracted ]; then
-        rm -rf tmux-1.9a
-        tar zxvf tmux-1.9a.tar.gz
-        touch .extracted
+	rm -rf tmux-1.9a
+	tar zxvf tmux-1.9a.tar.gz
+	touch .extracted
 fi
 
 cd tmux-1.9a
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
-        CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE
-        touch .configured
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 ######### ###################################################################
@@ -1565,9 +1565,9 @@ fi
 cd $SRC/unzip
 
 if [ ! -f .extracted ]; then
-        rm -rf unzip60
-        tar zxvf unzip60.tar.gz
-        touch .extracted
+	rm -rf unzip60
+	tar zxvf unzip60.tar.gz
+	touch .extracted
 fi
 
 cd unzip60
@@ -1585,6 +1585,6 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-        make prefix=$DEST install
-        touch .installed
+	make prefix=$DEST install
+	touch .installed
 fi
