@@ -1405,15 +1405,15 @@ fi
 cd $SRC/screen
 
 if [ ! -f .extracted ]; then
-	rm -rf screen-4.0.3
-	tar zxvf screen-4.0.3.tar.gz
+	rm -rf screen-4.2.1
+	tar zxvf screen-4.2.1.tar.gz
 	touch .extracted
 fi
 
-cd screen-4.0.3
+cd screen-4.2.1
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/100-cross_compile_fix.patch
+	patch < $PATCHES/screen/screen.patch
 	touch .patched
 fi
 
