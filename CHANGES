@@ -1,3 +1,18 @@
+0.9.0
+	Add support mipsel soft-float. Now is used by default
+	Updates to upstream toolchain.
+
+	Update asterisk 11.9.0.
+	Update pcre to 8.35.
+	Update gawk to 4.1.1.
+	Update Markdown to 2.4.
+	Update htop to 1.0.3
+	Update setupools 3.6.
+	Update unrar to 5.1.5.
+	Update git to 1.9.3.
+	Update screen to 4.2.1.
+	Update gnutls to 3.2.14.
+
 0.8.6
 	Update asterisk to 11.8.1
 	Update OpenSSL to 1.0.1g
