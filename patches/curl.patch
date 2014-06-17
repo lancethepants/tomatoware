@@ -1,230 +1,170 @@
-*** /home/lance/configure	2012-11-19 09:11:28.940131000 -0700
---- ./configure	2012-11-19 10:08:49.568131000 -0700
-***************
-*** 21074,21087 ****
-    fi
-  
-    if test "$OPENSSL_ENABLED" = "1"; then
-!     if test -n "$LIB_OPENSSL"; then
-!                             if test "x$cross_compiling" != "xyes"; then
-!          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
-!          export LD_LIBRARY_PATH
-!          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&6;}
-!        fi
-!     fi
-  
-    #
-  
---- 21074,21087 ----
-    fi
-  
-    if test "$OPENSSL_ENABLED" = "1"; then
-! #    if test -n "$LIB_OPENSSL"; then
-! #                            if test "x$cross_compiling" != "xyes"; then
-! #         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
-! #         export LD_LIBRARY_PATH
-! #         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&6;}
-! #       fi
-! #    fi
-  
-    #
-  
-***************
-*** 22173,22186 ****
-          { $as_echo "$as_me:${as_lineno-$LINENO}: detected GnuTLS version $version" >&5
-  $as_echo "$as_me: detected GnuTLS version $version" >&6;}
-  
-!         if test -n "$gtlslib"; then
-!                                                   if test "x$cross_compiling" != "xyes"; then
-!             LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
-!             export LD_LIBRARY_PATH
-!             { $as_echo "$as_me:${as_lineno-$LINENO}: Added $gtlslib to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $gtlslib to LD_LIBRARY_PATH" >&6;}
-!           fi
-!         fi
-        fi
-  
-      fi
---- 22173,22186 ----
-          { $as_echo "$as_me:${as_lineno-$LINENO}: detected GnuTLS version $version" >&5
-  $as_echo "$as_me: detected GnuTLS version $version" >&6;}
-  
-! #        if test -n "$gtlslib"; then
-! #                                                  if test "x$cross_compiling" != "xyes"; then
-! #            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
-! #            export LD_LIBRARY_PATH
-! #            { $as_echo "$as_me:${as_lineno-$LINENO}: Added $gtlslib to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $gtlslib to LD_LIBRARY_PATH" >&6;}
-! #          fi
-! #        fi
-        fi
-  
-      fi
-***************
-*** 22548,22561 ****
-        CURL_LIBS="$CURL_LIBS -lpolarssl"
-        LIBS="$LIBS -lpolarssl"
-  
-!       if test -n "$polarssllib"; then
-!                                         if test "x$cross_compiling" != "xyes"; then
-!           LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$polarssllib"
-!           export LD_LIBRARY_PATH
-!           { $as_echo "$as_me:${as_lineno-$LINENO}: Added $polarssllib to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $polarssllib to LD_LIBRARY_PATH" >&6;}
-!         fi
-!       fi
-      fi
-  
-    fi
---- 22548,22561 ----
-        CURL_LIBS="$CURL_LIBS -lpolarssl"
-        LIBS="$LIBS -lpolarssl"
-  
-! #      if test -n "$polarssllib"; then
-! #                                        if test "x$cross_compiling" != "xyes"; then
-! #          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$polarssllib"
-! #          export LD_LIBRARY_PATH
-! #          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $polarssllib to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $polarssllib to LD_LIBRARY_PATH" >&6;}
-! #        fi
-! #      fi
-      fi
-  
-    fi
-***************
-*** 22701,22714 ****
-        CURL_LIBS="$CURL_LIBS -lcyassl -lm"
-        LIBS="$LIBS -lcyassl -lm"
-  
-!       if test -n "$cyassllib"; then
-!                                         if test "x$cross_compiling" != "xyes"; then
-!           LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$cyassllib"
-!           export LD_LIBRARY_PATH
-!           { $as_echo "$as_me:${as_lineno-$LINENO}: Added $cyassllib to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $cyassllib to LD_LIBRARY_PATH" >&6;}
-!         fi
-!       fi
-  
-      fi
-  
---- 22701,22714 ----
-        CURL_LIBS="$CURL_LIBS -lcyassl -lm"
-        LIBS="$LIBS -lcyassl -lm"
-  
-! #      if test -n "$cyassllib"; then
-! #                                        if test "x$cross_compiling" != "xyes"; then
-! #          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$cyassllib"
-! #          export LD_LIBRARY_PATH
-! #          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $cyassllib to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $cyassllib to LD_LIBRARY_PATH" >&6;}
-! #        fi
-! #      fi
-  
-      fi
-  
-***************
-*** 22950,22961 ****
-  fi
-  
-  
-!                                         if test "x$cross_compiling" != "xyes"; then
-!           LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
-!           export LD_LIBRARY_PATH
-!           { $as_echo "$as_me:${as_lineno-$LINENO}: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&6;}
-!         fi
-        fi
-  
-      fi
---- 22950,22961 ----
-  fi
-  
-  
-! #                                        if test "x$cross_compiling" != "xyes"; then
-! #          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
-! #          export LD_LIBRARY_PATH
-! #          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&6;}
-! #        fi
-        fi
-  
-      fi
-***************
-*** 23041,23050 ****
-        curl_ssl_msg="enabled (axTLS)"
-  
-  
-!       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_AXTLS"
-!       export LD_LIBRARY_PATH
-!       { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&6;}
-  
-  else
-  
---- 23041,23050 ----
-        curl_ssl_msg="enabled (axTLS)"
-  
-  
-! #      LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_AXTLS"
-! #      export LD_LIBRARY_PATH
-! #      { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&6;}
-  
-  else
-  
-***************
-*** 23764,23775 ****
-  fi
-  done
-  
-!        if test "x$cross_compiling" != "xyes"; then
-!          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
-!          export LD_LIBRARY_PATH
-!          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&6;}
-!        fi
-      fi
-    else
-          LDFLAGS=$CLEANLDFLAGS
---- 23764,23775 ----
-  fi
-  done
-  
-! #       if test "x$cross_compiling" != "xyes"; then
-! #         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
-! #         export LD_LIBRARY_PATH
-! #         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&6;}
-! #       fi
-      fi
-    else
-          LDFLAGS=$CLEANLDFLAGS
-***************
-*** 24647,24658 ****
-        IDN_ENABLED=1
-  
-        curl_idn_msg="enabled"
-!       if test -n "$IDN_DIR"; then
-!         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
-!         export LD_LIBRARY_PATH
-!         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $IDN_DIR to LD_LIBRARY_PATH" >&5
-! $as_echo "$as_me: Added $IDN_DIR to LD_LIBRARY_PATH" >&6;}
-!       fi
-      else
-        { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libraries for IDN support too old: IDN disabled" >&5
-  $as_echo "$as_me: WARNING: Libraries for IDN support too old: IDN disabled" >&2;}
---- 24647,24658 ----
-        IDN_ENABLED=1
-  
-        curl_idn_msg="enabled"
-! #      if test -n "$IDN_DIR"; then
-! #        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
-! #        export LD_LIBRARY_PATH
-! #        { $as_echo "$as_me:${as_lineno-$LINENO}: Added $IDN_DIR to LD_LIBRARY_PATH" >&5
-! #$as_echo "$as_me: Added $IDN_DIR to LD_LIBRARY_PATH" >&6;}
-! #      fi
-      else
-        { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libraries for IDN support too old: IDN disabled" >&5
-  $as_echo "$as_me: WARNING: Libraries for IDN support too old: IDN disabled" >&2;}
+--- configure.orig	2014-06-17 10:22:52.579275371 -0600
++++ configure	2014-06-17 10:31:20.339747763 -0600
+@@ -21935,14 +21935,14 @@
+   fi
+ 
+   if test "$OPENSSL_ENABLED" = "1"; then
+-    if test -n "$LIB_OPENSSL"; then
+-                            if test "x$cross_compiling" != "xyes"; then
+-         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
+-         export LD_LIBRARY_PATH
+-         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&6;}
+-       fi
+-    fi
++#    if test -n "$LIB_OPENSSL"; then
++#                            if test "x$cross_compiling" != "xyes"; then
++#         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
++#         export LD_LIBRARY_PATH
++#         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $LIB_OPENSSL to LD_LIBRARY_PATH" >&6;}
++#       fi
++#    fi
+ 
+   #
+ 
+@@ -22886,14 +22886,14 @@
+         { $as_echo "$as_me:${as_lineno-$LINENO}: detected GnuTLS version $version" >&5
+ $as_echo "$as_me: detected GnuTLS version $version" >&6;}
+ 
+-        if test -n "$gtlslib"; then
+-                                                  if test "x$cross_compiling" != "xyes"; then
+-            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
+-            export LD_LIBRARY_PATH
+-            { $as_echo "$as_me:${as_lineno-$LINENO}: Added $gtlslib to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $gtlslib to LD_LIBRARY_PATH" >&6;}
+-          fi
+-        fi
++#        if test -n "$gtlslib"; then
++#                                                  if test "x$cross_compiling" != "xyes"; then
++#            LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
++#            export LD_LIBRARY_PATH
++#            { $as_echo "$as_me:${as_lineno-$LINENO}: Added $gtlslib to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $gtlslib to LD_LIBRARY_PATH" >&6;}
++#          fi
++#        fi
+       fi
+ 
+     fi
+@@ -23265,14 +23265,14 @@
+ 
+       LIBS="-lpolarssl $LIBS"
+ 
+-      if test -n "$polarssllib"; then
+-                                        if test "x$cross_compiling" != "xyes"; then
+-          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$polarssllib"
+-          export LD_LIBRARY_PATH
+-          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $polarssllib to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $polarssllib to LD_LIBRARY_PATH" >&6;}
+-        fi
+-      fi
++#      if test -n "$polarssllib"; then
++#                                        if test "x$cross_compiling" != "xyes"; then
++#          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$polarssllib"
++#          export LD_LIBRARY_PATH
++#          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $polarssllib to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $polarssllib to LD_LIBRARY_PATH" >&6;}
++#        fi
++#      fi
+     fi
+ 
+   fi
+@@ -23469,14 +23469,14 @@
+ 
+       LIBS="-lcyassl -lm $LIBS"
+ 
+-      if test -n "$cyassllib"; then
+-                                        if test "x$cross_compiling" != "xyes"; then
+-          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$cyassllib"
+-          export LD_LIBRARY_PATH
+-          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $cyassllib to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $cyassllib to LD_LIBRARY_PATH" >&6;}
+-        fi
+-      fi
++#      if test -n "$cyassllib"; then
++#                                        if test "x$cross_compiling" != "xyes"; then
++#          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$cyassllib"
++#          export LD_LIBRARY_PATH
++#          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $cyassllib to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $cyassllib to LD_LIBRARY_PATH" >&6;}
++#        fi
++#      fi
+ 
+     fi
+ 
+@@ -23724,12 +23724,12 @@
+         { $as_echo "$as_me:${as_lineno-$LINENO}: detected NSS version $version" >&5
+ $as_echo "$as_me: detected NSS version $version" >&6;}
+ 
+-                                        if test "x$cross_compiling" != "xyes"; then
+-          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
+-          export LD_LIBRARY_PATH
+-          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&6;}
+-        fi
++#                                        if test "x$cross_compiling" != "xyes"; then
++#          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
++#          export LD_LIBRARY_PATH
++#          { $as_echo "$as_me:${as_lineno-$LINENO}: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH" >&6;}
++#        fi
+       fi
+ 
+     fi
+@@ -23814,12 +23814,12 @@
+       USE_AXTLS="yes"
+       curl_ssl_msg="enabled (axTLS)"
+ 
+-      if test "x$cross_compiling" != "xyes"; then
+-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_AXTLS"
+-        export LD_LIBRARY_PATH
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&6;}
+-      fi
++#      if test "x$cross_compiling" != "xyes"; then
++#        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_AXTLS"
++#        export LD_LIBRARY_PATH
++#        { $as_echo "$as_me:${as_lineno-$LINENO}: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $LIB_AXTLS to LD_LIBRARY_PATH" >&6;}
++#      fi
+ 
+ else
+ 
+@@ -24575,12 +24575,12 @@
+ fi
+ done
+ 
+-       if test "x$cross_compiling" != "xyes"; then
+-         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
+-         export LD_LIBRARY_PATH
+-         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&6;}
+-       fi
++#       if test "x$cross_compiling" != "xyes"; then
++#         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
++#         export LD_LIBRARY_PATH
++#         { $as_echo "$as_me:${as_lineno-$LINENO}: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $DIR_SSH2 to LD_LIBRARY_PATH" >&6;}
++#       fi
+     fi
+   else
+         LDFLAGS=$CLEANLDFLAGS
+@@ -25487,12 +25487,12 @@
+       IDN_ENABLED=1
+ 
+       curl_idn_msg="enabled"
+-      if test -n "$IDN_DIR" -a "x$cross_compiling" != "xyes"; then
+-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
+-        export LD_LIBRARY_PATH
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: Added $IDN_DIR to LD_LIBRARY_PATH" >&5
+-$as_echo "$as_me: Added $IDN_DIR to LD_LIBRARY_PATH" >&6;}
+-      fi
++#      if test -n "$IDN_DIR" -a "x$cross_compiling" != "xyes"; then
++#        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
++#        export LD_LIBRARY_PATH
++#        { $as_echo "$as_me:${as_lineno-$LINENO}: Added $IDN_DIR to LD_LIBRARY_PATH" >&5
++#$as_echo "$as_me: Added $IDN_DIR to LD_LIBRARY_PATH" >&6;}
++#      fi
+     else
+       { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libraries for IDN support too old: IDN disabled" >&5
+ $as_echo "$as_me: WARNING: Libraries for IDN support too old: IDN disabled" >&2;}
