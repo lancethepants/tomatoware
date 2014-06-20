@@ -283,11 +283,6 @@ fi
 
 cd curl-7.37.0
 
-if [ ! -f .patched ]; then
-	patch < $PATCHES/curl.patch
-	touch .patched
-fi
-
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
