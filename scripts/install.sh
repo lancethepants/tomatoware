@@ -929,7 +929,8 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--enable-pcregrep-libz \
 	--enable-pcregrep-libbz2 \
-	--enable-pcretest-libreadline
+	--enable-pcretest-libreadline \
+	--enable-unicode-properties
 	touch .configured
 fi
 
