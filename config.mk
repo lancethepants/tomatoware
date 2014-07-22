@@ -4,10 +4,10 @@ export DESTARCH=mipsel
 export FLOAT=soft
 #export FLOAT=hard
 
-export PREFIX=/opt
-#export PREFIX=/mmc
+export PREFIX=/mmc
 #export PREFIX=/jffs
 #export PREFIX=/opt/tomatoware
+#export PREFIX=/opt
 
 ifeq ($(DESTARCH), mipsel)
 export EXTRACFLAGS = -O2 -pipe -mips32 -mtune=mips32
