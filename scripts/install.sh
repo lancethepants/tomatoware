@@ -276,12 +276,12 @@ fi
 cd $SRC/curl
 
 if [ ! -f .extracted ]; then
-	rm -rf curl-7.37.0
-	tar zxvf curl-7.37.0.tar.gz
+	rm -rf curl-7.37.1
+	tar zxvf curl-7.37.1.tar.gz
 	touch .extracted
 fi
 
-cd curl-7.37.0
+cd curl-7.37.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
