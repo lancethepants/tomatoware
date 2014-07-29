@@ -870,12 +870,12 @@ fi
 cd $SRC/tar
 
 if [ ! -f .extracted ]; then
-	rm -rf tar-1.27.1
-	tar zxvf tar-1.27.1.tar.gz
+	rm -rf tar-1.28
+	tar zxvf tar-1.28.tar.gz
 	touch .extracted
 fi
 
-cd tar-1.27.1
+cd tar-1.28
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
