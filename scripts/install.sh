@@ -1179,7 +1179,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE
+	make
 	touch .built
 fi
 
