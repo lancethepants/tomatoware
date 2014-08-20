@@ -764,12 +764,12 @@ fi
 cd $SRC/libsigc++
 
 if [ ! -f .extracted ]; then
-	rm -rf libsigc++-2.3.1
-	tar xvJf libsigc++-2.3.1.tar.xz
+	rm -rf libsigc++-2.3.2
+	tar xvJf libsigc++-2.3.2.tar.xz
 	touch .extracted
 fi
 
-cd libsigc++-2.3.1
+cd libsigc++-2.3.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -779,11 +779,6 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--enable-static
 	touch .configured
-fi
-
-if [ ! -f .patched ]; then
-	patch < $PATCHES/libsigc++/libsigc++.patch
-	touch .patched
 fi
 
 if [ ! -f .built ]; then
