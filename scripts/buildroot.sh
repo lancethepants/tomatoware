@@ -443,12 +443,12 @@ fi
 cd $SRC/check
 
 if [ ! -f .extracted ]; then
-	rm -rf check-0.9.12
-	tar zxvf check-0.9.12.tar.gz
+	rm -rf check-0.9.14
+	tar zxvf check-0.9.14.tar.gz
 	touch .extracted
 fi
 
-cd check-0.9.12
+cd check-0.9.14
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
