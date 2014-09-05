@@ -1,0 +1,34 @@
+--- ../../../toolchain-1.9.2.7-rtn/src/defconfig
++++ ../../../toolchain-1.9.2.7-rtn/src/.config
+@@ -6,9 +6,9 @@
+ CONFIG_HAVE_DOT_CONFIG=y
+ # CONFIG_LINUX_2_4 is not set
+ CONFIG_TARGET_BOARD="brcm-2.6"
+-# CONFIG_arm is not set
+-CONFIG_mipsel=y
+-CONFIG_ARCH="mipsel"
++CONFIG_arm=y
++# CONFIG_mipsel is not set
++CONFIG_ARCH="arm"
+ CONFIG_DEVEL=y
+ CONFIG_LOCALMIRROR=""
+ CONFIG_AUTOREBUILD=y
+@@ -28,6 +28,7 @@
+ # CONFIG_GCC_VERSION_4_5_4 is not set
+ CONFIG_GCC_VERSION_4_6_4=y
+ # CONFIG_GCC_VERSION_4_8_3 is not set
++CONFIG_EABI_SUPPORT=y
+ CONFIG_EXTRA_GCC_CONFIG_OPTIONS=""
+ CONFIG_SSP_SUPPORT=y
+ CONFIG_TLS_SUPPORT=y
+@@ -39,8 +40,8 @@
+ # CONFIG_GDB is not set
+ CONFIG_LARGEFILE=y
+ CONFIG_SHADOW_PASSWORDS=y
+-# CONFIG_SOFT_FLOAT is not set
+-CONFIG_TARGET_OPTIMIZATION="-Os -pipe -mips32 -mtune=mips32 -funit-at-a-time"
++CONFIG_SOFT_FLOAT=y
++CONFIG_TARGET_OPTIMIZATION="-Os -pipe -funit-at-a-time"
+ CONFIG_GCC_VERSION="4.6.4"
+ CONFIG_GCC_VERSION_4_6=y
+ CONFIG_UCLIBC_VERSION="0.9.32"
