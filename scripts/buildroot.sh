@@ -228,12 +228,20 @@ fi
 
 cd build-binutils
 
+if [ "$DESTARCH" == "mipsel" ];then
+        os=mipsel-linux
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	os=arm-linux-uclibcgnueabi
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.24/$CONFIGURE \
+	../binutils-2.24/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
@@ -287,7 +295,7 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-linux-uclibcgnueabi
-	gccextraconfig=--with-abi=aapcs-linux
+	gccextraconfig="--with-float=soft --with-abi=aapcs-linux"
 fi
 
 if [ ! -f .configured ]; then
