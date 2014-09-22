@@ -764,12 +764,12 @@ fi
 cd $SRC/libsigc++
 
 if [ ! -f .extracted ]; then
-	rm -rf libsigc++-2.3.2
-	tar xvJf libsigc++-2.3.2.tar.xz
+	rm -rf libsigc++-2.4.0
+	tar xvJf libsigc++-2.4.0.tar.xz
 	touch .extracted
 fi
 
-cd libsigc++-2.3.2
+cd libsigc++-2.4.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
