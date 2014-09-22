@@ -123,12 +123,12 @@ fi
 cd $SRC/xz
 
 if [ ! -f .extracted ]; then
-	rm -rf xz-5.0.5
-	tar zxvf xz-5.0.5.tar.gz
+	rm -rf xz-5.0.7
+	tar zxvf xz-5.0.7.tar.gz
 	touch .extracted
 fi
 
-cd xz-5.0.5
+cd xz-5.0.7
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
