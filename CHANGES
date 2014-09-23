@@ -1,3 +1,22 @@
+0.9.5
+	Update OpenSSL to 1.0.1i
+	Update gettext to 0.19.2
+	Update libffi to 3.1
+	Update sqlite to 3.8.6
+	Update setuptools to 5.8
+	Update unrar to 5.1.7 and remove parallel build
+	Update git to 2.1.1
+	Update curl to 7.38.0
+	Update grep to 2.20
+	Update gnutls to 3.2.18
+	Update asterisk to 11.12.11
+	update libsigc++ to 2.4.0
+	Update check to 0.9.14
+	Update xzutils to 5.0.7
+	Update libpcap to 1.6.2
+	Update Markdown to 2.5
+	pcre, enable unicode support
+
 0.9.0
 	Add support mipsel soft-float. Now is used by default
 	Updates to upstream toolchain.
