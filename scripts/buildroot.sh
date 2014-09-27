@@ -65,6 +65,12 @@ fi
 
 unset PKG_CONFIG_LIBDIR
 
+if [ ! -f .edit_sed ]; then
+	sed -i 's,'"$PREFIX"'\/lib\/libintl.la '"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libintl.la '"$DEST"'\/lib\/libiconv.la,g' \
+	$DEST/lib/libglib-2.0.la
+	touch .edit_sed
+fi
+
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
 ############## ##############################################################
@@ -78,12 +84,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd pkg-config-0.28
-
-if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la '"$PREFIX"'\/lib\/libintl.la -lc,'"$DEST"'\/lib\/libiconv.la '"$DEST"'\/lib\/libintl.la -lc,g' \
-	$DEST/lib/libglib-2.0.la
-	touch .edit_sed
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -172,6 +172,12 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .edit_sed ]; then
+	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
+	$DEST/lib/libmpfr.la
+	touch .edit_sed
+fi
+
 ####### #####################################################################
 # MPC # #####################################################################
 ####### #####################################################################
@@ -185,12 +191,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd mpc-1.0.2
-
-if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
-	$DEST/lib/libmpfr.la
-	touch .edit_sed
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \

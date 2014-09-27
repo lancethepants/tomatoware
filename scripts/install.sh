@@ -196,6 +196,40 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+############ ################################################################
+# LIBICONV # ################################################################
+############ ################################################################
+
+cd $SRC/libiconv
+
+if [ ! -f .extracted ]; then
+	rm -rf libiconv-1.14
+	tar zxvf libiconv-1.14.tar.gz
+	touch .extracted
+fi
+
+cd libiconv-1.14
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ########### #################################################################
 # GETTEXT # #################################################################
 ########### #################################################################
@@ -232,6 +266,12 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
+fi
+
+if [ ! -f .edit_sed ]; then
+        sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+        $DEST/lib/libintl.la
+        touch .edit_sed
 fi
 
 ######## ####################################################################
@@ -399,40 +439,6 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
-############ ################################################################
-# LIBICONV # ################################################################
-############ ################################################################
-
-cd $SRC/libiconv
-
-if [ ! -f .extracted ]; then
-	rm -rf libiconv-1.14
-	tar zxvf libiconv-1.14.tar.gz
-	touch .extracted
-fi
-
-cd libiconv-1.14
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--enable-static
 	touch .configured
 fi
 
@@ -709,6 +715,18 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .edit_sed ]; then
+	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	$DEST/lib/libxml2.la
+	touch .edit_sed
+fi
+
+if [ ! -f .edit_sed2 ]; then
+	sed -i 's,'"$PREFIX"'\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
+	$DEST/lib/libxml2.la
+	touch .edit_sed2
+fi
+
 ########### #################################################################
 # LIBXSLT # #################################################################
 ########### #################################################################
@@ -722,18 +740,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd libxslt-1.1.28
-
-if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libxml2.la
-	touch .edit_sed
-fi
-
-if [ ! -f .edit_sed2 ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
-	$DEST/lib/libxml2.la
-	touch .edit_sed2
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
