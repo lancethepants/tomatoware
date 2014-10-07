@@ -581,12 +581,12 @@ fi
 cd $SRC/tcl
 
 if [ ! -f .extracted ]; then
-	rm -rf cd tcl8.6.1/unix
-	tar zxvf tcl8.6.1-src.tar.gz
+	rm -rf cd tcl8.6.2/unix
+	tar zxvf tcl8.6.2-src.tar.gz
 	touch .extracted
 fi
 
-cd tcl8.6.1/unix
+cd tcl8.6.2/unix
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
