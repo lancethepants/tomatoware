@@ -910,12 +910,12 @@ fi
 cd $SRC/pcre
 
 if [ ! -f .extracted ]; then
-	rm -rf pcre-8.35
-	tar zxvf pcre-8.35.tar.gz
+	rm -rf pcre-8.36
+	tar zxvf pcre-8.36.tar.gz
 	touch .extracted
 fi
 
-cd pcre-8.35
+cd pcre-8.36
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
