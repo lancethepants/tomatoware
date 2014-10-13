@@ -1196,12 +1196,12 @@ fi
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
-	rm -rf git-2.1.1
-	tar zxvf git-2.1.1.tar.gz
+	rm -rf git-2.1.2
+	tar zxvf git-2.1.2.tar.gz
 	touch .extracted
 fi
 
-cd git-2.1.1
+cd git-2.1.2
 
 if [ ! -f .built ]; then
 	make distclean
