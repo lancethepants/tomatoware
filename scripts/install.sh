@@ -688,12 +688,12 @@ fi
 cd $SRC/libxml2
 
 if [ ! -f .extracted ]; then
-	rm -rf libxml2-2.9.1
-	tar zxvf libxml2-2.9.1.tar.gz
+	rm -rf libxml2-2.9.2
+	tar zxvf libxml2-2.9.2.tar.gz
 	touch .extracted
 fi
 
-cd libxml2-2.9.1
+cd libxml2-2.9.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
