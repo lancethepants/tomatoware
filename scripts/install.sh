@@ -696,7 +696,7 @@ fi
 cd libxml2-2.9.2
 
 if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
+	LDFLAGS="-lz -llzma $LDFLAGS" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -747,7 +747,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libxml-src=$SRC/libxml2/libxml2-2.9.1 \
+	--with-libxml-src=$SRC/libxml2/libxml2-2.9.2 \
 	--without-python \
 	--without-crypto
 	touch .configured
