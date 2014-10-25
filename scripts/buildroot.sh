@@ -503,6 +503,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--enable-no-install-program=uptime \
 	--enable-install-program=hostname \
 	fu_cv_sys_stat_statfs2_bsize=yes \
 	gl_cv_func_working_mkstemp=yes
