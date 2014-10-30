@@ -970,3 +970,22 @@ if [ ! -f .installed ]; then
         make install DESTDIR=$BASE
         touch .installed
 fi
+
+####### #####################################################################
+# UPX # #####################################################################
+####### #####################################################################
+
+cd $SRC/upx
+
+if [ ! -f .extracted ]; then
+	rm -rf upx-3.91-mipsel_linux
+	tar xvjf upx-3.91-mipsel_linux.tar.bz2
+	touch .extracted
+fi
+
+cd upx-3.91-mipsel_linux
+
+if [ ! -f .installed ]; then
+	cp ./upx $DEST/bin
+	touch .installed
+fi
