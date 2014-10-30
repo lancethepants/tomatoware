@@ -640,12 +640,12 @@ fi
 cd $SRC/libtool
 
 if [ ! -f .extracted ]; then
-	rm -rf libtool-2.4.2
-	tar zxvf libtool-2.4.2.tar.gz
+	rm -rf libtool-2.4.3
+	tar zxvf libtool-2.4.3.tar.gz
 	touch .extracted
 fi
 
-cd libtool-2.4.2
+cd libtool-2.4.3
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
