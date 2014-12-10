@@ -17,4 +17,4 @@ ifeq ($(DESTARCH), arm)
 export EXTRACFLAGS=
 endif
 
-export PATH := $(PATH):/opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/bin/:/opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/$(DESTARCH)-linux/bin
+export PATH := /opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/bin/:$(PATH)
