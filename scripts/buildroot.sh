@@ -757,6 +757,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-mount \
 	--disable-nls \
 	--disable-wall
 	touch .configured
