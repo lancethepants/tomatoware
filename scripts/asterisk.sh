@@ -57,12 +57,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/gnutls
 
 if [ ! -f .extracted ]; then
-	rm -rf gnutls-3.2.20
-	tar xvJf gnutls-3.2.20.tar.xz
+	rm -rf gnutls-3.2.21
+	tar xvJf gnutls-3.2.21.tar.xz
 	touch .extracted
 fi
 
-cd gnutls-3.2.20
+cd gnutls-3.2.21
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
