@@ -841,12 +841,12 @@ unset PKG_CONFIG_LIBDIR
 cd $SRC/libevent
 
 if [ ! -f .extracted ]; then
-	rm -rf libevent-2.0.21-stable
-	tar zxvf libevent-2.0.21-stable.tar.gz
+	rm -rf libevent-2.0.22-stable
+	tar zxvf libevent-2.0.22-stable.tar.gz
 	touch .extracted
 fi
 
-cd libevent-2.0.21-stable
+cd libevent-2.0.22-stable
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
