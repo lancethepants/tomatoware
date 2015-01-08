@@ -156,12 +156,12 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1j
-	tar zxvf openssl-1.0.1j.tar.gz
+	rm -rf openssl-1.0.1k
+	tar zxvf openssl-1.0.1k.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1j
+cd openssl-1.0.1k
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/openssl.patch
@@ -180,7 +180,7 @@ if [ ! -f .configured ]; then
 	./Configure $os \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
-	--prefix=$PREFIX shared zlib zlib-dynamic \
+	--prefix=$PREFIX shared zlib \
 	--with-zlib-lib=$DEST/lib \
 	--with-zlib-include=$DEST/include
 	touch .configured
