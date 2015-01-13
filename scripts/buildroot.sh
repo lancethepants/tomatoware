@@ -220,8 +220,8 @@ fi
 cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-2.25 build-binutils
-	tar zxvf binutils-2.25.tar.gz
+	rm -rf binutils-2.24 build-binutils
+	tar zxvf binutils-2.24.tar.gz
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -241,7 +241,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.25/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils-2.24/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
