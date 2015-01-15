@@ -1473,6 +1473,39 @@ if [ ! -f .installed ]; then
 fi
 
 ####### #####################################################################
+# ZSH # #####################################################################
+####### #####################################################################
+
+cd $SRC/zsh
+
+if [ ! -f .extracted ]; then
+	rm -rf zsh-5.0.7
+	tar zxvf zsh-5.0.7.tar.gz
+	touch .extracted
+fi
+
+cd zsh-5.0.7
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+####### #####################################################################
 # VIM # #####################################################################
 ####### #####################################################################
 
