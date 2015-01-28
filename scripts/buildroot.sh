@@ -32,9 +32,9 @@ fi
 cd glib-2.26.1
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/001-automake-compat.patch
-	patch -p1 < $PATCHES/002-missing-gthread-include.patch
-	patch < $PATCHES/010-move-iconv-to-libs.patch
+	patch < $PATCHES/glib/001-automake-compat.patch
+	patch -p1 < $PATCHES/glib/002-missing-gthread-include.patch
+	patch < $PATCHES/glib/010-move-iconv-to-libs.patch
 	touch .patched
 fi
 
@@ -274,9 +274,10 @@ fi
 cd gcc-4.6.4
 
 if [ ! -f .patched ]; then
-	sed -i 's,\/opt,'"$PREFIX"',g' $PATCHES/gcc-4.6.3-specs-1.patch
-	patch -p1 < $PATCHES/gcc-4.6.3-specs-1.patch
-	patch -p1 < $PATCHES/040-gcc_bug_49696.patch
+	cp $PATCHES/gcc/gcc-4.6.3-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-4.6.3-specs-1.patch
+	patch -p1 < gcc-4.6.3-specs-1.patch
+	patch -p1 < $PATCHES/gcc/040-gcc_bug_49696.patch
 	touch .patched
 fi
 
@@ -492,8 +493,8 @@ fi
 cd coreutils-8.22
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/002-fix_compile_with_uclibc.patch
-	patch -p1 < $PATCHES/coreutils-8.22-noman-1.patch
+	patch -p1 < $PATCHES/coreutils/002-fix_compile_with_uclibc.patch
+	patch -p1 < $PATCHES/coreutils/coreutils-8.22-noman-1.patch
 	touch .patched
 fi
 
@@ -747,7 +748,7 @@ fi
 cd util-linux-2.21.2
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/000-compile.patch
+	patch -p1 < $PATCHES/util-linux/000-compile.patch
 	touch .patched
 fi
 
