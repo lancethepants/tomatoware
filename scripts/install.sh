@@ -30,8 +30,8 @@ fi
 cd bzip2-1.0.6
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/bzip2.patch
-	patch < $PATCHES/bzip2_so.patch
+	patch < $PATCHES/bzip2/bzip2.patch
+	patch < $PATCHES/bzip2/bzip2_so.patch
 	touch .patched
 fi
 
@@ -164,7 +164,7 @@ fi
 cd openssl-1.0.1k
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/openssl.patch
+	patch < $PATCHES/openssl/openssl.patch
 	touch .patched
 fi
 
@@ -245,7 +245,7 @@ fi
 cd gettext-0.19.4
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/spawn.patch
+	patch -p1 < $PATCHES/gettext/spawn.patch
 	touch .patched
 fi
 
@@ -518,7 +518,7 @@ fi
 cd readline-6.2
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/readline.patch
+	patch < $PATCHES/readline/readline.patch
 	touch .patched
 fi
 
@@ -964,7 +964,7 @@ fi
 cd ../Python-2.7.3
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/python-drobo.patch
+	patch < $PATCHES/python/python-drobo.patch
 	touch .patched
 fi
 
@@ -1063,7 +1063,7 @@ fi
 cd yenc-0.4.0
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/yenc.patch
+	patch < $PATCHES/yenc/yenc.patch
 	touch .patched
 fi
 
@@ -1136,7 +1136,7 @@ fi
 cd par2cmdline-0.4
 
 if [ ! -f .patched ]; then
-	patch reedsolomon.cpp $PATCHES/reedsolomon.cpp.patch
+	patch reedsolomon.cpp $PATCHES/par2cmdline/reedsolomon.cpp.patch
 	touch .patched
 fi
 
@@ -1175,7 +1175,7 @@ fi
 cd unrar
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/unrar.patch
+	patch < $PATCHES/unrar/unrar.patch
 	touch .patched
 fi
 
@@ -1603,7 +1603,7 @@ fi
 cd unzip60
 
 if [ ! -f .patched ]; then
-	patch unix/Makefile < $PATCHES/unzip.patch
+	patch unix/Makefile < $PATCHES/unzip/unzip.patch
 	touch .patched
 fi
 

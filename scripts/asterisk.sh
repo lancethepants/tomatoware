@@ -255,7 +255,7 @@ cd asterisk-chan-dongle
 
 if [ ! -f .pre-configured ]; then
 	git checkout asterisk11
-	patch < $PATCHES/asterisk-chan-dongle.patch
+	patch < $PATCHES/asterisk/asterisk-chan-dongle.patch
 	aclocal
 	autoconf
 	automake -a || true
