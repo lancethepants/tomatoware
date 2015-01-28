@@ -1,0 +1,19 @@
+*** /home/lance/Makefile-libbz2_so	2012-09-13 17:38:32.165840001 -0600
+--- ./Makefile-libbz2_so	2012-09-13 17:39:00.577840001 -0600
+***************
+*** 22,28 ****
+  
+  
+  SHELL=/bin/sh
+! CC=gcc
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+! CFLAGS=-fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
+  
+--- 22,28 ----
+  
+  
+  SHELL=/bin/sh
+! CC=$(DESTARCH)-linux-gcc
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+! CFLAGS=$(EXTRACFLAGS) -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
+  
