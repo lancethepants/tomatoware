@@ -867,6 +867,53 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+################## ##########################################################
+# LIBMYSQLCLIENT # ##########################################################
+################## ##########################################################
+
+cd $SRC/libmysqlclient
+
+if [ ! -f .extracted ]; then
+	rm -rf mysql-connector-c-6.1.5-src mysql-connector-c-6.1.5-src-native
+	tar zxvf mysql-connector-c-6.1.5-src.tar.gz
+	cp -r mysql-connector-c-6.1.5-src mysql-connector-c-6.1.5-src-native
+	touch .extracted
+fi
+
+cd mysql-connector-c-6.1.5-src-native
+
+if [ ! -f .built_native ]; then
+	cmake .
+	make
+	touch .built_native
+fi
+
+cd ../mysql-connector-c-6.1.5-src
+
+if [ ! -f .configured ]; then
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_C_COMPILER=mipsel-linux-gcc \
+	-DCMAKE_CXX_COMPILER=mipsel-linux-g++ \
+	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CFLAGS" \
+	./
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+	make || true
+	cp ../mysql-connector-c-6.1.5-src-native/extra/comp_err ./extra/comp_err
+	make
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ######## ####################################################################
 # PERL # ####################################################################
 ######## ####################################################################
