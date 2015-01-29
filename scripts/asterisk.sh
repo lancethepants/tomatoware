@@ -206,6 +206,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
 	--with-iksemel=$DEST \
@@ -216,6 +217,10 @@ if [ ! -f .configured ]; then
 	--with-ssl=$DEST \
 	--with-uuid=$DEST \
 	--with-z=$DEST
+
+	make menuselect.makeopts
+	./menuselect/menuselect --enable cdr_mysql menuselect.makeopts
+
 	touch .configured
 fi
 

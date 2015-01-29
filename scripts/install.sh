@@ -893,6 +893,7 @@ cd ../mysql-connector-c-6.1.5-src
 if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DINSTALL_INCLUDEDIR=include/mysql \
 	-DCMAKE_C_COMPILER=mipsel-linux-gcc \
 	-DCMAKE_CXX_COMPILER=mipsel-linux-g++ \
 	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
