@@ -239,7 +239,6 @@ fi
 if [ ! -f .installed_example ]; then
 	tar zxvf ../asterisk_gv.tgz -C $DEST/etc        
 	tar zxvf ../config.tgz -C $DEST/etc
-	tar zxvf ../zoneinfo_etc.tgz -C $DEST/etc
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
 fi
@@ -284,5 +283,40 @@ fi
 
 if [ ! -f .installed ]; then
 	make install
+	touch .installed
+fi
+
+###################### ######################################################
+# TIME ZONE DATABASE # ######################################################
+###################### ######################################################
+
+cd $SRC/tz
+
+if [ ! -f .extracted ]; then
+	rm -rf tz tz-native
+	mkdir tz
+	tar zxvf tzcode2014j.tar.gz -C ./tz
+	tar zxvf tzdata2014j.tar.gz -C ./tz
+	cp -r tz tz-native
+        touch .extracted
+fi
+
+cd tz-native
+
+if [ ! -f .installed ]; then
+        make \
+        TOPDIR=$PREFIX \
+        DESTDIR=$BASE
+        touch .installed
+fi
+
+cd ../tz
+
+if [ ! -f .installed ]; then
+	make install \
+	cc=$DESTARCH-linux-gcc \
+	TOPDIR=$PREFIX \
+	DESTDIR=$BASE \
+	zic=../tz-native/zic
 	touch .installed
 fi
