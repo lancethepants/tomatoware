@@ -894,11 +894,11 @@ if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DINSTALL_INCLUDEDIR=include/mysql \
-	-DCMAKE_C_COMPILER=mipsel-linux-gcc \
-	-DCMAKE_CXX_COMPILER=mipsel-linux-g++ \
+	-DCMAKE_C_COMPILER=$DESTARCH-linux-gcc \
+	-DCMAKE_CXX_COMPILER=$DESTARCH-linux-g++ \
 	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
-	-DCMAKE_CXX_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	./
         touch .configured
 fi
@@ -912,6 +912,8 @@ fi
 
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
+	cp -r $DEST/include/mysql/mysql/ $DEST/include/
+	rm -rf $DEST/include/mysql/mysql
 	touch .installed
 fi
 
