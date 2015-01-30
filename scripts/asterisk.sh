@@ -237,8 +237,9 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .installed_example ]; then
-	tar zxvf ../asterisk_gv.tgz -C $DEST/etc        
-	tar zxvf ../config.tgz -C $DEST/etc
+	tar zxvf ../asterisk_gv.tgz -C $DEST/etc
+	mkdir $DEST/etc/config
+	cp ../asterisk.wanup $DEST/etc/config
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
 fi
