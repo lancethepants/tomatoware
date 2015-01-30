@@ -156,20 +156,15 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1k
-	tar zxvf openssl-1.0.1k.tar.gz
+	rm -rf openssl-1.0.2
+	tar zxvf openssl-1.0.2.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1k
-
-if [ ! -f .patched ]; then
-	patch < $PATCHES/openssl/openssl.patch
-	touch .patched
-fi
+cd openssl-1.0.2
 
 if [ "$DESTARCH" == "mipsel" ];then
-	os=linux-mipsel
+	os=linux-mips32
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -177,7 +172,7 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 if [ ! -f .configured ]; then
-	./Configure $os \
+	./Configure $os $EXTRACFLAGS \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=$PREFIX shared zlib \
