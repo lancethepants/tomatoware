@@ -413,12 +413,12 @@ fi
 cd $SRC/bison
 
 if [ ! -f .extracted ]; then
-	rm -rf bison-3.0.2
-	tar zxvf bison-3.0.2.tar.gz
+	rm -rf bison-3.0.4
+	tar zxvf bison-3.0.4.tar.gz
 	touch .extracted
 fi
 
-cd bison-3.0.2
+cd bison-3.0.4
 
 if [ ! -f .patched ]; then
 	cp -v Makefile.in{,.orig}
