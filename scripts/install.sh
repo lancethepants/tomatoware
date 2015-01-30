@@ -650,12 +650,12 @@ fi
 cd $SRC/sqlite
 
 if [ ! -f .extracted ]; then
-	rm -rf sqlite-autoconf-3080704
-	tar zxvf sqlite-autoconf-3080704.tar.gz
+	rm -rf sqlite-autoconf-3080801
+	tar zxvf sqlite-autoconf-3080801.tar.gz
 	touch .extracted
 fi
 
-cd sqlite-autoconf-3080704
+cd sqlite-autoconf-3080801
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
