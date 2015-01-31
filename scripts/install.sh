@@ -1133,6 +1133,34 @@ fi
 
 cd $SRC/pyopenssl
 
+if [ ! -f .built_openssl ]; then
+
+	rm -rf openssl-1.0.1l
+	tar zxvf openssl-1.0.1l.tar.gz
+	cd openssl-1.0.1l
+	patch < $PATCHES/openssl/openssl.patch
+
+	if [ "$DESTARCH" == "mipsel" ];then
+		os=linux-mipsel
+	fi
+
+	if [ "$DESTARCH" == "arm" ];then
+		os=linux-armv4
+	fi
+
+	./Configure $os \
+	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
+	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
+	--prefix=$PREFIX shared zlib \
+	--with-zlib-lib=$DEST/lib \
+	--with-zlib-include=$DEST/include
+	make CC=$DESTARCH-linux-gcc
+	cp libcrypto.so libssl.so $DEST/lib/python2.7
+	touch ../.built_openssl
+fi
+
+cd $SRC/pyopenssl
+
 if [ ! -f .extracted ]; then
 	rm -rf pyOpenSSL-0.13.1
 	tar zxvf pyOpenSSL-0.13.1.tar.gz
@@ -1140,9 +1168,10 @@ if [ ! -f .extracted ]; then
 fi
 
 cd pyOpenSSL-0.13.1
-
 if [ ! -f .configured ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
+	sed -i 's,\-Wl\,\-rpath\,\/mmc\/lib ,\-Wl\,\-rpath\,\/mmc\/lib\/python2.7 ,g' ../../python/Python-2.7.3/Makefile
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I../openssl-1.0.1l/include -L../openssl-1.0.1l -R$RPATH
+	sed -i 's,\-Wl\,\-rpath\,\/mmc\/lib\/python2.7 ,\-Wl\,\-rpath\,\/mmc\/lib ,g' ../../python/Python-2.7.3/Makefile
 	touch .configured
 fi
 
