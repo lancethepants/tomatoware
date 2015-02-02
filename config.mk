@@ -10,7 +10,7 @@ export PREFIX=/mmc
 #export PREFIX=/opt
 
 ifeq ($(DESTARCH), mipsel)
-export EXTRACFLAGS = O2 -pipe -mips32 -mtune=mips32
+export EXTRACFLAGS = -O2 -pipe -mips32 -mtune=mips32
 endif
 
 ifeq ($(DESTARCH), arm)
