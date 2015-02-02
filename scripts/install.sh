@@ -164,7 +164,7 @@ fi
 cd openssl-1.0.2
 
 if [ "$DESTARCH" == "mipsel" ];then
-	os=linux-mips32
+	os="linux-mips32 -mips32 -mtune=mips32"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -172,7 +172,7 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 if [ ! -f .configured ]; then
-	./Configure $os $EXTRACFLAGS \
+	./Configure $os \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=$PREFIX shared zlib \
