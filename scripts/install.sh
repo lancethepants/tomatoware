@@ -656,12 +656,12 @@ fi
 cd $SRC/sqlite
 
 if [ ! -f .extracted ]; then
-	rm -rf sqlite-autoconf-3080801
-	tar zxvf sqlite-autoconf-3080801.tar.gz
+	rm -rf sqlite-autoconf-3080802
+	tar zxvf sqlite-autoconf-3080802.tar.gz
 	touch .extracted
 fi
 
-cd sqlite-autoconf-3080801
+cd sqlite-autoconf-3080802
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1224,7 +1224,7 @@ cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-5.2.4.tar.gz
+	tar zxvf unrarsrc-5.2.5.tar.gz
 	touch .extracted
 fi
 
