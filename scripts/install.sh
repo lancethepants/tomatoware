@@ -629,6 +629,7 @@ if [ ! -f .configured ]; then
 	../dist/$CONFIGURE \
 	--enable-cxx \
 	--enable-tcl \
+	--enable-compat185 \
 	--with-tcl=$DEST/lib
 	touch .configured
 fi
@@ -1000,6 +1001,11 @@ fi
 
 cd Python-2.7.3-native
 
+if [ ! -f .patched_native ]; then
+	patch -p1 < $PATCHES/python/python_asdl.patch
+	touch .patched_native
+fi
+
 if [ ! -f .built_native ]; then
 	./configure
 	$MAKE
@@ -1010,6 +1016,7 @@ cd ../Python-2.7.3
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/python/python-drobo.patch
+	patch -p1 < $PATCHES/python/python_asdl.patch
 	touch .patched
 fi
 
