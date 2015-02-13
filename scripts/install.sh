@@ -1184,19 +1184,17 @@ fi
 cd $SRC/par2cmdline
 
 if [ ! -f .extracted ]; then
-	rm -rf par2cmdline-0.4
-	tar zxvf par2cmdline-0.4.tar.gz
+	rm -rf par2cmdline-0.6.11
+	tar zxvf par2cmdline-0.6.11.tar.gz
 	touch .extracted
 fi
 
-cd par2cmdline-0.4
-
-if [ ! -f .patched ]; then
-	patch reedsolomon.cpp $PATCHES/par2cmdline/reedsolomon.cpp.patch
-	touch .patched
-fi
+cd par2cmdline-0.6.11
 
 if [ ! -f .configured ]; then
+	aclocal
+	automake --add-missing
+	autoconf
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
