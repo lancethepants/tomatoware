@@ -979,7 +979,7 @@ fi
 
 cd $SRC/upx
 
-if [ ! -f .extracted ]; then
+if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
 	rm -rf upx-3.91-mipsel_linux
 	tar xvjf upx-3.91-mipsel_linux.tar.bz2
 	touch .extracted
@@ -987,7 +987,7 @@ fi
 
 cd upx-3.91-mipsel_linux
 
-if [ ! -f .installed ]; then
+if [ ! -f .installed ] && [ "$DESTARCH" == "mipsel" ]; then
 	cp ./upx $DEST/bin
 	touch .installed
 fi
