@@ -1494,15 +1494,16 @@ fi
 cd $SRC/bash
 
 if [ ! -f .extracted ]; then
-	rm -rf bash-4.2
-	tar zxvf bash-4.2.tar.gz
+	rm -rf bash-4.3.30
+	tar zxvf bash-4.3.30.tar.gz
 	touch .extracted
 fi
 
-cd bash-4.2
+cd bash-4.3.30
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
+	patch < $PATCHES/bash/002-force-internal-readline.patch
 	touch .patched
 fi
 
@@ -1512,7 +1513,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-installed-readline
+	--without-bash-malloc
 	touch .configured
 fi
 
