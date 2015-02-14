@@ -22,7 +22,7 @@ MAKE="make -j`nproc`"
 cd $SRC/bzip2
 
 if [ ! -f .extracted ]; then
-	rm -rf bzip2-1.0.6 
+	rm -rf bzip2-1.0.6
 	tar zxvf bzip2-1.0.6.tar.gz
 	touch .extracted
 fi
@@ -102,7 +102,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--enable-shared=yes 
+	--enable-shared=yes
 	touch .configured
 fi
 
@@ -819,7 +819,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS="$CPPFLAGS -I$DEST/include/sigc++-2.0 -I$DEST/lib/sigc++-2.0/include" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE 
+	$CONFIGURE
 	touch .configured
 fi
 
@@ -1204,7 +1204,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make clean 
+	make clean
 	$MAKE
 	touch .built
 fi
