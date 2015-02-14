@@ -1513,7 +1513,28 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--without-bash-malloc
+	--without-bash-malloc \
+	bash_cv_wexitstatus_offset=8 \
+	bash_cv_getcwd_malloc=yes \
+	bash_cv_func_sigsetjmp=present \
+	bash_cv_func_snprintf=yes \
+	bash_cv_func_vsnprintf=yes \
+	bash_cv_printf_a_format=yes \
+	bash_cv_job_control_missing=present \
+	bash_cv_unusable_rtsigs=no \
+	bash_cv_sys_named_pipes=present \
+	bash_cv_func_ctype_nonascii=no \
+	bash_cv_dup2_broken=no \
+	bash_cv_pgrp_pipe=no \
+	bash_cv_sys_siglist=no \
+	bash_cv_under_sys_siglist=no \
+	bash_cv_opendir_not_robust=no \
+	bash_cv_ulimit_maxfds=no \
+	bash_cv_getenv_redef=yes \
+	bash_cv_must_reinstall_sighandlers=no \
+	bash_cv_wcontinued_broken=no \
+	bash_cv_func_strcoll_broken=no
+
 	touch .configured
 fi
 
