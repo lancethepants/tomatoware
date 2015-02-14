@@ -113,7 +113,6 @@ echo "#export LANG='ru_RU.UTF-8'" >> profile
 echo "#export LC_ALL='ru_RU.UTF-8'" >> profile
 echo "" >> profile
 echo "alias ls='ls --color'" >> profile
-echo "alias uptime='/usr/bin/uptime'" >> profile
 
 chmod +x profile
 
