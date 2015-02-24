@@ -226,14 +226,32 @@ if [ ! -f .extracted ]; then
 	touch .extracted
 fi
 
-cd build-binutils
+cd binutils-2.24
+
+if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ];then
+	patch -p1 < $PATCHES/binutils/2.24/001-fix-enable-install-libiberty-flag.patch
+	patch -p1< $PATCHES/binutils/2.24/002-dont-segv-on-initial-instructions-overflow.patch
+	patch -p1 < $PATCHES/binutils/2.24/120-sh-conf.patch
+	patch -p1 < $PATCHES/binutils/2.24/300-001_ld_makefile_patch.patch
+	patch -p1 < $PATCHES/binutils/2.24/300-012_check_ldrunpath_length.patch
+	patch -p1 < $PATCHES/binutils/2.24/500-sysroot.patch
+	patch -p1 < $PATCHES/binutils/2.24/900-xtensa-trampolines.patch
+	patch -p1 < $PATCHES/binutils/2.24/901-xtensa-gas-first-frag-alignment.patch
+	patch -p1 < $PATCHES/binutils/2.24/902-xtensa-gas-ld-diff-relocation-signed.patch
+	patch -p1 < $PATCHES/binutils/2.24/903-xtensa-fix-ld-segfault-when-linking-linux-modules.patch
+	patch -p1 < $PATCHES/binutils/2.24/904-Fix-call8-call-target-out-of-range-xtensa-ld-relaxation.patch
+	patch -p1 < $PATCHES/binutils/2.24/905-Fix-trampolines-search-code-for-conditional-branches.patch
+	touch .patched
+fi
+
+cd ../build-binutils
 
 if [ "$DESTARCH" == "mipsel" ];then
         os=mipsel-linux
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-linux-uclibcgnueabi
+	os=arm-buildroot-linux-uclibcgnueabi
 fi
 
 if [ ! -f .configured ]; then
@@ -264,16 +282,29 @@ fi
 
 cd $SRC/gcc
 
-if [ ! -f .extracted ]; then
+if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
 	rm -rf gcc-4.6.4 gcc-build
 	tar zxvf gcc-4.6.4.tar.gz
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-4.6.4
+if [ ! -f .extracted ] && [ "$DESTARCH" == "arm" ]; then
+	rm -rf gcc-4.9.2 gcc-build
+	tar xvjf $SRC/arm-toolchain/dl/gcc-4.9.2.tar.bz2 -C $SRC/gcc
+	mkdir gcc-build
+	touch .extracted
+fi
 
-if [ ! -f .patched ]; then
+if [ "$DESTARCH" == "mipsel" ]; then
+	cd gcc-4.6.4
+fi
+
+if [ "$DESTARCH" == "arm" ]; then
+	cd gcc-4.9.2
+fi
+
+if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
 	cp $PATCHES/gcc/gcc-4.6.3-specs-1.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' gcc-4.6.3-specs-1.patch
 	patch -p1 < gcc-4.6.3-specs-1.patch
@@ -281,22 +312,45 @@ if [ ! -f .patched ]; then
 	touch .patched
 fi
 
+if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ]; then
+	cp $PATCHES/gcc/gcc-4.9.2-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-4.9.2-specs-1.patch
+	patch -p1 < gcc-4.9.2-specs-1.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/100-uclibc-conf.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/301-missing-execinfo_h.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/810-arm-softfloat-libgcc.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/830-arm_unbreak_armv4t.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/840-microblaze-enable-dwarf-eh-support.patch
+	patch -p1 < $PATCHES/gcc/4.9.2/850-libstdcxx-uclibc-c99.patch
+#	patch -p1 < $PATCHES/gcc/4.9.2/900-musl-support.patch
+	touch .patched
+fi
+
 cd ../gcc-build
 
-if [ "$DESTARCH" == "mipsel" ];then
+if [ "$DESTARCH" == "mipsel" ]; then
 
 	os=mipsel-linux
+	GCC=gcc-4.6.4
 
-	if [ "$FLOAT" == "soft" ];then
-		gccextraconfig="--with-arch=mips32 --with-mips-plt --with-float=soft"
-	else
-		gccextraconfig="--with-arch=mips32 --with-mips-plt"
+	gccextraconfig="--enable-libssp \
+			--with-arch=mips32 \
+			--with-mips-plt"
+
+	if [ "$FLOAT" == "soft" ]; then
+		gccextraconfig="$gccextraconfig --with-float=soft"
 	fi
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-linux-uclibcgnueabi
-	gccextraconfig="--with-float=soft --with-abi=aapcs-linux"
+	os=arm-buildroot-linux-uclibcgnueabi
+	GCC=gcc-4.9.2
+	gccextraconfig="--disable-libssp \
+			--with-float=soft
+			--with-abi=aapcs-linux
+			--disable-libsanitizer
+			--disable-libgomp
+			--with-cpu=cortex-a9"
 fi
 
 if [ ! -f .configured ]; then
@@ -304,7 +358,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../gcc-4.6.4/configure --prefix=$PREFIX --host=$os --target=$os \
+	../$GCC/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -314,7 +368,6 @@ if [ ! -f .configured ]; then
 	--enable-version-specific-runtime-libs \
 	--enable-languages=c,c++ \
 	--enable-threads=posix \
-	--enable-libssp \
 	--enable-shared \
 	--enable-tls \
 	--with-gnu-as \
@@ -338,6 +391,10 @@ fi
 
 if [ ! -f $DEST/bin/cc ]; then
 	ln -s gcc $DEST/bin/cc
+fi
+
+if [ "$DESTARCH" = "arm" ] && [ ! -f $DEST/bin/arm-linux-gcc ]; then
+        ln -s gcc $DEST/bin/arm-linux-gcc
 fi
 
 ############ ################################################################
@@ -985,9 +1042,7 @@ if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
 	touch .extracted
 fi
 
-cd upx-3.91-mipsel_linux
-
 if [ ! -f .installed ] && [ "$DESTARCH" == "mipsel" ]; then
-	cp ./upx $DEST/bin
+	cp ./upx-3.91-mipsel_linux/upx $DEST/bin
 	touch .installed
 fi

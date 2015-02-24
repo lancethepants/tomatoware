@@ -3,11 +3,18 @@
 set -e
 set -x
 
-BASE=`pwd`
+export BASE=`pwd`
+export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
-if [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
+if [ "$DESTARCH" = "mipsel" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
+	if [ ! -d /opt/tomatoware ]
+	then
+		sudo mkdir -p /opt/tomatoware
+		sudo chmod -R 777 /opt/tomatoware
+	fi
+
 	mkdir $BASE/toolchain && cd $BASE/toolchain
 	git clone https://github.com/Entware/entware.git
 	cd ./entware/toolchain
@@ -22,34 +29,44 @@ then
 	sed -i 's,entware,tomatoware,g' Makefile
 	sed -i 's,toolchain-$(TARGET),$(DESTARCH)-$(FLOAT)$(subst \/\,\-\,$(PREFIX)),g' Makefile
 
-	if [ "$DESTARCH" = "mipsel" ] && [ "$FLOAT" = "soft" ];
+	if [ "$FLOAT" = "soft" ];
 	then
 		sed -i 's,export TARGET=entware,#export TARGET=entware,g' ../config.mk
 		sed -i 's,#export TARGET=mipselsf,export TARGET=mipselsf,g' ../config.mk
 		sed -i "s,/opt/entware/toolchain-mipselsf,/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-},g" patches-mipselsf/define-toolchain-path.patch
 	fi
 
-	if [ "$DESTARCH" = "mipsel" ] && [ "$FLOAT" = "hard" ];
+	if [ "$FLOAT" = "hard" ];
 	then
 		sed -i "s,/opt/entware/toolchain-entware,/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-},g" patches-entware/define-toolchain-path.patch
 	fi
 
-	if [ "$DESTARCH" = "arm" ];
-	then
-		tar xvJf $PATCHES/toolchain/linux-2.6.36.4.tar.xz -C $BASE/toolchain
-		patch -p1 -d $BASE/toolchain/linux-2.6.36.4 < $PATCHES/toolchain/kernel.patch
-		cp -r $PATCHES/toolchain/patches-arm .
-		sed -i 's,TARGET=entware,TARGET=arm,g' ../config.mk
-		sed -i "s,/opt/entware/toolchain-arm,/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-},g" patches-arm/define-toolchain-path.patch
-		sed -i "s,linux-2.6.22.19,linux-2.6.36.4,g" Makefile
-	fi
-
 	cd ..
 
-	if [ "$DESTARCH" = "mipsel" ];
+	make -C "kernel-2.6.22.19"
+	make -C "toolchain"
+fi
+
+if [ "$DESTARCH" = "arm" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
+then
+	if [ ! -d /opt/tomatoware ]
 	then
-		make -C "kernel-2.6.22.19"
+		sudo mkdir -p /opt/tomatoware
+		sudo chmod -R 777 /opt/tomatoware
 	fi
 
-	make -C "toolchain"
+	mkdir $BASE/toolchain && cd $BASE/toolchain
+	tar zxvf $SRC/arm-toolchain/buildroot-2014.11.tar.gz -C $BASE/toolchain
+	cp $SRC/arm-toolchain/.config $BASE/toolchain/buildroot-2014.11
+	cp -r $SRC/arm-toolchain/patches $BASE/toolchain
+
+	sed -i 's,\/opt,'"$PREFIX"',g' \
+	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
+	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
+	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \
+	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch
+
+	cd $BASE/toolchain/buildroot-2014.11
+	make
+
 fi
