@@ -173,7 +173,7 @@ if [ "$DESTARCH" == "mipsel" ];then
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=linux-armv4
+	os="linux-armv4 -march=armv7-a -mtune=cortex-a9"
 fi
 
 if [ ! -f .configured ]; then
