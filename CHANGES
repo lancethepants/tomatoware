@@ -1,3 +1,8 @@
+1.0.1
+	Improved arm support.
+	Now uses a buildroot to create a cross toolchain.
+	Uses gcc 4.9.2, and uclibc 0.9.33.2.
+
 1.0
 	update lzo to 2.09
 	update xz utils to 5.2.0
