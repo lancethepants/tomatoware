@@ -2,6 +2,7 @@
 	Improved arm support.
 	Now uses a buildroot to create a cross toolchain.
 	Uses gcc 4.9.2, and uclibc 0.9.33.2.
+	No other changes between 1.0 and 1.0.1 except for arm architecture support.
 
 1.0
 	update lzo to 2.09
