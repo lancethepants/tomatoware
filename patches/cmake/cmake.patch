@@ -1,0 +1,12 @@
+diff -Nuar cmake-3.2.1_orig/Utilities/cmcurl/lib/strerror.c cmake-3.2.1/Utilities/cmcurl/lib/strerror.c
+--- cmake-3.2.1_orig/Utilities/cmcurl/lib/strerror.c	2015-03-19 11:18:00.709245167 -0600
++++ cmake-3.2.1/Utilities/cmcurl/lib/strerror.c	2015-03-19 11:24:08.340739915 -0600
+@@ -29,7 +29,7 @@
+       (defined(HAVE_POSIX_STRERROR_R) && defined(HAVE_VXWORKS_STRERROR_R)) || \
+       (defined(HAVE_GLIBC_STRERROR_R) && defined(HAVE_VXWORKS_STRERROR_R)) || \
+       (defined(HAVE_POSIX_STRERROR_R) && defined(HAVE_GLIBC_STRERROR_R))
+-#    error "strerror_r MUST be either POSIX, glibc or vxworks-style"
++//#    error "strerror_r MUST be either POSIX, glibc or vxworks-style"
+ #  endif
+ #endif
+ 
