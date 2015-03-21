@@ -790,6 +790,52 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######### ###################################################################
+# CMAKE # ###################################################################
+######### ###################################################################
+
+cd $SRC/cmake
+
+if [ ! -f .extracted ]; then
+	rm -rf cmake-3.2.1
+	tar zxvf cmake-3.2.1.tar.gz
+	touch .extracted
+fi
+
+cd cmake-3.2.1
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/cmake/cmake.patch
+	touch .patched
+fi
+
+if [ ! -f .configured ]; then
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_C_COMPILER=$DESTARCH-linux-gcc \
+	-DCMAKE_CXX_COMPILER=$DESTARCH-linux-g++ \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	./
+	touch .configured
+fi
+
+if [ ! -f .edit_sed ]; then
+	sed -i '/cmake_install/s/bin\/cmake/\/usr\/bin\/cmake/g' Makefile
+	touch .edit_sed
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ############## ##############################################################
 # UTIL-LINUX # ##############################################################
 ############## ##############################################################
