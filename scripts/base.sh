@@ -1694,3 +1694,36 @@ if [ ! -f .installed ]; then
 	make prefix=$DEST install
 	touch .installed
 fi
+
+######## ####################################################################
+# GZIP # ####################################################################
+######## ####################################################################
+
+cd $SRC/gzip
+
+if [ ! -f .extracted ]; then
+	rm -rf gzip-1.6
+	tar xvJf gzip-1.6.tar.xz
+	touch .extracted
+fi
+
+cd gzip-1.6
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
