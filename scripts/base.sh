@@ -875,13 +875,13 @@ fi
 cd $SRC/libmysqlclient
 
 if [ ! -f .extracted ]; then
-	rm -rf mysql-connector-c-6.1.5-src mysql-connector-c-6.1.5-src-native
-	tar zxvf mysql-connector-c-6.1.5-src.tar.gz
-	cp -r mysql-connector-c-6.1.5-src mysql-connector-c-6.1.5-src-native
+	rm -rf mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
+	tar zxvf mysql-connector-c-6.1.6-src.tar.gz
+	cp -r mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
 	touch .extracted
 fi
 
-cd mysql-connector-c-6.1.5-src-native
+cd mysql-connector-c-6.1.6-src-native
 
 if [ ! -f .built_native ]; then
 	cmake .
@@ -889,7 +889,7 @@ if [ ! -f .built_native ]; then
 	touch .built_native
 fi
 
-cd ../mysql-connector-c-6.1.5-src
+cd ../mysql-connector-c-6.1.6-src
 
 if [ ! -f .configured ]; then
 	cmake \
@@ -925,13 +925,13 @@ fi
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf tar zxvf perl-5.20.1
-	tar zxvf perl-5.20.1.tar.gz
-	tar zxvf perl-5.20.1-cross-0.9.4.tar.gz
+	rm -rf tar zxvf perl-5.20.2
+	tar zxvf perl-5.20.2.tar.gz
+	tar zxvf perl-5.20.2-cross-0.9.6.tar.gz
 	touch .extracted
 fi
 
-cd perl-5.20.1
+cd perl-5.20.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
@@ -940,7 +940,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
 	--prefix=$PREFIX \
-	--target=$DESTARCH-linux
+	--target=$DESTARCH-linux \
+	--use-threads
 	touch .configured
 fi
 
