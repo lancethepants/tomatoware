@@ -884,12 +884,12 @@ fi
 cd $SRC/patch
 
 if [ ! -f .extracted ]; then
-	rm -rf  patch-2.7.4
-	tar zxvf patch-2.7.4.tar.gz
+	rm -rf  patch-2.7.5
+	tar zxvf patch-2.7.5.tar.gz
 	touch .extracted
 fi
 
-cd patch-2.7.4
+cd patch-2.7.5
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
