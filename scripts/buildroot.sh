@@ -185,12 +185,12 @@ fi
 cd $SRC/mpc
 
 if [ ! -f .extracted ]; then
-	rm -rf mpc-1.0.2
-	tar zxvf mpc-1.0.2.tar.gz
+	rm -rf mpc-1.0.3
+	tar zxvf mpc-1.0.3.tar.gz
 	touch .extracted
 fi
 
-cd mpc-1.0.2
+cd mpc-1.0.3
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
