@@ -164,7 +164,7 @@ fi
 cd openssl-1.0.1m
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/openssl/openssl.patch
+	patch -p1 < $PATCHES/openssl/openssl.patch
 	touch .patched
 fi
 
