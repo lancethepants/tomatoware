@@ -906,7 +906,7 @@ fi
 
 if [ ! -f .built ]; then
 	make || true
-	cp ../mysql-connector-c-6.1.5-src-native/extra/comp_err ./extra/comp_err
+	cp ../mysql-connector-c-6.1.6-src-native/extra/comp_err ./extra/comp_err
 	make
 	touch .built
 fi
