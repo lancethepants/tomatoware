@@ -917,12 +917,12 @@ fi
 cd $SRC/wget
 
 if [ ! -f .extracted ]; then
-	rm -rf wget-1.16.1
-	tar zxvf wget-1.16.1.tar.gz
+	rm -rf wget-1.16.3
+	tar zxvf wget-1.16.3.tar.gz
 	touch .extracted
 fi
 
-cd wget-1.16.1
+cd wget-1.16.3
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
