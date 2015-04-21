@@ -110,6 +110,8 @@ fi
 # IKSEMEL # #################################################################
 ########### #################################################################
 
+export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
+
 cd $SRC/iksemel
 
 if [ ! -f .extracted ]; then
@@ -139,6 +141,8 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
+
+unset PKG_CONFIG_PATH
 
 ######## ####################################################################
 # SRTP # ####################################################################
@@ -221,7 +225,7 @@ if [ ! -f .configured ]; then
 	--with-uuid=$DEST \
 	--with-z=$DEST
 
-	make menuselect.makeopts
+	make menuselect.makeopts CC=cc
 	./menuselect/menuselect --enable cdr_mysql menuselect.makeopts
 
 	touch .configured
