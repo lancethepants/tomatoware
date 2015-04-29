@@ -1,3 +1,23 @@
+1.0.2
+	Update OpenSSL to 1.0.1m
+	Update libpcap to 1.7.2
+	Update tcl to 8.6.4
+	Update sqlite to 3.8.9.0
+	Update libsigc++ to 2.4.1
+	Update perl to 5.20.2
+	Update unrar to 5.2.7
+	Update git to 2.3.5
+	Update Openssh to 6.8
+	Update mpc to 1.0.3
+	Update wget to 1.16.3
+	Update Time Zone Data to 2015c
+	Update par2cmdline to 0.6.12
+	Update asterisk to 11.17.1
+
+	Add Stack Smashing Protection to ARM uClibc
+	Add cmake 3.2.2 package
+	Add gzip 1.6 package
+
 1.0.1
 	Improved arm support.
 	Now uses a buildroot to create a cross toolchain.
