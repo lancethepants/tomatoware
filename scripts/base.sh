@@ -156,20 +156,15 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.1m
-	tar zxvf openssl-1.0.1m.tar.gz
+	rm -rf openssl-1.0.2b
+	tar zxvf openssl-1.0.2b.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.1m
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/openssl/openssl.patch
-	touch .patched
-fi
+cd openssl-1.0.2b
 
 if [ "$DESTARCH" == "mipsel" ];then
-	os=linux-mipsel
+	os=linux-mips32
 fi
 
 if [ "$DESTARCH" == "arm" ];then
