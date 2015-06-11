@@ -659,12 +659,12 @@ fi
 cd $SRC/gawk
 
 if [ ! -f .extracted ]; then
-	rm -rf gawk-4.1.2
-	tar zxvf gawk-4.1.2.tar.gz
+	rm -rf gawk-4.1.3
+	tar zxvf gawk-4.1.3.tar.gz
 	touch .extracted
 fi
 
-cd gawk-4.1.2
+cd gawk-4.1.3
 
 if [ ! -f .edit_sed ]; then
 	cp -v extension/Makefile.in{,.orig}
