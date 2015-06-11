@@ -1556,12 +1556,12 @@ fi
 cd $SRC/zsh
 
 if [ ! -f .extracted ]; then
-	rm -rf zsh-5.0.7
-	tar zxvf zsh-5.0.7.tar.gz
+	rm -rf zsh-5.0.8
+	tar zxvf zsh-5.0.8.tar.gz
 	touch .extracted
 fi
 
-cd zsh-5.0.7
+cd zsh-5.0.8
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
