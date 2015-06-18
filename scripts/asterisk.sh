@@ -225,7 +225,8 @@ if [ ! -f .configured ]; then
 	--with-uuid=$DEST \
 	--with-z=$DEST
 
-	make menuselect.makeopts CC=cc
+	make menuselect.makeopts CC=cc CXX=g++ || true
+	make menuselect.makeopts CC=cc CXX=g++
 	./menuselect/menuselect --enable cdr_mysql menuselect.makeopts
 
 	touch .configured
