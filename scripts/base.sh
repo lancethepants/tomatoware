@@ -1329,12 +1329,12 @@ fi
 cd $SRC/pam
 
 if [ ! -f .extracted ]; then
-	rm -rf Linux-PAM-1.2.0
-	tar zxvf Linux-PAM-1.2.0.tar.gz
+	rm -rf Linux-PAM-1.2.1
+	tar zxvf Linux-PAM-1.2.1.tar.gz
 	touch .extracted
 fi
 
-cd Linux-PAM-1.2.0
+cd Linux-PAM-1.2.1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
