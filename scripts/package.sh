@@ -7,6 +7,10 @@ BASE=`pwd`
 DEST=$BASE$PREFIX
 SRC=$BASE/src
 
+if [ -f $BASE/.packaged ]; then
+exit
+fi
+
 #Copy lib and include files from toolchain for use in the deployment system.
 if [ "$DESTARCH" = "mipsel" ];
 then
@@ -135,3 +139,4 @@ chmod +x profile
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
 tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $ARM bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ $USR var/ .autorun .vimrc
+touch $BASE/.packaged
