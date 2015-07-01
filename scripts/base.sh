@@ -1142,14 +1142,15 @@ fi
 cd $SRC/pyopenssl
 
 if [ ! -f .extracted ]; then
-	rm -rf pyOpenSSL-0.13.1
+	rm -rf pyOpenSSL-0.13.1 openssl-1.0.1o
+	tar zxvf openssl-1.0.1o.tar.gz
 	tar zxvf pyOpenSSL-0.13.1.tar.gz
 	touch .extracted
 fi
 
 cd pyOpenSSL-0.13.1
 if [ ! -f .configured ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I$DEST/include -L$DEST/lib -R$RPATH
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I../openssl-1.0.1o/include -L../openssl-1.0.1o -R$RPATH
 	touch .configured
 fi
 
