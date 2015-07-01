@@ -1373,12 +1373,12 @@ fi
 cd $SRC/openssh
 
 if [ ! -f .extracted ]; then
-	rm -rf openssh-6.8p1
-	tar zxvf openssh-6.8p1.tar.gz
+	rm -rf openssh-6.9p1
+	tar zxvf openssh-6.9p1.tar.gz
 	touch .extracted
 fi
 
-cd openssh-6.8p1
+cd openssh-6.9p1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
