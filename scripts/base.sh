@@ -922,7 +922,7 @@ cd $SRC/perl
 if [ ! -f .extracted ]; then
 	rm -rf tar zxvf perl-5.20.2
 	tar zxvf perl-5.20.2.tar.gz
-	tar zxvf perl-5.20.2-cross-0.9.6.tar.gz
+	tar zxvf perl-5.20.2-cross-0.9.7.tar.gz
 	touch .extracted
 fi
 
