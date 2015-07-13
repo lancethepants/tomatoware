@@ -1,7 +1,7 @@
 tomatoware
 ==========
 
-Tomatoware is a development environment for mipsel and ARM embedded routers. It gives you the ability to compile applications natively on your device.
+Tomatoware is a development environment for mipsel and ARM embedded routers. It can be used to compile userland applications natively on these devices.
 
 Downloads for the project can be found on the github project releases page. https://github.com/lancethepants/tomatoware/releases
 
@@ -10,9 +10,9 @@ Downloads for the project can also be found at http://lancethepants.com/files
 Compiling
 ==========
 
-Tomatoware has the ability to be compiled for different root prefixes. This allows you to mount it to /mmc, /jffs, or any other available prefix. This allows tomatoware to co-exist with entware/optware which reside in /opt. 
+Tomatoware can be compiled for different root prefixes. It can be mounted to /mmc, /jffs, or any other prefix available on the target system. This allows tomatoware to co-exist with entware/optware, which reside in /opt. 
 
-Edit config.mk to set the desired prefix and then run make. It will compile the toolchain if it is not already installed, and then will compile tomatoware.  It must create a new toolchain for each unique prefix used.
+Edit config.mk to set the desired architecture and prefix, and then run make. It will compile the toolchain if it has not already been done previously, and then it will compile tomatoware.  It must create a separate toolchain for each unique prefix used.
 
 I'm compiling this on a Debian 7 system. I've also sucessfully built Tomatoware on Ubuntu 14.04. The following packages should be sufficient to compile Tomatoware.
 
