@@ -1219,7 +1219,7 @@ cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-5.2.7.tar.gz
+	tar zxvf unrarsrc-5.3.1.tar.gz
 	touch .extracted
 fi
 
