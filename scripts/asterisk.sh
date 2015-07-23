@@ -324,6 +324,8 @@ cd ../tz
 if [ ! -f .installed ]; then
 	make install \
 	cc=$DESTARCH-linux-gcc \
+	LFLAGS="$LDFLAGS" \
+	CFLAGS="$CFLAGS" \
 	TOPDIR=$PREFIX \
 	DESTDIR=$BASE \
 	zic=../tz-native/zic
