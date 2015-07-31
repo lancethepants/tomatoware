@@ -1076,6 +1076,44 @@ if [ ! -f .installed ]; then
         touch .installed
 fi
 
+######## ####################################################################
+# CPIO # ####################################################################
+######## ####################################################################
+
+cd $SRC/cpio
+
+if [ ! -f .extracted ]; then
+	rm -rf cpio-2.11
+	tar zxvf cpio-2.11.tar.gz
+	touch .extracted
+fi
+
+cd cpio-2.11
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/cpio/cpio.patch
+	touch .patched
+fi
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ####### #####################################################################
 # UPX # #####################################################################
 ####### #####################################################################
