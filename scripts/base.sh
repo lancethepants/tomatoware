@@ -454,12 +454,12 @@ fi
 cd $SRC/ncurses
 
 if [ ! -f .extracted ]; then
-	rm -rf ncurses-5.9
-	tar zxvf ncurses-5.9.tar.gz
+	rm -rf ncurses-6.0
+	tar zxvf ncurses-6.0.tar.gz
 	touch .extracted
 fi
 
-cd ncurses-5.9
+cd ncurses-6.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
