@@ -505,12 +505,12 @@ fi
 cd $SRC/libreadline
 
 if [ ! -f .extracted ]; then
-	rm -rf readline-6.2
-	tar zxvf readline-6.2.tar.gz
+	rm -rf readline-6.3
+	tar zxvf readline-6.3.tar.gz
 	touch .extracted
 fi
 
-cd readline-6.2
+cd readline-6.3
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/readline/readline.patch
@@ -522,7 +522,9 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	bash_cv_wcwidth_broken=no \
+	bash_cv_func_sigsetjmp=yes
 	touch .configured
 fi
 
