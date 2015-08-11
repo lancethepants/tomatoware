@@ -192,12 +192,12 @@ fi
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-11.18.0
-	tar zxvf asterisk-11.18.0.tar.gz
+	rm -rf asterisk-11.19.0
+	tar zxvf asterisk-11.19.0.tar.gz
 	touch .extracted
 fi
 
-cd asterisk-11.18.0
+cd asterisk-11.19.0
 
 if [ ! -f .patched ]; then
 	if [ "$DESTARCH" == "arm" ];then
