@@ -1,3 +1,32 @@
+1.0.3
+	Update OpenSSL to 1.0.2d
+	Update asterisk to 11.19.0
+	Update openssh to 7.0p1
+	Update curl to 7.43.0
+	Update ncurses to 6.0
+	Update libreadline to 6.3
+	Update gettext to 0.19.5.1
+	Update sqlite to 3.8.11.1
+	Update libpcap to 1.7.4
+	Update Linux-pam to 1.2.1
+	Update pcre to 8.37
+	Update MPFR to 3.1.3
+	Update tmux to 2.0
+	Update cmake to 3.3.0
+	Update check to 0.10.0
+	Update strace to 4.10
+	Update git to 2.5.0
+	Update unrar to 5.3.2
+	Update screen 4.3.1
+	Update par2cmdline to 0.6.13
+	Update gawk to 4.1.3
+	Update zsh to 5.0.8
+	Update texinfo to 6.0
+	Update Time Zone Database to 2015f
+
+	Add unixODBC package
+	Add cpio package
+
 Rebase July 9, 2015
 
 1.0.2
