@@ -186,6 +186,39 @@ if [ ! -f .installed ]; then
 fi
 
 ############ ################################################################
+# unixODBC # ################################################################
+############ ################################################################
+
+cd $SRC/odbc
+
+if [ ! -f .extracted ]; then
+	rm -rf unixODBC-2.3.2
+	tar zxvf unixODBC-2.3.2.tar.gz
+	touch .extracted
+fi
+
+cd unixODBC-2.3.2
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+############ ################################################################
 # ASTERISK # ################################################################
 ############ ################################################################
 
@@ -219,6 +252,7 @@ if [ ! -f .configured ]; then
 	--with-iksemel=$DEST \
 	--with-libcurl=$DEST \
 	--with-ncurses=$DEST \
+	--with-unixodbc=$DEST \
 	--with-sqlite3=$DEST \
 	--with-srtp=$DEST \
 	--with-ssl=$DEST \
