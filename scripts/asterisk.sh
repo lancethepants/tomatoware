@@ -204,7 +204,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--enable-static
 	touch .configured
 fi
 
