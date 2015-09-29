@@ -1020,6 +1020,7 @@ cd ../Python-2.7.3
 if [ ! -f .patched ]; then
 	patch < $PATCHES/python/python-drobo.patch
 	patch -p1 < $PATCHES/python/python_asdl.patch
+	patch -p1 < $PATCHES/python/002_readline63.patch
 	touch .patched
 fi
 
