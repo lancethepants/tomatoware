@@ -1024,12 +1024,19 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CC=$DESTARCH-linux-gcc CXX=$DESTARCH-linux-g++ AR=$DESTARCH-linux-ar RANLIB=$DESTARCH-linux-ranlib \
-	$CONFIGURE --build=`uname -m`-linux-gnu --with-dbmliborder=gdbm:bdb --with-threads --with-system-ffi
+	$CONFIGURE \
+	--build=`uname -m`-linux-gnu \
+	--with-dbmliborder=gdbm:bdb \
+	--with-threads \
+	--with-system-ffi
 	touch .configured
 fi
 
@@ -1040,12 +1047,22 @@ if [ ! -f .copied ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE HOSTPYTHON=./hostpython HOSTPGEN=./Parser/hostpgen CROSS_COMPILE=$DESTARCH-linux- CROSS_COMPILE_TARGET=yes HOSTDESTARCH=$DESTARCH-linux BUILDDESTARCH=`uname -m`-linux-gnu
+	$MAKE \
+	HOSTPYTHON=./hostpython \
+	HOSTPGEN=./Parser/hostpgen \
+	CROSS_COMPILE=$DESTARCH-linux- \
+	CROSS_COMPILE_TARGET=yes \
+	HOSTDESTARCH=$DESTARCH-linux \
+	BUILDDESTARCH=`uname -m`-linux-gnu
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE HOSTPYTHON=../Python-2.7.3-native/python CROSS_COMPILE=$DESTARCH-linux- CROSS_COMPILE_TARGET=yes
+	make install \
+	DESTDIR=$BASE \
+	HOSTPYTHON=../Python-2.7.3-native/python \
+	CROSS_COMPILE=$DESTARCH-linux- \
+	CROSS_COMPILE_TARGET=yes
 	touch .installed
 fi
 
@@ -1089,7 +1106,10 @@ fi
 cd Cheetah-2.4.4
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
+	../../python/Python-2.7.3/hostpython \
+	./setup.py \
+	bdist_egg
 	touch .built
 fi
 
@@ -1123,7 +1143,10 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython ./setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
+	../../python/Python-2.7.3/hostpython \
+	./setup.py \
+	bdist_egg
 	touch .built
 fi
 
@@ -1152,7 +1175,12 @@ fi
 
 cd pyOpenSSL-0.13.1
 if [ ! -f .configured ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ ../../python/Python-2.7.3/hostpython setup.py build_ext -I../openssl-1.0.1p/include -L../openssl-1.0.1p -R$RPATH
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
+	../../python/Python-2.7.3/hostpython \
+	setup.py \
+	build_ext \
+	-I../openssl-1.0.1p/include \
+	-L../openssl-1.0.1p -R$RPATH
 	touch .configured
 fi
 
@@ -1162,7 +1190,10 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython setup.py bdist_egg
+	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
+	../../python/Python-2.7.3/hostpython \
+	setup.py \
+	bdist_egg
 	touch .built
 fi
 
