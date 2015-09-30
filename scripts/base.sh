@@ -922,13 +922,13 @@ fi
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf tar zxvf perl-5.20.2
-	tar zxvf perl-5.20.2.tar.gz
-	tar zxvf perl-5.20.2-cross-0.9.7.tar.gz
+	rm -rf tar zxvf perl-5.22.0
+	tar zxvf perl-5.22.0.tar.gz
+	tar zxvf perl-5.22.0-cross-1.0.0.tar.gz
 	touch .extracted
 fi
 
-cd perl-5.20.2
+cd perl-5.22.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
