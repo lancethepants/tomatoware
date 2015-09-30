@@ -78,12 +78,12 @@ fi
 cd $SRC/pkg-config
 
 if [ ! -f .extracted ]; then
-	rm -rf pkg-config-0.28
-	tar zxvf pkg-config-0.28.tar.gz
+	rm -rf pkg-config-0.29
+	tar zxvf pkg-config-0.29.tar.gz
 	touch .extracted
 fi
 
-cd pkg-config-0.28
+cd pkg-config-0.29
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
