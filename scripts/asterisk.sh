@@ -192,12 +192,12 @@ fi
 cd $SRC/odbc
 
 if [ ! -f .extracted ]; then
-	rm -rf unixODBC-2.3.2
-	tar zxvf unixODBC-2.3.2.tar.gz
+	rm -rf unixODBC-2.3.4
+	tar zxvf unixODBC-2.3.4.tar.gz
 	touch .extracted
 fi
 
-cd unixODBC-2.3.2
+cd unixODBC-2.3.4
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
