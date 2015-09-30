@@ -1087,12 +1087,12 @@ fi
 cd $SRC/cpio
 
 if [ ! -f .extracted ]; then
-	rm -rf cpio-2.11
-	tar zxvf cpio-2.11.tar.gz
+	rm -rf cpio-2.12
+	tar zxvf cpio-2.12.tar.gz
 	touch .extracted
 fi
 
-cd cpio-2.11
+cd cpio-2.12
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cpio/cpio.patch
