@@ -1094,11 +1094,6 @@ fi
 
 cd cpio-2.12
 
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/cpio/cpio.patch
-	touch .patched
-fi
-
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
