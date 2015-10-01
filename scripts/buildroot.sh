@@ -542,16 +542,17 @@ fi
 cd $SRC/coreutils
 
 if [ ! -f .extracted ]; then
-	rm -rf coreutils-8.22
-	tar xvJf coreutils-8.22.tar.xz 
+	rm -rf coreutils-8.24
+	tar xvJf coreutils-8.24.tar.xz
 	touch .extracted
 fi
 
-cd coreutils-8.22
+cd coreutils-8.24
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/coreutils/002-fix_compile_with_uclibc.patch
-	patch -p1 < $PATCHES/coreutils/coreutils-8.22-noman-1.patch
+	patch -p1 < $PATCHES/coreutils/man-decouple-manpages-from-build.patch
+	autoreconf
 	touch .patched
 fi
 
@@ -566,13 +567,6 @@ if [ ! -f .configured ]; then
 	fu_cv_sys_stat_statfs2_bsize=yes \
 	gl_cv_func_working_mkstemp=yes
 	touch .configured
-fi
-
-if [ ! -f .edit_sed ]; then
-	cp -v Makefile{,.orig}
-	sed -e 's/^#run_help2man\|^run_help2man/#&/' \
-	  -e 's/^\##run_help2man/run_help2man/' Makefile.orig > Makefile
-	touch .edit_sed
 fi
 
 if [ ! -f .built ]; then
