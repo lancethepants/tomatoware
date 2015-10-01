@@ -837,17 +837,12 @@ fi
 cd $SRC/util-linux
 
 if [ ! -f .extracted ]; then
-	rm -rf util-linux-2.21.2
-	tar zxvf util-linux-2.21.2.tar.gz
+	rm -rf util-linux-2.27
+	tar zxvf util-linux-2.27.tar.gz
 	touch .extracted
 fi
 
-cd util-linux-2.21.2
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/util-linux/000-compile.patch
-	touch .patched
-fi
+cd util-linux-2.27
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -856,6 +851,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--disable-mount \
+	--disable-chfn-chsh-password \
+	--without-python \
 	--disable-nls \
 	--disable-wall
 	touch .configured

@@ -495,6 +495,7 @@ if [ ! -f .linked ]; then
 	ln -sf libncursesw_g.a $DEST/lib/libncurses_g.a
 	ln -sf libncursesw.a $DEST/lib/libcurses.a
 	ln -sf libncursesw.so $DEST/lib/libcurses.so
+	ln -sf libcurses.so $DEST/lib/libtinfo.so
 	touch .linked
 fi
 
