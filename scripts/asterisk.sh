@@ -247,6 +247,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--without-sdl \
 	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
