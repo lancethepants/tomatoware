@@ -59,6 +59,7 @@ then
 	tar zxvf $SRC/arm-toolchain/buildroot-2014.11.tar.gz -C $BASE/toolchain
 	cp $SRC/arm-toolchain/.config $BASE/toolchain/buildroot-2014.11
 	cp -r $SRC/arm-toolchain/patches $BASE/toolchain
+	sed -i 's,# UCLIBC_HAS_BACKTRACE is not set,UCLIBC_HAS_BACKTRACE=y,g' $BASE/toolchain/buildroot-2014.11/package/uclibc/uClibc-0.9.33.config
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
