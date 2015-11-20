@@ -3,16 +3,3 @@
 003-uclibc-dl-defs.patch
 004-uclibc-ldd-opt.patch
 005-uclibc-ldd-static.patch
-100-fix_unifdef.patch
-110-compat_macros.patch
-120-adjtimex.patch
-131-inet-fix-__read_etc_hosts_r-segfault.patch
-133-inet6-scoped-getnameinfo.patch
-135-inet_fix_threaded_use_of_res_functions.patch
-136-inet_make_res_init_thread_safe.patch
-137-inet_fix_threaded_res_init.patch
-150-vasprintf_size_reduce.patch
-170-math_finite.patch
-180-pthread_cleanup_fix.patch
-190-nptl_use_arch_default_stack_limit.patch
-200-no_forced_unwind.patch
