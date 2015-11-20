@@ -8,7 +8,7 @@ SRC=$BASE/src
 PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
@@ -245,7 +245,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
+	LDFLAGS="$LDFLAGS -lrt -lpthread" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -463,7 +463,7 @@ cd ncurses-6.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="-P $CPPFLAGS" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
