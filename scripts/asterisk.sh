@@ -8,7 +8,7 @@ SRC=$BASE/src
 PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
@@ -223,6 +223,8 @@ fi
 # ASTERISK # ################################################################
 ############ ################################################################
 
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
+
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
@@ -287,6 +289,8 @@ if [ ! -f .installed_example ]; then
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
 fi
+
+unset PKG_CONFIG_LIBDIR
 
 ######################## ####################################################
 # ASTERISK CHAN_DONGLE # ####################################################
