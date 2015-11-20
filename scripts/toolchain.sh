@@ -7,14 +7,14 @@ export BASE=`pwd`
 export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
+if [ ! -d /opt/tomatoware ]
+then
+	sudo mkdir -p /opt/tomatoware
+	sudo chmod -R 777 /opt/tomatoware
+fi
+
 if [ "$DESTARCH" = "mipsel" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
-	if [ ! -d /opt/tomatoware ]
-	then
-		sudo mkdir -p /opt/tomatoware
-		sudo chmod -R 777 /opt/tomatoware
-	fi
-
 	mkdir $BASE/toolchain && cd $BASE/toolchain
 	git clone https://github.com/Entware/entware.git
 	cd ./entware/toolchain
@@ -49,17 +49,11 @@ fi
 
 if [ "$DESTARCH" = "arm" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
-	if [ ! -d /opt/tomatoware ]
-	then
-		sudo mkdir -p /opt/tomatoware
-		sudo chmod -R 777 /opt/tomatoware
-	fi
-
 	mkdir $BASE/toolchain && cd $BASE/toolchain
-	tar zxvf $SRC/arm-toolchain/buildroot-2014.11.tar.gz -C $BASE/toolchain
-	cp $SRC/arm-toolchain/.config $BASE/toolchain/buildroot-2014.11
+	tar zxvf $SRC/arm-toolchain/buildroot-2015.11-rc2.tar.gz -C $BASE/toolchain
+	cp $SRC/arm-toolchain/.config $BASE/toolchain/buildroot-2015.11-rc2
 	cp -r $SRC/arm-toolchain/patches $BASE/toolchain
-	sed -i 's,# UCLIBC_HAS_BACKTRACE is not set,UCLIBC_HAS_BACKTRACE=y,g' $BASE/toolchain/buildroot-2014.11/package/uclibc/uClibc-0.9.33.config
+	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2015.11-rc2/package/uclibc/uClibc-ng.config
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
@@ -67,7 +61,7 @@ then
 	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \
 	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch
 
-	cd $BASE/toolchain/buildroot-2014.11
+	cd $BASE/toolchain/buildroot-2015.11-rc2
 	make
 
 fi

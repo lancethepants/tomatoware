@@ -31,9 +31,9 @@ then
 	ln -s $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
 	ln -s $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
 
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.20 $DEST/lib/libstdc++.so.6.0.20
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.20 $DEST/lib/libstdc++.so.6
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.20 $DEST/lib/libstdc++.so
+	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6.0.21
+	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6
+	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so
 fi
 
 #Remove build path directory $BASE from all libtool .la files.

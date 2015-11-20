@@ -8,7 +8,7 @@ SRC=$BASE/src
 PATCHES=$BASE/patches
 RPATH=$PREFIX/lib
 DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
+LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
 CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
@@ -66,7 +66,7 @@ fi
 unset PKG_CONFIG_LIBDIR
 
 if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libintl.la '"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libintl.la '"$DEST"'\/lib\/libiconv.la,g' \
+	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g;s,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 	$DEST/lib/libglib-2.0.la
 	touch .edit_sed
 fi
@@ -290,8 +290,8 @@ if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
 fi
 
 if [ ! -f .extracted ] && [ "$DESTARCH" == "arm" ]; then
-	rm -rf gcc-4.9.2 gcc-build
-	tar xvjf $SRC/arm-toolchain/dl/gcc-4.9.2.tar.bz2 -C $SRC/gcc
+	rm -rf gcc-5.2.0 gcc-build
+	tar xvjf $SRC/arm-toolchain/dl/gcc-5.2.0.tar.bz2 -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
@@ -301,7 +301,7 @@ if [ "$DESTARCH" == "mipsel" ]; then
 fi
 
 if [ "$DESTARCH" == "arm" ]; then
-	cd gcc-4.9.2
+	cd gcc-5.2.0
 fi
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
@@ -313,16 +313,9 @@ if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
 fi
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ]; then
-	cp $PATCHES/gcc/gcc-4.9.2-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-4.9.2-specs-1.patch
-	patch -p1 < gcc-4.9.2-specs-1.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/100-uclibc-conf.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/301-missing-execinfo_h.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/810-arm-softfloat-libgcc.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/830-arm_unbreak_armv4t.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/840-microblaze-enable-dwarf-eh-support.patch
-	patch -p1 < $PATCHES/gcc/4.9.2/850-libstdcxx-uclibc-c99.patch
-#	patch -p1 < $PATCHES/gcc/4.9.2/900-musl-support.patch
+	cp $PATCHES/gcc/gcc-5.2.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-5.2.0-specs-1.patch
+	patch -p1 < gcc-5.2.0-specs-1.patch
 	touch .patched
 fi
 
@@ -344,7 +337,7 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-buildroot-linux-uclibcgnueabi
-	GCC=gcc-4.9.2
+	GCC=gcc-5.2.0
 	gccextraconfig="--disable-libssp \
 			--with-float=soft
 			--with-abi=aapcs-linux
@@ -356,8 +349,6 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
 	../$GCC/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
@@ -731,6 +722,11 @@ if [ ! -f .extracted ]; then
 fi
 
 cd m4-1.4.17
+
+if [ ! -f .patched ]; then
+        patch -p1 < $PATCHES/m4/gnulib_fix_posixspawn.patch
+        touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
