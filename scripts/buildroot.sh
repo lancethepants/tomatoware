@@ -226,28 +226,10 @@ if [ ! -f .extracted ]; then
 	touch .extracted
 fi
 
-cd binutils-2.24
-
-if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ];then
-	patch -p1 < $PATCHES/binutils/2.24/001-fix-enable-install-libiberty-flag.patch
-	patch -p1< $PATCHES/binutils/2.24/002-dont-segv-on-initial-instructions-overflow.patch
-	patch -p1 < $PATCHES/binutils/2.24/120-sh-conf.patch
-	patch -p1 < $PATCHES/binutils/2.24/300-001_ld_makefile_patch.patch
-	patch -p1 < $PATCHES/binutils/2.24/300-012_check_ldrunpath_length.patch
-	patch -p1 < $PATCHES/binutils/2.24/500-sysroot.patch
-	patch -p1 < $PATCHES/binutils/2.24/900-xtensa-trampolines.patch
-	patch -p1 < $PATCHES/binutils/2.24/901-xtensa-gas-first-frag-alignment.patch
-	patch -p1 < $PATCHES/binutils/2.24/902-xtensa-gas-ld-diff-relocation-signed.patch
-	patch -p1 < $PATCHES/binutils/2.24/903-xtensa-fix-ld-segfault-when-linking-linux-modules.patch
-	patch -p1 < $PATCHES/binutils/2.24/904-Fix-call8-call-target-out-of-range-xtensa-ld-relaxation.patch
-	patch -p1 < $PATCHES/binutils/2.24/905-Fix-trampolines-search-code-for-conditional-branches.patch
-	touch .patched
-fi
-
-cd ../build-binutils
+cd build-binutils
 
 if [ "$DESTARCH" == "mipsel" ];then
-        os=mipsel-linux
+        os=mipsel-buildroot-linux-uclibc
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -282,37 +264,16 @@ fi
 
 cd $SRC/gcc
 
-if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
-	rm -rf gcc-4.6.4 gcc-build
-	tar zxvf gcc-4.6.4.tar.gz
-	mkdir gcc-build
-	touch .extracted
-fi
-
-if [ ! -f .extracted ] && [ "$DESTARCH" == "arm" ]; then
+if [ ! -f .extracted ]; then
 	rm -rf gcc-5.2.0 gcc-build
-	tar xvjf $SRC/arm-toolchain/dl/gcc-5.2.0.tar.bz2 -C $SRC/gcc
+	tar xvjf $SRC/toolchain/dl/gcc-5.2.0.tar.bz2 -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-if [ "$DESTARCH" == "mipsel" ]; then
-	cd gcc-4.6.4
-fi
+cd gcc-5.2.0
 
-if [ "$DESTARCH" == "arm" ]; then
-	cd gcc-5.2.0
-fi
-
-if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
-	cp $PATCHES/gcc/gcc-4.6.3-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-4.6.3-specs-1.patch
-	patch -p1 < gcc-4.6.3-specs-1.patch
-	patch -p1 < $PATCHES/gcc/040-gcc_bug_49696.patch
-	touch .patched
-fi
-
-if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ]; then
+if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-5.2.0-specs-1.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' gcc-5.2.0-specs-1.patch
 	patch -p1 < gcc-5.2.0-specs-1.patch
@@ -323,33 +284,22 @@ cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
 
-	os=mipsel-linux
-	GCC=gcc-4.6.4
-
-	gccextraconfig="--enable-libssp \
-			--with-arch=mips32 \
+	os=mipsel-buildroot-linux-uclibc
+	gccextraconfig="--with-arch=mips32 \
 			--with-mips-plt"
-
-	if [ "$FLOAT" == "soft" ]; then
-		gccextraconfig="$gccextraconfig --with-float=soft"
-	fi
 fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-buildroot-linux-uclibcgnueabi
 	GCC=gcc-5.2.0
-	gccextraconfig="--disable-libssp \
-			--with-float=soft
-			--with-abi=aapcs-linux
-			--disable-libsanitizer
-			--disable-libgomp
+	gccextraconfig="--with-abi=aapcs-linux
 			--with-cpu=cortex-a9"
 fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../$GCC/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-5.2.0/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -366,6 +316,10 @@ if [ ! -f .configured ]; then
 	--disable-nls \
 	--disable-werror \
 	--disable-libstdcxx-pch \
+	--disable-libssp \
+	--with-float=soft \
+	--disable-libsanitizer \
+	--disable-libgomp \
 	$gccextraconfig
 	touch .configured
 fi
@@ -839,6 +793,11 @@ if [ ! -f .extracted ]; then
 fi
 
 cd util-linux-2.27
+
+if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
+	sed -i 's,epoll_create1,epoll_create,g' ./libmount/src/monitor.c
+	touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
