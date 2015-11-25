@@ -11,30 +11,23 @@ if [ -f $BASE/.packaged ]; then
 exit
 fi
 
+if [ "$DESTARCH" = "arm" ]; then
+        GNUEABI=gnueabi
+fi
+
 #Copy lib and include files from toolchain for use in the deployment system.
-if [ "$DESTARCH" = "mipsel" ];
-then
-	cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/include $DEST
-	cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/lib $DEST
-fi
+cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/lib $DEST
+cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/usr $DEST
+cp -rf $DEST/usr/include $DEST
+rm -rf $DEST/usr/include
+ln -s $PREFIX/usr/lib/crt1.o $DEST/lib/crt1.o
+ln -s $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
+ln -s $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
+ln -s $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
 
-if [ "$DESTARCH" = "arm" ];
-then
-	USR=usr/
-	ARM=arm-buildroot-linux-uclibcgnueabi/
-        cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/arm-buildroot-linux-uclibcgnueabi/sysroot/lib $DEST
-        cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/arm-buildroot-linux-uclibcgnueabi/sysroot/usr $DEST
-	cp -rf $DEST/usr/include $DEST
-	rm -rf $DEST/usr/include
-	ln -s $PREFIX/usr/lib/crt1.o $DEST/lib/crt1.o
-	ln -s $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
-	ln -s $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
-	ln -s $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
-
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6.0.21
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6
-	ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so
-fi
+ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6.0.21
+ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so.6
+ln -s $PREFIX/usr/lib/libstdc++.so.6.0.21 $DEST/lib/libstdc++.so
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.
@@ -137,6 +130,13 @@ echo "alias ls='ls --color'" >> profile
 chmod +x profile
 
 #Create tarball of the compiled project.
+if [ "$DESTARCH" = "mipsel" ]; then
+	os=mipsel-buildroot-linux-uclibc
+fi
+
+if [ "$DESTARCH" = "arm" ]; then
+        os=arm-buildroot-linux-uclibcgnueabi
+fi
 cd $BASE$PREFIX
-tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $ARM bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ $USR var/ .autorun .vimrc
+tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $os bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged

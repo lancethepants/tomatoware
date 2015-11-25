@@ -11,14 +11,13 @@ export PREFIX=/mmc
 # Do Not Edit
 
 export FLOAT=soft
+export PATH := $(PATH):/opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/usr/bin/
 
 ifeq ($(DESTARCH), arm)
 export EXTRACFLAGS = -O2 -pipe -march=armv7-a -mtune=cortex-a9
-export PATH := $(PATH):/opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/usr/bin/
 endif
 
 ifeq ($(DESTARCH), mipsel)
 export EXTRACFLAGS = -O2 -pipe -mips32 -mtune=mips32
-export PATH := $(PATH):/opt/tomatoware/$(DESTARCH)-$(FLOAT)$(subst /,-,$(PREFIX))/bin/
 endif
 
