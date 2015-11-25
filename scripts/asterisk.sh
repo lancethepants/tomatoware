@@ -236,9 +236,7 @@ fi
 cd asterisk-11.19.0
 
 if [ ! -f .patched ]; then
-	if [ "$DESTARCH" == "arm" ];then
-		patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
-	fi
+	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
 	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
 	touch .patched
 fi

@@ -13,46 +13,13 @@ then
 	sudo chmod -R 777 /opt/tomatoware
 fi
 
-if [ "$DESTARCH" = "mipsel" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
+if [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
-	mkdir $BASE/toolchain && cd $BASE/toolchain
-	git clone https://github.com/Entware/entware.git
-	cd ./entware/toolchain
-
-	sed -i 's,\/opt,'"$PREFIX"',g' \
-	patches-uclibc/001-uclibc-ldso-search-path.patch \
-	patches-uclibc/002-uclibc-ldconfig-opt.patch \
-	patches-uclibc/003-uclibc-dl-defs.patch \
-	patches-uclibc/004-uclibc-ldd-opt.patch
-
-	sed -i 's,#FORCE_COMPILE=y,FORCE_COMPILE=y,g' ../config.mk
-	sed -i 's,entware,tomatoware,g' Makefile
-	sed -i 's,toolchain-$(TARGET),$(DESTARCH)-$(FLOAT)$(subst \/\,\-\,$(PREFIX)),g' Makefile
-
-	if [ "$FLOAT" = "soft" ];
-	then
-		sed -i 's,export TARGET=entware,#export TARGET=entware,g' ../config.mk
-		sed -i 's,#export TARGET=mipselsf,export TARGET=mipselsf,g' ../config.mk
-		sed -i "s,/opt/entware/toolchain-mipselsf,/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-},g" patches-mipselsf/define-toolchain-path.patch
-	fi
-
-	if [ "$FLOAT" = "hard" ];
-	then
-		sed -i "s,/opt/entware/toolchain-entware,/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-},g" patches-entware/define-toolchain-path.patch
-	fi
-
-	cd ..
-
-	make -C "kernel-2.6.22.19"
-	make -C "toolchain"
-fi
-
-if [ "$DESTARCH" = "arm" ] && [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
-then
-	mkdir $BASE/toolchain && cd $BASE/toolchain
-	tar zxvf $SRC/arm-toolchain/buildroot-2015.11-rc2.tar.gz -C $BASE/toolchain
-	cp $SRC/arm-toolchain/.config $BASE/toolchain/buildroot-2015.11-rc2
-	cp -r $SRC/arm-toolchain/patches $BASE/toolchain
+	mkdir $BASE/toolchain
+	tar zxvf $SRC/toolchain/buildroot-2015.11-rc2.tar.gz -C $BASE/toolchain
+	cp $SRC/toolchain/config.$DESTARCH $BASE/toolchain/buildroot-2015.11-rc2/.config
+	cp -r $SRC/toolchain/patches $BASE/toolchain
+	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2015.11-rc2/package/uclibc/uClibc-ng.config
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
