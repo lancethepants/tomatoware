@@ -173,7 +173,7 @@ fi
 
 if [ ! -f .configured ]; then
 	./Configure $os \
-	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 \
+	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=$PREFIX shared zlib \
 	--with-zlib-lib=$DEST/lib \
@@ -932,7 +932,7 @@ fi
 cd perl-5.22.0
 
 if [ ! -f .configured ]; then
-	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.0 -Wl,-rpath,$RPATH" \
+	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
