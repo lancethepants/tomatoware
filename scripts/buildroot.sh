@@ -283,7 +283,6 @@ fi
 cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
-
 	os=mipsel-buildroot-linux-uclibc
 	gccextraconfig="--with-arch=mips32 \
 			--with-mips-plt"
@@ -291,7 +290,6 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-buildroot-linux-uclibcgnueabi
-	GCC=gcc-5.2.0
 	gccextraconfig="--with-abi=aapcs-linux
 			--with-cpu=cortex-a9"
 fi

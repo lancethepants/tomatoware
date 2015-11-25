@@ -13,7 +13,7 @@
 -STRIP=strip
 -LDFLAGS=-pthread
 +STRIP=$(DESTARCH)-linux-strip
-+LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
++LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1 -Wl,-rpath,$(PREFIX)/lib
  DESTDIR=/usr
  
  # Linux using LCC
