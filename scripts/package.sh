@@ -130,13 +130,6 @@ echo "alias ls='ls --color'" >> profile
 chmod +x profile
 
 #Create tarball of the compiled project.
-if [ "$DESTARCH" = "mipsel" ]; then
-	os=mipsel-buildroot-linux-uclibc
-fi
-
-if [ "$DESTARCH" = "arm" ]; then
-        os=arm-buildroot-linux-uclibcgnueabi
-fi
 cd $BASE$PREFIX
-tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $os bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged

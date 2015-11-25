@@ -11,7 +11,7 @@
 +CC=$(DESTARCH)-linux-gcc
 +AR=$(DESTARCH)-linux-ar
 +RANLIB=$(DESTARCH)-linux-ranlib
-+LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.0 -Wl,-rpath,$(PREFIX)/lib
++LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1 -Wl,-rpath,$(PREFIX)/lib
  
  BIGFILES=-D_FILE_OFFSET_BITS=64
 -CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
