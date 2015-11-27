@@ -283,6 +283,11 @@ fi
 
 cd flex-2.6.0
 
+if [ ! -f .patched ]; then
+	sed -i '/tests/d' Makefile.in
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
