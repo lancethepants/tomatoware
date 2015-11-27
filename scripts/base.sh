@@ -751,7 +751,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libxml-src=$SRC/libxml2/libxml2-2.9.2 \
+	--with-libxml-src=$SRC/libxml2/libxml2-2.9.3 \
 	--without-python \
 	--without-crypto
 	touch .configured
@@ -930,7 +930,7 @@ cd $SRC/perl
 if [ ! -f .extracted ]; then
 	rm -rf tar zxvf perl-5.22.0
 	tar zxvf perl-5.22.0.tar.gz
-	tar zxvf perl-5.22.0-cross-1.0.0.tar.gz
+	tar zxvf perl-5.22.0-cross-1.0.1.tar.gz
 	touch .extracted
 fi
 
