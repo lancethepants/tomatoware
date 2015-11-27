@@ -1259,7 +1259,7 @@ cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-5.3.4.tar.gz
+	tar zxvf unrarsrc-5.3.8.tar.gz
 	touch .extracted
 fi
 
@@ -1287,12 +1287,12 @@ fi
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
-	rm -rf git-2.6.0
-	tar zxvf git-2.6.0.tar.gz
+	rm -rf git-2.6.3
+	tar zxvf git-2.6.3.tar.gz
 	touch .extracted
 fi
 
-cd git-2.6.0
+cd git-2.6.3
 
 if [ ! -f .built ]; then
 	make distclean
