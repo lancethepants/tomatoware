@@ -112,12 +112,12 @@ fi
 cd $SRC/gmp
 
 if [ ! -f .extracted ]; then
-	rm -rf gmp-6.0.0
-	tar xvjf gmp-6.0.0a.tar.bz2
+	rm -rf gmp-6.1.0
+	tar xvjf gmp-6.1.0.tar.bz2
 	touch .extracted
 fi
 
-cd gmp-6.0.0
+cd gmp-6.1.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -262,7 +262,7 @@ fi
 # GCC # #####################################################################
 ####### #####################################################################
 
-cd $SRC/gcc
+mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
 	rm -rf gcc-5.2.0 gcc-build
