@@ -276,12 +276,12 @@ fi
 cd $SRC/flex
 
 if [ ! -f .extracted ]; then
-	rm -rf flex-2.5.39
-	tar zxvf flex-2.5.39.tar.gz
+	rm -rf flex-2.6.0
+	tar zxvf flex-2.6.0.tar.gz
 	touch .extracted
 fi
 
-cd flex-2.5.39
+cd flex-2.6.0
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
