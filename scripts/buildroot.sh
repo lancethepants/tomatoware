@@ -899,12 +899,12 @@ unset PKG_CONFIG_LIBDIR
 cd $SRC/grep
 
 if [ ! -f .extracted ]; then
-	rm -rf grep-2.21
-	tar xvJf grep-2.21.tar.xz
+	rm -rf grep-2.22
+	tar xvJf grep-2.22.tar.xz
 	touch .extracted
 fi
  
-cd grep-2.21
+cd grep-2.22
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
