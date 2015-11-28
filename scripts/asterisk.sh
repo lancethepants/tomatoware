@@ -228,12 +228,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-11.19.0
-	tar zxvf asterisk-11.19.0.tar.gz
+	rm -rf asterisk-11.20.0
+	tar zxvf asterisk-11.20.0.tar.gz
 	touch .extracted
 fi
 
-cd asterisk-11.19.0
+cd asterisk-11.20.0
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
@@ -342,8 +342,8 @@ cd $SRC/tz
 if [ ! -f .extracted ]; then
 	rm -rf tz tz-native
 	mkdir tz
-	tar zxvf tzcode2015f.tar.gz -C ./tz
-	tar zxvf tzdata2015f.tar.gz -C ./tz
+	tar zxvf tzcode2015g.tar.gz -C ./tz
+	tar zxvf tzdata2015g.tar.gz -C ./tz
 	cp -r tz tz-native
         touch .extracted
 fi
