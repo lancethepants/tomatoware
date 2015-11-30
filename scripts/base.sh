@@ -1174,26 +1174,31 @@ fi
 cd $SRC/pyopenssl
 
 if [ ! -f .extracted ]; then
-	rm -rf pyOpenSSL-0.13.1 openssl-1.0.1p
-	tar zxvf openssl-1.0.1p.tar.gz
+	rm -rf pyOpenSSL-0.13.1
 	tar zxvf pyOpenSSL-0.13.1.tar.gz
 	touch .extracted
 fi
 
 cd pyOpenSSL-0.13.1
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/pyopenssl/010-openssl.patch
+        touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
 	../../python/Python-2.7.3/hostpython \
 	setup.py \
 	build_ext \
-	-I../openssl-1.0.1p/include \
-	-L../openssl-1.0.1p -R$RPATH
+	-I$DEST/include \
+	-L$DEST/lib -R$RPATH
 	touch .configured
 fi
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched2 ]; then
 	sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
-	touch .patched
+	touch .patched2
 fi
 
 if [ ! -f .built ]; then
