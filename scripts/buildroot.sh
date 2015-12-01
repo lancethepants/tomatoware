@@ -1061,15 +1061,54 @@ fi
 # UPX # #####################################################################
 ####### #####################################################################
 
+export UPX_UCLDIR=$SRC/upx/ucl-1.03
+export UPX_LZMADIR=$SRC/upx/lzma
+export UPX_LZMA_VERSION=0x1512
+
 cd $SRC/upx
 
-if [ ! -f .extracted ] && [ "$DESTARCH" == "mipsel" ]; then
-	rm -rf upx-3.91-mipsel_linux
-	tar xvjf upx-3.91-mipsel_linux.tar.bz2
+if [ ! -f .extracted ]; then
+	rm -rf lzma ucl-1.03 upx
+	tar zxvf lzma.tar.gz
+	tar zxvf ucl-1.03.tar.gz
+	tar zxvf upx.tar.gz
 	touch .extracted
 fi
 
-if [ ! -f .installed ] && [ "$DESTARCH" == "mipsel" ]; then
-	cp ./upx-3.91-mipsel_linux/upx $DEST/bin
+cd ucl-1.03
+
+if [ ! -f .built_ucl ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	$MAKE
+	touch .built_ucl
+fi
+
+cd ../upx
+
+if [ ! -f .patched ]; then
+	sed -i 's,\-Werror,\-Wno\-error,g' ./src/Makefile
+	touch .patched
+fi
+
+if [ ! -f .built ]; then
+	LDFLAGS="-static $LDFLAGS" \
+	upx_CPPFLAGS=$CPPFLAGS \
+	upx_CXXFLAGS=$CXXFLAGS \
+	$MAKE \
+	upx_CXX=$DESTARCH-linux-g++ \
+	all
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	cp ./src/upx.out $DEST/bin/upx
 	touch .installed
 fi
+
+unset UPX_UCLDIR
+unset UPX_LZMADIR
+unset UPX_LZMA_VERSION
