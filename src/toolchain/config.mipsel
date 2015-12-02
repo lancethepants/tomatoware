@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Buildroot 2015.11-rc2 Configuration
+# Buildroot 2015.11 Configuration
 #
 BR2_HAVE_DOT_CONFIG=y
 
@@ -44,6 +44,38 @@ BR2_mips_32=y
 # BR2_mips_32r6 is not set
 BR2_MIPS_SOFT_FLOAT=y
 BR2_MIPS_OABI32=y
+# BR2_x86_i386 is not set
+# BR2_x86_i486 is not set
+# BR2_x86_i586 is not set
+# BR2_x86_x1000 is not set
+# BR2_x86_i686 is not set
+# BR2_x86_pentiumpro is not set
+# BR2_x86_pentium_mmx is not set
+# BR2_x86_pentium_m is not set
+# BR2_x86_pentium2 is not set
+# BR2_x86_pentium3 is not set
+# BR2_x86_pentium4 is not set
+# BR2_x86_prescott is not set
+# BR2_x86_nocona is not set
+# BR2_x86_core2 is not set
+# BR2_x86_corei7 is not set
+# BR2_x86_corei7_avx is not set
+# BR2_x86_core_avx2 is not set
+# BR2_x86_atom is not set
+# BR2_x86_k6 is not set
+# BR2_x86_k6_2 is not set
+# BR2_x86_athlon is not set
+# BR2_x86_athlon_4 is not set
+# BR2_x86_opteron is not set
+# BR2_x86_opteron_sse3 is not set
+# BR2_x86_barcelona is not set
+# BR2_x86_jaguar is not set
+# BR2_x86_steamroller is not set
+# BR2_x86_geode is not set
+# BR2_x86_c3 is not set
+# BR2_x86_c32 is not set
+# BR2_x86_winchip_c6 is not set
+# BR2_x86_winchip2 is not set
 
 #
 # Build options
