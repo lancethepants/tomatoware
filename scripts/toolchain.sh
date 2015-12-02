@@ -16,11 +16,11 @@ fi
 if [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
 	mkdir $BASE/toolchain
-	tar zxvf $SRC/toolchain/buildroot-2015.11-rc2.tar.gz -C $BASE/toolchain
-	cp $SRC/toolchain/config.$DESTARCH $BASE/toolchain/buildroot-2015.11-rc2/.config
+	tar zxvf $SRC/toolchain/buildroot-2015.11.tar.gz -C $BASE/toolchain
+	cp $SRC/toolchain/config.$DESTARCH $BASE/toolchain/buildroot-2015.11/.config
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
-	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2015.11-rc2/package/uclibc/uClibc-ng.config
+	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2015.11/package/uclibc/uClibc-ng.config
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
@@ -28,7 +28,7 @@ then
 	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \
 	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch
 
-	cd $BASE/toolchain/buildroot-2015.11-rc2
+	cd $BASE/toolchain/buildroot-2015.11
 	make
 
 fi
