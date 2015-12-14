@@ -156,12 +156,12 @@ fi
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.2d
-	tar zxvf openssl-1.0.2d.tar.gz
+	rm -rf openssl-1.0.2e
+	tar zxvf openssl-1.0.2e.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.2d
+cd openssl-1.0.2e
 
 if [ "$DESTARCH" == "mipsel" ];then
 	os=linux-mips32
