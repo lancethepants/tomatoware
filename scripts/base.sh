@@ -934,7 +934,7 @@ if [ ! -f .extracted ]; then
 	touch .extracted
 fi
 
-cd perl-5.22.0
+cd perl-5.22.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
@@ -1437,6 +1437,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--sysconfdir=$PREFIX/etc/ssh \
 	--with-pid-dir=/var/run \
 	--with-privsep-path=/var/empty \
 	--with-pam
