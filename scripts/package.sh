@@ -131,5 +131,5 @@ chmod +x profile
 
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
-tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+fakeroot tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
