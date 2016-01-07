@@ -336,8 +336,12 @@ if [ ! -f $DEST/bin/cc ]; then
 	ln -s gcc $DEST/bin/cc
 fi
 
-if [ "$DESTARCH" = "arm" ] && [ ! -f $DEST/bin/arm-linux-gcc ]; then
-        ln -s gcc $DEST/bin/arm-linux-gcc
+if [ ! -f $DEST/bin/$DESTARCH-linux-gcc ]; then
+	ln -s gcc $DEST/bin/$DESTARCH-linux-gcc
+fi
+
+if [ ! -f $DEST/bin/$DESTARCH-linux-g++ ]; then
+	ln -s g++ $DEST/bin/$DESTARCH-linux-g++
 fi
 
 ############ ################################################################
