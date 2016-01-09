@@ -123,6 +123,7 @@ echo "export TERM=xterm" >> profile
 echo "export TERMINFO=$PREFIX/share/terminfo" >> profile
 echo "export TMP=$PREFIX/tmp" >> profile
 echo "export TEMP=$PREFIX/tmp" >> profile
+echo "export TMPDIR=$PREFIX/tmp" >> profile
 echo "export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig" >> profile
 echo "export M4=$PREFIX/bin/m4" >> profile
 echo "" >> profile
