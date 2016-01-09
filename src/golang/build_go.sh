@@ -18,6 +18,4 @@ wget -O $PREFIX/ssl/certs/ca-certificates.crt https://raw.githubusercontent.com/
 sed -i 's,\/etc\/ssl\/certs\/ca-certificates.crt,'"$PREFIX"'\/ssl\/certs\/ca-certificates.crt,g' \
 ./crypto/x509/root_linux.go
 GOROOT_BOOTSTRAP=$PREFIX/bin/go/bootstrap/go1.4 ./make.bash
-echo "export PATH=\$PATH:$PREFIX/bin/go/bin" >> /opt/etc/profile
-echo "export GOPATH=$PREFIX/go" >> /opt/etc/profile
 echo "Go has been installed. Please logout and login for changes to take effect"
