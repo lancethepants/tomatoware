@@ -1061,6 +1061,51 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######## ####################################################################
+# FILE # ####################################################################
+######## ####################################################################
+
+cd $SRC/file
+
+if [ ! -f .extracted ]; then
+	rm -rf file-5.25 file-5.25-native
+	tar zxvf file-5.25.tar.gz
+	cp -r file-5.25 file-5.25-native
+	touch .extracted
+fi
+
+cd file-5.25-native
+
+if [ ! -f .built-native ]; then
+	./configure \
+	--prefix=$SRC/file/file-5.25-native
+	$MAKE
+	make install
+	touch .built-native
+fi
+
+cd ../file-5.25
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	PATH=$SRC/file/file-5.25-native/bin:$PATH \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ####### #####################################################################
 # UPX # #####################################################################
 ####### #####################################################################
