@@ -1077,6 +1077,7 @@ fi
 cd file-5.25-native
 
 if [ ! -f .built-native ]; then
+	autoreconf -f -i
 	./configure \
 	--prefix=$SRC/file/file-5.25-native
 	$MAKE
@@ -1087,11 +1088,13 @@ fi
 cd ../file-5.25
 
 if [ ! -f .configured ]; then
+	autoreconf -f -i
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--enable-static
 	touch .configured
 fi
 
