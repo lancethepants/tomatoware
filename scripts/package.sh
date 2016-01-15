@@ -18,6 +18,7 @@ if [ "$DESTARCH" = "arm" ]; then
 	mkdir -p $DEST/scripts
 	cp $SRC/golang/build_go.sh $DEST/scripts
 	sed -i 's,\/mmc,'"$PREFIX"',g' $DEST/scripts/build_go.sh
+	SCRIPTS=scripts
 fi
 
 #Copy lib and include files from toolchain for use in the deployment system.
@@ -138,5 +139,5 @@ chmod +x profile
 
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
-fakeroot tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ scripts/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+fakeroot tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ python_modules/ sbin/ $SCRIPTS share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
