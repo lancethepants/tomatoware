@@ -243,11 +243,12 @@ fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="-I$DEST/include/libxml2 $CPPFLAGS" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--without-sdl \
+	--with-libxml2=$DEST \
 	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
@@ -270,7 +271,7 @@ fi
 
 if [ ! -f .built ]; then
 	ASTLDFLAGS=$LDFLAGS \
-	ASTCFLAGS="$CPPFLAGS $CFLAGS" \
+	ASTCFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
 	$MAKE
 	touch .built
 fi
