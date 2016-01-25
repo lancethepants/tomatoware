@@ -1,8 +1,10 @@
 include config.mk
 
-tomatoware:
-	./scripts/toolchain.sh
+tomatoware:toolchain
 	./scripts/base.sh
 	./scripts/buildroot.sh
 	./scripts/asterisk.sh
 	./scripts/package.sh
+
+toolchain:
+	./scripts/toolchain.sh
