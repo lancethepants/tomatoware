@@ -1109,6 +1109,48 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+########## ##################################################################
+# DISTCC # ##################################################################
+########## ##################################################################
+
+PYTHON_CROSS="PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython"
+
+cd $SRC/distcc
+
+if [ ! -f .extracted ]; then
+	rm -rf distcc-distcc-3.1
+	tar zxvf distcc-3.1.tar.gz
+	touch .extracted
+fi
+
+cd distcc-distcc-3.1
+
+if [ ! -f .configured ]; then
+	./autogen.sh
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--disable-Werror
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE \
+	PYTHON="$PYTHON_CROSS" \
+	TEST_PYTHON="$PYTHON_CROSS" \
+	INCLUDESERVER_PYTHON="$PYTHON_CROSS"
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+unset PYTHON_CROSS
+
 ####### #####################################################################
 # UPX # #####################################################################
 ####### #####################################################################
