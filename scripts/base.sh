@@ -346,7 +346,7 @@ fi
 if [ ! -f .certs_installed ]; then
 	mkdir -p $DEST/ssl/certs
 	cd $DEST/ssl/certs
-	curl http://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+	curl https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
 	c_rehash .
 	touch $SRC/curl/curl-7.46.0/.certs_installed
 fi
