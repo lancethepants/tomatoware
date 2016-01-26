@@ -84,6 +84,7 @@ echo "export TMP=$PREFIX/tmp" >> profile
 echo "export TEMP=$PREFIX/tmp" >> profile
 echo "export TMPDIR=$PREFIX/tmp" >> profile
 echo "export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig" >> profile
+echo "export CONFIG_SHELL=$PREFIX/bin/bash" >> profile
 echo "export M4=$PREFIX/bin/m4" >> profile
 echo "export GOPATH=$PREFIX/go" >> profile
 echo "" >> profile
