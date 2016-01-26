@@ -59,48 +59,6 @@ fi
 cp $SRC/.autorun $DEST
 sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
 
-#Create installation script to install Python modules.
-cd $BASE$PREFIX/python_modules
-
-if [ ! -d setuptools ]
-then
-	mkdir setuptools && cd setuptools
-	cp $BASE/src/setuptools/setuptools.tar.gz .
-fi
-
-cd $BASE$PREFIX/python_modules
-
-if [ ! -d markdown ]
-then
-	mkdir markdown && cd markdown
-	cp $BASE/src/markdown/Markdown.tar.gz .
-fi
-
-cd $BASE$PREFIX/python_modules
-
-echo "#!/bin/sh" > install_modules.sh
-
-echo "cd $PREFIX/python_modules/setuptools" >> install_modules.sh
-echo "rm -rf setuptools" >> install_modules.sh
-echo "tar zxvf setuptools.tar.gz" >> install_modules.sh
-echo "cd setuptools/" >> install_modules.sh
-echo "python ./setup.py build" >> install_modules.sh
-echo "python ./setup.py install" >> install_modules.sh
-
-echo "cd $PREFIX/python_modules/markdown" >> install_modules.sh
-echo "rm -rf Markdown" >> install_modules.sh
-echo "tar zxvf Markdown.tar.gz" >> install_modules.sh
-echo "cd Markdown/" >> install_modules.sh
-echo "python ./setup.py build" >> install_modules.sh
-echo "python ./setup.py install" >> install_modules.sh
-
-echo "cd $PREFIX/python_modules" >> install_modules.sh
-echo "easy_install -Z Cheetah-2.4.4-py2.7.egg" >> install_modules.sh
-echo "easy_install -Z pyOpenSSL-0.13.1-py2.7.egg " >> install_modules.sh
-echo "easy_install -Z yenc-0.4.0-py2.7.egg" >> install_modules.sh
-
-chmod +x install_modules.sh
-
 
 #Create $PREFIX/etc/profile
 mkdir -p $DEST/tmp

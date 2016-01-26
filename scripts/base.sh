@@ -1073,29 +1073,12 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f .mkdir ]; then
-	mkdir -p $DEST/python_modules
-	touch .mkdir
-fi
-
 cd $SRC/python/Python-2.7.3/build/
 
 if [ ! -f .rename_and_move ]; then
 	mv lib.linux-`uname -m`-2.7/ lib.linux-$DESTARCH-2.7/
 	cp -R ../../Python-2.7.3-native/build/lib.linux-`uname -m`-2.7/ .
 	touch .rename_and_move
-fi
-
-############## ##############################################################
-# SETUPTOOLS # ##############################################################
-############## ##############################################################
-
-cd $SRC/setuptools
-
-if [ ! -f .extracted ]; then
-	rm -rf setuptools
-	tar zxvf setuptools.tar.gz
-	touch .extracted
 fi
 
 ########### #################################################################
@@ -1113,20 +1096,20 @@ fi
 cd Cheetah-2.4.4
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
 	../../python/Python-2.7.3/hostpython \
 	./setup.py \
-	bdist_egg
+	build
 	touch .built
 fi
 
-if [ ! -f .rename ]; then
-	mv dist/Cheetah-2.4.4-py2.7-linux-`uname -m`.egg dist/Cheetah-2.4.4-py2.7.egg
-	touch .rename
-fi
-
 if [ ! -f .installed ]; then
-	cp dist/Cheetah-2.4.4-py2.7.egg $DEST/python_modules
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
+	../../python/Python-2.7.3/hostpython \
+	./setup.py \
+	install \
+	--prefix=$PREFIX \
+	--root=$BASE
 	touch .installed
 fi
 
@@ -1144,26 +1127,21 @@ fi
 
 cd yenc-0.4.0
 
-if [ ! -f .patched ]; then
-	patch < $PATCHES/yenc/yenc.patch
-	touch .patched
-fi
-
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
 	../../python/Python-2.7.3/hostpython \
 	./setup.py \
-	bdist_egg
+	build
 	touch .built
 fi
 
-if [ ! -f .renamed ]; then
-	mv dist/yenc-0.4.0-py2.7-linux-`uname -m`.egg dist/yenc-0.4.0-py2.7.egg
-	touch .renamed
-fi
-
 if [ ! -f .installed ]; then
-	cp dist/yenc-0.4.0-py2.7.egg $DEST/python_modules
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
+	../../python/Python-2.7.3/hostpython \
+	./setup.py \
+	install \
+	--prefix=$PREFIX \
+	--root=$BASE
 	touch .installed
 fi
 
@@ -1186,36 +1164,25 @@ if [ ! -f .patched ]; then
         touch .patched
 fi
 
-if [ ! -f .configured ]; then
+if [ ! -f .built ]; then
 	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
 	../../python/Python-2.7.3/hostpython \
 	setup.py \
 	build_ext \
 	-I$DEST/include \
-	-L$DEST/lib -R$RPATH
-	touch .configured
-fi
-
-if [ ! -f .patched2 ]; then
-	sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
-	touch .patched2
-fi
-
-if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools \
-	../../python/Python-2.7.3/hostpython \
-	setup.py \
-	bdist_egg
+	-L$DEST/lib \
+	-R$RPATH
 	touch .built
 fi
 
-if [ ! -f .renamed ]; then
-	mv dist/pyOpenSSL-0.13.1-py2.7-linux-`uname -m`.egg dist/pyOpenSSL-0.13.1-py2.7.egg
-	touch .renamed
-fi
 
 if [ ! -f .installed ]; then
-	cp dist/pyOpenSSL-0.13.1-py2.7.egg $DEST/python_modules
+	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
+	../../python/Python-2.7.3/hostpython \
+	setup.py \
+	install \
+	--prefix=$PREFIX \
+	--root=$BASE
 	touch .installed
 fi
 
