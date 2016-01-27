@@ -115,20 +115,22 @@ export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
 cd $SRC/iksemel
 
 if [ ! -f .extracted ]; then
-	rm -rf iksemel-1.4
-	tar zxvf iksemel-1.4.tar.gz
+	rm -rf iksemel-1.5
+	tar zxvf iksemel-1.5.tar.gz
 	touch .extracted
 fi
 
-cd iksemel-1.4
+cd iksemel-1.5
 
 if [ ! -f .configured ]; then
+	./autogen.sh
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libgnutls-prefix=$DEST
+	--without-gnutls \
+	--disable-python
 	touch .configured
 fi
 
