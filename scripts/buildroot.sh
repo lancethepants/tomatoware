@@ -566,12 +566,12 @@ fi
 cd $SRC/findutils
 
 if [ ! -f .extracted ]; then
-	rm -rf findutils-4.5.14
-	tar zxvf findutils-4.5.14.tar.gz
+	rm -rf findutils-4.5.19
+	tar zxvf findutils-4.5.19.tar.gz
 	touch .extracted
 fi
 
-cd findutils-4.5.14
+cd findutils-4.5.19
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
