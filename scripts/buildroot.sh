@@ -489,12 +489,12 @@ fi
 cd $SRC/coreutils
 
 if [ ! -f .extracted ]; then
-	rm -rf coreutils-8.24
-	tar xvJf coreutils-8.24.tar.xz
+	rm -rf coreutils-8.25
+	tar xvJf coreutils-8.25.tar.xz
 	touch .extracted
 fi
 
-cd coreutils-8.24
+cd coreutils-8.25
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/coreutils/002-fix_compile_with_uclibc.patch
