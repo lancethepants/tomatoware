@@ -22,12 +22,12 @@ MAKE="make -j`nproc`"
 cd $SRC/nettle
 
 if [ ! -f .extracted ]; then
-	rm -rf nettle-2.7.1
-	tar zxvf nettle-2.7.1.tar.gz
+	rm -rf nettle-3.1.1
+	tar zxvf nettle-3.1.1.tar.gz
 	touch .extracted
 fi
 
-cd nettle-2.7.1
+cd nettle-3.1.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -57,12 +57,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/gnutls
 
 if [ ! -f .extracted ]; then
-	rm -rf gnutls-3.2.21
-	tar xvJf gnutls-3.2.21.tar.xz
+	rm -rf gnutls-3.4.8
+	tar xvJf gnutls-3.4.8.tar.xz
 	touch .extracted
 fi
 
-cd gnutls-3.2.21
+cd gnutls-3.4.8
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -71,7 +71,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-local-libopts \
-	--without-p11-kit
+	--without-p11-kit \
+	--with-included-libtasn1
 	touch .configured
 fi
 
