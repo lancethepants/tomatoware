@@ -88,6 +88,10 @@ echo "export CONFIG_SHELL=$PREFIX/bin/bash" >> profile
 echo "export M4=$PREFIX/bin/m4" >> profile
 echo "export GOPATH=$PREFIX/go" >> profile
 echo "" >> profile
+echo "# An influential go environment variable for creating static binaries." >> profile
+echo "# Build static by default." >> profile
+echo "export CGO_ENABLED=0" >> profile
+echo "" >> profile
 echo "# You may define localization" >> profile
 echo "#export LANG='ru_RU.UTF-8'" >> profile
 echo "#export LC_ALL='ru_RU.UTF-8'" >> profile
