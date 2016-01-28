@@ -1,3 +1,34 @@
+1.2
+	Add golang build script
+	Add file command
+	Add distcc command
+	Use fakeroot for packaging
+
+	Update uclibc-ng to 1.0.11
+	Update OpenSSL to 1.0.2f
+	Update openssh to 7.1p2
+	Update asterisk to 11.21.0
+	Update bash to 4.3.42
+	Update git to 2.7.0
+	Update unrar to 5.3.9
+	Update curl to 7.47.0
+	Update cmake to 3.4.3
+	Update nettle to 3.1.1
+	Update GnuTLS to 3.4.8
+	Update coreutils to 8.25
+	Update findutils to 4.5.19
+	Update strace to 4.11
+	Update sqlite to 3.10.2
+	Update tzdata to 2016a
+	Update lzma SDK 15.14
+	Update gettext to 0.19.7
+	Update pcre to 8.38
+	Update iksemel to 1.4+ (1.5)
+
+	Build iksemel using OpenSSL's crypto.
+	Add CONFIG_SHELL environment variable to tell autotools to use tomatoware's bash.
+	Use github https link for retrieving ca certs.
+
 1.1
 	Use buildroot-2015-11 for both ARM and MIPSEL toolchains.
 	Add backtrace library support.
