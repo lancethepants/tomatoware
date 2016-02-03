@@ -72,7 +72,8 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--enable-local-libopts \
 	--without-p11-kit \
-	--with-included-libtasn1
+	--with-included-libtasn1 \
+	--enable-static
 	touch .configured
 fi
 
