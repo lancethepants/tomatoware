@@ -898,11 +898,12 @@ if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DINSTALL_INCLUDEDIR=include/mysql \
-	-DCMAKE_C_COMPILER=$DESTARCH-linux-gcc \
-	-DCMAKE_CXX_COMPILER=$DESTARCH-linux-g++ \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
 	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	./
         touch .configured
 fi
