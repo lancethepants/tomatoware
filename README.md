@@ -4,7 +4,9 @@ tomatoware
 Tomatoware is a development environment for mipsel and ARM embedded routers. It can be used to natively compile userland applications for these devices.
 
 Downloads for the project available at:
+
 https://github.com/lancethepants/tomatoware/releases
+
 http://lancethepants.com/files
 
 Compiling
