@@ -1387,12 +1387,12 @@ fi
 cd $SRC/openssh
 
 if [ ! -f .extracted ]; then
-	rm -rf openssh-7.1p2
-	tar zxvf openssh-7.1p2.tar.gz
+	rm -rf openssh-7.2p1
+	tar zxvf openssh-7.2p1.tar.gz
 	touch .extracted
 fi
 
-cd openssh-7.1p2
+cd openssh-7.2p1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
