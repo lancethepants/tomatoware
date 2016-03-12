@@ -945,7 +945,8 @@ if [ ! -f .configured ]; then
 	./configure \
 	--prefix=$PREFIX \
 	--target=$DESTARCH-linux \
-	--use-threads
+	--use-threads \
+	-Duseshrplib
 	touch .configured
 fi
 
@@ -1044,7 +1045,8 @@ if [ ! -f .configured ]; then
 	--build=`uname -m`-linux-gnu \
 	--with-dbmliborder=gdbm:bdb \
 	--with-threads \
-	--with-system-ffi
+	--with-system-ffi \
+	--enable-shared
 	touch .configured
 fi
 
