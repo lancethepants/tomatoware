@@ -207,12 +207,12 @@ diff -Naur gcc-5.2.0.orig/gcc/config/linux.h gcc-5.2.0/gcc/config/linux.h
     supporting both 32-bit and 64-bit compilation.  */
 -#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.1"
 -#define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.1"
--#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
--#define UCLIBC_DYNAMIC_LINKERX32 "/lib/ldx32-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc-so.1"
+-#define UCLIBC_DYNAMIC_LINKERX32 "/lib/ldx32-uClibc-so.1"
 +#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
 +#define UCLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-uClibc.so.1"
-+#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc.so.0"
-+#define UCLIBC_DYNAMIC_LINKERX32 "/opt/lib/ldx32-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc-so.1"
++#define UCLIBC_DYNAMIC_LINKERX32 "/opt/lib/ldx32-uClibc-so.1"
  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
@@ -274,8 +274,8 @@ diff -Naur gcc-5.2.0.orig/gcc/config/mips/linux.h gcc-5.2.0/gcc/config/mips/linu
 +  "%{mnan=2008:/opt/lib/ld-uClibc-mipsn8.so.0;:/opt/lib/ld-uClibc.so.1}"
  #undef UCLIBC_DYNAMIC_LINKER64
  #define UCLIBC_DYNAMIC_LINKER64 \
--  "%{mnan=2008:/lib/ld64-uClibc-mipsn8.so.0;:/lib/ld64-uClibc.so.0}"
-+  "%{mnan=2008:/opt/lib/ld64-uClibc-mipsn8.so.0;:/opt/lib/ld64-uClibc.so.0}"
+-  "%{mnan=2008:/lib/ld64-uClibc-mipsn8.so.0;:/lib/ld64-uClibc-so.1}"
++  "%{mnan=2008:/opt/lib/ld64-uClibc-mipsn8.so.0;:/opt/lib/ld64-uClibc-so.1}"
  #define UCLIBC_DYNAMIC_LINKERN32 \
 -  "%{mnan=2008:/lib32/ld-uClibc-mipsn8.so.0;:/lib32/ld-uClibc.so.1}"
 +  "%{mnan=2008:/opt/lib32/ld-uClibc-mipsn8.so.0;:/opt/lib32/ld-uClibc.so.1}"
@@ -323,9 +323,9 @@ diff -Naur gcc-5.2.0.orig/gcc/config/rs6000/linux64.h gcc-5.2.0/gcc/config/rs600
 +#define GLIBC_DYNAMIC_LINKER64 "%{mabi=elfv2:/opt/lib64/ld64.so.2;:/opt/lib64/ld64.so.1}"
  #endif
 -#define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.1"
--#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc-so.1"
 +#define UCLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-uClibc.so.1"
-+#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc-so.1"
  #if DEFAULT_LIBC == LIBC_UCLIBC
  #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
  #elif DEFAULT_LIBC == LIBC_GLIBC
