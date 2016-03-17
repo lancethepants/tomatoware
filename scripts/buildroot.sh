@@ -220,8 +220,8 @@ fi
 cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-2.24 build-binutils
-	tar zxvf binutils-2.24.tar.gz
+	rm -rf binutils-2.25.1 build-binutils
+	tar zxvf binutils-2.25.1.tar.gz
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -241,7 +241,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.24/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils-2.25.1/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
@@ -265,18 +265,18 @@ fi
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-5.2.0 gcc-build
-	tar xvjf $SRC/toolchain/dl/gcc-5.2.0.tar.bz2 -C $SRC/gcc
+	rm -rf gcc-5.3.0 gcc-build
+	tar xvjf $SRC/toolchain/dl/gcc-5.3.0.tar.bz2 -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-5.2.0
+cd gcc-5.3.0
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-5.2.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-5.2.0-specs-1.patch
-	patch -p1 < gcc-5.2.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-5.3.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-5.3.0-specs-1.patch
+	patch -p1 < gcc-5.3.0-specs-1.patch
 	touch .patched
 fi
 
@@ -297,7 +297,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-5.2.0/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-5.3.0/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
