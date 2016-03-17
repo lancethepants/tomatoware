@@ -4,9 +4,7 @@ export DESTARCH=arm
 #export DESTARCH=mipsel
 
 export PREFIX=/mmc
-#export PREFIX=/jffs
-#export PREFIX=/opt
-#export PREFIX=/opt/tomatoware
+#export PREFIX=/mnt
 
 # Do Not Edit
 
