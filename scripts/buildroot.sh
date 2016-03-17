@@ -456,7 +456,7 @@ fi
 cd $SRC/check
 
 if [ ! -f .extracted ]; then
-	rm -rf check-0.10.10
+	rm -rf check-0.10.0
 	tar zxvf check-0.10.0.tar.gz
 	touch .extracted
 fi
