@@ -433,6 +433,11 @@ fi
 
 cd libffi-3.2.1
 
+if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
+	patch -p1 < $PATCHES/libffi/mips.softfloat.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
