@@ -1002,12 +1002,12 @@ fi
 cd $SRC/texinfo
 
 if [ ! -f .extracted ]; then
-        rm -rf texinfo-6.0
-        tar zxvf texinfo-6.0.tar.gz
+        rm -rf texinfo-6.1
+        tar zxvf texinfo-6.1.tar.gz
         touch .extracted
 fi
 
-cd texinfo-6.0
+cd texinfo-6.1
 
 if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
