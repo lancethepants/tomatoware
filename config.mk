@@ -1,10 +1,10 @@
 # User Configurable Options
 
-export DESTARCH=arm
-#export DESTARCH=mipsel
+export DESTARCH ?= arm
+#export DESTARCH ?= mipsel
 
-export PREFIX=/mmc
-#export PREFIX=/mnt
+export PREFIX ?= /mmc
+#export PREFIX ?= /mnt
 
 # Do Not Edit
 
