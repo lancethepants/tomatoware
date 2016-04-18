@@ -241,6 +241,7 @@ cd asterisk-11.21.2
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
+	patch -p1 < $PATCHES/asterisk/0001-chan_sip-Support-RFC-3966-TEL-URIs-in-inbound-INVITE.patch
 	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
 	touch .patched
 fi
