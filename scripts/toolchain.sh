@@ -21,6 +21,9 @@ then
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2016.02/package/uclibc/uClibc-ng.config
+	echo "DO_XSI_MATH=y" >> $BASE/toolchain/buildroot-2016.02/package/uclibc/uClibc-ng.config
+	echo "sha256 3c63d9f8c8b98b65fa5c4040d1c8ab1b36e99a16e1093810cedad51ac15c9a9e uClibc-ng-1.0.14.tar.xz" >> $BASE/toolchain/buildroot-2016.02/package/uclibc/uclibc.hash
+	sed -i 's,1.0.13,1.0.14,g' $BASE/toolchain/buildroot-2016.02/package/uclibc/uclibc.mk
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
