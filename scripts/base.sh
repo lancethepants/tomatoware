@@ -1720,12 +1720,12 @@ fi
 cd $SRC/gzip
 
 if [ ! -f .extracted ]; then
-	rm -rf gzip-1.6
-	tar xvJf gzip-1.6.tar.xz
+	rm -rf gzip-1.7
+	tar xvJf gzip-1.7.tar.xz
 	touch .extracted
 fi
 
-cd gzip-1.6
+cd gzip-1.7
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
