@@ -1656,12 +1656,12 @@ fi
 cd $SRC/tmux
 
 if [ ! -f .extracted ]; then
-	rm -rf tmux-2.1
-	tar zxvf tmux-2.1.tar.gz
+	rm -rf tmux-2.2
+	tar zxvf tmux-2.2.tar.gz
 	touch .extracted
 fi
 
-cd tmux-2.1
+cd tmux-2.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
