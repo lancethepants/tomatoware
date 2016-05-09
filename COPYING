@@ -15,3 +15,7 @@ tomatoware is covered by the following license :
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
+This license applies to the build scripts and configuration files created for the purpose of compiling and assembling Tomatoware.
+
+Tomatoware is comprised of numerous open source utilities and libraries, each of which is subject to the license or licenses under which they are individually distributed. The complete source code for these projects is found in the src directory, and their licenses found within each source archive.
