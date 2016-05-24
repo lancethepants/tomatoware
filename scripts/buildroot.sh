@@ -710,12 +710,12 @@ fi
 cd $SRC/make
 
 if [ ! -f .extracted ]; then
-	rm -rf make-4.1
-	tar zxvf make-4.1.tar.gz
+	rm -rf make-4.2
+	tar zxvf make-4.2.tar.gz
 	touch .extracted
 fi
 
-cd make-4.1
+cd make-4.2
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
