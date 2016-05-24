@@ -705,12 +705,16 @@ fi
 cd libxml2-2.9.4
 
 if [ ! -f .configured ]; then
+	Z_CFLAGS=-I$DEST/include \
+	Z_LIBS=-L$DEST/lib \
 	LDFLAGS="-lz -llzma $LDFLAGS" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--without-python
+	--without-python \
+	--with-zlib=$BASE \
+	--with-lzma=$BASE
 	touch .configured
 fi
 
