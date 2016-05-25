@@ -50,11 +50,6 @@ grep -Irl "\#\! \/usr\/bin\/perl" $DEST | xargs sed -i -e '1,1s,\#\! \/usr\/bin\
 grep -Irl "\#\!\/bin\/bash" $DEST | xargs sed -i -e '1,1s,\#\!\/bin\/bash,\#\!'"$PREFIX"'\/bin\/bash,g'
 grep -Irl "\#\! \/bin\/bash" $DEST | xargs sed -i -e '1,1s,\#\! \/bin\/bash,\#\! '"$PREFIX"'\/bin\/bash,g'
 
-#Set correct path in gnutls script.
-if [ -f $DEST/bin/libgnutls-config ]; then
-	sed -i 's,\/bin\/bash,'"$PREFIX"'\/bin\/bash,g' $DEST/bin/libgnutls-config
-fi
-
 #Copy and set correct interpreter path for the .autorun file
 cp $SRC/.autorun $DEST
 sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
