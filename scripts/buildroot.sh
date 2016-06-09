@@ -265,18 +265,18 @@ fi
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-5.3.0 gcc-build
-	tar xvjf $SRC/toolchain/dl/gcc-5.3.0.tar.bz2 -C $SRC/gcc
+	rm -rf gcc-6.1.0 gcc-build
+	tar xvjf $SRC/toolchain/dl/gcc-6.1.0.tar.bz2 -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-5.3.0
+cd gcc-6.1.0
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-5.3.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-5.3.0-specs-1.patch
-	patch -p1 < gcc-5.3.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-6.1.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-6.1.0-specs-1.patch
+	patch -p1 < gcc-6.1.0-specs-1.patch
 	touch .patched
 fi
 
@@ -284,40 +284,48 @@ cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
 	os=mipsel-buildroot-linux-uclibc
-	gccextraconfig="--with-arch=mips32 \
-			--with-mips-plt"
+	gccextraconfig="--with-abi=32
+			--with-arch=mips32"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-buildroot-linux-uclibcgnueabi
 	gccextraconfig="--with-abi=aapcs-linux
-			--with-cpu=cortex-a9"
+			--with-cpu=cortex-a9
+			--with-mode=arm"
 fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-5.3.0/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-6.1.0/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
-	--enable-version-specific-runtime-libs \
 	--enable-languages=c,c++ \
-	--enable-threads=posix \
 	--enable-shared \
+	--enable-static \
+	--enable-threads=posix \
 	--enable-tls \
+	--enable-version-specific-runtime-libs \
+	--with-float=soft \
 	--with-gnu-as \
 	--with-gnu-ld \
+	--disable-__cxa_atexit \
+	--disable-decimal-float \
+	--disable-libgomp \
+	--disable-libmudflap \
+	--disable-libsanitizer \
+	--disable-libssp \
+	--disable-libstdcxx-pch \
+	--disable-multilib \
 	--disable-nls \
 	--disable-werror \
-	--disable-libstdcxx-pch \
-	--disable-libssp \
-	--with-float=soft \
-	--disable-libsanitizer \
-	--disable-libgomp \
+	--without-cloog \
+	--without-isl \
 	$gccextraconfig
 	touch .configured
 fi
@@ -1174,7 +1182,7 @@ cd ucl-1.03
 if [ ! -f .built_ucl ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
+	CFLAGS="-std=c90 $CFLAGS" \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	$MAKE
