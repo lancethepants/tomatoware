@@ -3,5 +3,3 @@
 003-uclibc-dl-defs.patch
 004-uclibc-ldd-opt.patch
 005-uclibc-ldd-static.patch
-9000-unroll-glibc-memcpy.patch
-9010-unroll-glibc-memset.patch

@@ -903,6 +903,11 @@ fi
 
 cd ../mysql-connector-c-6.1.6-src
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libmysqlclient/libmysqlclient.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \

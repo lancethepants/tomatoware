@@ -1,0 +1,643 @@
+diff -Nuar gcc-6.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-6.1.0/gcc/config/aarch64/aarch64-linux.h
+--- gcc-6.1.0.orig/gcc/config/aarch64/aarch64-linux.h	2016-06-03 13:24:16.563780995 -0600
++++ gcc-6.1.0/gcc/config/aarch64/aarch64-linux.h	2016-06-03 13:24:33.311898717 -0600
+@@ -21,10 +21,10 @@
+ #ifndef GCC_AARCH64_LINUX_H
+ #define GCC_AARCH64_LINUX_H
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef MUSL_DYNAMIC_LINKER
+-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
++#define MUSL_DYNAMIC_LINKER "/opt/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef  ASAN_CC1_SPEC
+ #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
+diff -Nuar gcc-6.1.0.orig/gcc/config/alpha/linux-elf.h gcc-6.1.0/gcc/config/alpha/linux-elf.h
+--- gcc-6.1.0.orig/gcc/config/alpha/linux-elf.h	2016-06-03 13:24:16.531780770 -0600
++++ gcc-6.1.0/gcc/config/alpha/linux-elf.h	2016-06-03 13:24:33.311898717 -0600
+@@ -23,8 +23,8 @@
+ #define EXTRA_SPECS \
+ { "elf_dynamic_linker", ELF_DYNAMIC_LINKER },
+ 
+-#define GLIBC_DYNAMIC_LINKER	"/lib/ld-linux.so.2"
+-#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
++#define GLIBC_DYNAMIC_LINKER	"/opt/lib/ld-linux.so.2"
++#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
+ #if DEFAULT_LIBC == LIBC_UCLIBC
+ #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
+ #elif DEFAULT_LIBC == LIBC_GLIBC
+diff -Nuar gcc-6.1.0.orig/gcc/config/arc/arc.h gcc-6.1.0/gcc/config/arc/arc.h
+--- gcc-6.1.0.orig/gcc/config/arc/arc.h	2016-06-03 13:24:16.539780826 -0600
++++ gcc-6.1.0/gcc/config/arc/arc.h	2016-06-03 13:32:41.591330351 -0600
+@@ -170,7 +170,7 @@
+ 		   %{static:-Bstatic} \
+ 		   %{symbolic:-Bsymbolic} \
+ 		   %{rdynamic:-export-dynamic}\
+-		   -dynamic-linker /lib/ld-uClibc.so.0 \
++		   -dynamic-linker /opt/lib/ld-uClibc.so.1 \
+ 		   -X %{mbig-endian:-EB} \
+ 		   %{EB} %{EL} \
+ 		   %{marclinux*} \
+diff -Nuar gcc-6.1.0.orig/gcc/config/arm/linux-eabi.h gcc-6.1.0/gcc/config/arm/linux-eabi.h
+--- gcc-6.1.0.orig/gcc/config/arm/linux-eabi.h	2016-06-03 13:24:16.543780854 -0600
++++ gcc-6.1.0/gcc/config/arm/linux-eabi.h	2016-06-03 13:24:33.315898745 -0600
+@@ -68,8 +68,8 @@
+    GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
+ 
+ #undef  GLIBC_DYNAMIC_LINKER
+-#define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT "/lib/ld-linux.so.3"
+-#define GLIBC_DYNAMIC_LINKER_HARD_FLOAT "/lib/ld-linux-armhf.so.3"
++#define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT "/opt/lib/ld-linux.so.3"
++#define GLIBC_DYNAMIC_LINKER_HARD_FLOAT "/opt/lib/ld-linux-armhf.so.3"
+ #define GLIBC_DYNAMIC_LINKER_DEFAULT GLIBC_DYNAMIC_LINKER_SOFT_FLOAT
+ 
+ #define GLIBC_DYNAMIC_LINKER \
+@@ -92,7 +92,7 @@
+ #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
+ #endif
+ #define MUSL_DYNAMIC_LINKER \
+-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}.so.1"
++  "/opt/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}.so.1"
+ 
+ /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+    use the GNU/Linux version, not the generic BPABI version.  */
+diff -Nuar gcc-6.1.0.orig/gcc/config/arm/linux-elf.h gcc-6.1.0/gcc/config/arm/linux-elf.h
+--- gcc-6.1.0.orig/gcc/config/arm/linux-elf.h	2016-06-03 13:24:16.543780854 -0600
++++ gcc-6.1.0/gcc/config/arm/linux-elf.h	2016-06-03 13:24:33.315898745 -0600
+@@ -62,7 +62,7 @@
+ 
+ #define LIBGCC_SPEC "%{mfloat-abi=soft*:-lfloat} -lgcc"
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux.so.2"
+ 
+ #define LINUX_TARGET_LINK_SPEC  "%{h*} \
+    %{static:-Bstatic} \
+diff -Nuar gcc-6.1.0.orig/gcc/config/bfin/linux.h gcc-6.1.0/gcc/config/bfin/linux.h
+--- gcc-6.1.0.orig/gcc/config/bfin/linux.h	2016-06-03 13:24:16.571781051 -0600
++++ gcc-6.1.0/gcc/config/bfin/linux.h	2016-06-03 13:25:27.832281930 -0600
+@@ -45,7 +45,7 @@
+   %{shared:-G -Bdynamic} \
+   %{!shared: %{!static: \
+    %{rdynamic:-export-dynamic} \
+-   -dynamic-linker /lib/ld-uClibc.so.0} \
++   -dynamic-linker /opt/lib/ld-uClibc.so.1} \
+    %{static}} -init __init -fini __fini"
+ 
+ #undef TARGET_SUPPORTS_SYNC_CALLS
+diff -Nuar gcc-6.1.0.orig/gcc/config/c6x/uclinux-elf.h gcc-6.1.0/gcc/config/c6x/uclinux-elf.h
+--- gcc-6.1.0.orig/gcc/config/c6x/uclinux-elf.h	2016-06-03 13:24:16.539780826 -0600
++++ gcc-6.1.0/gcc/config/c6x/uclinux-elf.h	2016-06-03 13:24:33.315898745 -0600
+@@ -36,7 +36,7 @@
+ #define STARTFILE_SPEC \
+   "%{!shared:crt1%O%s} crti%O%s %{shared|pie:crtbeginS.o%s;:crtbegin.o%s}"
+ 
+-#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC ENDIAN_LINK_SPEC \
+diff -Nuar gcc-6.1.0.orig/gcc/config/cris/linux.h gcc-6.1.0/gcc/config/cris/linux.h
+--- gcc-6.1.0.orig/gcc/config/cris/linux.h	2016-06-03 13:24:16.571781051 -0600
++++ gcc-6.1.0/gcc/config/cris/linux.h	2016-06-03 13:24:33.315898745 -0600
+@@ -102,7 +102,7 @@
+ #undef CRIS_DEFAULT_CPU_VERSION
+ #define CRIS_DEFAULT_CPU_VERSION CRIS_CPU_NG
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef CRIS_LINK_SUBTARGET_SPEC
+ #define CRIS_LINK_SUBTARGET_SPEC \
+diff -Nuar gcc-6.1.0.orig/gcc/config/dragonfly.h gcc-6.1.0/gcc/config/dragonfly.h
+--- gcc-6.1.0.orig/gcc/config/dragonfly.h	2016-06-03 13:24:16.563780995 -0600
++++ gcc-6.1.0/gcc/config/dragonfly.h	2016-06-03 13:43:08.863737646 -0600
+@@ -90,7 +90,7 @@
+ #undef  LINK_SPEC
+ #define LINK_SPEC DFBSD_LINK_SPEC
+ 
+-#define DFBSD_DYNAMIC_LINKER "/usr/libexec/ld-elf.so.2"
++#define DFBSD_DYNAMIC_LINKER "/opt/usr/libexec/ld-elf.so.2"
+ 
+ 
+ /* Use --as-needed -lgcc_s for eh support.  */
+diff -Nuar gcc-6.1.0.orig/gcc/config/freebsd-spec.h gcc-6.1.0/gcc/config/freebsd-spec.h
+--- gcc-6.1.0.orig/gcc/config/freebsd-spec.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/freebsd-spec.h	2016-06-03 13:34:53.228255354 -0600
+@@ -129,9 +129,9 @@
+ #endif
+ 
+ #if FBSD_MAJOR < 6
+-#define FBSD_DYNAMIC_LINKER "/usr/libexec/ld-elf.so.1"
++#define FBSD_DYNAMIC_LINKER "/opt/usr/libexec/ld-elf.so.1"
+ #else
+-#define FBSD_DYNAMIC_LINKER "/libexec/ld-elf.so.1"
++#define FBSD_DYNAMIC_LINKER "/opt/libexec/ld-elf.so.1"
+ #endif
+ 
+ /* NOTE: The freebsd-spec.h header is included also for various
+diff -Nuar gcc-6.1.0.orig/gcc/config/frv/linux.h gcc-6.1.0/gcc/config/frv/linux.h
+--- gcc-6.1.0.orig/gcc/config/frv/linux.h	2016-06-03 13:24:16.567781023 -0600
++++ gcc-6.1.0/gcc/config/frv/linux.h	2016-06-03 13:24:33.315898745 -0600
+@@ -34,7 +34,7 @@
+ #define ENDFILE_SPEC \
+   "%{shared|pie:crtendS.o%s;:crtend.o%s} crtn.o%s"
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC "\
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/gnu.h gcc-6.1.0/gcc/config/i386/gnu.h
+--- gcc-6.1.0.orig/gcc/config/i386/gnu.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/gnu.h	2016-06-03 13:42:08.107310818 -0600
+@@ -22,7 +22,7 @@
+ #define GNU_USER_LINK_EMULATION "elf_i386"
+ 
+ #undef GNU_USER_DYNAMIC_LINKER
+-#define GNU_USER_DYNAMIC_LINKER "/lib/ld.so"
++#define GNU_USER_DYNAMIC_LINKER "/opt/lib/ld.so"
+ 
+ #undef	STARTFILE_SPEC
+ #if defined HAVE_LD_PIE
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/kfreebsd-gnu64.h gcc-6.1.0/gcc/config/i386/kfreebsd-gnu64.h
+--- gcc-6.1.0.orig/gcc/config/i386/kfreebsd-gnu64.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/kfreebsd-gnu64.h	2016-06-03 13:24:33.319898772 -0600
+@@ -22,6 +22,6 @@
+ #define GNU_USER_LINK_EMULATION64 "elf_x86_64_fbsd"
+ #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64_fbsd"
+ 
+-#define GLIBC_DYNAMIC_LINKER32 "/lib/ld.so.1"
+-#define GLIBC_DYNAMIC_LINKER64 "/lib/ld-kfreebsd-x86-64.so.1"
+-#define GLIBC_DYNAMIC_LINKERX32 "/lib/ld-kfreebsd-x32.so.1"
++#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER64 "/opt/lib/ld-kfreebsd-x86-64.so.1"
++#define GLIBC_DYNAMIC_LINKERX32 "/opt/lib/ld-kfreebsd-x32.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/kfreebsd-gnu.h gcc-6.1.0/gcc/config/i386/kfreebsd-gnu.h
+--- gcc-6.1.0.orig/gcc/config/i386/kfreebsd-gnu.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/kfreebsd-gnu.h	2016-06-03 13:24:33.319898772 -0600
+@@ -19,4 +19,4 @@
+ <http://www.gnu.org/licenses/>.  */
+ 
+ #define GNU_USER_LINK_EMULATION "elf_i386_fbsd"
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/knetbsd-gnu64.h gcc-6.1.0/gcc/config/i386/knetbsd-gnu64.h
+--- gcc-6.1.0.orig/gcc/config/i386/knetbsd-gnu64.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/i386/knetbsd-gnu64.h	2016-06-03 13:38:21.625719632 -0600
+@@ -21,6 +21,6 @@
+ #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
+ #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
+ 
+-#define GNU_USER_DYNAMIC_LINKER32 "/lib/ld.so.1"
+-#define GNU_USER_DYNAMIC_LINKER64 "/lib/ld-knetbsd-x86-64.so.1"
+-#define GNU_USER_DYNAMIC_LINKERX32 "/lib/ld-knetbsd-x32.so.1"
++#define GNU_USER_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
++#define GNU_USER_DYNAMIC_LINKER64 "/opt/lib/ld-knetbsd-x86-64.so.1"
++#define GNU_USER_DYNAMIC_LINKERX32 "/opt/lib/ld-knetbsd-x32.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/linux64.h gcc-6.1.0/gcc/config/i386/linux64.h
+--- gcc-6.1.0.orig/gcc/config/i386/linux64.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/linux64.h	2016-06-03 13:24:33.319898772 -0600
+@@ -27,13 +27,13 @@
+ #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
+ #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
+ 
+-#define GLIBC_DYNAMIC_LINKER32 "/lib/ld-linux.so.2"
+-#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+-#define GLIBC_DYNAMIC_LINKERX32 "/libx32/ld-linux-x32.so.2"
++#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER64 "/opt/lib64/ld-linux-x86-64.so.2"
++#define GLIBC_DYNAMIC_LINKERX32 "/opt/libx32/ld-linux-x32.so.2"
+ 
+ #undef MUSL_DYNAMIC_LINKER32
+-#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
++#define MUSL_DYNAMIC_LINKER32 "/opt/lib/ld-musl-i386.so.1"
+ #undef MUSL_DYNAMIC_LINKER64
+-#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
++#define MUSL_DYNAMIC_LINKER64 "/opt/lib/ld-musl-x86_64.so.1"
+ #undef MUSL_DYNAMIC_LINKERX32
+-#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
++#define MUSL_DYNAMIC_LINKERX32 "/opt/lib/ld-musl-x32.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/linux.h gcc-6.1.0/gcc/config/i386/linux.h
+--- gcc-6.1.0.orig/gcc/config/i386/linux.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -20,7 +20,7 @@
+ <http://www.gnu.org/licenses/>.  */
+ 
+ #define GNU_USER_LINK_EMULATION "elf_i386"
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux.so.2"
+ 
+ #undef MUSL_DYNAMIC_LINKER
+-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
++#define MUSL_DYNAMIC_LINKER "/opt/lib/ld-musl-i386.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/nto.h gcc-6.1.0/gcc/config/i386/nto.h
+--- gcc-6.1.0.orig/gcc/config/i386/nto.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/i386/nto.h	2016-06-03 13:47:43.465666659 -0600
+@@ -78,7 +78,7 @@
+     %{!p:-Y P,%R/lib}} \
+    %{Qy:} %{!Qn:-Qy} \
+    -m i386nto \
+-   %{!shared: --dynamic-linker /usr/lib/ldqnx.so.2}"
++   %{!shared: --dynamic-linker /opt/usr/lib/ldqnx.so.2}"
+ 
+ #undef	LIB_SPEC
+ #define LIB_SPEC "%{!shared:%{!symbolic:-lc}}"
+diff -Nuar gcc-6.1.0.orig/gcc/config/i386/openbsdelf.h gcc-6.1.0/gcc/config/i386/openbsdelf.h
+--- gcc-6.1.0.orig/gcc/config/i386/openbsdelf.h	2016-06-03 13:24:16.551780910 -0600
++++ gcc-6.1.0/gcc/config/i386/openbsdelf.h	2016-06-03 13:47:27.177552246 -0600
+@@ -98,7 +98,7 @@
+    %{static:-Bstatic} \
+    %{!static:-Bdynamic} \
+    %{assert*} \
+-   -dynamic-linker /usr/libexec/ld.so"
++   -dynamic-linker /opt/usr/libexec/ld.so"
+ 
+ #undef STARTFILE_SPEC
+ #define STARTFILE_SPEC "\
+diff -Nuar gcc-6.1.0.orig/gcc/config/ia64/linux.h gcc-6.1.0/gcc/config/ia64/linux.h
+--- gcc-6.1.0.orig/gcc/config/ia64/linux.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/ia64/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -55,7 +55,7 @@
+ /* Define this for shared library support because it isn't in the main
+    linux.h file.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-ia64.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux-ia64.so.2"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC "\
+diff -Nuar gcc-6.1.0.orig/gcc/config/knetbsd-gnu.h gcc-6.1.0/gcc/config/knetbsd-gnu.h
+--- gcc-6.1.0.orig/gcc/config/knetbsd-gnu.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/knetbsd-gnu.h	2016-06-03 13:36:26.728912342 -0600
+@@ -32,4 +32,4 @@
+ 
+ 
+ #undef GNU_USER_DYNAMIC_LINKER
+-#define GNU_USER_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GNU_USER_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/kopensolaris-gnu.h gcc-6.1.0/gcc/config/kopensolaris-gnu.h
+--- gcc-6.1.0.orig/gcc/config/kopensolaris-gnu.h	2016-06-03 13:24:16.547780882 -0600
++++ gcc-6.1.0/gcc/config/kopensolaris-gnu.h	2016-06-03 13:37:21.325295952 -0600
+@@ -31,4 +31,4 @@
+   while (0)
+ 
+ #undef GNU_USER_DYNAMIC_LINKER
+-#define GNU_USER_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GNU_USER_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+diff -Nuar gcc-6.1.0.orig/gcc/config/linux.h gcc-6.1.0/gcc/config/linux.h
+--- gcc-6.1.0.orig/gcc/config/linux.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -81,10 +81,10 @@
+    GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
+    GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
+    supporting both 32-bit and 64-bit compilation.  */
+-#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKERX32 "/lib/ldx32-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKERX32 "/opt/lib/ldx32-uClibc.so.1"
+ #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
+ #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
+ #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
+diff -Nuar gcc-6.1.0.orig/gcc/config/lm32/uclinux-elf.h gcc-6.1.0/gcc/config/lm32/uclinux-elf.h
+--- gcc-6.1.0.orig/gcc/config/lm32/uclinux-elf.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/lm32/uclinux-elf.h	2016-06-03 13:26:29.552715740 -0600
+@@ -67,7 +67,7 @@
+    %{shared:-shared} \
+    %{symbolic:-Bsymbolic} \
+    %{rdynamic:-export-dynamic} \
+-   -dynamic-linker /lib/ld-linux.so.2"
++   -dynamic-linker /opt/lib/ld-linux.so.2"
+ 
+ #define TARGET_OS_CPP_BUILTINS() GNU_USER_TARGET_OS_CPP_BUILTINS()
+ 
+diff -Nuar gcc-6.1.0.orig/gcc/config/m32r/linux.h gcc-6.1.0/gcc/config/m32r/linux.h
+--- gcc-6.1.0.orig/gcc/config/m32r/linux.h	2016-06-03 13:24:16.539780826 -0600
++++ gcc-6.1.0/gcc/config/m32r/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -37,7 +37,7 @@
+    When the -shared link option is used a final link is not being
+    done.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux.so.2"
+ 
+ #undef	LINK_SPEC
+ #if TARGET_LITTLE_ENDIAN
+diff -Nuar gcc-6.1.0.orig/gcc/config/m68k/linux.h gcc-6.1.0/gcc/config/m68k/linux.h
+--- gcc-6.1.0.orig/gcc/config/m68k/linux.h	2016-06-03 13:24:16.539780826 -0600
++++ gcc-6.1.0/gcc/config/m68k/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -71,7 +71,7 @@
+    When the -shared link option is used a final link is not being
+    done.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC "-m m68kelf %{shared} \
+diff -Nuar gcc-6.1.0.orig/gcc/config/microblaze/linux.h gcc-6.1.0/gcc/config/microblaze/linux.h
+--- gcc-6.1.0.orig/gcc/config/microblaze/linux.h	2016-06-03 13:24:16.535780798 -0600
++++ gcc-6.1.0/gcc/config/microblaze/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -28,7 +28,7 @@
+ #undef TLS_NEEDS_GOT
+ #define TLS_NEEDS_GOT 1
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #if TARGET_BIG_ENDIAN_DEFAULT == 0 /* LE */
+ #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:;:el}"
+@@ -37,7 +37,7 @@
+ #endif
+ 
+ #undef MUSL_DYNAMIC_LINKER
+-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
++#define MUSL_DYNAMIC_LINKER "/opt/lib/ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
+ 
+ #undef  SUBTARGET_EXTRA_SPECS
+ #define SUBTARGET_EXTRA_SPECS \
+diff -Nuar gcc-6.1.0.orig/gcc/config/mips/linux.h gcc-6.1.0/gcc/config/mips/linux.h
+--- gcc-6.1.0.orig/gcc/config/mips/linux.h	2016-06-03 13:24:16.535780798 -0600
++++ gcc-6.1.0/gcc/config/mips/linux.h	2016-06-03 13:30:21.086342969 -0600
+@@ -22,26 +22,26 @@
+ #define GNU_USER_LINK_EMULATIONN32 "elf32%{EB:b}%{EL:l}tsmipn32"
+ 
+ #define GLIBC_DYNAMIC_LINKER32 \
+-  "%{mnan=2008:/lib/ld-linux-mipsn8.so.1;:/lib/ld.so.1}"
++  "%{mnan=2008:/opt/lib/ld-linux-mipsn8.so.1;:/opt/lib/ld.so.1}"
+ #define GLIBC_DYNAMIC_LINKER64 \
+-  "%{mnan=2008:/lib64/ld-linux-mipsn8.so.1;:/lib64/ld.so.1}"
++  "%{mnan=2008:/opt/lib64/ld-linux-mipsn8.so.1;:/opt/lib64/ld.so.1}"
+ #define GLIBC_DYNAMIC_LINKERN32 \
+-  "%{mnan=2008:/lib32/ld-linux-mipsn8.so.1;:/lib32/ld.so.1}"
++  "%{mnan=2008:/opt/lib32/ld-linux-mipsn8.so.1;:/opt/lib32/ld.so.1}"
+ 
+ #undef UCLIBC_DYNAMIC_LINKER32
+ #define UCLIBC_DYNAMIC_LINKER32 \
+-  "%{mnan=2008:/lib/ld-uClibc-mipsn8.so.0;:/lib/ld-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib/ld-uClibc-mipsn8.so.1;:/opt/lib/ld-uClibc.so.1}"
+ #undef UCLIBC_DYNAMIC_LINKER64
+ #define UCLIBC_DYNAMIC_LINKER64 \
+-  "%{mnan=2008:/lib/ld64-uClibc-mipsn8.so.0;:/lib/ld64-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib/ld64-uClibc-mipsn8.so.1;:/opt/lib/ld64-uClibc.so.1}"
+ #define UCLIBC_DYNAMIC_LINKERN32 \
+-  "%{mnan=2008:/lib32/ld-uClibc-mipsn8.so.0;:/lib32/ld-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib32/ld-uClibc-mipsn8.so.1;:/opt/lib32/ld-uClibc.so.1}"
+ 
+ #undef MUSL_DYNAMIC_LINKER32
+-#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-mips%{EL:el}%{msoft-float:-sf}.so.1"
++#define MUSL_DYNAMIC_LINKER32 "/opt/lib/ld-musl-mips%{EL:el}%{msoft-float:-sf}.so.1"
+ #undef MUSL_DYNAMIC_LINKER64
+-#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-mips64%{EL:el}%{msoft-float:-sf}.so.1"
+-#define MUSL_DYNAMIC_LINKERN32 "/lib/ld-musl-mipsn32%{EL:el}%{msoft-float:-sf}.so.1"
++#define MUSL_DYNAMIC_LINKER64 "/opt/lib/ld-musl-mips64%{EL:el}%{msoft-float:-sf}.so.1"
++#define MUSL_DYNAMIC_LINKERN32 "/opt/lib/ld-musl-mipsn32%{EL:el}%{msoft-float:-sf}.so.1"
+ 
+ #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
+ #define GNU_USER_DYNAMIC_LINKERN32 \
+diff -Nuar gcc-6.1.0.orig/gcc/config/mn10300/linux.h gcc-6.1.0/gcc/config/mn10300/linux.h
+--- gcc-6.1.0.orig/gcc/config/mn10300/linux.h	2016-06-03 13:24:16.535780798 -0600
++++ gcc-6.1.0/gcc/config/mn10300/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -32,7 +32,7 @@
+ #undef  ASM_SPEC
+ #define ASM_SPEC ""
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef  LINK_SPEC
+ #define LINK_SPEC "%{mrelax:--relax} %{shared:-shared} \
+diff -Nuar gcc-6.1.0.orig/gcc/config/netbsd-elf.h gcc-6.1.0/gcc/config/netbsd-elf.h
+--- gcc-6.1.0.orig/gcc/config/netbsd-elf.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/netbsd-elf.h	2016-06-03 13:46:31.213159124 -0600
+@@ -78,7 +78,7 @@
+ 	 %{!e*:-e %(netbsd_entry_point)}}} \
+      %{!static: \
+        %{rdynamic:-export-dynamic} \
+-       -dynamic-linker /usr/libexec/ld.elf_so} \
++       -dynamic-linker /opt/usr/libexec/ld.elf_so} \
+      %{static:-static}}"
+ 
+ /* Use --as-needed -lgcc_s for eh support.  */
+diff -Nuar gcc-6.1.0.orig/gcc/config/nios2/linux.h gcc-6.1.0/gcc/config/nios2/linux.h
+--- gcc-6.1.0.orig/gcc/config/nios2/linux.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/nios2/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -29,7 +29,7 @@
+ #undef CPP_SPEC
+ #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-nios2.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux-nios2.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC LINK_SPEC_ENDIAN \
+diff -Nuar gcc-6.1.0.orig/gcc/config/pa/pa-linux.h gcc-6.1.0/gcc/config/pa/pa-linux.h
+--- gcc-6.1.0.orig/gcc/config/pa/pa-linux.h	2016-06-03 13:24:16.563780995 -0600
++++ gcc-6.1.0/gcc/config/pa/pa-linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -37,7 +37,7 @@
+ /* Define this for shared library support because it isn't in the main
+    linux.h file.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC "\
+diff -Nuar gcc-6.1.0.orig/gcc/config/pa/pa-openbsd.h gcc-6.1.0/gcc/config/pa/pa-openbsd.h
+--- gcc-6.1.0.orig/gcc/config/pa/pa-openbsd.h	2016-06-03 13:24:16.563780995 -0600
++++ gcc-6.1.0/gcc/config/pa/pa-openbsd.h	2016-06-03 13:48:02.933803410 -0600
+@@ -139,7 +139,7 @@
+    %{static:-Bstatic} \
+    %{!static:-Bdynamic} \
+    %{assert*} \
+-   -dynamic-linker /usr/libexec/ld.so"
++   -dynamic-linker /opt/usr/libexec/ld.so"
+ 
+ #undef STARTFILE_SPEC
+ #define STARTFILE_SPEC "\
+diff -Nuar gcc-6.1.0.orig/gcc/config/rs6000/linux64.h gcc-6.1.0/gcc/config/rs6000/linux64.h
+--- gcc-6.1.0.orig/gcc/config/rs6000/linux64.h	2016-06-03 13:24:16.571781051 -0600
++++ gcc-6.1.0/gcc/config/rs6000/linux64.h	2016-06-03 13:24:33.319898772 -0600
+@@ -412,25 +412,25 @@
+ #undef	LINK_OS_DEFAULT_SPEC
+ #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
+ 
+-#define GLIBC_DYNAMIC_LINKER32 "%(dynamic_linker_prefix)/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
+ 
+ #ifdef LINUX64_DEFAULT_ABI_ELFv2
+ #define GLIBC_DYNAMIC_LINKER64 \
+-"%{mabi=elfv1:%(dynamic_linker_prefix)/lib64/ld64.so.1;" \
++"%{mabi=elfv1:/opt/lib64/ld64.so.1;" \
+ ":%(dynamic_linker_prefix)/lib64/ld64.so.2}"
+ #else
+ #define GLIBC_DYNAMIC_LINKER64 \
+-"%{mabi=elfv2:%(dynamic_linker_prefix)/lib64/ld64.so.2;" \
++"%{mabi=elfv2:/opt/lib64/ld64.so.2;" \
+ ":%(dynamic_linker_prefix)/lib64/ld64.so.1}"
+ #endif
+ 
+ #define MUSL_DYNAMIC_LINKER32 \
+-  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
++  "/opt/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
+ #define MUSL_DYNAMIC_LINKER64 \
+-  "/lib/ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
++  "/opt/lib/ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
+ 
+-#define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc.so.1"
+ #if DEFAULT_LIBC == LIBC_UCLIBC
+ #define CHOOSE_DYNAMIC_LINKER(G, U, M) \
+   "%{mglibc:" G ";:%{mmusl:" M ";:" U "}}"
+diff -Nuar gcc-6.1.0.orig/gcc/config/rs6000/sysv4.h gcc-6.1.0/gcc/config/rs6000/sysv4.h
+--- gcc-6.1.0.orig/gcc/config/rs6000/sysv4.h	2016-06-03 13:24:16.571781051 -0600
++++ gcc-6.1.0/gcc/config/rs6000/sysv4.h	2016-06-03 13:48:35.090029285 -0600
+@@ -764,10 +764,10 @@
+ 
+ #define MUSL_DYNAMIC_LINKER_E ENDIAN_SELECT("","le","")
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
+-#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
++#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
+ #define MUSL_DYNAMIC_LINKER \
+-  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
++  "/opt/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
+ #if DEFAULT_LIBC == LIBC_UCLIBC
+ #define CHOOSE_DYNAMIC_LINKER(G, U, M) \
+   "%{mglibc:" G ";:%{mmusl:" M ";:" U "}}"
+@@ -817,7 +817,7 @@
+ #define LINK_OS_NETBSD_SPEC "\
+ %{!shared: %{!static: \
+   %{rdynamic:-export-dynamic} \
+-  -dynamic-linker /usr/libexec/ld.elf_so}}"
++  -dynamic-linker /opt/usr/libexec/ld.elf_so}}"
+ 
+ #define CPP_OS_NETBSD_SPEC "\
+ -D__powerpc__ -D__NetBSD__ -D__KPRINTF_ATTRIBUTE__"
+diff -Nuar gcc-6.1.0.orig/gcc/config/s390/linux.h gcc-6.1.0/gcc/config/s390/linux.h
+--- gcc-6.1.0.orig/gcc/config/s390/linux.h	2016-06-03 13:24:16.547780882 -0600
++++ gcc-6.1.0/gcc/config/s390/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -60,8 +60,8 @@
+ #define MULTILIB_DEFAULTS { "m31" }
+ #endif
+ 
+-#define GLIBC_DYNAMIC_LINKER32 "/lib/ld.so.1"
+-#define GLIBC_DYNAMIC_LINKER64 "/lib/ld64.so.1"
++#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64.so.1"
+ 
+ #undef  LINK_SPEC
+ #define LINK_SPEC \
+diff -Nuar gcc-6.1.0.orig/gcc/config/sh/linux.h gcc-6.1.0/gcc/config/sh/linux.h
+--- gcc-6.1.0.orig/gcc/config/sh/linux.h	2016-06-03 13:24:16.547780882 -0600
++++ gcc-6.1.0/gcc/config/sh/linux.h	2016-06-03 13:24:33.319898772 -0600
+@@ -61,10 +61,10 @@
+ 
+ #undef MUSL_DYNAMIC_LINKER
+ #define MUSL_DYNAMIC_LINKER \
+-  "/lib/ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
++  "/opt/lib/ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
+   "%{mfdpic:-fdpic}.so.1"
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux.so.2"
+ 
+ #undef SUBTARGET_LINK_EMUL_SUFFIX
+ #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
+diff -Nuar gcc-6.1.0.orig/gcc/config/sparc/linux64.h gcc-6.1.0/gcc/config/sparc/linux64.h
+--- gcc-6.1.0.orig/gcc/config/sparc/linux64.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/sparc/linux64.h	2016-06-03 13:24:33.323898800 -0600
+@@ -84,8 +84,8 @@
+    When the -shared link option is used a final link is not being
+    done.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER32 "/lib/ld-linux.so.2"
+-#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER64 "/opt/lib64/ld-linux.so.2"
+ 
+ #ifdef SPARC_BI_ARCH
+ 
+diff -Nuar gcc-6.1.0.orig/gcc/config/sparc/linux.h gcc-6.1.0/gcc/config/sparc/linux.h
+--- gcc-6.1.0.orig/gcc/config/sparc/linux.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/sparc/linux.h	2016-06-03 13:24:33.323898800 -0600
+@@ -83,7 +83,7 @@
+    When the -shared link option is used a final link is not being
+    done.  */
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld-linux.so.2"
+ 
+ #undef  LINK_SPEC
+ #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
+diff -Nuar gcc-6.1.0.orig/gcc/config/sparc/openbsd64.h gcc-6.1.0/gcc/config/sparc/openbsd64.h
+--- gcc-6.1.0.orig/gcc/config/sparc/openbsd64.h	2016-06-03 13:24:16.559780967 -0600
++++ gcc-6.1.0/gcc/config/sparc/openbsd64.h	2016-06-03 13:45:53.268892580 -0600
+@@ -67,7 +67,7 @@
+    %{static:-Bstatic} \
+    %{!static:-Bdynamic} \
+    %{assert*} \
+-   -dynamic-linker /usr/libexec/ld.so"
++   -dynamic-linker /opt/usr/libexec/ld.so"
+ 
+ /* As an elf system, we need crtbegin/crtend stuff.  */
+ #undef STARTFILE_SPEC
+diff -Nuar gcc-6.1.0.orig/gcc/config/tilegx/linux.h gcc-6.1.0/gcc/config/tilegx/linux.h
+--- gcc-6.1.0.orig/gcc/config/tilegx/linux.h	2016-06-03 13:24:16.567781023 -0600
++++ gcc-6.1.0/gcc/config/tilegx/linux.h	2016-06-03 13:38:58.869981310 -0600
+@@ -32,8 +32,8 @@
+     %{!static: \
+       %{rdynamic:-export-dynamic} \
+       -dynamic-linker \
+-        %{ m32: /lib32/ld.so.1} \
+-        %{!m32: /lib/ld.so.1}} \
++        %{ m32: /opt/lib32/ld.so.1} \
++        %{!m32: /opt/lib/ld.so.1}} \
+     %{static:-static}}"
+ 
+ #define MULTILIB_DEFAULTS { "m64" }
+diff -Nuar gcc-6.1.0.orig/gcc/config/tilepro/linux.h gcc-6.1.0/gcc/config/tilepro/linux.h
+--- gcc-6.1.0.orig/gcc/config/tilepro/linux.h	2016-06-03 13:24:16.543780854 -0600
++++ gcc-6.1.0/gcc/config/tilepro/linux.h	2016-06-03 13:36:56.913124426 -0600
+@@ -27,7 +27,7 @@
+   %{!shared: \
+     %{!static: \
+       %{rdynamic:-export-dynamic} \
+-      -dynamic-linker /lib/ld.so.1} \
++      -dynamic-linker /opt/lib/ld.so.1} \
+     %{static:-static}}"
+ 
+ #define NO_PROFILE_COUNTERS	1
+diff -Nuar gcc-6.1.0.orig/gcc/config/vax/linux.h gcc-6.1.0/gcc/config/vax/linux.h
+--- gcc-6.1.0.orig/gcc/config/vax/linux.h	2016-06-03 13:24:16.567781023 -0600
++++ gcc-6.1.0/gcc/config/vax/linux.h	2016-06-03 13:26:52.272875425 -0600
+@@ -41,7 +41,7 @@
+   %{!shared: \
+     %{!static: \
+       %{rdynamic:-export-dynamic} \
+-      -dynamic-linker /lib/ld.so.1} \
++      -dynamic-linker /opt/lib/ld.so.1} \
+     %{static:-static}}"
+ 
+ #undef  WCHAR_TYPE
+diff -Nuar gcc-6.1.0.orig/gcc/config/xtensa/linux.h gcc-6.1.0/gcc/config/xtensa/linux.h
+--- gcc-6.1.0.orig/gcc/config/xtensa/linux.h	2016-06-03 13:24:16.555780939 -0600
++++ gcc-6.1.0/gcc/config/xtensa/linux.h	2016-06-03 13:24:33.323898800 -0600
+@@ -46,7 +46,7 @@
+   %{mauto-litpools:--auto-litpools} \
+   %{mno-auto-litpools:--no-auto-litpools}"
+ 
+-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
++#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
+ 
+ #undef LINK_SPEC
+ #define LINK_SPEC \
