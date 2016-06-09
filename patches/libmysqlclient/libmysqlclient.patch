@@ -1,0 +1,11 @@
+diff -Nuar mysql-connector-c-6.1.6-src.orig/extra/yassl/src/lock.cpp mysql-connector-c-6.1.6-src/extra/yassl/src/lock.cpp
+--- mysql-connector-c-6.1.6-src.orig/extra/yassl/src/lock.cpp	2016-06-06 07:39:37.235650913 -0600
++++ mysql-connector-c-6.1.6-src/extra/yassl/src/lock.cpp	2016-06-06 07:40:05.111873752 -0600
+@@ -19,6 +19,7 @@
+ /*  Locking functions
+  */
+ 
++#include <cstdlib>
+ #include "runtime.hpp"
+ #include "lock.hpp"
+ 

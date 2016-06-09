@@ -73,7 +73,8 @@ if [ ! -f .configured ]; then
 	--enable-local-libopts \
 	--without-p11-kit \
 	--with-included-libtasn1 \
-	--enable-static
+	--enable-static \
+	--disable-doc
 	touch .configured
 fi
 
