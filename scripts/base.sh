@@ -316,12 +316,12 @@ fi
 cd $SRC/curl
 
 if [ ! -f .extracted ]; then
-	rm -rf curl-7.49.0
-	tar zxvf curl-7.49.0.tar.gz
+	rm -rf curl-7.49.1
+	tar zxvf curl-7.49.1.tar.gz
 	touch .extracted
 fi
 
-cd curl-7.49.0
+cd curl-7.49.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -348,7 +348,7 @@ if [ ! -f .certs_installed ]; then
 	cd $DEST/ssl/certs
 	curl https://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
 	c_rehash .
-	touch $SRC/curl/curl-7.49.0/.certs_installed
+	touch $SRC/curl/curl-7.49.1/.certs_installed
 fi
 
 ######### ###################################################################
