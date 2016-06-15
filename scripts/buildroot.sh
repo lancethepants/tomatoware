@@ -1165,7 +1165,7 @@ unset PYTHON_CROSS
 
 export UPX_UCLDIR=$SRC/upx/ucl-1.03
 export UPX_LZMADIR=$SRC/upx/lzma
-export UPX_LZMA_VERSION=0x1514
+export UPX_LZMA_VERSION=0x1602
 
 cd $SRC/upx
 
