@@ -232,12 +232,12 @@ fi
 cd $SRC/gettext
 
 if [ ! -f .extracted ]; then
-	rm -rf gettext-0.19.7
-	tar zxvf gettext-0.19.7.tar.gz
+	rm -rf gettext-0.19.8.1
+	tar zxvf gettext-0.19.8.1.tar.gz
 	touch .extracted
 fi
 
-cd gettext-0.19.7
+cd gettext-0.19.8.1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gettext/spawn.patch
