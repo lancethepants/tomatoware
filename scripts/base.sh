@@ -1326,12 +1326,12 @@ fi
 cd $SRC/strace
 
 if [ ! -f .extracted ]; then
-	rm -rf strace-4.11
-	tar xvJf strace-4.11.tar.xz
+	rm -rf strace-4.12
+	tar xvJf strace-4.12.tar.xz
 	touch .extracted
 fi
 
-cd strace-4.11
+cd strace-4.12
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
