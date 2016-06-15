@@ -1248,7 +1248,7 @@ cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-5.3.11.tar.gz
+	tar zxvf unrarsrc-5.4.2.tar.gz
 	touch .extracted
 fi
 
