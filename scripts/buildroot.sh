@@ -112,12 +112,12 @@ fi
 cd $SRC/gmp
 
 if [ ! -f .extracted ]; then
-	rm -rf gmp-6.1.0
-	tar xvjf gmp-6.1.0.tar.bz2
+	rm -rf gmp-6.1.1
+	tar xvjf gmp-6.1.1.tar.bz2
 	touch .extracted
 fi
 
-cd gmp-6.1.0
+cd gmp-6.1.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
