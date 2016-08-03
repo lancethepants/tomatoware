@@ -751,12 +751,12 @@ fi
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-3.5.2
-	tar zxvf cmake-3.5.2.tar.gz
+	rm -rf cmake-3.6.1
+	tar zxvf cmake-3.6.1.tar.gz
 	touch .extracted
 fi
 
-cd cmake-3.5.2
+cd cmake-3.6.1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
