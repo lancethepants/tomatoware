@@ -766,6 +766,8 @@ fi
 if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
 	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
