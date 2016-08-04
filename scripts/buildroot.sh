@@ -751,12 +751,23 @@ fi
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-3.6.1
+	rm -rf cmake-3.6.1 cmake-3.6.1-native
 	tar zxvf cmake-3.6.1.tar.gz
+	cp -r cmake-3.6.1 cmake-3.6.1-native
 	touch .extracted
 fi
 
-cd cmake-3.6.1
+cd cmake-3.6.1-native
+
+if [ ! -f .built-native ]; then
+	./configure \
+	--prefix=$SRC/cmake/cmake-3.6.1-native
+	$MAKE
+	make install
+	touch .built-native
+fi
+
+cd ../cmake-3.6.1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
@@ -764,6 +775,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
+	PATH=$SRC/cmake/cmake-3.6.1-native/bin:$PATH \
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
@@ -773,6 +785,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DOPENSSL_ROOT_DIR=$DEST \
+	-DOPENSSL_LIBRARIES=$DEST/lib \
 	./
 	touch .configured
 fi
