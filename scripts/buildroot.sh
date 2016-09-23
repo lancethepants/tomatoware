@@ -751,13 +751,13 @@ fi
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-3.6.1 cmake-3.6.1-native
-	tar zxvf cmake-3.6.1.tar.gz
-	cp -r cmake-3.6.1 cmake-3.6.1-native
+	rm -rf cmake-3.6.2 cmake-3.6.1-native
+	tar zxvf cmake-3.6.2.tar.gz
+	cp -r cmake-3.6.2 cmake-3.6.1-native
 	touch .extracted
 fi
 
-cd cmake-3.6.1-native
+cd cmake-3.6.2-native
 
 if [ ! -f .built-native ]; then
 	./configure \
@@ -767,7 +767,7 @@ if [ ! -f .built-native ]; then
 	touch .built-native
 fi
 
-cd ../cmake-3.6.1
+cd ../cmake-3.6.2
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
