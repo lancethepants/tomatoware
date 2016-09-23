@@ -324,11 +324,13 @@ fi
 cd curl-7.50.3
 
 if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--with-ssl=$PREFIX \
 	--with-ca-path=$PREFIX/ssl/certs
 	touch .configured
 fi
@@ -516,12 +518,12 @@ fi
 cd $SRC/libreadline
 
 if [ ! -f .extracted ]; then
-	rm -rf readline-6.3
-	tar zxvf readline-6.3.tar.gz
+	rm -rf readline-7.0
+	tar zxvf readline-7.0.tar.gz
 	touch .extracted
 fi
 
-cd readline-6.3
+cd readline-7.0
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/readline/readline.patch
@@ -1521,12 +1523,12 @@ fi
 cd $SRC/bash
 
 if [ ! -f .extracted ]; then
-	rm -rf bash-4.3.46
-	tar zxvf bash-4.3.46.tar.gz
+	rm -rf bash-4.4
+	tar zxvf bash-4.4.tar.gz
 	touch .extracted
 fi
 
-cd bash-4.3.46
+cd bash-4.4
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
