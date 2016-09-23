@@ -1617,12 +1617,12 @@ fi
 cd $SRC/vim
 
 if [ ! -f .extracted ]; then
-	rm -rf vim74
-	tar xvjf vim-7.4.tar.bz2
+	rm -rf vim80
+	tar xvjf vim-8.0.tar.bz2
 	touch .extracted
 fi
 
-cd vim74
+cd vim80
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
