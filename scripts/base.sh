@@ -245,7 +245,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	LDFLAGS="$LDFLAGS -lrt -lpthread" \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -1299,7 +1299,7 @@ if [ ! -f .built ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv -lintl"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl"
 	touch .built
 fi
 
@@ -1316,7 +1316,7 @@ if [ ! -f .installed ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -pthread -lgettextlib -liconv -lintl" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl" \
 	install DESTDIR=$BASE
 	touch .installed
 fi
@@ -1381,7 +1381,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--enable-read-both-confs \
-	--disable-nls
+	--disable-nls \
+	ac_cv_search_crypt=no
 	touch .configured
 fi
 
