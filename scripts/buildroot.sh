@@ -1092,24 +1092,24 @@ fi
 cd $SRC/file
 
 if [ ! -f .extracted ]; then
-	rm -rf file-5.28 file-5.28-native
-	tar zxvf file-5.28.tar.gz
-	cp -r file-5.28 file-5.28-native
+	rm -rf file-5.29 file-5.29-native
+	tar zxvf file-5.29.tar.gz
+	cp -r file-5.29 file-5.29-native
 	touch .extracted
 fi
 
-cd file-5.28-native
+cd file-5.29-native
 
 if [ ! -f .built-native ]; then
 	autoreconf -f -i
 	./configure \
-	--prefix=$SRC/file/file-5.28-native
+	--prefix=$SRC/file/file-5.29-native
 	$MAKE
 	make install
 	touch .built-native
 fi
 
-cd ../file-5.28
+cd ../file-5.29
 
 if [ ! -f .configured ]; then
 	autoreconf -f -i
@@ -1123,7 +1123,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/file/file-5.28-native/bin:$PATH \
+	PATH=$SRC/file/file-5.29-native/bin:$PATH \
 	$MAKE
 	touch .built
 fi
