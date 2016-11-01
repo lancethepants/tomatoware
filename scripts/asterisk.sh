@@ -233,12 +233,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-11.23.1
-	tar zxvf asterisk-11.23.1.tar.gz
+	rm -rf asterisk-11.24.1
+	tar zxvf asterisk-11.24.1.tar.gz
 	touch .extracted
 fi
 
-cd asterisk-11.23.1
+cd asterisk-11.24.1
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
