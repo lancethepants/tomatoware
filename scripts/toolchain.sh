@@ -22,8 +22,8 @@ then
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
 	echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
-	echo "sha256 c7fd3e17bcfb8c3fd6963d16dbf9e3ce025c987fbfca38a1fe5a99c711eb1377 uClibc-ng-1.0.18.tar.xz" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.hash
-	sed -i 's,1.0.14,1.0.18,g' $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.mk
+	echo "sha256 b3f94d67e9afcefb158a37011584e0d41ef3bd55ad72255a26abb25ad49b77a1 uClibc-ng-1.0.19.tar.xz" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.hash
+	sed -i 's,1.0.14,1.0.19,g' $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.mk
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
