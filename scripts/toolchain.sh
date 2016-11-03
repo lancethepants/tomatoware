@@ -22,7 +22,7 @@ then
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
 	echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
-	echo "sha256 b3f94d67e9afcefb158a37011584e0d41ef3bd55ad72255a26abb25ad49b77a1 uClibc-ng-1.0.19.tar.xz" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.hash
+	echo "sha256 1632cac9ec87875e888dea75a38354c45e419c17559099b6e3880641746a5c0f uClibc-ng-1.0.19.tar.xz" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.hash
 	sed -i 's,1.0.14,1.0.19,g' $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.mk
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
