@@ -86,6 +86,8 @@ fi
 cd pkg-config-0.29.1
 
 if [ ! -f .configured ]; then
+	GLIB_CFLAGS="-I$DEST/include/glib-2.0 -I$DEST/lib/glib-2.0/include" \
+	GLIB_LIBS="-lglib-2.0" \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
