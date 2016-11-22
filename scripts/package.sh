@@ -26,14 +26,14 @@ cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-li
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/usr $DEST
 cp -rf $DEST/usr/include $DEST
 rm -rf $DEST/usr/include
-ln -s $PREFIX/usr/lib/crt1.o $DEST/lib/crt1.o
-ln -s $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
-ln -s $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
-ln -s $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
+ln -sf $PREFIX/usr/lib/crt1.o $DEST/lib/crt1.o
+ln -sf $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
+ln -sf $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
+ln -sf $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
 
-ln -s $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so.6.0.22
-ln -s $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so.6
-ln -s $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so.6.0.22
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so.6
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.
@@ -99,5 +99,5 @@ chmod +x profile
 cd $BASE$PREFIX
 chmod 1777 tmp/
 
-fakeroot tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ $SCRIPTS share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+fakeroot-tcp tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ $SCRIPTS share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
