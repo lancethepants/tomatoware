@@ -16,14 +16,14 @@ fi
 if [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
 then
 	mkdir $BASE/toolchain
-	tar zxvf $SRC/toolchain/buildroot-2016.05.tar.gz -C $BASE/toolchain
-	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-2016.05/defconfig
+	tar zxvf $SRC/toolchain/buildroot-2016.11.tar.gz -C $BASE/toolchain
+	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-2016.11/defconfig
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
-	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
-	echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uClibc-ng.config
-	echo "sha256 1632cac9ec87875e888dea75a38354c45e419c17559099b6e3880641746a5c0f uClibc-ng-1.0.19.tar.xz" >> $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.hash
-	sed -i 's,1.0.14,1.0.19,g' $BASE/toolchain/buildroot-2016.05/package/uclibc/uclibc.mk
+	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-2016.11/package/uclibc/uClibc-ng.config
+	echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-2016.11/package/uclibc/uClibc-ng.config
+#	echo "sha256 1632cac9ec87875e888dea75a38354c45e419c17559099b6e3880641746a5c0f uClibc-ng-1.0.19.tar.xz" >> $BASE/toolchain/buildroot-2016.11/package/uclibc/uclibc.hash
+#	sed -i 's,1.0.14,1.0.19,g' $BASE/toolchain/buildroot-2016.11/package/uclibc/uclibc.mk
 
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
@@ -31,7 +31,7 @@ then
 	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \
 	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch
 
-	cd $BASE/toolchain/buildroot-2016.05
+	cd $BASE/toolchain/buildroot-2016.11
 	make defconfig BR2_DEFCONFIG=defconfig
 	make
 
