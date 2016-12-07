@@ -222,8 +222,8 @@ fi
 cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-2.25.1 build-binutils
-	tar zxvf binutils-2.25.1.tar.gz
+	rm -rf binutils-2.27 build-binutils
+	tar zxvf binutils-2.27.tar.gz
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -243,7 +243,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.25.1/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils-2.27/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
@@ -267,13 +267,13 @@ fi
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-6.1.0 gcc-build
-	tar xvjf $SRC/toolchain/dl/gcc-6.1.0.tar.bz2 -C $SRC/gcc
+	rm -rf gcc-6.2.0 gcc-build
+	tar xvjf $SRC/toolchain/dl/gcc-6.2.0.tar.bz2 -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-6.1.0
+cd gcc-6.2.0
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-6.1.0-specs-1.patch .
@@ -300,7 +300,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-6.1.0/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-6.2.0/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
