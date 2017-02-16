@@ -753,23 +753,23 @@ fi
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-3.7.1 cmake-3.7.1-native
-	tar zxvf cmake-3.7.1.tar.gz
-	cp -r cmake-3.7.1 cmake-3.7.1-native
+	rm -rf cmake-3.7.2 cmake-3.7.2-native
+	tar zxvf cmake-3.7.2.tar.gz
+	cp -r cmake-3.7.2 cmake-3.7.2-native
 	touch .extracted
 fi
 
-cd cmake-3.7.1-native
+cd cmake-3.7.2-native
 
 if [ ! -f .built-native ]; then
 	./configure \
-	--prefix=$SRC/cmake/cmake-3.7.1-native
+	--prefix=$SRC/cmake/cmake-3.7.2-native
 	$MAKE
 	make install
 	touch .built-native
 fi
 
-cd ../cmake-3.7.1
+cd ../cmake-3.7.2
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
@@ -777,7 +777,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	PATH=$SRC/cmake/cmake-3.7.1-native/bin:$PATH \
+	PATH=$SRC/cmake/cmake-3.7.2-native/bin:$PATH \
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
