@@ -54,12 +54,12 @@ fi
 cd $SRC/zlib
 
 if [ ! -f .extracted ]; then
-	rm -rf zlib-1.2.8
-	tar zxvf zlib-1.2.8.tar.gz
+	rm -rf zlib-1.2.11
+	tar zxvf zlib-1.2.11.tar.gz
 	touch .extracted
 fi
 
-cd zlib-1.2.8
+cd zlib-1.2.11
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
