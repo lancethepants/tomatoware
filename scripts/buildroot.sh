@@ -682,12 +682,12 @@ fi
 cd $SRC/m4
 
 if [ ! -f .extracted ]; then
-	rm -rf m4-1.4.17
-	tar zxvf m4-1.4.17.tar.gz
+	rm -rf m4-1.4.18
+	tar zxvf m4-1.4.18.tar.gz
 	touch .extracted
 fi
 
-cd m4-1.4.17
+cd m4-1.4.18
 
 if [ ! -f .patched ]; then
         patch -p1 < $PATCHES/m4/gnulib_fix_posixspawn.patch
