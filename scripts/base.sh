@@ -198,12 +198,12 @@ fi
 cd $SRC/libiconv
 
 if [ ! -f .extracted ]; then
-	rm -rf libiconv-1.14
-	tar zxvf libiconv-1.14.tar.gz
+	rm -rf libiconv-1.15
+	tar zxvf libiconv-1.15.tar.gz
 	touch .extracted
 fi
 
-cd libiconv-1.14
+cd libiconv-1.15
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
