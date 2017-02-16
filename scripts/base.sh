@@ -350,7 +350,7 @@ if [ ! -f .certs_installed ]; then
 	cd $DEST/ssl/certs
 	curl https://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
 	c_rehash .
-	touch $SRC/curl/curl-7.51.0/.certs_installed
+	touch $SRC/curl/curl-7.52.1/.certs_installed
 fi
 
 ######### ###################################################################
