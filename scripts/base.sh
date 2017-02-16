@@ -316,12 +316,12 @@ fi
 cd $SRC/curl
 
 if [ ! -f .extracted ]; then
-	rm -rf curl-7.51.0
-	tar zxvf curl-7.51.0.tar.gz
+	rm -rf curl-7.52.1
+	tar zxvf curl-7.52.1.tar.gz
 	touch .extracted
 fi
 
-cd curl-7.51.0
+cd curl-7.52.1
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
