@@ -889,13 +889,13 @@ fi
 cd $SRC/libmysqlclient
 
 if [ ! -f .extracted ]; then
-	rm -rf mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
-	tar zxvf mysql-connector-c-6.1.6-src.tar.gz
-	cp -r mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
+	rm -rf mysql-connector-c-6.1.9-src mysql-connector-c-6.1.9-src-native
+	tar zxvf mysql-connector-c-6.1.9-src.tar.gz
+	cp -r mysql-connector-c-6.1.9-src mysql-connector-c-6.1.9-src-native
 	touch .extracted
 fi
 
-cd mysql-connector-c-6.1.6-src-native
+cd mysql-connector-c-6.1.9-src-native
 
 if [ ! -f .built_native ]; then
 	cmake .
@@ -903,7 +903,7 @@ if [ ! -f .built_native ]; then
 	touch .built_native
 fi
 
-cd ../mysql-connector-c-6.1.6-src
+cd ../mysql-connector-c-6.1.9-src
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/libmysqlclient/libmysqlclient.patch
@@ -926,7 +926,7 @@ fi
 
 if [ ! -f .built ]; then
 	make || true
-	cp ../mysql-connector-c-6.1.6-src-native/extra/comp_err ./extra/comp_err
+	cp ../mysql-connector-c-6.1.9-src-native/extra/comp_err ./extra/comp_err
 	make
 	touch .built
 fi
