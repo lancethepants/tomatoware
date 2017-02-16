@@ -893,12 +893,12 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/wget
 
 if [ ! -f .extracted ]; then
-	rm -rf wget-1.18
-	tar zxvf wget-1.18.tar.gz
+	rm -rf wget-1.19.1
+	tar zxvf wget-1.19.1.tar.gz
 	touch .extracted
 fi
 
-cd wget-1.18
+cd wget-1.19.1
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
