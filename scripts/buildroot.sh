@@ -995,12 +995,12 @@ fi
 cd $SRC/sed
 
 if [ ! -f .extracted ]; then
-        rm -rf sed-4.2.2
-        tar zxvf sed-4.2.2.tar.gz
+        rm -rf sed-4.4
+        tar xvJf sed-4.4.tar.xz
         touch .extracted
 fi
 
-cd sed-4.2.2
+cd sed-4.4
 
 if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
