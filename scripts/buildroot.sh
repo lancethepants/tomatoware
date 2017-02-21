@@ -1182,16 +1182,14 @@ unset PYTHON_CROSS
 ####### #####################################################################
 
 export UPX_UCLDIR=$SRC/upx/ucl-1.03
-export UPX_LZMADIR=$SRC/upx/lzma
-export UPX_LZMA_VERSION=0x1602
 
 cd $SRC/upx
 
 if [ ! -f .extracted ]; then
-	rm -rf lzma ucl-1.03 upx
-	tar zxvf lzma.tar.gz
+	rm -rf ucl-1.03 upx-3.93-src upx
 	tar zxvf ucl-1.03.tar.gz
-	tar zxvf upx.tar.gz
+	tar xvJf upx-3.93-src.tar.xz
+	mv upx-3.93-src upx
 	touch .extracted
 fi
 
@@ -1209,18 +1207,14 @@ fi
 
 cd ../upx
 
-if [ ! -f .patched ]; then
-	sed -i 's,\-Werror,\-Wno\-error,g' ./src/Makefile
-	touch .patched
-fi
-
 if [ ! -f .built ]; then
 	LDFLAGS="-static $LDFLAGS" \
-	upx_CPPFLAGS=$CPPFLAGS \
-	upx_CXXFLAGS=$CXXFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
-	upx_CXX=$DESTARCH-linux-g++ \
-	all
+	CXX=$DESTARCH-linux-g++ \
+	all \
+	CHECK_WHITESPACE=/bin/true
 	touch .built
 fi
 
@@ -1230,5 +1224,3 @@ if [ ! -f .installed ]; then
 fi
 
 unset UPX_UCLDIR
-unset UPX_LZMADIR
-unset UPX_LZMA_VERSION
