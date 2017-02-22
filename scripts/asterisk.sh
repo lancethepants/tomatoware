@@ -74,7 +74,8 @@ if [ ! -f .configured ]; then
 	--without-p11-kit \
 	--with-included-libtasn1 \
 	--enable-static \
-	--disable-doc
+	--disable-doc \
+	--with-included-unistring
 	touch .configured
 fi
 
