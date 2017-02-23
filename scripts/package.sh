@@ -40,7 +40,7 @@ ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.22 $DEST/lib/libstdc++.so
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
 
 #Change the base library libtool (.la) files to reference their correct location in the target system.
-find $DEST/lib -iname \*.la -exec sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"'-'"$FLOAT"''"${PREFIX////-}"'/'"$DESTARCH"'-linux-uclibc,'"$PREFIX"',g' {} \;
+find $DEST/lib -iname \*.la -exec sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"'-'"$FLOAT"''"${PREFIX////-}"'\/'"$DESTARCH"'-linux-uclibc,'"$PREFIX"',g' {} \;
 
 #Make sure all perl scripts have the correct interpreter path.
 grep -Irl "\#\!\/usr\/bin\/perl" $DEST | xargs sed -i -e '1,1s,\#\!\/usr\/bin\/perl,\#\!'"$PREFIX"'\/bin\/perl,g'
