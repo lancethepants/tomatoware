@@ -89,12 +89,12 @@ fi
 cd $SRC/lzo
 
 if [ ! -f .extracted ]; then
-	rm -rf lzo-2.09
-	tar zxvf lzo-2.09.tar.gz
+	rm -rf lzo-2.10
+	tar zxvf lzo-2.10.tar.gz
 	touch .extracted
 fi
 
-cd lzo-2.09
+cd lzo-2.10
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
