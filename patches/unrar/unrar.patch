@@ -1,7 +1,7 @@
-diff -Nuar unrar.orig/makefile unrar/makefile
---- unrar.orig/makefile	2016-06-15 14:18:34.082996311 -0600
-+++ unrar/makefile	2016-06-15 14:19:38.523448758 -0600
-@@ -2,12 +2,12 @@
+diff -Naur unrar_orig/makefile unrar/makefile
+--- unrar_orig/makefile	2017-06-13 05:04:49.000000000 -0600
++++ unrar/makefile	2017-09-05 13:30:06.283480846 -0600
+@@ -2,13 +2,13 @@
  # Makefile for UNIX - unrar
  
  # Linux using GCC
@@ -12,8 +12,10 @@ diff -Nuar unrar.orig/makefile unrar/makefile
  LIBFLAGS=-fPIC
  DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
 -STRIP=strip
+-AR=ar
 -LDFLAGS=-pthread
 +STRIP=$(DESTARCH)-linux-strip
++AR=$(DESTARCH)-linux-ar
 +LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1 -Wl,-rpath,$(PREFIX)/lib
  DESTDIR=/usr
  
