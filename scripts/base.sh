@@ -1107,12 +1107,12 @@ fi
 cd $SRC/cheetah
 
 if [ ! -f .extracted ]; then
-	rm -rf Cheetah-2.4.4
-	tar zxvf Cheetah-2.4.4.tar.gz
+	rm -rf Cheetah3-3.0.0
+	tar zxvf Cheetah3-3.0.0.tar.gz
 	touch .extracted
 fi
 
-cd Cheetah-2.4.4
+cd Cheetah3-3.0.0
 
 if [ ! -f .built ]; then
 	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
