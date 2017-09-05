@@ -1361,16 +1361,20 @@ fi
 cd $SRC/pam
 
 if [ ! -f .extracted ]; then
-	rm -rf Linux-PAM-1.2.1
-	tar zxvf Linux-PAM-1.2.1.tar.gz
+	rm -rf Linux-PAM-1.3.0
+	tar zxvf Linux-PAM-1.3.0.tar.gz
 	touch .extracted
 fi
 
-cd Linux-PAM-1.2.1
+cd Linux-PAM-1.3.0
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/pam/pam-no-innetgr.patch
+	patch -p1 < $PATCHES/pam/0002-Conditionally-compile-per-ruserok-availability.patch
 	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,'"$PREFIX"'\/etc\/pam,g' {} \;
+	aclocal
+	automake --add-missing
+	autoconf
+
 	touch .patched
 fi
 
@@ -1406,12 +1410,12 @@ fi
 cd $SRC/openssh
 
 if [ ! -f .extracted ]; then
-	rm -rf openssh-7.4p1
-	tar zxvf openssh-7.4p1.tar.gz
+	rm -rf openssh-7.5p1
+	tar zxvf openssh-7.5p1.tar.gz
 	touch .extracted
 fi
 
-cd openssh-7.4p1
+cd openssh-7.5p1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
