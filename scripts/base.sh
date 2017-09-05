@@ -699,12 +699,12 @@ fi
 cd $SRC/libxml2
 
 if [ ! -f .extracted ]; then
-	rm -rf libxml2-2.9.4
-	tar zxvf libxml2-2.9.4.tar.gz
+	rm -rf libxml2-2.9.5
+	tar zxvf libxml2-2.9.5.tar.gz
 	touch .extracted
 fi
 
-cd libxml2-2.9.4
+cd libxml2-2.9.5
 
 if [ ! -f .configured ]; then
 	Z_CFLAGS=-I$DEST/include \
