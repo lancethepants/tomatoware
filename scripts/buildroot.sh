@@ -267,18 +267,18 @@ fi
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-6.3.0 gcc-build
-	tar xvjf $SRC/toolchain/dl/gcc-6.3.0.tar.bz2 -C $SRC/gcc
+	rm -rf gcc-7.2.0 gcc-build
+	tar xvJf $SRC/toolchain/dl/gcc-7.2.0.tar.xz -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-6.3.0
+cd gcc-7.2.0
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-6.1.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-6.1.0-specs-1.patch
-	patch -p1 < gcc-6.1.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-7.2.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.2.0-specs-1.patch
+	patch -p1 < gcc-7.2.0-specs-1.patch
 	touch .patched
 fi
 
@@ -300,7 +300,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-6.3.0/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-7.2.0/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
