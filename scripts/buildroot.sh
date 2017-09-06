@@ -78,12 +78,12 @@ fi
 cd $SRC/pkg-config
 
 if [ ! -f .extracted ]; then
-	rm -rf pkg-config-0.29.1
-	tar zxvf pkg-config-0.29.1.tar.gz
+	rm -rf pkg-config-0.29.2
+	tar zxvf pkg-config-0.29.2.tar.gz
 	touch .extracted
 fi
 
-cd pkg-config-0.29.1
+cd pkg-config-0.29.2
 
 if [ ! -f .configured ]; then
 	GLIB_CFLAGS="-I$DEST/include/glib-2.0 -I$DEST/lib/glib-2.0/include" \
