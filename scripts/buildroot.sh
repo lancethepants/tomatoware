@@ -815,12 +815,12 @@ fi
 cd $SRC/util-linux
 
 if [ ! -f .extracted ]; then
-	rm -rf util-linux-2.29
-	tar zxvf util-linux-2.29.tar.gz
+	rm -rf util-linux-2.30
+	tar zxvf util-linux-2.30.tar.gz
 	touch .extracted
 fi
 
-cd util-linux-2.29
+cd util-linux-2.30
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 	sed -i 's,epoll_create1,epoll_create,g' ./libmount/src/monitor.c
