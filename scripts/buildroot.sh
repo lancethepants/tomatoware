@@ -543,12 +543,12 @@ fi
 cd $SRC/diffutils
 
 if [ ! -f .extracted ]; then
-	rm -rf diffutils-3.5
-	tar xvJf diffutils-3.5.tar.xz
+	rm -rf diffutils-3.6
+	tar xvJf diffutils-3.6.tar.xz
 	touch .extracted
 fi
 
-cd diffutils-3.5
+cd diffutils-3.6
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
