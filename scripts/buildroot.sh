@@ -1186,10 +1186,10 @@ export UPX_UCLDIR=$SRC/upx/ucl-1.03
 cd $SRC/upx
 
 if [ ! -f .extracted ]; then
-	rm -rf ucl-1.03 upx-3.93-src upx
+	rm -rf ucl-1.03 upx-3.94-src upx
 	tar zxvf ucl-1.03.tar.gz
-	tar xvJf upx-3.93-src.tar.xz
-	mv upx-3.93-src upx
+	tar xvJf upx-3.94-src.tar.xz
+	mv upx-3.94-src upx
 	touch .extracted
 fi
 
