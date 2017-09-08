@@ -3,3 +3,4 @@
 003-uclibc-dl-defs.patch
 004-uclibc-ldd-opt.patch
 005-uclibc-ldd-static.patch
+006-uclibc-ldso-search-path2.patch
