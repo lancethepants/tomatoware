@@ -7,7 +7,11 @@ export BASE=`pwd`
 export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
+GCCVER="7.2.0"
+UCLIBCVER="1.0.26"
 BUILDROOTVER="2017.08"
+TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
+
 
 if [ ! -d /opt/tomatoware ]
 then
@@ -15,7 +19,23 @@ then
 	sudo chmod -R 777 /opt/tomatoware
 fi
 
-if [ ! -d /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-} ]
+
+if [ -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]
+then
+	UCLIBCTEST="$(find $TOOLCHAINDIR -name "libuClibc*" -exec basename {} \;)"
+	UCLIBCTEST=${GCCTEST#libuClibc-}
+	UCLIBCTEST=${GCCTEST%.so}
+	GCCTEST="$($TOOLCHAINDIR/bin/$DESTARCH-linux-gcc -dumpversion)"
+
+	if [ "$GCCTEST" != "$GCCVER" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]
+	then
+		echo "WARNING: Out of date toolchain detected. Please run \"make toolchain-clean\" and re-run to create new toolchain."
+		exit 1
+	fi
+fi
+
+
+if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]
 then
 	mkdir $BASE/toolchain
 	tar zxvf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.gz -C $BASE/toolchain
