@@ -360,12 +360,12 @@ fi
 cd $SRC/expat
 
 if [ ! -f .extracted ]; then
-	rm -rf cd expat-2.2.4
-	tar xvjf expat-2.2.4.tar.bz2
+	rm -rf cd expat-2.2.5
+	tar xvjf expat-2.2.5.tar.bz2
 	touch .extracted
 fi
 
-cd expat-2.2.4
+cd expat-2.2.5
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS  \
