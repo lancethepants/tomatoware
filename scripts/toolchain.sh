@@ -23,8 +23,8 @@ fi
 if [ -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]
 then
 	UCLIBCTEST="$(find $TOOLCHAINDIR -name "libuClibc*" -exec basename {} \;)"
-	UCLIBCTEST=${GCCTEST#libuClibc-}
-	UCLIBCTEST=${GCCTEST%.so}
+	UCLIBCTEST=${UCLIBCTEST#libuClibc-}
+	UCLIBCTEST=${UCLIBCTEST%.so}
 	GCCTEST="$($TOOLCHAINDIR/bin/$DESTARCH-linux-gcc -dumpversion)"
 
 	if [ "$GCCTEST" != "$GCCVER" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]
