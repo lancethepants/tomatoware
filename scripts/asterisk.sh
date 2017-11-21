@@ -22,12 +22,12 @@ MAKE="make -j`nproc`"
 cd $SRC/nettle
 
 if [ ! -f .extracted ]; then
-	rm -rf nettle-3.3
-	tar zxvf nettle-3.3.tar.gz
+	rm -rf nettle-3.4
+	tar zxvf nettle-3.4.tar.gz
 	touch .extracted
 fi
 
-cd nettle-3.3
+cd nettle-3.4
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
