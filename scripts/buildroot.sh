@@ -837,7 +837,8 @@ if [ ! -f .configured ]; then
 	--disable-chfn-chsh-password \
 	--without-python \
 	--disable-nls \
-	--disable-wall
+	--disable-wall \
+	--disable-su
 	touch .configured
 fi
 
