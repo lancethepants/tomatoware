@@ -1212,12 +1212,12 @@ fi
 cd $SRC/par2cmdline
 
 if [ ! -f .extracted ]; then
-	rm -rf par2cmdline-0.7.3
-	tar zxvf par2cmdline-0.7.3.tar.gz
+	rm -rf par2cmdline-0.7.4
+	tar zxvf par2cmdline-0.7.4.tar.gz
 	touch .extracted
 fi
 
-cd par2cmdline-0.7.3
+cd par2cmdline-0.7.4
 
 if [ ! -f .configured ]; then
 	aclocal
