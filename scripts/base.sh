@@ -1415,7 +1415,7 @@ if [ ! -f .extracted ]; then
 	touch .extracted
 fi
 
-cd openssh-7.561
+cd openssh-7.6p1
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
