@@ -749,12 +749,12 @@ fi
 cd $SRC/libxslt
 
 if [ ! -f .extracted ]; then
-	rm -rf libxslt-1.1.30
-	tar zxvf libxslt-1.1.30.tar.gz
+	rm -rf libxslt-1.1.32
+	tar zxvf libxslt-1.1.32.tar.gz
 	touch .extracted
 fi
 
-cd libxslt-1.1.30
+cd libxslt-1.1.32
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -762,7 +762,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libxml-src=$SRC/libxml2/libxml2-2.9.5 \
+	--with-libxml-src=$SRC/libxml2/libxml2-2.9.7 \
 	--without-python \
 	--without-crypto
 	touch .configured
