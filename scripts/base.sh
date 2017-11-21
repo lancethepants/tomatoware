@@ -1528,12 +1528,12 @@ fi
 cd $SRC/bash
 
 if [ ! -f .extracted ]; then
-	rm -rf bash-4.4
-	tar zxvf bash-4.4.tar.gz
+	rm -rf bash-4.4.12
+	tar zxvf bash-4.4.12.tar.gz
 	touch .extracted
 fi
 
-cd bash-4.4
+cd bash-4.4.12
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
