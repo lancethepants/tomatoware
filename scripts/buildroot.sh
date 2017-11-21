@@ -148,12 +148,12 @@ fi
 cd $SRC/mpfr
 
 if [ ! -f .extracted ]; then
-	rm -rf mpfr-3.1.5
-	tar zxvf mpfr-3.1.5.tar.gz
+	rm -rf mpfr-3.1.6
+	tar zxvf mpfr-3.1.6.tar.gz
 	touch .extracted
 fi
 
-cd mpfr-3.1.5
+cd mpfr-3.1.6
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
