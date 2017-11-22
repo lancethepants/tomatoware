@@ -1335,12 +1335,17 @@ fi
 
 cd strace-4.20
 
+if [ "$DESTARCH" == "mipsel" ];then
+	straceconfig=ac_cv_header_linux_dm_ioctl_h=no
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	$straceconfig
 	touch .configured
 fi
 
