@@ -838,7 +838,8 @@ if [ ! -f .configured ]; then
 	--without-python \
 	--disable-nls \
 	--disable-wall \
-	--disable-su
+	--disable-su \
+	--disable-rfkill
 	touch .configured
 fi
 
