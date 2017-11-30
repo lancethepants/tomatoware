@@ -19,15 +19,17 @@ MAKE="make -j`nproc`"
 # BZIP2 # ###################################################################
 ######### ###################################################################
 
+BZIP2_VERSION=1.0.6
+
 cd $SRC/bzip2
 
 if [ ! -f .extracted ]; then
-	rm -rf bzip2-1.0.6
-	tar zxvf bzip2-1.0.6.tar.gz
+	rm -rf bzip2-${BZIP2_VERSION}
+	tar zxvf bzip2-${BZIP2_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd bzip2-1.0.6
+cd bzip2-${BZIP2_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bzip2/bzip2.patch
@@ -51,15 +53,17 @@ fi
 # ZLIB # ####################################################################
 ######## ####################################################################
 
+ZLIB_VERSION=1.2.11
+
 cd $SRC/zlib
 
 if [ ! -f .extracted ]; then
-	rm -rf zlib-1.2.11
-	tar zxvf zlib-1.2.11.tar.gz
+	rm -rf zlib-${ZLIB_VERSION}
+	tar zxvf zlib-${ZLIB_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd zlib-1.2.11
+cd zlib-${ZLIB_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -86,15 +90,17 @@ fi
 # LZO # #####################################################################
 ####### #####################################################################
 
+LZO_VERSION=2.10
+
 cd $SRC/lzo
 
 if [ ! -f .extracted ]; then
-	rm -rf lzo-2.10
-	tar zxvf lzo-2.10.tar.gz
+	rm -rf lzo-${LZO_VERSION}
+	tar zxvf lzo-${LZO_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd lzo-2.10
+cd lzo-${LZO_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -120,15 +126,17 @@ fi
 # XZ UTILS # ################################################################
 ############ ################################################################
 
+XZ_UTILS_VERSION=5.2.3
+
 cd $SRC/xz
 
 if [ ! -f .extracted ]; then
-	rm -rf xz-5.2.3
-	tar zxvf xz-5.2.3.tar.gz
+	rm -rf xz-${XZ_UTILS_VERSION}
+	tar zxvf xz-${XZ_UTILS_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd xz-5.2.3
+cd xz-${XZ_UTILS_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -153,15 +161,17 @@ fi
 # OPENSSL # #################################################################
 ########### #################################################################
 
+OPENSSL_VERSION=1.0.2m
+
 cd $SRC/openssl
 
 if [ ! -f .extracted ]; then
-	rm -rf openssl-1.0.2m
-	tar zxvf openssl-1.0.2m.tar.gz
+	rm -rf openssl-${OPENSSL_VERSION}
+	tar zxvf openssl-${OPENSSL_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd openssl-1.0.2m
+cd openssl-${OPENSSL_VERSION}
 
 if [ "$DESTARCH" == "mipsel" ];then
 	os=linux-mips32
@@ -195,15 +205,17 @@ fi
 # LIBICONV # ################################################################
 ############ ################################################################
 
+LIBICONV_VERSION=1.15
+
 cd $SRC/libiconv
 
 if [ ! -f .extracted ]; then
-	rm -rf libiconv-1.15
-	tar zxvf libiconv-1.15.tar.gz
+	rm -rf libiconv-${LIBICONV_VERSION}
+	tar zxvf libiconv-${LIBICONV_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libiconv-1.15
+cd libiconv-${LIBICONV_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -229,15 +241,17 @@ fi
 # GETTEXT # #################################################################
 ########### #################################################################
 
+GETTEXT_VERSION=0.19.8.1
+
 cd $SRC/gettext
 
 if [ ! -f .extracted ]; then
-	rm -rf gettext-0.19.8.1
-	tar zxvf gettext-0.19.8.1.tar.gz
+	rm -rf gettext-${GETTEXT_VERSION}
+	tar zxvf gettext-${GETTEXT_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd gettext-0.19.8.1
+cd gettext-${GETTEXT_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gettext/spawn.patch
@@ -273,15 +287,17 @@ fi
 # FLEX # ####################################################################
 ######## ####################################################################
 
+FLEX_VERSION=2.6.0
+
 cd $SRC/flex
 
 if [ ! -f .extracted ]; then
-	rm -rf flex-2.6.0
-	tar zxvf flex-2.6.0.tar.gz
+	rm -rf flex-${FLEX_VERSION}
+	tar zxvf flex-${FLEX_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd flex-2.6.0
+cd flex-${FLEX_VERSION}
 
 if [ ! -f .patched ]; then
 	sed -i '/tests/d' Makefile.in
@@ -313,15 +329,17 @@ fi
 # CURL # ####################################################################
 ######## ####################################################################
 
+CURL_VERSION=7.56.1
+
 cd $SRC/curl
 
 if [ ! -f .extracted ]; then
-	rm -rf curl-7.56.1
-	tar zxvf curl-7.56.1.tar.gz
+	rm -rf curl-${CURL_VERSION}
+	tar zxvf curl-${CURL_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd curl-7.56.1
+cd curl-${CURL_VERSION}
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -350,22 +368,24 @@ if [ ! -f .certs_installed ]; then
 	cd $DEST/ssl/certs
 	curl https://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
 	c_rehash .
-	touch $SRC/curl/curl-7.56.1/.certs_installed
+	touch $SRC/curl/curl-${CURL_VERSION}/.certs_installed
 fi
 
 ######### ###################################################################
 # EXPAT # ###################################################################
 ######### ###################################################################
 
+EXPAT_VERSION=2.2.5
+
 cd $SRC/expat
 
 if [ ! -f .extracted ]; then
-	rm -rf cd expat-2.2.5
-	tar xvjf expat-2.2.5.tar.bz2
+	rm -rf cd expat-${EXPAT_VERSION}
+	tar xvjf expat-${EXPAT_VERSION}.tar.bz2
 	touch .extracted
 fi
 
-cd expat-2.2.5
+cd expat-${EXPAT_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS  \
@@ -390,15 +410,17 @@ fi
 # LIBPCAP # #################################################################
 ########### #################################################################
 
+LIBPCAP_VERSION=1.8.1
+
 cd $SRC/libpcap
 
 if [ ! -f .extracted ]; then
-	rm -rf libpcap-1.8.1
-	tar zxvf libpcap-1.8.1.tar.gz
+	rm -rf libpcap-${LIBPCAP_VERSION}
+	tar zxvf libpcap-${LIBPCAP_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libpcap-1.8.1
+cd libpcap-${LIBPCAP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -425,15 +447,17 @@ fi
 # LIBFFI # ##################################################################
 ########## ##################################################################
 
+LIBFFI_VERSION=3.2.1
+
 cd $SRC/libffi
 
 if [ ! -f .extracted ]; then
-	rm -rf libffi-3.2.1
-	tar zxvf libffi-3.2.1.tar.gz
+	rm -rf libffi-${LIBFFI_VERSION}
+	tar zxvf libffi-${LIBFFI_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libffi-3.2.1
+cd libffi-${LIBFFI_VERSION}
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 	patch -p1 < $PATCHES/libffi/mips.softfloat.patch
@@ -463,15 +487,17 @@ fi
 # NCURSES # #################################################################
 ########### #################################################################
 
+NCURSES_VERSION=6.0
+
 cd $SRC/ncurses
 
 if [ ! -f .extracted ]; then
-	rm -rf ncurses-6.0
-	tar zxvf ncurses-6.0.tar.gz
+	rm -rf ncurses-${NCURSES_VERSION}
+	tar zxvf ncurses-${NCURSES_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd ncurses-6.0
+cd ncurses-${NCURSES_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -515,15 +541,17 @@ fi
 # LIBREADLINE # #############################################################
 ############### #############################################################
 
+LIBREADLINE_VERSION=7.0
+
 cd $SRC/libreadline
 
 if [ ! -f .extracted ]; then
-	rm -rf readline-7.0
-	tar zxvf readline-7.0.tar.gz
+	rm -rf readline-${LIBREADLINE_VERSION}
+	tar zxvf readline-${LIBREADLINE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd readline-7.0
+cd readline-${LIBREADLINE_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/readline/readline.patch
@@ -555,15 +583,17 @@ fi
 # LIBGDBM # #################################################################
 ########### #################################################################
 
+LIBGDBM_VERSION=1.13
+
 cd $SRC/libgdbm
 
 if [ ! -f .extracted ]; then
-	rm -rf gdbm-1.13
-	tar zxvf gdbm-1.13.tar.gz
+	rm -rf gdbm-${LIBGDBM_VERSION}
+	tar zxvf gdbm-${LIBGDBM_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd gdbm-1.13
+cd gdbm-${LIBGDBM_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -588,15 +618,17 @@ fi
 # tcl # #####################################################################
 ####### #####################################################################
 
+TCL_VERSION=8.6.7
+
 cd $SRC/tcl
 
 if [ ! -f .extracted ]; then
-	rm -rf cd tcl8.6.7/unix
-	tar zxvf tcl8.6.7-src.tar.gz
+	rm -rf cd tcl${TCL_VERSION}/unix
+	tar zxvf tcl${TCL_VERSION}-src.tar.gz
 	touch .extracted
 fi
 
-cd tcl8.6.7/unix
+cd tcl${TCL_VERSION}/unix
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -626,15 +658,17 @@ fi
 # bdb # #####################################################################
 ####### #####################################################################
 
+BDB_VERSION=4.7.25
+
 cd $SRC/bdb
 
 if [ ! -f .extracted ]; then
-	rm -rf db-4.7.25
-	tar zxvf db-4.7.25.tar.gz
+	rm -rf db-${BDB_VERSION}
+	tar zxvf db-${BDB_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd  db-4.7.25/build_unix
+cd  db-${BDB_VERSION}/build_unix
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -663,15 +697,17 @@ fi
 # SQLITE # ##################################################################
 ########## ##################################################################
 
+SQLITE_VERSION=3210000
+
 cd $SRC/sqlite
 
 if [ ! -f .extracted ]; then
-	rm -rf sqlite-autoconf-3210000
-	tar zxvf sqlite-autoconf-3210000.tar.gz
+	rm -rf sqlite-autoconf-${SQLITE_VERSION}
+	tar zxvf sqlite-autoconf-${SQLITE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd sqlite-autoconf-3210000
+cd sqlite-autoconf-${SQLITE_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -696,15 +732,17 @@ fi
 # LIBXML # ##################################################################
 ########## ##################################################################
 
+LIBXML2_VERSION=2.9.7
+
 cd $SRC/libxml2
 
 if [ ! -f .extracted ]; then
-	rm -rf libxml2-2.9.7
-	tar zxvf libxml2-2.9.7.tar.gz
+	rm -rf libxml2-${LIBXML2_VERSION}
+	tar zxvf libxml2-${LIBXML2_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libxml2-2.9.7
+cd libxml2-${LIBXML2_VERSION}
 
 if [ ! -f .configured ]; then
 	Z_CFLAGS=-I$DEST/include \
@@ -746,15 +784,17 @@ fi
 # LIBXSLT # #################################################################
 ########### #################################################################
 
+LIBXSLT_VERSION=1.1.32
+
 cd $SRC/libxslt
 
 if [ ! -f .extracted ]; then
-	rm -rf libxslt-1.1.32
-	tar zxvf libxslt-1.1.32.tar.gz
+	rm -rf libxslt-${LIBXSLT_VERSION}
+	tar zxvf libxslt-${LIBXSLT_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libxslt-1.1.32
+cd libxslt-${LIBXSLT_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -762,7 +802,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libxml-src=$SRC/libxml2/libxml2-2.9.7 \
+	--with-libxml-src=$SRC/libxml2/libxml2-${LIBXML2_VERSION} \
 	--without-python \
 	--without-crypto
 	touch .configured
@@ -782,15 +822,17 @@ fi
 # LIBSIGC++ # ###############################################################
 ############# ###############################################################
 
+LIBSIGCPLUSPLUS_VERSION=2.4.1
+
 cd $SRC/libsigc++
 
 if [ ! -f .extracted ]; then
-	rm -rf libsigc++-2.4.1
-	tar xvJf libsigc++-2.4.1.tar.xz
+	rm -rf libsigc++-${LIBSIGCPLUSPLUS_VERSION}
+	tar xvJf libsigc++-${LIBSIGCPLUSPLUS_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd libsigc++-2.4.1
+cd libsigc++-${LIBSIGCPLUSPLUS_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -816,17 +858,19 @@ fi
 # LIBPAR2 # #################################################################
 ########### #################################################################
 
+LIBPAR2_VERSION=0.4
+
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/libpar2
 
 if [ ! -f .extracted ]; then
-	rm -rf libpar2-0.4
-	tar zxvf libpar2-0.4.tar.gz
+	rm -rf libpar2-${LIBPAR2_VERSION}
+	tar zxvf libpar2-${LIBPAR2_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libpar2-0.4
+cd libpar2-${LIBPAR2_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -853,15 +897,17 @@ unset PKG_CONFIG_LIBDIR
 # LIBEVENT # ################################################################
 ############ ################################################################
 
+LIBEVENT_VERSION=2.0.22
+
 cd $SRC/libevent
 
 if [ ! -f .extracted ]; then
-	rm -rf libevent-2.0.22-stable
-	tar zxvf libevent-2.0.22-stable.tar.gz
+	rm -rf libevent-${LIBEVENT_VERSION}-stable
+	tar zxvf libevent-${LIBEVENT_VERSION}-stable.tar.gz
 	touch .extracted
 fi
 
-cd libevent-2.0.22-stable
+cd libevent-${LIBEVENT_VERSION}-stable
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -886,16 +932,18 @@ fi
 # LIBMYSQLCLIENT # ##########################################################
 ################## ##########################################################
 
+LIBMYSQLCLIENT_VERSION=6.1.6
+
 cd $SRC/libmysqlclient
 
 if [ ! -f .extracted ]; then
-	rm -rf mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
-	tar zxvf mysql-connector-c-6.1.6-src.tar.gz
-	cp -r mysql-connector-c-6.1.6-src mysql-connector-c-6.1.6-src-native
+	rm -rf mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src-native
+	tar zxvf mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src.tar.gz
+	cp -r mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src-native
 	touch .extracted
 fi
 
-cd mysql-connector-c-6.1.6-src-native
+cd mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src-native
 
 if [ ! -f .built_native ]; then
 	cmake .
@@ -903,7 +951,7 @@ if [ ! -f .built_native ]; then
 	touch .built_native
 fi
 
-cd ../mysql-connector-c-6.1.6-src
+cd ../mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/libmysqlclient/libmysqlclient.patch
@@ -926,7 +974,7 @@ fi
 
 if [ ! -f .built ]; then
 	make || true
-	cp ../mysql-connector-c-6.1.6-src-native/extra/comp_err ./extra/comp_err
+	cp ../mysql-connector-c-${LIBMYSQLCLIENT_VERSION}-src-native/extra/comp_err ./extra/comp_err
 	make
 	touch .built
 fi
@@ -942,16 +990,19 @@ fi
 # PERL # ####################################################################
 ######## ####################################################################
 
+PERL_VERSION=5.26.1
+PERL_CROSS_VERSION=1.1.7
+
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf tar zxvf perl-5.26.1
-	tar zxvf perl-5.26.1.tar.gz
-	tar zxvf perl-cross-1.1.7.tar.gz -C perl-5.26.1 --strip 1
+	rm -rf tar zxvf perl-${PERL_VERSION=}
+	tar zxvf perl-${PERL_VERSION=}.tar.gz
+	tar zxvf perl-cross-${PERL_CROSS_VERSION}.tar.gz -C perl-${PERL_VERSION=} --strip 1
 	touch .extracted
 fi
 
-cd perl-5.26.1
+cd perl-${PERL_VERSION=}
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
@@ -980,15 +1031,17 @@ fi
 # PCRE # ####################################################################
 ######## ####################################################################
 
+PCRE_VERSION=8.41
+
 cd $SRC/pcre
 
 if [ ! -f .extracted ]; then
-	rm -rf pcre-8.41
-	tar zxvf pcre-8.41.tar.gz
+	rm -rf pcre-${PCRE_VERSION}
+	tar zxvf pcre-${PCRE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd pcre-8.41
+cd pcre-${PCRE_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1017,16 +1070,18 @@ fi
 # PYTHON # ##################################################################
 ########## ##################################################################
 
+PYTHON_VERSION=2.7.3
+
 cd $SRC/python
 
 if [ ! -f .extracted ]; then
-	rm -rf Python-2.7.3 Python-2.7.3-native
-	tar zxvf Python-2.7.3.tgz
-	cp -r Python-2.7.3 Python-2.7.3-native
+	rm -rf Python-${PYTHON_VERSION} Python-${PYTHON_VERSION}-native
+	tar zxvf Python-${PYTHON_VERSION}.tgz
+	cp -r Python-${PYTHON_VERSION} Python-${PYTHON_VERSION}-native
 	touch .extracted
 fi
 
-cd Python-2.7.3-native
+cd Python-${PYTHON_VERSION}-native
 
 if [ ! -f .patched_native ]; then
 	patch -p1 < $PATCHES/python/python_asdl.patch
@@ -1039,7 +1094,7 @@ if [ ! -f .built_native ]; then
 	touch .built_native
 fi
 
-cd ../Python-2.7.3
+cd ../Python-${PYTHON_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/python/python-drobo.patch
@@ -1067,8 +1122,8 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .copied ]; then
-	cp ../Python-2.7.3-native/python ./hostpython
-	cp ../Python-2.7.3-native/Parser/pgen Parser/hostpgen
+	cp ../Python-${PYTHON_VERSION}-native/python ./hostpython
+	cp ../Python-${PYTHON_VERSION}-native/Parser/pgen Parser/hostpgen
 	touch .copied
 fi
 
@@ -1086,17 +1141,17 @@ fi
 if [ ! -f .installed ]; then
 	make install \
 	DESTDIR=$BASE \
-	HOSTPYTHON=../Python-2.7.3-native/python \
+	HOSTPYTHON=../Python-${PYTHON_VERSION}-native/python \
 	CROSS_COMPILE=$DESTARCH-linux- \
 	CROSS_COMPILE_TARGET=yes
 	touch .installed
 fi
 
-cd $SRC/python/Python-2.7.3/build/
+cd $SRC/python/Python-${PYTHON_VERSION}/build/
 
 if [ ! -f .rename_and_move ]; then
 	mv lib.linux-`uname -m`-2.7/ lib.linux-$DESTARCH-2.7/
-	cp -R ../../Python-2.7.3-native/build/lib.linux-`uname -m`-2.7/ .
+	cp -R ../../Python-${PYTHON_VERSION}-native/build/lib.linux-`uname -m`-2.7/ .
 	touch .rename_and_move
 fi
 
@@ -1104,27 +1159,29 @@ fi
 # CHEETAH # #################################################################
 ########### #################################################################
 
+CHEETAH_VERSION=3.0.0
+
 cd $SRC/cheetah
 
 if [ ! -f .extracted ]; then
-	rm -rf Cheetah3-3.0.0
-	tar zxvf Cheetah3-3.0.0.tar.gz
+	rm -rf Cheetah3-${CHEETAH_VERSION}
+	tar zxvf Cheetah3-${CHEETAH_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd Cheetah3-3.0.0
+cd Cheetah3-${CHEETAH_VERSION}
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	./setup.py \
 	build
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	./setup.py \
 	install \
 	--prefix=$PREFIX \
@@ -1136,27 +1193,29 @@ fi
 # YENC # ####################################################################
 ######## ####################################################################
 
+YENC_VERSION=0.4.0
+
 cd $SRC/yenc
 
 if [ ! -f .extracted ]; then
-	rm -rf yenc-0.4.0
-	tar zxvf yenc-0.4.0.tar.gz
+	rm -rf yenc-${YENC_VERSION}
+	tar zxvf yenc-${YENC_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd yenc-0.4.0
+cd yenc-${YENC_VERSION}
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	./setup.py \
 	build
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	./setup.py \
 	install \
 	--prefix=$PREFIX \
@@ -1168,15 +1227,17 @@ fi
 # pyOpenSSL # ###############################################################
 ############# ###############################################################
 
+PYOPENSSL_VERSION=0.13.1
+
 cd $SRC/pyopenssl
 
 if [ ! -f .extracted ]; then
-	rm -rf pyOpenSSL-0.13.1
-	tar zxvf pyOpenSSL-0.13.1.tar.gz
+	rm -rf pyOpenSSL-${PYOPENSSL_VERSION}
+	tar zxvf pyOpenSSL-${PYOPENSSL_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd pyOpenSSL-0.13.1
+cd pyOpenSSL-${PYOPENSSL_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pyopenssl/010-openssl.patch
@@ -1184,8 +1245,8 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	setup.py \
 	build_ext \
 	-I$DEST/include \
@@ -1196,8 +1257,8 @@ fi
 
 
 if [ ! -f .installed ]; then
-	PYTHONPATH=../../python/Python-2.7.3/Lib/ \
-	../../python/Python-2.7.3/hostpython \
+	PYTHONPATH=../../python/Python-${PYTHON_VERSION}/Lib/ \
+	../../python/Python-${PYTHON_VERSION}/hostpython \
 	setup.py \
 	install \
 	--prefix=$PREFIX \
@@ -1209,15 +1270,17 @@ fi
 # PAR2CMDLINE # #############################################################
 ############### #############################################################
 
+PAR2CMDLINE_VERSION=0.7.4
+
 cd $SRC/par2cmdline
 
 if [ ! -f .extracted ]; then
-	rm -rf par2cmdline-0.7.4
-	tar zxvf par2cmdline-0.7.4.tar.gz
+	rm -rf par2cmdline-${PAR2CMDLINE_VERSION}
+	tar zxvf par2cmdline-${PAR2CMDLINE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd par2cmdline-0.7.4
+cd par2cmdline-${PAR2CMDLINE_VERSION}
 
 if [ ! -f .configured ]; then
 	aclocal
@@ -1246,11 +1309,13 @@ fi
 # UNRAR # ###################################################################
 ######### ###################################################################
 
+UNRAR_VERSION=5.5.8
+
 cd $SRC/unrar
 
 if [ ! -f .extracted ]; then
 	rm -rf unrar
-	tar zxvf unrarsrc-5.5.8.tar.gz
+	tar zxvf unrarsrc-${UNRAR_VERSION}.tar.gz
 	touch .extracted
 fi
 
@@ -1275,15 +1340,17 @@ fi
 # GIT # #####################################################################
 ####### #####################################################################
 
+GIT_VERSION=2.15.0
+
 cd $SRC/git
 
 if [ ! -f .extracted ]; then
-	rm -rf git-2.15.0
-	tar zxvf git-2.15.0.tar.gz
+	rm -rf git-${GIT_VERSION}
+	tar zxvf git-${GIT_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd git-2.15.0
+cd git-${GIT_VERSION}
 
 if [ ! -f .built ]; then
 	make distclean
@@ -1325,15 +1392,17 @@ fi
 # STRACE # ##################################################################
 ########## ##################################################################
 
+STRACE_VERSION=4.20
+
 cd $SRC/strace
 
 if [ ! -f .extracted ]; then
-	rm -rf strace-4.20
-	tar xvJf strace-4.20.tar.xz
+	rm -rf strace-${STRACE_VERSION}
+	tar xvJf strace-${STRACE_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd strace-4.20
+cd strace-${STRACE_VERSION}
 
 if [ "$DESTARCH" == "mipsel" ];then
 	straceconfig=ac_cv_header_linux_dm_ioctl_h=no
@@ -1363,15 +1432,17 @@ fi
 # PAM # #####################################################################
 ####### #####################################################################
 
+LINUX_PAM_VERSION=1.3.0
+
 cd $SRC/pam
 
 if [ ! -f .extracted ]; then
-	rm -rf Linux-PAM-1.3.0
-	tar zxvf Linux-PAM-1.3.0.tar.gz
+	rm -rf Linux-PAM-${LINUX_PAM_VERSION}
+	tar zxvf Linux-PAM-${LINUX_PAM_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd Linux-PAM-1.3.0
+cd Linux-PAM-${LINUX_PAM_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/pam/0002-Conditionally-compile-per-ruserok-availability.patch
@@ -1412,15 +1483,17 @@ fi
 # OPENSSH # #################################################################
 ########### #################################################################
 
+OPENSSH_VERSION=7.6p1
+
 cd $SRC/openssh
 
 if [ ! -f .extracted ]; then
-	rm -rf openssh-7.6p1
-	tar zxvf openssh-7.6p1.tar.gz
+	rm -rf openssh-${OPENSSH_VERSION}
+	tar zxvf openssh-${OPENSSH_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd openssh-7.6p1
+cd openssh-${OPENSSH_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
@@ -1459,15 +1532,17 @@ fi
 # HTOP # ####################################################################
 ######## ####################################################################
 
+HTOP_VERSION=2.0.2
+
 cd $SRC/htop
 
 if [ ! -f .extracted ]; then
-	rm -rf htop-2.0.2
-	tar zxvf htop-2.0.2.tar.gz
+	rm -rf htop-${HTOP_VERSION}
+	tar zxvf htop-${HTOP_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd htop-2.0.2
+cd htop-${HTOP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1492,15 +1567,17 @@ fi
 # SCREEN # ##################################################################
 ########## ##################################################################
 
+SCREEN_VERSION=4.6.2
+
 cd $SRC/screen
 
 if [ ! -f .extracted ]; then
-	rm -rf screen-4.6.2
-	tar zxvf screen-4.6.2.tar.gz
+	rm -rf screen-${SCREEN_VERSION}
+	tar zxvf screen-${SCREEN_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd screen-4.6.2
+cd screen-${SCREEN_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/screen/screen.patch
@@ -1530,15 +1607,17 @@ fi
 # BASH # ####################################################################
 ######## ####################################################################
 
+BASH_VERSION=4.4.12
+
 cd $SRC/bash
 
 if [ ! -f .extracted ]; then
-	rm -rf bash-4.4.12
-	tar zxvf bash-4.4.12.tar.gz
+	rm -rf bash-${BASH_VERSION}
+	tar zxvf bash-${BASH_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd bash-4.4.12
+cd bash-${BASH_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
@@ -1591,15 +1670,17 @@ fi
 # ZSH # #####################################################################
 ####### #####################################################################
 
+ZSH_VERSION=5.4.2
+
 cd $SRC/zsh
 
 if [ ! -f .extracted ]; then
-	rm -rf zsh-5.4.2
-	tar zxvf zsh-5.4.2.tar.gz
+	rm -rf zsh-${ZSH_VERSION}
+	tar zxvf zsh-${ZSH_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd zsh-5.4.2
+cd zsh-${ZSH_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1624,11 +1705,13 @@ fi
 # VIM # #####################################################################
 ####### #####################################################################
 
+VIM_VERSION=8.0
+
 cd $SRC/vim
 
 if [ ! -f .extracted ]; then
 	rm -rf vim80
-	tar xvjf vim-8.0.tar.bz2
+	tar xvjf vim-${VIM_VERSION}.tar.bz2
 	touch .extracted
 fi
 
@@ -1674,15 +1757,17 @@ fi
 # TMUX # ####################################################################
 ######## ####################################################################
 
+TMUX_VERSION=2.6
+
 cd $SRC/tmux
 
 if [ ! -f .extracted ]; then
-	rm -rf tmux-2.6
-	tar zxvf tmux-2.6.tar.gz
+	rm -rf tmux-${TMUX_VERSION}
+	tar zxvf tmux-${TMUX_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd tmux-2.6
+cd tmux-${TMUX_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1707,15 +1792,17 @@ fi
 # UNZIP # ###################################################################
 ######### ###################################################################
 
+UNZIP_VERSION=60
+
 cd $SRC/unzip
 
 if [ ! -f .extracted ]; then
-	rm -rf unzip60
-	tar zxvf unzip60.tar.gz
+	rm -rf unzip${UNZIP_VERSION}
+	tar zxvf unzip${UNZIP_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd unzip60
+cd unzip${UNZIP_VERSION}
 
 if [ ! -f .patched ]; then
 	patch unix/Makefile < $PATCHES/unzip/unzip.patch
@@ -1738,15 +1825,17 @@ fi
 # GZIP # ####################################################################
 ######## ####################################################################
 
+GZIP_VERSION=1.8
+
 cd $SRC/gzip
 
 if [ ! -f .extracted ]; then
-	rm -rf gzip-1.8
-	tar xvJf gzip-1.8.tar.xz
+	rm -rf gzip-${GZIP_VERSION}
+	tar xvJf gzip-${GZIP_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd gzip-1.8
+cd gzip-${GZIP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
