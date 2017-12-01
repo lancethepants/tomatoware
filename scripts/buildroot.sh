@@ -19,17 +19,19 @@ MAKE="make -j`nproc`"
 # GLIB # ####################################################################
 ######## ####################################################################
 
+GLIB_VERSION=2.26.1
+
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/glib
 
 if [ ! -f .extracted ]; then
-	rm -rf glib-2.26.1
-	tar zxvf glib-2.26.1.tar.gz
+	rm -rf glib-${GLIB_VERSION}
+	tar zxvf glib-${GLIB_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd glib-2.26.1
+cd glib-${GLIB_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/glib/001-automake-compat.patch
@@ -75,15 +77,17 @@ fi
 # PKG-CONFIG # ##############################################################
 ############## ##############################################################
 
+PKG_CONFIG_VERSION=0.29.2
+
 cd $SRC/pkg-config
 
 if [ ! -f .extracted ]; then
-	rm -rf pkg-config-0.29.2
-	tar zxvf pkg-config-0.29.2.tar.gz
+	rm -rf pkg-config-${PKG_CONFIG_VERSION}
+	tar zxvf pkg-config-${PKG_CONFIG_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd pkg-config-0.29.2
+cd pkg-config-${PKG_CONFIG_VERSION}
 
 if [ ! -f .configured ]; then
 	GLIB_CFLAGS="-I$DEST/include/glib-2.0 -I$DEST/lib/glib-2.0/include" \
@@ -111,15 +115,17 @@ fi
 # GMP # #####################################################################
 ####### #####################################################################
 
+GMP_VERSION=6.1.2
+
 cd $SRC/gmp
 
 if [ ! -f .extracted ]; then
-	rm -rf gmp-6.1.2
-	tar xvjf gmp-6.1.2.tar.bz2
+	rm -rf gmp-${GMP_VERSION}
+	tar xvjf gmp-${GMP_VERSION}.tar.bz2
 	touch .extracted
 fi
 
-cd gmp-6.1.2
+cd gmp-${GMP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -145,15 +151,17 @@ fi
 # MPFR # ####################################################################
 ######## ####################################################################
 
+MPFR_VERSION=3.1.6
+
 cd $SRC/mpfr
 
 if [ ! -f .extracted ]; then
-	rm -rf mpfr-3.1.6
-	tar zxvf mpfr-3.1.6.tar.gz
+	rm -rf mpfr-${MPFR_VERSION}
+	tar zxvf mpfr-${MPFR_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd mpfr-3.1.6
+cd mpfr-${MPFR_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -184,15 +192,17 @@ fi
 # MPC # #####################################################################
 ####### #####################################################################
 
+MPC_VERSION=1.0.3
+
 cd $SRC/mpc
 
 if [ ! -f .extracted ]; then
-	rm -rf mpc-1.0.3
-	tar zxvf mpc-1.0.3.tar.gz
+	rm -rf mpc-${MPC_VERSION}
+	tar zxvf mpc-${MPC_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd mpc-1.0.3
+cd mpc-${MPC_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -219,11 +229,13 @@ fi
 # BINUTILS # ################################################################
 ############ ################################################################
 
+BINUTILS_VERSION=2.29
+
 cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-2.29 build-binutils
-	tar zxvf binutils-2.29.tar.gz
+	rm -rf binutils-${BINUTILS_VERSION} build-binutils
+	tar zxvf binutils-${BINUTILS_VERSION}.tar.gz
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -243,7 +255,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-2.29/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils-${BINUTILS_VERSION}/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--disable-werror \
 	--disable-nls
@@ -264,16 +276,18 @@ fi
 # GCC # #####################################################################
 ####### #####################################################################
 
+GCC_VERSION=7.2.0
+
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-7.2.0 gcc-build
-	tar xvJf $SRC/toolchain/dl/gcc-7.2.0.tar.xz -C $SRC/gcc
+	rm -rf gcc-${GCC_VERSION} gcc-build
+	tar xvJf $SRC/toolchain/dl/gcc-${GCC_VERSION}.tar.xz -C $SRC/gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-7.2.0
+cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-7.2.0-specs-1.patch .
@@ -300,7 +314,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-7.2.0/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc-${GCC_VERSION}/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -358,15 +372,17 @@ fi
 # AUTOCONF # ################################################################
 ############ ################################################################
 
+AUTOCONF_VERSION=2.69
+
 cd $SRC/autoconf
 
 if [ ! -f .extracted ]; then
-	rm -rf autoconf-2.69
-	tar zxvf autoconf-2.69.tar.gz
+	rm -rf autoconf-${AUTOCONF_VERSION}
+	tar zxvf autoconf-${AUTOCONF_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd autoconf-2.69
+cd autoconf-${AUTOCONF_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -391,15 +407,17 @@ fi
 # AUTOMAKE # ################################################################
 ############ ################################################################
 
+AUTOMAKE_VERSION=1.15.1
+
 cd $SRC/automake
 
 if [ ! -f .extracted ]; then
-	rm -rf automake-1.15.1
-	tar zxvf automake-1.15.1.tar.gz
+	rm -rf automake-${AUTOMAKE_VERSION}
+	tar zxvf automake-${AUTOMAKE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd automake-1.15.1
+cd automake-${AUTOMAKE_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -424,15 +442,17 @@ fi
 # BISON # ###################################################################
 ######### ###################################################################
 
+BISON_VERSION=3.0.4
+
 cd $SRC/bison
 
 if [ ! -f .extracted ]; then
-	rm -rf bison-3.0.4
-	tar zxvf bison-3.0.4.tar.gz
+	rm -rf bison-${BISON_VERSION}
+	tar zxvf bison-${BISON_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd bison-3.0.4
+cd bison-${BISON_VERSION}
 
 if [ ! -f .patched ]; then
 	cp -v Makefile.in{,.orig}
@@ -463,15 +483,17 @@ fi
 # CHECK # ###################################################################
 ######### ###################################################################
 
+CHECK_VERSION=0.10.0
+
 cd $SRC/check
 
 if [ ! -f .extracted ]; then
-	rm -rf check-0.10.0
-	tar zxvf check-0.10.0.tar.gz
+	rm -rf check-${CHECK_VERSION}
+	tar zxvf check-${CHECK_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd check-0.10.0
+cd check-${CHECK_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -496,15 +518,17 @@ fi
 # COREUTILS # ###############################################################
 ############# ###############################################################
 
+COREUTILS_VERSION=8.25
+
 cd $SRC/coreutils
 
 if [ ! -f .extracted ]; then
-	rm -rf coreutils-8.25
-	tar xvJf coreutils-8.25.tar.xz
+	rm -rf coreutils-${COREUTILS_VERSION}
+	tar xvJf coreutils-${COREUTILS_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd coreutils-8.25
+cd coreutils-${COREUTILS_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/coreutils/002-fix_compile_with_uclibc.patch
@@ -540,15 +564,17 @@ fi
 # DIFFUTILS # ###############################################################
 ############# ###############################################################
 
+DIFFUTILS_VERSION=3.6
+
 cd $SRC/diffutils
 
 if [ ! -f .extracted ]; then
-	rm -rf diffutils-3.6
-	tar xvJf diffutils-3.6.tar.xz
+	rm -rf diffutils-${DIFFUTILS_VERSION}
+	tar xvJf diffutils-${DIFFUTILS_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd diffutils-3.6
+cd diffutils-${DIFFUTILS_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -573,15 +599,17 @@ fi
 # FINDUTILS # ###############################################################
 ############# ###############################################################
 
+FINDUTILS_VERSION=4.5.19
+
 cd $SRC/findutils
 
 if [ ! -f .extracted ]; then
-	rm -rf findutils-4.5.19
-	tar zxvf findutils-4.5.19.tar.gz
+	rm -rf findutils-${FINDUTILS_VERSION}
+	tar zxvf findutils-${FINDUTILS_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd findutils-4.5.19
+cd findutils-${FINDUTILS_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -607,15 +635,17 @@ fi
 # GAWK # ####################################################################
 ######## ####################################################################
 
+GAWK_VERSION=4.2.0
+
 cd $SRC/gawk
 
 if [ ! -f .extracted ]; then
-	rm -rf gawk-4.2.0
-	tar zxvf gawk-4.2.0.tar.gz
+	rm -rf gawk-${GAWK_VERSION}
+	tar zxvf gawk-${GAWK_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd gawk-4.2.0
+cd gawk-${GAWK_VERSION}
 
 if [ ! -f .edit_sed ]; then
 	cp -v extension/Makefile.in{,.orig}
@@ -646,15 +676,17 @@ fi
 # LIBTOOL # #################################################################
 ########### #################################################################
 
+LIBTOOL_VERSION=2.4.6
+
 cd $SRC/libtool
 
 if [ ! -f .extracted ]; then
-	rm -rf libtool-2.4.6
-	tar zxvf libtool-2.4.6.tar.gz
+	rm -rf libtool-${LIBTOOL_VERSION}
+	tar zxvf libtool-${LIBTOOL_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd libtool-2.4.6
+cd libtool-${LIBTOOL_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -679,15 +711,17 @@ fi
 # M4 # ######################################################################
 ###### ######################################################################
 
+M4_VERSION=1.4.18
+
 cd $SRC/m4
 
 if [ ! -f .extracted ]; then
-	rm -rf m4-1.4.18
-	tar zxvf m4-1.4.18.tar.gz
+	rm -rf m4-${M4_VERSION}
+	tar zxvf m4-${M4_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd m4-1.4.18
+cd m4-${M4_VERSION}
 
 if [ ! -f .patched ]; then
         patch -p1 < $PATCHES/m4/gnulib_fix_posixspawn.patch
@@ -717,15 +751,17 @@ fi
 # MAKE # ####################################################################
 ######## ####################################################################
 
+MAKE_VERSION=4.2.1
+
 cd $SRC/make
 
 if [ ! -f .extracted ]; then
-	rm -rf make-4.2.1
-	tar zxvf make-4.2.1.tar.gz
+	rm -rf make-${MAKE_VERSION}
+	tar zxvf make-${MAKE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd make-4.2.1
+cd make-${MAKE_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -750,26 +786,28 @@ fi
 # CMAKE # ###################################################################
 ######### ###################################################################
 
+CMAKE_VERSION=3.10.0
+
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-3.10.0 cmake-3.10.0-native
-	tar zxvf cmake-3.10.0.tar.gz
-	cp -r cmake-3.10.0 cmake-3.10.0-native
+	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
+	cp -r cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
 	touch .extracted
 fi
 
-cd cmake-3.10.0-native
+cd cmake-${CMAKE_VERSION}-native
 
 if [ ! -f .built-native ]; then
 	./configure \
-	--prefix=$SRC/cmake/cmake-3.10.0-native
+	--prefix=$SRC/cmake/cmake-${CMAKE_VERSION}-native
 	$MAKE
 	make install
 	touch .built-native
 fi
 
-cd ../cmake-3.10.0
+cd ../cmake-${CMAKE_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
@@ -777,7 +815,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	PATH=$SRC/cmake/cmake-3.10.0-native/bin:$PATH \
+	PATH=$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
@@ -812,15 +850,17 @@ fi
 # UTIL-LINUX # ##############################################################
 ############## ##############################################################
 
+UTIL_LINUX_VERSION=2.31
+
 cd $SRC/util-linux
 
 if [ ! -f .extracted ]; then
-	rm -rf util-linux-2.31
-	tar zxvf util-linux-2.31.tar.gz
+	rm -rf util-linux-${UTIL_LINUX_VERSION}
+	tar zxvf util-linux-${UTIL_LINUX_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd util-linux-2.31
+cd util-linux-${UTIL_LINUX_VERSION}
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 	sed -i 's,epoll_create1,epoll_create,g' ./libmount/src/monitor.c
@@ -857,15 +897,17 @@ fi
 # PATCH # ###################################################################
 ######### ###################################################################
 
+PATCH_VERSION=2.7.5
+
 cd $SRC/patch
 
 if [ ! -f .extracted ]; then
-	rm -rf  patch-2.7.5
-	tar zxvf patch-2.7.5.tar.gz
+	rm -rf  patch-${PATCH_VERSION}
+	tar zxvf patch-${PATCH_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd patch-2.7.5
+cd patch-${PATCH_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -890,17 +932,19 @@ fi
 # WGET # ####################################################################
 ######## ####################################################################
 
+WGET_VERSION=1.19.2
+
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/wget
 
 if [ ! -f .extracted ]; then
-	rm -rf wget-1.19.2
-	tar zxvf wget-1.19.2.tar.gz
+	rm -rf wget-${WGET_VERSION}
+	tar zxvf wget-${WGET_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd wget-1.19.2
+cd wget-${WGET_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -928,15 +972,17 @@ unset PKG_CONFIG_LIBDIR
 # GREP # ####################################################################
 ######## ####################################################################
 
+GREP_VERSION=3.1
+
 cd $SRC/grep
 
 if [ ! -f .extracted ]; then
-	rm -rf grep-3.1
-	tar xvJf grep-3.1.tar.xz
+	rm -rf grep-${GREP_VERSION}
+	tar xvJf grep-${GREP_VERSION}.tar.xz
 	touch .extracted
 fi
  
-cd grep-3.1
+cd grep-${GREP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -961,15 +1007,17 @@ fi
 # TAR # #####################################################################
 ####### #####################################################################
 
+TAR_VERSION=1.29
+
 cd $SRC/tar
 
 if [ ! -f .extracted ]; then
-	rm -rf tar-1.29
-	tar zxvf tar-1.29.tar.gz
+	rm -rf tar-${TAR_VERSION}
+	tar zxvf tar-${TAR_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd tar-1.29
+cd tar-${TAR_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -994,15 +1042,17 @@ fi
 # SED # #####################################################################
 ####### #####################################################################
 
+SED_VERSION=4.4
+
 cd $SRC/sed
 
 if [ ! -f .extracted ]; then
-        rm -rf sed-4.4
-        tar xvJf sed-4.4.tar.xz
+        rm -rf sed-${SED_VERSION}
+        tar xvJf sed-${SED_VERSION}.tar.xz
         touch .extracted
 fi
 
-cd sed-4.4
+cd sed-${SED_VERSION}
 
 if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
@@ -1027,15 +1077,17 @@ fi
 # TEXINFO # #################################################################
 ########### #################################################################
 
+TEXINFO_VERSION=6.5
+
 cd $SRC/texinfo
 
 if [ ! -f .extracted ]; then
-        rm -rf texinfo-6.5
-        tar zxvf texinfo-6.5.tar.gz
+        rm -rf texinfo-${TEXINFO_VERSION}
+        tar zxvf texinfo-${TEXINFO_VERSION}.tar.gz
         touch .extracted
 fi
 
-cd texinfo-6.5
+cd texinfo-${TEXINFO_VERSION}
 
 if [ ! -f .configured ]; then
         LDFLAGS=$LDFLAGS \
@@ -1060,15 +1112,17 @@ fi
 # CPIO # ####################################################################
 ######## ####################################################################
 
+CPIO_VERSION=2.12
+
 cd $SRC/cpio
 
 if [ ! -f .extracted ]; then
-	rm -rf cpio-2.12
-	tar zxvf cpio-2.12.tar.gz
+	rm -rf cpio-${CPIO_VERSION}
+	tar zxvf cpio-${CPIO_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd cpio-2.12
+cd cpio-${CPIO_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1093,16 +1147,18 @@ fi
 # FILE # ####################################################################
 ######## ####################################################################
 
+FILE_VERSION=5.32
+
 cd $SRC/file
 
 if [ ! -f .extracted ]; then
-	rm -rf file-5.32 file-5.32-native
-	tar zxvf file-5.32.tar.gz
-	cp -r file-5.32 file-5.32-native
+	rm -rf file-${FILE_VERSION} file-${FILE_VERSION}-native
+	tar zxvf file-${FILE_VERSION}.tar.gz
+	cp -r file-${FILE_VERSION} file-${FILE_VERSION}-native
 	touch .extracted
 fi
 
-cd file-5.32-native
+cd file-${FILE_VERSION}-native
 
 if [ ! -f .built-native ]; then
 	autoreconf -f -i
@@ -1113,7 +1169,7 @@ if [ ! -f .built-native ]; then
 	touch .built-native
 fi
 
-cd ../file-5.32
+cd ../file-${FILE_VERSION}
 
 if [ ! -f .configured ]; then
 	autoreconf -f -i
@@ -1127,7 +1183,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/file/file-5.32-native/bin:$PATH \
+	PATH=$SRC/file/file-${FILE_VERSION}-native/bin:$PATH \
 	$MAKE
 	touch .built
 fi
@@ -1141,17 +1197,19 @@ fi
 # DISTCC # ##################################################################
 ########## ##################################################################
 
+DISTCC_VERSION=3.1
+
 PYTHON_CROSS="PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython"
 
 cd $SRC/distcc
 
 if [ ! -f .extracted ]; then
-	rm -rf distcc-distcc-3.1
-	tar zxvf distcc-3.1.tar.gz
+	rm -rf distcc-distcc-${DISTCC_VERSION}
+	tar zxvf distcc-${DISTCC_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd distcc-distcc-3.1
+cd distcc-distcc-${DISTCC_VERSION}
 
 if [ ! -f .configured ]; then
 	./autogen.sh
@@ -1183,19 +1241,22 @@ unset PYTHON_CROSS
 # UPX # #####################################################################
 ####### #####################################################################
 
-export UPX_UCLDIR=$SRC/upx/ucl-1.03
+UCL_VERSION=1.03
+UPX_VERSION=3.94
+
+export UPX_UCLDIR=$SRC/upx/ucl-${UCL_VERSION}
 
 cd $SRC/upx
 
 if [ ! -f .extracted ]; then
-	rm -rf ucl-1.03 upx-3.94-src upx
-	tar zxvf ucl-1.03.tar.gz
-	tar xvJf upx-3.94-src.tar.xz
-	mv upx-3.94-src upx
+	rm -rf ucl-${UCL_VERSION} upx-${UPX_VERSION}-src upx
+	tar zxvf ucl-${UCL_VERSION}.tar.gz
+	tar xvJf upx-${UPX_VERSION}-src.tar.xz
+	mv upx-${UPX_VERSION}-src upx
 	touch .extracted
 fi
 
-cd ucl-1.03
+cd ucl-${UCL_VERSION}
 
 if [ ! -f .built_ucl ]; then
 	LDFLAGS=$LDFLAGS \
