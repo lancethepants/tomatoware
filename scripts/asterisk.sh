@@ -19,15 +19,17 @@ MAKE="make -j`nproc`"
 # NETTLE # ##################################################################
 ########## ##################################################################
 
+NETTLE_VERSION=3.4
+
 cd $SRC/nettle
 
 if [ ! -f .extracted ]; then
-	rm -rf nettle-3.4
-	tar zxvf nettle-3.4.tar.gz
+	rm -rf nettle-${NETTLE_VERSION}
+	tar zxvf nettle-${NETTLE_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd nettle-3.4
+cd nettle-${NETTLE_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -52,17 +54,19 @@ fi
 # GNUTLS # ##################################################################
 ########## ##################################################################
 
+GNUTLS_VERSION=3.6.1
+
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/gnutls
 
 if [ ! -f .extracted ]; then
-	rm -rf gnutls-3.6.1
-	tar xvJf gnutls-3.6.1.tar.xz
+	rm -rf gnutls-${GNUTLS_VERSION}
+	tar xvJf gnutls-${GNUTLS_VERSION}.tar.xz
 	touch .extracted
 fi
 
-cd gnutls-3.6.1
+cd gnutls-${GNUTLS_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -114,17 +118,19 @@ fi
 # IKSEMEL # #################################################################
 ########### #################################################################
 
+IKSEMEL_VERSION=1.5
+
 export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
 
 cd $SRC/iksemel
 
 if [ ! -f .extracted ]; then
-	rm -rf iksemel-1.5
-	tar zxvf iksemel-1.5.tar.gz
+	rm -rf iksemel-${IKSEMEL_VERSION}
+	tar zxvf iksemel-${IKSEMEL_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd iksemel-1.5
+cd iksemel-${IKSEMEL_VERSION}
 
 if [ ! -f .configured ]; then
 	./autogen.sh
@@ -154,11 +160,13 @@ unset PKG_CONFIG_PATH
 # SRTP # ####################################################################
 ######## ####################################################################
 
+SRTP_VERSION=1.4.4
+
 cd $SRC/srtp
 
 if [ ! -f .extracted ]; then
 	rm -rf srtp
-	tar zxvf srtp-1.4.4.tgz
+	tar zxvf srtp-${SRTP_VERSION}.tgz
 	touch .extracted
 fi
 
@@ -195,15 +203,17 @@ fi
 # unixODBC # ################################################################
 ############ ################################################################
 
+UNIXODBC_VERSION=2.3.4
+
 cd $SRC/odbc
 
 if [ ! -f .extracted ]; then
-	rm -rf unixODBC-2.3.4
-	tar zxvf unixODBC-2.3.4.tar.gz
+	rm -rf unixODBC-${UNIXODBC_VERSION}
+	tar zxvf unixODBC-${UNIXODBC_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd unixODBC-2.3.4
+cd unixODBC-${UNIXODBC_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -229,17 +239,19 @@ fi
 # ASTERISK # ################################################################
 ############ ################################################################
 
+ASTERISK_VERSION=11.25.3
+
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-11.25.3
-	tar zxvf asterisk-11.25.3.tar.gz
+	rm -rf asterisk-${ASTERISK_VERSION}
+	tar zxvf asterisk-${ASTERISK_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd asterisk-11.25.3
+cd asterisk-${ASTERISK_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
