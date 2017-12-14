@@ -1052,7 +1052,8 @@ if [ ! -f .configured ]; then
 	--enable-pcregrep-libz \
 	--enable-pcregrep-libbz2 \
 	--enable-pcretest-libreadline \
-	--enable-unicode-properties
+	--enable-unicode-properties \
+	--enable-jit
 	touch .configured
 fi
 
@@ -1366,7 +1367,8 @@ if [ ! -f .built ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl"
+	USE_LIBPCRE1=yes \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre"
 	touch .built
 fi
 
@@ -1383,7 +1385,8 @@ if [ ! -f .installed ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl" \
+	USE_LIBPCRE1=yes \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre" \
 	install DESTDIR=$BASE
 	touch .installed
 fi
