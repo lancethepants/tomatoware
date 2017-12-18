@@ -1043,6 +1043,11 @@ fi
 
 cd pcre-${PCRE_VERSION}
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libpcre/libpcre-8.41-sljit_mips-label-statement-fix.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
