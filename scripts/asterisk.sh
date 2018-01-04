@@ -160,25 +160,17 @@ unset PKG_CONFIG_PATH
 # SRTP # ####################################################################
 ######## ####################################################################
 
-SRTP_VERSION=1.4.4
+SRTP_VERSION=2.1.0
 
 cd $SRC/srtp
 
 if [ ! -f .extracted ]; then
-	rm -rf srtp
-	tar zxvf srtp-${SRTP_VERSION}.tgz
+	rm -rf libsrtp-${SRTP_VERSION}
+	tar zxvf libsrtp-${SRTP_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd srtp
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/libsrtp/1003_fix_mips_namespace_collision.patch
-	patch -p1 < $PATCHES/libsrtp/1005_fix_data_alignment.patch
-	patch -p1 < $PATCHES/libsrtp/1007_update_Doxyfile.patch
-	patch -p1 < $PATCHES/libsrtp/1008_shared-lib.patch
-	touch .patched
-fi
+cd libsrtp-${SRTP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -235,11 +227,113 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+########### #################################################################
+# JANSSON # #################################################################
+########### #################################################################
+
+JANSSON_VERSION=2.10
+
+cd $SRC/jansson
+
+if [ ! -f .extracted ]; then
+	rm -rf jansson-${JANSSON_VERSION}
+	tar zxvf jansson-${JANSSON_VERSION}.tar.gz
+	touch .extracted
+fi
+
+cd jansson-${JANSSON_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+######### ###################################################################
+# PJSIP # ###################################################################
+######### ###################################################################
+
+PJSIP_VERSION=2.7.1
+
+cd $SRC/pjsip
+
+if [ ! -f .extracted ]; then
+	rm -rf pjproject-${PJSIP_VERSION}
+	tar xvjf pjproject-${PJSIP_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd pjproject-${PJSIP_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--disable-floating-point \
+	--disable-bcg729 \
+	--disable-ext-sound \
+	--disable-ffmpeg \
+	--disable-g711-codec \
+	--disable-g722-codec \
+	--disable-g7221-codec \
+	--disable-gsm-codec \
+	--disable-ilbc-codec \
+	--disable-ipp \
+	--disable-l16-codec \
+	--disable-libwebrtc \
+	--disable-libyuv \
+	--disable-opencore-amr \
+	--disable-openh264 \
+	--disable-opus \
+	--disable-oss \
+	--disable-resample \
+	--disable-sdl \
+	--disable-silk \
+	--disable-sound \
+	--disable-speex-aec \
+	--disable-speex-codec \
+	--disable-v4l2 \
+	--disable-video \
+	--enable-shared \
+	--with-external-srtp=$DEST \
+	--with-ssl=$DEST \
+	--without-external-gsm \
+	--without-external-pa \
+	--without-external-webrtc
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	CFLAGS="$CPPFLAGS $CFLAGS" \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ############ ################################################################
 # ASTERISK # ################################################################
 ############ ################################################################
 
-ASTERISK_VERSION=11.25.3
+ASTERISK_VERSION=13.18.5
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -255,7 +349,7 @@ cd asterisk-${ASTERISK_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
-	patch -p1 < $PATCHES/asterisk/0001-chan_sip-Support-RFC-3966-TEL-URIs-in-inbound-INVITE.patch
+	patch -p1 < $PATCHES/asterisk/003-disable-ast-xml-docs.patch
 	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
 	touch .patched
 fi
@@ -267,18 +361,20 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--without-sdl \
+	--disable-xmldoc \
 	--with-libxml2=$DEST \
 	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
 	--with-iksemel=$DEST \
+	--with-jansson=$DEST \
+	--with-pjproject=$DEST \
 	--with-libcurl=$DEST \
 	--with-ncurses=$DEST \
 	--with-unixodbc=$DEST \
 	--with-sqlite3=$DEST \
 	--with-srtp=$DEST \
 	--with-ssl=$DEST \
-	--with-uuid=$DEST \
 	--with-z=$DEST
 
 	make menuselect.makeopts CC=cc CXX=g++ || true
@@ -326,9 +422,7 @@ cd asterisk-chan-dongle
 
 if [ ! -f .pre-configured ]; then
 	patch < $PATCHES/asterisk/asterisk-chan-dongle.patch
-	aclocal
-	autoconf
-	automake -a || true
+	./bootstrap
 	touch .pre-configured
 fi
 
@@ -338,7 +432,9 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--with-asterisk=$DEST/include \
+	--with-astversion=${ASTERISK_VERSION}
 	touch .configured
 fi
 
