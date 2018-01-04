@@ -1,6 +1,7 @@
---- configure.in.orig	2014-01-24 10:09:01.086181909 -0700
-+++ configure.in	2014-01-24 10:10:37.349222319 -0700
-@@ -20,7 +20,7 @@
+diff -Naur asterisk-chan-dongle.orig/configure.ac asterisk-chan-dongle/configure.ac
+--- asterisk-chan-dongle.orig/configure.ac	2017-12-29 12:45:31.679192831 -0700
++++ asterisk-chan-dongle/configure.ac	2017-12-29 12:48:36.657061546 -0700
+@@ -21,7 +21,7 @@
  	[asterisk],
  	AS_HELP_STRING([--with-asterisk=path], [set asterisk headers location]),
  	[ if test "x$with_asterisk" = "xyes" -o "x$with_asterisk" = "xno" ; then  AC_MSG_ERROR([Invalid --with-asterisk=path value]); fi ],
@@ -8,8 +9,8 @@
 +	[ with_asterisk="$DEST/include" ]
  )
  
- AC_ARG_ENABLE(
-@@ -88,7 +88,7 @@
+ dnl  Required: asterisk version
+@@ -102,7 +102,7 @@
  )
  
  AC_HEADER_FIND([asterisk.h], $with_asterisk)
@@ -18,7 +19,7 @@
  
  AC_DEFINE([ICONV_CONST],[], [Define to const if you has iconv() const declaration of input buffer])
  AC_MSG_CHECKING([for iconv use const inbuf])
-@@ -186,7 +186,7 @@
+@@ -200,7 +200,7 @@
      fi
      ])
  
@@ -27,7 +28,7 @@
  
  dnl Checks for library functions.
  AC_FUNC_MEMCMP
-@@ -198,7 +198,7 @@
+@@ -212,7 +212,7 @@
    CFLAGS="$CFLAGS -O0 -g"
    AC_DEFINE([__DEBUG__], [1], [Build with debugging])
  else
@@ -35,8 +36,8 @@
 +  CFLAGS="$CFLAGS -O2"
  fi
  
- if test "x$enable_manager" = "xyes" ; then
-@@ -211,7 +211,7 @@
+ dnl Asterisk header files use lots of old style declarations, ignore those.
+@@ -230,7 +230,7 @@
  
  case "$target_os" in
      linux*)
