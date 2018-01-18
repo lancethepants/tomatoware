@@ -333,7 +333,7 @@ fi
 # ASTERISK # ################################################################
 ############ ################################################################
 
-ASTERISK_VERSION=13.18.5
+ASTERISK_VERSION=13.19.0
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -349,7 +349,6 @@ cd asterisk-${ASTERISK_VERSION}
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
-	patch -p1 < $PATCHES/asterisk/003-disable-ast-xml-docs.patch
 	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
 	touch .patched
 fi
