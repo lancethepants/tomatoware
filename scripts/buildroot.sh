@@ -293,6 +293,7 @@ if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-7.2.0-specs-1.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.2.0-specs-1.patch
 	patch -p1 < gcc-7.2.0-specs-1.patch
+	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
 	touch .patched
 fi
 
