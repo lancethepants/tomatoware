@@ -262,73 +262,6 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-######### ###################################################################
-# PJSIP # ###################################################################
-######### ###################################################################
-
-PJSIP_VERSION=2.7.1
-
-cd $SRC/pjsip
-
-if [ ! -f .extracted ]; then
-	rm -rf pjproject-${PJSIP_VERSION}
-	tar xvjf pjproject-${PJSIP_VERSION}.tar.bz2
-	touch .extracted
-fi
-
-cd pjproject-${PJSIP_VERSION}
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--disable-floating-point \
-	--disable-bcg729 \
-	--disable-ext-sound \
-	--disable-ffmpeg \
-	--disable-g711-codec \
-	--disable-g722-codec \
-	--disable-g7221-codec \
-	--disable-gsm-codec \
-	--disable-ilbc-codec \
-	--disable-ipp \
-	--disable-l16-codec \
-	--disable-libwebrtc \
-	--disable-libyuv \
-	--disable-opencore-amr \
-	--disable-openh264 \
-	--disable-opus \
-	--disable-oss \
-	--disable-resample \
-	--disable-sdl \
-	--disable-silk \
-	--disable-sound \
-	--disable-speex-aec \
-	--disable-speex-codec \
-	--disable-v4l2 \
-	--disable-video \
-	--enable-shared \
-	--with-external-srtp=$DEST \
-	--with-ssl=$DEST \
-	--without-external-gsm \
-	--without-external-pa \
-	--without-external-webrtc
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	CFLAGS="$CPPFLAGS $CFLAGS" \
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
 ############ ################################################################
 # ASTERISK # ################################################################
 ############ ################################################################
@@ -353,21 +286,30 @@ if [ ! -f .patched ]; then
 	touch .patched
 fi
 
+if [ "$DESTARCH" == "mipsel" ];then
+	os=mipsel-buildroot-linux-uclibc
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	os=arm-buildroot-linux-uclibcgnueabi
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="-I$DEST/include/libxml2 $CPPFLAGS" \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
+	CPPFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
+	CFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
+	CXXFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
+	./configure --prefix=$PREFIX --host=$os \
 	--without-sdl \
 	--disable-xmldoc \
+	--with-externals-cache=$SRC/pjsip \
+	--with-pjproject-bundled \
 	--with-libxml2=$DEST \
 	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
 	--with-iconv=$DEST \
 	--with-iksemel=$DEST \
 	--with-jansson=$DEST \
-	--with-pjproject=$DEST \
 	--with-libcurl=$DEST \
 	--with-ncurses=$DEST \
 	--with-unixodbc=$DEST \
