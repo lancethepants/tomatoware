@@ -510,7 +510,8 @@ if [ ! -f .configured ]; then
 	--with-normal \
 	--with-shared \
 	--enable-rpath \
-	--with-fallbacks=xterm
+	--with-fallbacks=xterm \
+	--without-progs
 	touch .configured
 fi
 
