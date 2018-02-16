@@ -1164,7 +1164,7 @@ cd file-${FILE_VERSION}-native
 if [ ! -f .built-native ]; then
 	autoreconf -f -i
 	./configure \
-	--prefix=$SRC/file/file-5.32-native
+	--prefix=$SRC/file/file-${FILE_VERSION}-native
 	$MAKE
 	make install
 	touch .built-native
