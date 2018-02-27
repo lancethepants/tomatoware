@@ -1865,3 +1865,48 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
+
+########## ##################################################################
+# BOOST  # ##################################################################
+########## ##################################################################
+
+BOOST_VERSION=1_66_0
+
+cd $SRC/boost
+
+if [ ! -f .extracted ]; then
+	rm -rf boost_${BOOST_VERSION} build
+	tar xvjf boost_${BOOST_VERSION}.tar.bz2
+	mkdir -p $SRC/boost/build
+	touch .extracted
+fi
+
+cd boost_${BOOST_VERSION}
+
+if ! [[ -f .configured ]]; then
+	echo  "using gcc : $DESTARCH : $DESTARCH-linux-g++ ;" > $SRC/boost/user-config.jam
+	./bootstrap.sh
+	touch .configured
+fi
+
+if ! [[ -f .built ]]; then
+	HOME=$SRC/boost \
+	./b2 \
+	--prefix=$DEST \
+	--build-dir=$SRC/boost/build \
+	--without-python \
+	toolset=gcc-$DESTARCH \
+	threading=multi \
+	variant=release \
+	cxxflags=$CXXFLAGS \
+	-j`nproc` \
+	-sBZIP2_INCLUDE=$DEST/include \
+	-sBZIP2_LIBPATH=$DEST/lib \
+	-sZLIB_INCLUDE=$DEST/include \
+	-sZLIB_LIBPATH=$DEST/lib \
+	-sLZMA_INCLUDE=$DEST/include \
+	-sLZMA_LIBPATH=$DEST/lib \
+	install \
+	|| true
+	touch .built
+fi
