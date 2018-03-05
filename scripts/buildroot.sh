@@ -276,7 +276,7 @@ fi
 # GCC # #####################################################################
 ####### #####################################################################
 
-GCC_VERSION=7.2.0
+GCC_VERSION=7.3.0
 
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
@@ -290,9 +290,9 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-7.2.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.2.0-specs-1.patch
-	patch -p1 < gcc-7.2.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-7.3.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.3.0-specs-1.patch
+	patch -p1 < gcc-7.3.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
 	touch .patched
 fi
