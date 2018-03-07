@@ -421,6 +421,7 @@ if [ ! -f .installed ]; then
 	LFLAGS="$LDFLAGS" \
 	CFLAGS="$CFLAGS" \
 	TOPDIR=$PREFIX \
+	USRDIR="" \
 	DESTDIR=$BASE \
 	zic=../tz-native/zic
 	touch .installed
