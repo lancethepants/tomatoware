@@ -997,13 +997,13 @@ PERL_CROSS_VERSION=1.1.7
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf tar zxvf perl-${PERL_VERSION=}
-	tar zxvf perl-${PERL_VERSION=}.tar.gz
-	tar zxvf perl-cross-${PERL_CROSS_VERSION}.tar.gz -C perl-${PERL_VERSION=} --strip 1
+	rm -rf tar zxvf perl-${PERL_VERSION}
+	tar zxvf perl-${PERL_VERSION}.tar.gz
+	tar zxvf perl-cross-${PERL_CROSS_VERSION}.tar.gz -C perl-${PERL_VERSION} --strip 1
 	touch .extracted
 fi
 
-cd perl-${PERL_VERSION=}
+cd perl-${PERL_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
