@@ -997,7 +997,7 @@ PERL_CROSS_VERSION=1.1.7
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf tar zxvf perl-${PERL_VERSION}
+	rm -rf perl-${PERL_VERSION}
 	tar zxvf perl-${PERL_VERSION}.tar.gz
 	tar zxvf perl-cross-${PERL_CROSS_VERSION}.tar.gz -C perl-${PERL_VERSION} --strip 1
 	touch .extracted
