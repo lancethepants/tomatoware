@@ -1536,7 +1536,7 @@ fi
 # HTOP # ####################################################################
 ######## ####################################################################
 
-HTOP_VERSION=2.1.0
+HTOP_VERSION=2.2.0
 
 cd $SRC/htop
 
@@ -1549,7 +1549,6 @@ fi
 cd htop-${HTOP_VERSION}
 
 if [ ! -f .configured ]; then
-	./autogen.sh
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
