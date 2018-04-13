@@ -1032,7 +1032,7 @@ fi
 # PCRE # ####################################################################
 ######## ####################################################################
 
-PCRE_VERSION=8.41
+PCRE_VERSION=8.42
 
 cd $SRC/pcre
 
@@ -1043,11 +1043,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd pcre-${PCRE_VERSION}
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/libpcre/libpcre-8.41-sljit_mips-label-statement-fix.patch
-	touch .patched
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
