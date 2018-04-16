@@ -1,14 +1,14 @@
 diff -Naur unrar_orig/makefile unrar/makefile
---- unrar_orig/makefile	2017-06-13 05:04:49.000000000 -0600
-+++ unrar/makefile	2017-09-05 13:30:06.283480846 -0600
+--- unrar_orig/makefile	2018-04-16 08:40:02.960801853 -0600
++++ unrar/makefile	2018-04-16 08:41:42.373492749 -0600
 @@ -2,13 +2,13 @@
  # Makefile for UNIX - unrar
  
  # Linux using GCC
 -CXX=c++
--CXXFLAGS=-O2
+-CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
 +CXX=$(DESTARCH)-linux-g++
-+CXXFLAGS=-O2 $(EXTRACFLAGS)
++CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else $(EXTRACFLAGS)
  LIBFLAGS=-fPIC
  DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
 -STRIP=strip
