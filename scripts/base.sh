@@ -1729,6 +1729,7 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--with-tlib=ncurses \
 	--enable-multibyte \
+	vim_cv_tgetent=zero \
 	vim_cv_toupper_broken=no \
 	vim_cv_terminfo=yes \
 	vim_cv_tty_group=world \
