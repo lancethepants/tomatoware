@@ -1714,12 +1714,12 @@ VIM_VERSION=8.1
 cd $SRC/vim
 
 if [ ! -f .extracted ]; then
-	rm -rf vim80
+	rm -rf vim81
 	tar xvjf vim-${VIM_VERSION}.tar.bz2
 	touch .extracted
 fi
 
-cd vim80
+cd vim81
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
