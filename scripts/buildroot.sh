@@ -1278,6 +1278,7 @@ if [ ! -f .built ]; then
 	$MAKE \
 	CXX=$DESTARCH-linux-g++ \
 	all \
+	CXXFLAGS_WERROR= \
 	CHECK_WHITESPACE=/bin/true
 	touch .built
 fi
