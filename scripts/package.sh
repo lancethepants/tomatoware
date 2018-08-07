@@ -31,9 +31,9 @@ ln -sf $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
 ln -sf $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
 ln -sf $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
 
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.24 $DEST/lib/libstdc++.so.6.0.24
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.24 $DEST/lib/libstdc++.so.6
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.24 $DEST/lib/libstdc++.so
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6.0.25
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6
+ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.

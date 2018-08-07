@@ -7,9 +7,9 @@ export BASE=`pwd`
 export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
-GCCVER="7.3.0"
+GCCVER="8.2.0"
 UCLIBCVER="1.0.30"
-BUILDROOTVER="2018.02"
+BUILDROOTVER="2018.08-rc1"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 
 
