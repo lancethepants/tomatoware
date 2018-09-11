@@ -511,7 +511,7 @@ if [ ! -f .configured ]; then
 	--with-shared \
 	--enable-rpath \
 	--with-fallbacks=xterm \
-	--without-progs
+	--disable-stripping
 	touch .configured
 fi
 
