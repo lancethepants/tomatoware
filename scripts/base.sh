@@ -1348,7 +1348,7 @@ cd $SRC/git
 
 if [ ! -f .extracted ]; then
 	rm -rf git-${GIT_VERSION}
-	tar zxvf git-${GIT_VERSION}.tar.gz
+	tar xvJf git-${GIT_VERSION}.tar.xz
 	touch .extracted
 fi
 
