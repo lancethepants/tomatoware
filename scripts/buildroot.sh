@@ -1014,7 +1014,7 @@ cd $SRC/tar
 
 if [ ! -f .extracted ]; then
 	rm -rf tar-${TAR_VERSION}
-	tar zxvf tar-${TAR_VERSION}.tar.gz
+	tar xvJf tar-${TAR_VERSION}.tar.xz
 	touch .extracted
 fi
 
