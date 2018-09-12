@@ -758,7 +758,7 @@ cd $SRC/make
 
 if [ ! -f .extracted ]; then
 	rm -rf make-${MAKE_VERSION}
-	tar zxvf make-${MAKE_VERSION}.tar.gz
+	tar xvjf make-${MAKE_VERSION}.tar.bz2
 	touch .extracted
 fi
 
