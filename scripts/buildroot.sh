@@ -683,7 +683,7 @@ cd $SRC/libtool
 
 if [ ! -f .extracted ]; then
 	rm -rf libtool-${LIBTOOL_VERSION}
-	tar zxvf libtool-${LIBTOOL_VERSION}.tar.gz
+	tar xvJf libtool-${LIBTOOL_VERSION}.tar.xz
 	touch .extracted
 fi
 
