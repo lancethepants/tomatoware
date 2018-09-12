@@ -157,7 +157,7 @@ cd $SRC/mpfr
 
 if [ ! -f .extracted ]; then
 	rm -rf mpfr-${MPFR_VERSION}
-	tar zxvf mpfr-${MPFR_VERSION}.tar.gz
+	tar xvJf mpfr-${MPFR_VERSION}.tar.xz
 	touch .extracted
 fi
 
