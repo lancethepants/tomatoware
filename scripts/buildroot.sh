@@ -121,7 +121,7 @@ cd $SRC/gmp
 
 if [ ! -f .extracted ]; then
 	rm -rf gmp-${GMP_VERSION}
-	tar xvjf gmp-${GMP_VERSION}.tar.bz2
+	tar xvJf gmp-${GMP_VERSION}.tar.xz
 	touch .extracted
 fi
 
