@@ -237,7 +237,7 @@ cd $SRC/jansson
 
 if [ ! -f .extracted ]; then
 	rm -rf jansson-${JANSSON_VERSION}
-	tar zxvf jansson-${JANSSON_VERSION}.tar.gz
+	tar xvjf jansson-${JANSSON_VERSION}.tar.bz2
 	touch .extracted
 fi
 
