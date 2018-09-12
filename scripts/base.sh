@@ -132,7 +132,7 @@ cd $SRC/xz
 
 if [ ! -f .extracted ]; then
 	rm -rf xz-${XZ_UTILS_VERSION}
-	tar zxvf xz-${XZ_UTILS_VERSION}.tar.gz
+	tar xvJf xz-${XZ_UTILS_VERSION}.tar.xz
 	touch .extracted
 fi
 
