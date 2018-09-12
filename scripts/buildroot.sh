@@ -1084,7 +1084,7 @@ cd $SRC/texinfo
 
 if [ ! -f .extracted ]; then
         rm -rf texinfo-${TEXINFO_VERSION}
-        tar zxvf texinfo-${TEXINFO_VERSION}.tar.gz
+        tar xvJf texinfo-${TEXINFO_VERSION}.tar.xz
         touch .extracted
 fi
 
