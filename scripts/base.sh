@@ -59,7 +59,7 @@ cd $SRC/zlib
 
 if [ ! -f .extracted ]; then
 	rm -rf zlib-${ZLIB_VERSION}
-	tar zxvf zlib-${ZLIB_VERSION}.tar.gz
+	tar xvJf zlib-${ZLIB_VERSION}.tar.xz
 	touch .extracted
 fi
 
