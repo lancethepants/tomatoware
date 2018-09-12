@@ -379,7 +379,7 @@ cd $SRC/autoconf
 
 if [ ! -f .extracted ]; then
 	rm -rf autoconf-${AUTOCONF_VERSION}
-	tar zxvf autoconf-${AUTOCONF_VERSION}.tar.gz
+	tar xvJf autoconf-${AUTOCONF_VERSION}.tar.xz
 	touch .extracted
 fi
 
