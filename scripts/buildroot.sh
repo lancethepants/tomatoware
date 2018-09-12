@@ -443,13 +443,13 @@ fi
 # BISON # ###################################################################
 ######### ###################################################################
 
-BISON_VERSION=3.0.5
+BISON_VERSION=3.1
 
 cd $SRC/bison
 
 if [ ! -f .extracted ]; then
 	rm -rf bison-${BISON_VERSION}
-	tar zxvf bison-${BISON_VERSION}.tar.gz
+	tar xvJf bison-${BISON_VERSION}.tar.xz
 	touch .extracted
 fi
 
