@@ -1038,7 +1038,7 @@ cd $SRC/pcre
 
 if [ ! -f .extracted ]; then
 	rm -rf pcre-${PCRE_VERSION}
-	tar zxvf pcre-${PCRE_VERSION}.tar.gz
+	tar xvjf pcre-${PCRE_VERSION}.tar.bz2
 	touch .extracted
 fi
 
