@@ -247,7 +247,7 @@ cd $SRC/gettext
 
 if [ ! -f .extracted ]; then
 	rm -rf gettext-${GETTEXT_VERSION}
-	tar zxvf gettext-${GETTEXT_VERSION}.tar.gz
+	tar xvJf gettext-${GETTEXT_VERSION}.tar.xz
 	touch .extracted
 fi
 
