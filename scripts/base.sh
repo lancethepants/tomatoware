@@ -1674,13 +1674,13 @@ fi
 # ZSH # #####################################################################
 ####### #####################################################################
 
-ZSH_VERSION=5.5.1
+ZSH_VERSION=5.6.1
 
 cd $SRC/zsh
 
 if [ ! -f .extracted ]; then
 	rm -rf zsh-${ZSH_VERSION}
-	tar zxvf zsh-${ZSH_VERSION}.tar.gz
+	tar xvJf zsh-${ZSH_VERSION}.tar.xz
 	touch .extracted
 fi
 
