@@ -293,7 +293,7 @@ cd $SRC/flex
 
 if [ ! -f .extracted ]; then
 	rm -rf flex-${FLEX_VERSION}
-	tar zxvf flex-${FLEX_VERSION}.tar.gz
+	tar xvJf flex-${FLEX_VERSION}.tar.xz
 	touch .extracted
 fi
 
