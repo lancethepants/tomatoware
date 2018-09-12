@@ -867,7 +867,7 @@ cd $SRC/libpar2
 
 if [ ! -f .extracted ]; then
 	rm -rf libpar2-${LIBPAR2_VERSION}
-	tar zxvf libpar2-${LIBPAR2_VERSION}.tar.gz
+	tar xvjf libpar2-${LIBPAR2_VERSION}.tar.bz2
 	touch .extracted
 fi
 
