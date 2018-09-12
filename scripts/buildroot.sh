@@ -414,7 +414,7 @@ cd $SRC/automake
 
 if [ ! -f .extracted ]; then
 	rm -rf automake-${AUTOMAKE_VERSION}
-	tar zxvf automake-${AUTOMAKE_VERSION}.tar.gz
+	tar xvJf automake-${AUTOMAKE_VERSION}.tar.xz
 	touch .extracted
 fi
 
