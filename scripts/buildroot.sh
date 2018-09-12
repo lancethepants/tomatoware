@@ -718,7 +718,7 @@ cd $SRC/m4
 
 if [ ! -f .extracted ]; then
 	rm -rf m4-${M4_VERSION}
-	tar zxvf m4-${M4_VERSION}.tar.gz
+	tar xvJf m4-${M4_VERSION}.tar.xz
 	touch .extracted
 fi
 
