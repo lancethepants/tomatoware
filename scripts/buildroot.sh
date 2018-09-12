@@ -1119,7 +1119,7 @@ cd $SRC/cpio
 
 if [ ! -f .extracted ]; then
 	rm -rf cpio-${CPIO_VERSION}
-	tar zxvf cpio-${CPIO_VERSION}.tar.gz
+	tar xvjf cpio-${CPIO_VERSION}.tar.bz2
 	touch .extracted
 fi
 
