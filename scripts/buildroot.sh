@@ -857,7 +857,7 @@ cd $SRC/util-linux
 
 if [ ! -f .extracted ]; then
 	rm -rf util-linux-${UTIL_LINUX_VERSION}
-	tar zxvf util-linux-${UTIL_LINUX_VERSION}.tar.gz
+	tar xvJf util-linux-${UTIL_LINUX_VERSION}.tar.xz
 	touch .extracted
 fi
 
