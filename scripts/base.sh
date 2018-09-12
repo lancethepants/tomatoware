@@ -1442,7 +1442,7 @@ cd $SRC/pam
 
 if [ ! -f .extracted ]; then
 	rm -rf Linux-PAM-${LINUX_PAM_VERSION}
-	tar zxvf Linux-PAM-${LINUX_PAM_VERSION}.tar.gz
+	tar xvjf Linux-PAM-${LINUX_PAM_VERSION}.tar.bz2
 	touch .extracted
 fi
 
