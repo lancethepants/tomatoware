@@ -904,7 +904,7 @@ cd $SRC/patch
 
 if [ ! -f .extracted ]; then
 	rm -rf  patch-${PATCH_VERSION}
-	tar zxvf patch-${PATCH_VERSION}.tar.gz
+	tar xvJf patch-${PATCH_VERSION}.tar.xz
 	touch .extracted
 fi
 
