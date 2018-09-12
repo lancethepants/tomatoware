@@ -335,7 +335,7 @@ cd $SRC/curl
 
 if [ ! -f .extracted ]; then
 	rm -rf curl-${CURL_VERSION}
-	tar zxvf curl-${CURL_VERSION}.tar.gz
+	tar xvJf curl-${CURL_VERSION}.tar.xz
 	touch .extracted
 fi
 
