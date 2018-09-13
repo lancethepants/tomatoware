@@ -642,7 +642,7 @@ cd $SRC/gawk
 
 if [ ! -f .extracted ]; then
 	rm -rf gawk-${GAWK_VERSION}
-	tar xvJF gawk-${GAWK_VERSION}.tar.xz
+	tar xvJf gawk-${GAWK_VERSION}.tar.xz
 	touch .extracted
 fi
 

@@ -867,7 +867,7 @@ cd $SRC/libpar2
 
 if [ ! -f .extracted ]; then
 	rm -rf libpar2-${LIBPAR2_VERSION}
-	tar xvjf libpar2-${LIBPAR2_VERSION}.tar.bz2
+	tar zxvf libpar2-${LIBPAR2_VERSION}.tar.gz
 	touch .extracted
 fi
 
@@ -1278,7 +1278,7 @@ cd $SRC/par2cmdline
 
 if [ ! -f .extracted ]; then
 	rm -rf par2cmdline-${PAR2CMDLINE_VERSION}
-	tar zxvf par2cmdline-${PAR2CMDLINE_VERSION}.tar.gz
+	tar xvjf par2cmdline-${PAR2CMDLINE_VERSION}.tar.bz2
 	touch .extracted
 fi
 
