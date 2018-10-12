@@ -1,0 +1,61 @@
+diff --git a/libc/inet/socketcalls.c b/libc/inet/socketcalls.c
+index 1b92609d0..edb5ab87e 100644
+--- a/libc/inet/socketcalls.c
++++ b/libc/inet/socketcalls.c
+@@ -8,6 +8,7 @@
+ #include <sys/syscall.h>
+ #include <sys/socket.h>
+ #include <cancel.h>
++#include <bits/kernel-features.h>
+ 
+ #ifdef __NR_socketcall
+ /* Various socketcall numbers */
+@@ -267,6 +268,7 @@ lt_libc_hidden(recvmsg)
+ #endif
+ 
+ #ifdef L_recvmmsg
++#ifdef __ASSUME_RECVMMSG_SYSCALL
+ static ssize_t __NC(recvmmsg)(int sockfd, struct mmsghdr *msg, size_t vlen,
+ 			      int flags, struct timespec *tmo)
+ {
+@@ -289,6 +291,7 @@ CANCELLABLE_SYSCALL(ssize_t, recvmmsg,
+ 		    (sockfd, msg, vlen, flags, tmo))
+ lt_libc_hidden(recvmmsg)
+ #endif
++#endif
+ 
+ #ifdef L_send
+ static ssize_t __NC(send)(int sockfd, const void *buffer, size_t len, int flags)
+@@ -332,6 +335,7 @@ lt_libc_hidden(sendmsg)
+ #endif
+ 
+ #ifdef L_sendmmsg
++#ifdef __ASSUME_SENDMMSG_SYSCALL
+ static ssize_t __NC(sendmmsg)(int sockfd, struct mmsghdr *msg, size_t vlen,
+ 			      int flags)
+ {
+@@ -352,6 +356,7 @@ CANCELLABLE_SYSCALL(ssize_t, sendmmsg,
+ 		    (sockfd, msg, vlen, flags))
+ lt_libc_hidden(sendmmsg)
+ #endif
++#endif
+ 
+ #ifdef L_sendto
+ ssize_t __NC(sendto)(int sockfd, const void *buffer, size_t len, int flags,
+diff --git a/libc/sysdeps/linux/common/bits/kernel-features.h b/libc/sysdeps/linux/common/bits/kernel-features.h
+index e0195e405..f1ebe0204 100644
+--- a/libc/sysdeps/linux/common/bits/kernel-features.h
++++ b/libc/sysdeps/linux/common/bits/kernel-features.h
+@@ -461,6 +461,12 @@
+ # define __ASSUME_ACCEPT4       1
+ #endif
+ 
++/* Support for the recvmmsg/sendmmsg syscall was added in 2.6.33  */
++#if __LINUX_KERNEL_VERSION >= 0x020621
++#define __ASSUME_RECVMMSG_SYSCALL       1
++#define __ASSUME_SENDMMSG_SYSCALL       1
++#endif
++
+ /* Support for the FUTEX_CLOCK_REALTIME flag was added in 2.6.29.  */
+ #if __LINUX_KERNEL_VERSION >= 0x02061d
+ # define __ASSUME_FUTEX_CLOCK_REALTIME	1
