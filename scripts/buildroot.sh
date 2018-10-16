@@ -1343,3 +1343,38 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
+
+######## ####################################################################
+# LESS # ####################################################################
+######## ####################################################################
+
+LESS_VERSION=530
+
+cd $SRC/less
+
+if [ ! -f .extracted ]; then
+	rm -rf less-${LESS_VERSION}
+	tar zxvf less-${LESS_VERSION}.tar.gz
+	touch .extracted
+fi
+
+cd less-${LESS_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
