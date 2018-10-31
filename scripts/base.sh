@@ -1307,6 +1307,99 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+########### #################################################################
+# PYTHON3 # #################################################################
+########### #################################################################
+
+PYTHON3_VERSION=3.7.1
+
+cd $SRC/python3
+
+if [ ! -f .extracted ]; then
+	rm -rf Python-${PYTHON3_VERSION} Python-${PYTHON3_VERSION}-native native
+	tar xvJf Python-${PYTHON3_VERSION}.tar.xz
+	touch .extracted
+fi
+
+cd Python-${PYTHON3_VERSION}
+
+if [ ! -f .patched ]; then
+	for file in $PATCHES/python3/*.patch
+	do
+		patch -p1 < "$file"
+	done
+	autoreconf
+	cp -r ../Python-${PYTHON3_VERSION} ../Python-${PYTHON3_VERSION}-native
+	touch .patched
+fi
+
+cd ../Python-${PYTHON3_VERSION}-native
+
+
+if [ ! -f .built_native ]; then
+	LDFLAGS=" -Wl,--enable-new-dtags" \
+	./configure \
+	--prefix=$SRC/python3/native3 \
+	--without-ensurepip \
+	--without-cxx-main \
+	--disable-sqlite3 \
+	--disable-tk \
+	--with-expat=system \
+	--disable-curses \
+	--disable-codecs-cjk \
+	--disable-nis \
+	--enable-unicodedata \
+	--disable-test-modules \
+	--disable-idle3 \
+	--disable-ossaudiodev \
+	--disable-openssl \
+	ac_cv_prog_HAS_HG=/bin/false
+	make
+	make install
+	touch .built_native
+fi
+
+cd ../Python-${PYTHON3_VERSION}
+
+if [ ! -f .configured ]; then
+	PATH=$SRC/python3/native3/bin:$PATH \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-linux \
+	--build=`uname -m`-linux-gnu \
+	--with-system-ffi \
+	--disable-pydoc \
+	--disable-test-modules \
+	--disable-nis \
+	--disable-idle3 \
+	--disable-pyc-build \
+	ac_cv_little_endian_double=yes \
+	ac_cv_have_long_long_format=yes \
+	ac_cv_file__dev_ptmx=yes \
+	ac_cv_file__dev_ptc=yes \
+	ac_cv_working_tzset=yes \
+	ac_cv_prog_HAS_HG=/bin/false \
+	ac_cv_func_wcsftime=no
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	PATH=$SRC/python3/native3/bin:$PATH \
+	$MAKE
+	touch .built
+fi
+
+
+if [ ! -f .installed ]; then
+	PATH=$SRC/python3/native3/bin:$PATH \
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ######### ###################################################################
 # UNRAR # ###################################################################
 ######### ###################################################################
