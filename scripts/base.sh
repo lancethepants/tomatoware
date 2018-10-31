@@ -1316,7 +1316,7 @@ PYTHON3_VERSION=3.7.1
 cd $SRC/python3
 
 if [ ! -f .extracted ]; then
-	rm -rf Python-${PYTHON3_VERSION} Python-${PYTHON3_VERSION}-native native
+	rm -rf Python-${PYTHON3_VERSION} Python-${PYTHON3_VERSION}-native native3
 	tar xvJf Python-${PYTHON3_VERSION}.tar.xz
 	touch .extracted
 fi
