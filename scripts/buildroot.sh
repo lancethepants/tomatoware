@@ -1200,7 +1200,7 @@ fi
 
 DISTCC_VERSION=3.1
 
-PYTHON_CROSS="PYTHONPATH=../../python/Python-2.7.3/Lib/:../../setuptools/setuptools ../../python/Python-2.7.3/hostpython"
+PYTHON_CROSS="PYTHONPATH=$SRC/python/Python-2.7.15/Lib $SRC/python/native/bin/python2"
 
 cd $SRC/distcc
 
@@ -1214,6 +1214,7 @@ cd distcc-distcc-${DISTCC_VERSION}
 
 if [ ! -f .configured ]; then
 	./autogen.sh
+	PATH=$SRC/python/native/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
@@ -1224,15 +1225,19 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
+	PATH=$SRC/python/native/bin:$PATH \
 	$MAKE \
 	PYTHON="$PYTHON_CROSS" \
 	TEST_PYTHON="$PYTHON_CROSS" \
-	INCLUDESERVER_PYTHON="$PYTHON_CROSS"
+	INCLUDESERVER_PYTHON=""
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	make install DESTDIR=$BASE \
+	PYTHON="$PYTHON_CROSS" \
+	TEST_PYTHON="$PYTHON_CROSS" \
+	INCLUDESERVER_PYTHON=""
 	touch .installed
 fi
 
