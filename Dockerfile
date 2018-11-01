@@ -12,6 +12,8 @@ RUN	apt-get update && \
 	flex \
 	gettext \
 	git \
+	libexpat1-dev \
+	libffi-dev \
 	libglib2.0-dev \
 	libncurses5-dev \
 	libtool \
