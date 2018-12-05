@@ -8,7 +8,7 @@ export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
 GCCVER="8.2.0"
-UCLIBCVER="1.0.30"
+UCLIBCVER="1.0.31"
 BUILDROOTVER="2018.08"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 
