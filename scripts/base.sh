@@ -1356,6 +1356,8 @@ if [ ! -f .built ]; then
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
 	USE_LIBPCRE1=yes \
+	CURLDIR=$DEST \
+	CURL_LDFLAGS=-lcurl \
 	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre"
 	touch .built
 fi
@@ -1374,6 +1376,8 @@ if [ ! -f .installed ]; then
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
 	USE_LIBPCRE1=yes \
+	CURLDIR=$DEST \
+	CURL_LDFLAGS=-lcurl \
 	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre" \
 	install DESTDIR=$BASE
 	touch .installed
