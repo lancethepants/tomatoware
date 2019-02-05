@@ -118,7 +118,7 @@ fi
 # IKSEMEL # #################################################################
 ########### #################################################################
 
-IKSEMEL_VERSION=1.5
+IKSEMEL_VERSION=1.5.1.3
 
 export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
 
@@ -133,7 +133,6 @@ fi
 cd iksemel-${IKSEMEL_VERSION}
 
 if [ ! -f .configured ]; then
-	./autogen.sh
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
