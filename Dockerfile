@@ -10,6 +10,7 @@ RUN	apt-get update && \
 	cpio \
 	curl \
 	flex \
+	gawk \
 	gettext \
 	git \
 	libexpat1-dev \
