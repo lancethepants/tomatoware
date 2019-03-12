@@ -1267,6 +1267,7 @@ if [ ! -f .configured ]; then
 	--prefix=$PREFIX \
 	--host=$DESTARCH-linux \
 	--build=`uname -m`-linux-gnu \
+	--with-openssl=$DEST \
 	--with-system-ffi \
 	--disable-pydoc \
 	--disable-test-modules \
