@@ -26,14 +26,28 @@ cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-li
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/usr $DEST
 cp -rf $DEST/usr/include $DEST
 rm -rf $DEST/usr/include
-ln -sf $PREFIX/usr/lib/crt1.o $DEST/lib/crt1.o
-ln -sf $PREFIX/usr/lib/crti.o $DEST/lib/crti.o
-ln -sf $PREFIX/usr/lib/crtn.o $DEST/lib/crtn.o
-ln -sf $PREFIX/usr/lib/Scrt1.o $DEST/lib/Scrt1.o
+ln -sf ../include $DEST/usr/include
 
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6.0.25
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6
-ln -sf $PREFIX/usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so
+ln -sf ../usr/lib/crt1.o $DEST/lib/
+ln -sf ../usr/lib/crti.o $DEST/lib/
+ln -sf ../usr/lib/crtn.o $DEST/lib/
+ln -sf ../usr/lib/Scrt1.o $DEST/lib/
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbegin.o $DEST/usr/lib/
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbeginS.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbeginT.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtend.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtendS.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtfastmath.o $DEST/usr/lib
+
+ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6.0.25
+ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6
+ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so
+ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/libgcc_eh.a $DEST/lib
+ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/libgcc.a $DEST/lib
+
+mkdir -p $DEST/usr/local
+ln -s ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/ $DEST/usr/local/include
+cp -r $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/$DESTARCH-buildroot-linux-uclibc$GNUEABI/bits/ $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.
