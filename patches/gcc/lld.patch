@@ -1,0 +1,88 @@
+diff -Naur gcc-8.3.0.orig/gcc/collect2.c gcc-8.3.0/gcc/collect2.c
+--- gcc-8.3.0.orig/gcc/collect2.c	2019-04-07 12:54:51.279874998 -0600
++++ gcc-8.3.0/gcc/collect2.c	2019-04-07 12:56:33.008665951 -0600
+@@ -831,6 +831,7 @@
+       USE_PLUGIN_LD,
+       USE_GOLD_LD,
+       USE_BFD_LD,
++      USE_LLD_LD,
+       USE_LD_MAX
+     } selected_linker = USE_DEFAULT_LD;
+   static const char *const ld_suffixes[USE_LD_MAX] =
+@@ -838,7 +839,8 @@
+       "ld",
+       PLUGIN_LD_SUFFIX,
+       "ld.gold",
+-      "ld.bfd"
++      "ld.bfd",
++      "ld.lld"
+     };
+   static const char *const real_ld_suffix = "real-ld";
+   static const char *const collect_ld_suffix = "collect-ld";
+@@ -1007,6 +1009,8 @@
+ 	  selected_linker = USE_BFD_LD;
+ 	else if (strcmp (argv[i], "-fuse-ld=gold") == 0)
+ 	  selected_linker = USE_GOLD_LD;
++  else if (strcmp (argv[i], "-fuse-ld=lld") == 0)
++    selected_linker = USE_LLD_LD;
+ 
+ #ifdef COLLECT_EXPORT_LIST
+ 	/* These flags are position independent, although their order
+@@ -1096,7 +1100,8 @@
+   /* Maybe we know the right file to use (if not cross).  */
+   ld_file_name = 0;
+ #ifdef DEFAULT_LINKER
+-  if (selected_linker == USE_BFD_LD || selected_linker == USE_GOLD_LD)
++  if (selected_linker == USE_BFD_LD || selected_linker == USE_GOLD_LD ||
++      selected_linker == USE_LLD_LD)
+     {
+       char *linker_name;
+ # ifdef HOST_EXECUTABLE_SUFFIX
+@@ -1315,7 +1320,7 @@
+ 	      else if (!use_collect_ld
+ 		       && strncmp (arg, "-fuse-ld=", 9) == 0)
+ 		{
+-		  /* Do not pass -fuse-ld={bfd|gold} to the linker. */
++		  /* Do not pass -fuse-ld={bfd|gold|lld} to the linker. */
+ 		  ld1--;
+ 		  ld2--;
+ 		}
+diff -Naur gcc-8.3.0.orig/gcc/common.opt gcc-8.3.0/gcc/common.opt
+--- gcc-8.3.0.orig/gcc/common.opt	2019-04-07 12:54:51.275874967 -0600
++++ gcc-8.3.0/gcc/common.opt	2019-04-07 12:56:33.008665951 -0600
+@@ -2715,6 +2715,10 @@
+ Common Driver Negative(fuse-ld=bfd)
+ Use the gold linker instead of the default linker.
+ 
++fuse-ld=lld
++Common Driver Negative(fuse-ld=lld)
++Use the lld LLVM linker instead of the default linker.
++
+ fuse-linker-plugin
+ Common Undocumented Var(flag_use_linker_plugin)
+ 
+diff -Naur gcc-8.3.0.orig/gcc/doc/invoke.texi gcc-8.3.0/gcc/doc/invoke.texi
+--- gcc-8.3.0.orig/gcc/doc/invoke.texi	2019-04-07 12:54:51.419876088 -0600
++++ gcc-8.3.0/gcc/doc/invoke.texi	2019-04-07 12:56:33.012665982 -0600
+@@ -12259,6 +12259,10 @@
+ @opindex fuse-ld=gold
+ Use the @command{gold} linker instead of the default linker.
+ 
++@item -fuse-ld=lld
++@opindex fuse-ld=lld
++Use the LLVM @command{lld} linker instead of the default linker.
++
+ @cindex Libraries
+ @item -l@var{library}
+ @itemx -l @var{library}
+diff -Naur gcc-8.3.0.orig/gcc/opts.c gcc-8.3.0/gcc/opts.c
+--- gcc-8.3.0.orig/gcc/opts.c	2019-04-07 12:54:51.303875185 -0600
++++ gcc-8.3.0/gcc/opts.c	2019-04-07 12:56:33.016666013 -0600
+@@ -2481,6 +2481,7 @@
+ 
+     case OPT_fuse_ld_bfd:
+     case OPT_fuse_ld_gold:
++    case OPT_fuse_ld_lld:
+     case OPT_fuse_linker_plugin:
+       /* No-op. Used by the driver and passed to us because it starts with f.*/
+       break;
