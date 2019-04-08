@@ -294,6 +294,7 @@ if [ ! -f .patched ]; then
 	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.3.0-specs-1.patch
 	patch -p1 < gcc-7.3.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
+	patch -p1 < $PATCHES/gcc/lld.patch
 	touch .patched
 fi
 
@@ -367,6 +368,257 @@ fi
 
 if [ ! -f $DEST/bin/$DESTARCH-linux-g++ ]; then
 	ln -s g++ $DEST/bin/$DESTARCH-linux-g++
+fi
+
+######### ###################################################################
+# NINJA # ###################################################################
+######### ###################################################################
+
+NINJA_VERSION=1.9.0
+
+cd $SRC/ninja
+
+if [ ! -f .extracted ]; then
+	rm -rf ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
+	cp -r ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	touch .extracted
+fi
+
+cd ninja-${NINJA_VERSION}-native
+
+if [ ! -f .built-native ]; then
+	python ./configure.py --bootstrap
+	touch .built-native
+fi
+
+cd ../ninja-${NINJA_VERSION}
+
+if [ ! -f .configured ]; then
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$PATH \
+	CXX=$DESTARCH-linux-g++ \
+	AR=$DESTARCH-linux-ar \
+	LDFLAGS="-static $LDFLAGS" \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure.py
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$PATH \
+	ninja
+	touch .built
+fi
+
+if [ ! -f $DEST/bin/ninja ]; then
+	cp ninja $DEST/bin/
+fi
+
+######### ###################################################################
+# CMAKE # ###################################################################
+######### ###################################################################
+
+CMAKE_VERSION=3.13.4
+
+cd $SRC/cmake
+
+if [ ! -f .extracted ]; then
+	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
+	cp -r cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	touch .extracted
+fi
+
+cd cmake-${CMAKE_VERSION}-native
+
+if [ ! -f .built-native ]; then
+	./configure \
+	--prefix=$SRC/cmake/cmake-${CMAKE_VERSION}-native
+	$MAKE
+	make install
+	touch .built-native
+fi
+
+cd ../cmake-${CMAKE_VERSION}
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/cmake/cmake.patch
+	touch .patched
+fi
+
+if [ ! -f .configured ]; then
+	PATH=$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DOPENSSL_ROOT_DIR=$DEST \
+	-DOPENSSL_LIBRARIES=$DEST/lib \
+	./
+	touch .configured
+fi
+
+if [ ! -f .edit_sed ]; then
+	sed -i '/cmake_install/s/bin\/cmake/\/usr\/bin\/cmake/g' Makefile
+	touch .edit_sed
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+######## ####################################################################
+# LLVM # ####################################################################
+######## ####################################################################
+
+if [ "$DESTARCH" == "arm" ];then
+
+LLVM_VERSION=8.0.0
+
+cd $SRC/llvm
+
+if [ ! -f .extracted ]; then
+	find . -type d -name "llvm*" -exec rm -rf {} +
+	tar xvJf llvm-project.tar.xz
+	cp -r llvm-project llvm-project_host
+	touch .extracted
+fi
+
+cd llvm-project_host
+
+if [ ! -f .built-native ]; then
+	mkdir -p build && cd build
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	cmake \
+	-GNinja \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DLLVM_ENABLE_PROJECTS="clang" \
+	-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1 \
+	../llvm/
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	ninja llvm-tblgen clang-tblgen
+	touch ../.built-native
+fi
+
+if [ "$DESTARCH" == "mipsel" ];then
+	TARGETS_TO_BUILD="Mips"
+	LLVM_TARGET_ARCH="Mips"
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	TARGETS_TO_BUILD="ARM;Mips"
+	LLVM_TARGET_ARCH="ARM"
+	MFLOAT="-mfloat-abi=soft"
+fi
+
+cd $SRC/llvm/llvm-project
+
+if [ ! -f .patched ]; then
+	cp $PATCHES/llvm/dynamic-linker.patch .
+	sed -i 's,mmc,'"${PREFIX#"/"}"',g' dynamic-linker.patch
+	patch -p1 < dynamic-linker.patch
+	touch .patched
+fi
+
+mkdir -p build
+
+if [ ! -f .configured ]; then
+	cd build
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	cmake \
+	-GNinja \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_CROSSCOMPILING=True \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
+	-DLLVM_ENABLE_FFI=ON \
+	-DFFI_INCLUDE_DIR="$DEST/lib/libffi-3.2.1/include" \
+	-DFFI_LIBRARY_DIR=$DEST/lib \
+	-DLLVM_BUILD_LLVM_DYLIB=ON \
+	-DLLVM_LINK_LLVM_DYLIB=ON \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CFLAGS $MFLOAT" \
+	-DCMAKE_CXX_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CXXFLAGS $MFLOAT" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DCMAKE_SHARED_LINKER_FLAGS="$LDFLAGS" \
+	-DLLVM_ENABLE_PROJECTS="clang;lld" \
+	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
+	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
+	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/llvm-tblgen" \
+	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/clang-tblgen" \
+	../llvm
+	touch ../.configured
+fi
+
+cd $SRC/llvm/llvm-project/build
+
+if [ ! -f .built ]; then
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	ninja
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
+	DESTDIR=$BASE ninja install
+	touch .installed
+fi
+
+if [ ! -f .postinstalled ]; then
+	rm -f $DEST/bin/clang $DEST/bin/clang++
+	mkdir -p $DEST/bin/clang-bin
+	ln -sf ../clang-8 $DEST/bin/clang-bin/clang
+	ln -sf ../clang-8 $DEST/bin/clang-bin/clang++
+	ln -sf llvm-ar $DEST/bin/clang-ar
+
+	if [ "$DESTARCH" = "arm" ]; then
+		GNUEABI=gnueabi
+	fi
+
+	echo '#!/bin/sh' > $DEST/bin/clang
+	echo '#!/bin/sh' > $DEST/bin/clang++
+	echo 'exec '"$PREFIX"'/bin/clang-bin/clang --sysroot='"$PREFIX"' --target='"$DESTARCH"'-linux-uclibc'"$GNUEABI"' -mfloat-abi=soft "$@"' >> $DEST/bin/clang
+	echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ --sysroot='"$PREFIX"' --target='"$DESTARCH"'-linux-uclibc'"$GNUEABI"' -mfloat-abi=soft "$@"' >> $DEST/bin/clang++
+	chmod +x $DEST/bin/clang $DEST/bin/clang++
+
+	if [ "$DESTARCH" = "arm" ]; then
+		ln -sf llvm-ar $DEST/bin/mipsel-linux-ar
+		ln -sf llvm-ranlib $DEST/bin/mipsel-linux-ranlib
+		ln -sf llvm-strip $DEST/bin/mipsel-linux-strip
+		ln -sf ld.lld $DEST/bin/mipsel-linux-link
+		ln -sf ld.lld $DEST/bin/mipsel-linux-ld
+
+		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
+		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang-bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
+		chmod +x $DEST/bin/clang-mipsel $DEST/bin/clang++-mipsel
+
+		echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
+		echo 'export PKG_CONFIG_DIR=' >> $DEST/bin/mipsel-linux-pkg-config
+		echo 'export PKG_CONFIG_LIBDIR='"$PREFIX"'/mipsel'"$PREFIX"'/lib/pkgconfig' >> $DEST/bin/mipsel-linux-pkg-config
+		echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
+		echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
+		chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
+	fi
+
+	touch .postinstalled
+fi
+
 fi
 
 ############ ################################################################
@@ -771,70 +1023,6 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
-######### ###################################################################
-# CMAKE # ###################################################################
-######### ###################################################################
-
-CMAKE_VERSION=3.13.4
-
-cd $SRC/cmake
-
-if [ ! -f .extracted ]; then
-	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
-	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
-	cp -r cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
-	touch .extracted
-fi
-
-cd cmake-${CMAKE_VERSION}-native
-
-if [ ! -f .built-native ]; then
-	./configure \
-	--prefix=$SRC/cmake/cmake-${CMAKE_VERSION}-native
-	$MAKE
-	make install
-	touch .built-native
-fi
-
-cd ../cmake-${CMAKE_VERSION}
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/cmake/cmake.patch
-	touch .patched
-fi
-
-if [ ! -f .configured ]; then
-	PATH=$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
-	cmake \
-	-DCMAKE_INSTALL_PREFIX=$PREFIX \
-	-DCMAKE_INCLUDE_PATH=$DEST/include \
-	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
-	-DCMAKE_C_FLAGS="$CFLAGS" \
-	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
-	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
-	-DOPENSSL_ROOT_DIR=$DEST \
-	-DOPENSSL_LIBRARIES=$DEST/lib \
-	./
-	touch .configured
-fi
-
-if [ ! -f .edit_sed ]; then
-	sed -i '/cmake_install/s/bin\/cmake/\/usr\/bin\/cmake/g' Makefile
-	touch .edit_sed
 fi
 
 if [ ! -f .built ]; then
