@@ -397,8 +397,8 @@ cd $SRC/tz
 if [ ! -f .extracted ]; then
 	rm -rf tz tz-native
 	mkdir tz
-	tar zxvf tzcode2018i.tar.gz -C ./tz
-	tar zxvf tzdata2018i.tar.gz -C ./tz
+	tar zxvf tzcode2019a.tar.gz -C ./tz
+	tar zxvf tzdata2019a.tar.gz -C ./tz
 	cp -r tz tz-native
         touch .extracted
 fi
