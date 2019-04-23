@@ -444,6 +444,9 @@ cd ../cmake-${CMAKE_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
+	if [ "$DESTARCH" == "mipsel" ];then
+		patch -p1 < $PATCHES/cmake/epoll_create1.patch
+	fi
 	touch .patched
 fi
 
@@ -460,6 +463,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DOPENSSL_ROOT_DIR=$DEST \
 	-DOPENSSL_LIBRARIES=$DEST/lib \
+	-DCURSES_INCLUDE_PATH=$DEST/include \
+	-DCURSES_CURSES_LIBRARY=$DEST/lib/libcurses.so \
 	./
 	touch .configured
 fi
