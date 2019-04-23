@@ -1,0 +1,24 @@
+diff -Naur cmake-3.14.3_orig/Utilities/cmlibuv/src/unix/linux-core.c cmake-3.14.3/Utilities/cmlibuv/src/unix/linux-core.c
+--- cmake-3.14.3_orig/Utilities/cmlibuv/src/unix/linux-core.c	2019-04-23 11:50:41.149168697 -0600
++++ cmake-3.14.3/Utilities/cmlibuv/src/unix/linux-core.c	2019-04-23 11:51:57.901939168 -0600
+@@ -85,17 +85,17 @@
+ int uv__platform_loop_init(uv_loop_t* loop) {
+   int fd;
+ 
+-  fd = epoll_create1(EPOLL_CLOEXEC);
++//  fd = epoll_create1(EPOLL_CLOEXEC);
+ 
+   /* epoll_create1() can fail either because it's not implemented (old kernel)
+    * or because it doesn't understand the EPOLL_CLOEXEC flag.
+    */
+-  if (fd == -1 && (errno == ENOSYS || errno == EINVAL)) {
++//  if (fd == -1 && (errno == ENOSYS || errno == EINVAL)) {
+     fd = epoll_create(256);
+ 
+     if (fd != -1)
+       uv__cloexec(fd, 1);
+-  }
++//  }
+ 
+   loop->backend_fd = fd;
+   loop->inotify_fd = -1;
