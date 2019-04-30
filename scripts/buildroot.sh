@@ -604,6 +604,10 @@ if [ ! -f .postinstalled ]; then
 		ln -sf llvm-ar $DEST/bin/mipsel-linux-ar
 		ln -sf llvm-ranlib $DEST/bin/mipsel-linux-ranlib
 		ln -sf llvm-strip $DEST/bin/mipsel-linux-strip
+		ln -sf llvm-as $DEST/bin/mipsel-linux-as
+		ln -sf llvm-nm $DEST/bin/mipsel-linux-nm
+		ln -sf llvm-objcopy $DEST/bin/mipsel-linux-objcopy
+		ln -sf llvm-objdump $DEST/bin/mipsel-linux-objdump
 		ln -sf ld.lld $DEST/bin/mipsel-linux-link
 		ln -sf ld.lld $DEST/bin/mipsel-linux-ld
 
