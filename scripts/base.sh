@@ -488,6 +488,8 @@ fi
 ########### #################################################################
 
 NCURSES_VERSION=6.1
+M=${NCURSES_VERSION%.*}
+m=${NCURSES_VERSION#*.}
 
 cd $SRC/ncurses
 
@@ -528,8 +530,8 @@ fi
 if [ ! -f .linked ]; then
 	ln -sf libncursesw.a $DEST/lib/libncurses.a
 	ln -sf libncursesw.so $DEST/lib/libncurses.so
-	ln -sf libncursesw.so.6 $DEST/lib/libncurses.so.6
-	ln -sf libncursesw.so.6.0 $DEST/lib/libncurses.so.6.0
+	ln -sf libncursesw.so.$M $DEST/lib/libncurses.so.$M
+	ln -sf libncursesw.so.$M.$m $DEST/lib/libncurses.so.$M.$m
 	ln -sf libncurses++w.a $DEST/lib/libncurses++.a
 	ln -sf libncursesw_g.a $DEST/lib/libncurses_g.a
 	ln -sf libncursesw.a $DEST/lib/libcurses.a
