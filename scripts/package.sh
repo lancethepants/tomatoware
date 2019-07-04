@@ -6,6 +6,7 @@ set -x
 BASE=`pwd`
 DEST=$BASE$PREFIX
 SRC=$BASE/src
+GCCVER="9.1.0"
 
 if [ -f $BASE/.packaged ]; then
 exit
@@ -32,22 +33,22 @@ ln -sf ../usr/lib/crt1.o $DEST/lib/
 ln -sf ../usr/lib/crti.o $DEST/lib/
 ln -sf ../usr/lib/crtn.o $DEST/lib/
 ln -sf ../usr/lib/Scrt1.o $DEST/lib/
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbegin.o $DEST/usr/lib/
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbeginS.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtbeginT.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtend.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtendS.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/crtfastmath.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtbegin.o $DEST/usr/lib/
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtbeginS.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtbeginT.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtend.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtendS.o $DEST/usr/lib
+ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/crtfastmath.o $DEST/usr/lib
 
-ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6.0.25
-ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so.6
-ln -sf ../usr/lib/libstdc++.so.6.0.25 $DEST/lib/libstdc++.so
-ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/libgcc_eh.a $DEST/lib
-ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/libgcc.a $DEST/lib
+ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so.6.0.26
+ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so.6
+ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so
+ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/libgcc_eh.a $DEST/lib
+ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/libgcc.a $DEST/lib
 
 mkdir -p $DEST/usr/local
-ln -s ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/ $DEST/usr/local/include
-cp -r $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/$DESTARCH-buildroot-linux-uclibc$GNUEABI/bits/ $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/8.3.0/include/c++/
+ln -s ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/include/c++/ $DEST/usr/local/include
+cp -r $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/include/c++/$DESTARCH-buildroot-linux-uclibc$GNUEABI/bits/ $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCCVER/include/c++/
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.

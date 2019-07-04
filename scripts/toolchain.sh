@@ -7,9 +7,9 @@ export BASE=`pwd`
 export SRC=$BASE/src
 export PATCHES=$BASE/patches
 
-GCCVER="8.3.0"
+GCCVER="9.1.0"
 UCLIBCVER="1.0.31"
-BUILDROOTVER="2019.02"
+BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 
 
@@ -44,8 +44,9 @@ then
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
 	echo "UCLIBC_HAS_FTS=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
-	echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
-
+	if [ "$DESTARCH" == "mipsel" ];then
+		echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
+	fi
 	sed -i 's,\/opt,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
 	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
