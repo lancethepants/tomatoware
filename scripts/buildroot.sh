@@ -229,7 +229,7 @@ fi
 # BINUTILS # ################################################################
 ############ ################################################################
 
-BINUTILS_VERSION=2.31.1
+BINUTILS_VERSION=2.32
 
 mkdir -p $SRC/binutils && cd $SRC/binutils
 
@@ -257,6 +257,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	../binutils-${BINUTILS_VERSION}/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
+	--enable-gold=yes \
 	--disable-werror \
 	--disable-nls
 	touch .configured
@@ -276,7 +277,7 @@ fi
 # GCC # #####################################################################
 ####### #####################################################################
 
-GCC_VERSION=8.3.0
+GCC_VERSION=9.1.0
 
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
@@ -290,11 +291,10 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-7.3.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-7.3.0-specs-1.patch
-	patch -p1 < gcc-7.3.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-9.1.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-9.1.0-specs-1.patch
+	patch -p1 < gcc-9.1.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
-	patch -p1 < $PATCHES/gcc/lld.patch
 	touch .patched
 fi
 
