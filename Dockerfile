@@ -22,6 +22,7 @@ RUN	apt-get update && \
 	locales \
 	pkg-config \
 	python \
+	rsync \
 	sudo \
 	texinfo \
 	unzip \
