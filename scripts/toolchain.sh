@@ -3,11 +3,8 @@
 set -e
 set -x
 
-export BASE=`pwd`
-export SRC=$BASE/src
-export PATCHES=$BASE/patches
+source ./scripts/environment.sh
 
-GCCVER="9.1.0"
 UCLIBCVER="1.0.31"
 BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
@@ -27,7 +24,7 @@ then
 	UCLIBCTEST=${UCLIBCTEST%.so}
 	GCCTEST="$($TOOLCHAINDIR/bin/$DESTARCH-linux-gcc -dumpversion)"
 
-	if [ "$GCCTEST" != "$GCCVER" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]
+	if [ "$GCCTEST" != "$GCC_VERSION" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]
 	then
 		echo "WARNING: Out of date toolchain detected. Please run \"make toolchain-clean\" and re-run to create new toolchain."
 		exit 1
