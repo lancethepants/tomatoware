@@ -3,17 +3,7 @@
 set -e
 set -x
 
-BASE=`pwd`
-SRC=$BASE/src
-PATCHES=$BASE/patches
-RPATH=$PREFIX/lib
-DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
-CPPFLAGS="-I$DEST/include"
-CFLAGS=$EXTRACFLAGS
-CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
-MAKE="make -j`nproc`"
+source ./scripts/environment.sh
 
 ######### ###################################################################
 # BZIP2 # ###################################################################
