@@ -14,3 +14,7 @@ MAKE="make -j`nproc`"
 export PATH=$BASE/native/bin:$PATH
 
 GCC_VERSION=9.1.0
+
+if [ "$DESTARCH" = "arm" ]; then
+        GNUEABI=gnueabi
+fi
