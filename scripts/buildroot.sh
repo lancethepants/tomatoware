@@ -3,17 +3,7 @@
 set -e
 set -x
 
-BASE=`pwd`
-SRC=$BASE/src
-PATCHES=$BASE/patches
-RPATH=$PREFIX/lib
-DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH -Wl,-rpath-link,$DEST/lib"
-CPPFLAGS="-I$DEST/include"
-CFLAGS=$EXTRACFLAGS
-CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
-MAKE="make -j`nproc`"
+source ./scripts/environment.sh
 
 ######## ####################################################################
 # GLIB # ####################################################################
@@ -379,23 +369,14 @@ NINJA_VERSION=1.9.0
 cd $SRC/ninja
 
 if [ ! -f .extracted ]; then
-	rm -rf ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	rm -rf ninja-${NINJA_VERSION}
 	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-	cp -r ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
 	touch .extracted
 fi
 
-cd ninja-${NINJA_VERSION}-native
-
-if [ ! -f .built-native ]; then
-	python ./configure.py --bootstrap
-	touch .built-native
-fi
-
-cd ../ninja-${NINJA_VERSION}
+cd ninja-${NINJA_VERSION}
 
 if [ ! -f .configured ]; then
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$PATH \
 	CXX=$DESTARCH-linux-g++ \
 	AR=$DESTARCH-linux-ar \
 	LDFLAGS="-static $LDFLAGS" \
@@ -406,7 +387,6 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$PATH \
 	ninja
 	touch .built
 fi
@@ -424,23 +404,12 @@ CMAKE_VERSION=3.14.4
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	rm -rf cmake-${CMAKE_VERSION}
 	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
-	cp -r cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
 	touch .extracted
 fi
 
-cd cmake-${CMAKE_VERSION}-native
-
-if [ ! -f .built-native ]; then
-	./configure \
-	--prefix=$SRC/cmake/cmake-${CMAKE_VERSION}-native
-	$MAKE
-	make install
-	touch .built-native
-fi
-
-cd ../cmake-${CMAKE_VERSION}
+cd cmake-${CMAKE_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
@@ -451,7 +420,6 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	PATH=$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
@@ -505,14 +473,12 @@ cd llvm-project_host
 
 if [ ! -f .built-native ]; then
 	mkdir -p build && cd build
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	cmake \
 	-GNinja \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DLLVM_ENABLE_PROJECTS="clang" \
 	-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1 \
 	../llvm/
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	ninja llvm-tblgen clang-tblgen
 	touch ../.built-native
 fi
@@ -541,7 +507,6 @@ mkdir -p build
 
 if [ ! -f .configured ]; then
 	cd build
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	cmake \
 	-GNinja \
 	-DCMAKE_BUILD_TYPE=Release \
@@ -572,13 +537,11 @@ fi
 cd $SRC/llvm/llvm-project/build
 
 if [ ! -f .built ]; then
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	ninja
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	PATH=$SRC/ninja/ninja-${NINJA_VERSION}-native:$SRC/cmake/cmake-${CMAKE_VERSION}-native/bin:$PATH \
 	DESTDIR=$BASE ninja install
 	touch .installed
 fi

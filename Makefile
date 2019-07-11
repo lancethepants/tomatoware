@@ -1,6 +1,7 @@
 include config.mk
 
 tomatoware:toolchain
+	./scripts/host-tools.sh
 	./scripts/base.sh
 	./scripts/buildroot.sh
 	./scripts/asterisk.sh
