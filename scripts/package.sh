@@ -10,8 +10,6 @@ exit
 fi
 
 if [ "$DESTARCH" = "arm" ]; then
-        GNUEABI=gnueabi
-
 	# copy golang build script for arm builds
 	mkdir -p $DEST/scripts
 	cp $SRC/golang/build_go.sh $DEST/scripts

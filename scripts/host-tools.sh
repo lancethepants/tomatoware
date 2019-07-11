@@ -35,12 +35,12 @@ if [ ! -f .symlinked ]; then
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-cc
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-g++
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc-9.1.0
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibcgnueabi-c++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibcgnueabi-cc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibcgnueabi-g++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibcgnueabi-gcc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibcgnueabi-gcc-9.1
+	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc-$GCC_VERSION
+	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-c++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-g++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc-$GCC_VERSION
 
 	ln -sf ccache $BASE/native/bin/cc
 	ln -sf ccache $BASE/native/bin/gcc
