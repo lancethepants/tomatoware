@@ -365,13 +365,13 @@ fi
 # EXPAT # ###################################################################
 ######### ###################################################################
 
-EXPAT_VERSION=2.2.6
+EXPAT_VERSION=2.2.7
 
 cd $SRC/expat
 
 if [ ! -f .extracted ]; then
 	rm -rf cd expat-${EXPAT_VERSION}
-	tar xvjf expat-${EXPAT_VERSION}.tar.bz2
+	tar xvJf expat-${EXPAT_VERSION}.tar.xz
 	touch .extracted
 fi
 
