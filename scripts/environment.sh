@@ -14,6 +14,8 @@ MAKE="make -j`nproc`"
 export PATH=$BASE/native/bin:$PATH
 
 GCC_VERSION=9.1.0
+NINJA_VERSION=1.9.0
+CMAKE_VERSION=3.14.4
 
 if [ "$DESTARCH" = "arm" ]; then
         GNUEABI=gnueabi
