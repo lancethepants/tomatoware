@@ -1862,6 +1862,11 @@ fi
 
 cd boost_${BOOST_VERSION}
 
+if [ ! -f .patched ]; then
+        patch -p1 < $PATCHES/boost/boost.patch
+        touch .patched
+fi
+
 if ! [[ -f .configured ]]; then
 	echo  "using gcc : $DESTARCH : $DESTARCH-linux-g++ ;" > $SRC/boost/user-config.jam
 	./bootstrap.sh
