@@ -346,16 +346,15 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f $DEST/bin/cc ]; then
-	ln -s gcc $DEST/bin/cc
-fi
-
-if [ ! -f $DEST/bin/$DESTARCH-linux-gcc ]; then
-	ln -s gcc $DEST/bin/$DESTARCH-linux-gcc
-fi
-
-if [ ! -f $DEST/bin/$DESTARCH-linux-g++ ]; then
-	ln -s g++ $DEST/bin/$DESTARCH-linux-g++
+if [ ! -f .symlinked ]; then
+	ln -sf gcc $DEST/bin/cc
+	ln -sf gcc $DEST/bin/$DESTARCH-linux-cc
+	ln -sf gcc $DEST/bin/$DESTARCH-linux-gcc
+	ln -sf gcc $DEST/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
+	ln -sf g++ $DEST/bin/c++
+	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
+	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
+        touch .symlinked
 fi
 
 ######### ###################################################################
@@ -585,6 +584,59 @@ if [ ! -f .postinstalled ]; then
 	touch .postinstalled
 fi
 
+fi
+
+########## ##################################################################
+# CCACHE # ##################################################################
+########## ##################################################################
+
+cd $SRC/ccache
+
+if [ ! -f .extracted ]; then
+        rm -rf ccache-${CCACHE_VERSION}
+        tar xvJf ccache-${CCACHE_VERSION}.tar.xz
+        touch .extracted
+fi
+
+cd ccache-${CCACHE_VERSION}
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        CXXFLAGS=$CXXFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
+
+if [ ! -f .symlinked ]; then
+	mkdir -p $DEST/bin/ccache_bin
+
+	ln -sf ../ccache $DEST/bin/ccache_bin/c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/clang
+	ln -sf ../ccache $DEST/bin/ccache_bin/clang++
+	touch .symlinked
 fi
 
 ############ ################################################################
