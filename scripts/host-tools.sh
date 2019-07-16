@@ -9,8 +9,6 @@ source ./scripts/environment.sh
 # CCACHE # ##################################################################
 ########## ##################################################################
 
-CCACHE_VERSION=3.7.1
-
 cd $SRC/ccache
 
 if [ ! -f .extracted-native ]; then
@@ -30,7 +28,7 @@ if [ ! -f .built-native ]; then
         touch .built-native
 fi
 
-if [ ! -f .symlinked ]; then
+if [ ! -f .symlinked-native ]; then
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-c++
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-cc
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-g++
@@ -46,7 +44,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf ccache $BASE/native/bin/gcc
 	ln -sf ccache $BASE/native/bin/c++
 	ln -sf ccache $BASE/native/bin/g++
-	touch .symlinked
+	touch .symlinked-native
 fi
 
 ######### ###################################################################
