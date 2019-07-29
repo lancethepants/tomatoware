@@ -9,6 +9,8 @@ if [ -f $BASE/.packaged ]; then
 exit
 fi
 
+if [ ! -f $BASE/.configured ]; then
+
 if [ "$DESTARCH" = "arm" ]; then
 	# copy golang build script for arm builds
 	mkdir -p $DEST/scripts
@@ -71,50 +73,18 @@ sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"'-'"$FLOAT"''"${PREFIX////-}"'\/usr\/bi
 cp $SRC/.autorun $DEST
 sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
 
-
 #Create $PREFIX/etc/profile
+cp $SRC/bash/profile $DEST/etc
+sed -i 's,\/mmc,'"$PREFIX"',g' $DEST/etc/profile
+
+#Create tmp directory
 mkdir -p $DEST/tmp
-cd $DEST/etc
+chmod 1777 $DEST/tmp/
 
-echo "#!/bin/sh" > profile
-echo "" >> profile
-echo "# Please note it's not a system-wide settings, it's only for a current" >> profile
-echo "# terminal session. Point your f\w (if necessery) to execute $PREFIX/etc/profile" >> profile
-echo "# at console logon." >> profile
-echo "" >> profile
-
-if [ $PREFIX = "/opt" ];
-then
-	echo "export PATH='/opt/usr/sbin:/opt/sbin:/opt/bin:/opt/bin/go/bin:/opt/go/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
-else
-	echo "export PATH='$PREFIX/sbin:$PREFIX/bin:$PREFIX/bin/go/bin:$PREFIX/go/bin:/opt/usr/sbin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'" >> profile
+touch $BASE/.configured
 fi
-
-echo "export TERM=xterm" >> profile
-echo "export TERMINFO=$PREFIX/share/terminfo" >> profile
-echo "export TMP=$PREFIX/tmp" >> profile
-echo "export TEMP=$PREFIX/tmp" >> profile
-echo "export TMPDIR=$PREFIX/tmp" >> profile
-echo "export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig" >> profile
-echo "export CONFIG_SHELL=$PREFIX/bin/bash" >> profile
-echo "export M4=$PREFIX/bin/m4" >> profile
-echo "export GOPATH=$PREFIX/go" >> profile
-echo "" >> profile
-echo "# An influential go environment variable for creating static binaries." >> profile
-echo "# Build static by default." >> profile
-echo "export CGO_ENABLED=0" >> profile
-echo "" >> profile
-echo "# You may define localization" >> profile
-echo "#export LANG='ru_RU.UTF-8'" >> profile
-echo "#export LC_ALL='ru_RU.UTF-8'" >> profile
-echo "" >> profile
-echo "alias ls='ls --color'" >> profile
-
-chmod +x profile
 
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
-chmod 1777 tmp/
-
 fakeroot-tcp tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ $SCRIPTS share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
