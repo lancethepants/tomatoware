@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Please note it's not a system-wide settings, it's only for a current
+# terminal session. Point your f\w (if necessery) to execute /mmc/etc/profile
+# at console logon.
+
+export PATH='/mmc/sbin:/mmc/bin:/mmc/bin/go/bin:/mmc/go/bin:/opt/usr/sbin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin'
+export TERM=xterm
+export TERMINFO=/mmc/share/terminfo
+export TMP=/mmc/tmp
+export TEMP=/mmc/tmp
+export TMPDIR=/mmc/tmp
+export PKG_CONFIG_LIBDIR=/mmc/lib/pkgconfig
+export CONFIG_SHELL=/mmc/bin/bash
+export M4=/mmc/bin/m4
+export GOPATH=/mmc/go
+
+# An influential go environment variable for creating static binaries.
+# Build static by default.
+export CGO_ENABLED=0
+
+# You may define localization
+#export LANG='ru_RU.UTF-8'
+#export LC_ALL='ru_RU.UTF-8'
+
+alias ls='ls --color'
