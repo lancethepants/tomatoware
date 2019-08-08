@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 BASE=`pwd`
 SRC=$BASE/src
 PATCHES=$BASE/patches
