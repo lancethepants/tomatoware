@@ -6,40 +6,80 @@ source ./scripts/environment.sh
 # GLIB # ####################################################################
 ######## ####################################################################
 
-GLIB_VERSION=2.26.1
+if [ "$DESTARCH" == "mipsel" ];then
+	GLIB_VERSION=2.26.1
+else
+	GLIB_VERSION=2.58.3
+fi
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
-cd $SRC/glib
+cd $SRC/glib2
 
 if [ ! -f .extracted ]; then
 	rm -rf glib-${GLIB_VERSION}
-	tar zxvf glib-${GLIB_VERSION}.tar.gz
+	if [ "$DESTARCH" == "mipsel" ];then
+		tar zxvf glib-${GLIB_VERSION}.tar.gz
+	else
+		tar xvJf glib-${GLIB_VERSION}.tar.xz
+	fi
 	touch .extracted
 fi
 
 cd glib-${GLIB_VERSION}
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/glib/001-automake-compat.patch
-	patch -p1 < $PATCHES/glib/002-missing-gthread-include.patch
-	patch < $PATCHES/glib/010-move-iconv-to-libs.patch
-	touch .patched
+	if [ "$DESTARCH" == "mipsel" ];then
+		patch < $PATCHES/glib2.mipsel/001-automake-compat.patch
+		patch -p1 < $PATCHES/glib2.mipsel/002-missing-gthread-include.patch
+		patch < $PATCHES/glib2.mipsel/010-move-iconv-to-libs.patch
+		touch .patched
+	else
+		patch -p1 < $PATCHES/glib2/000-CVE-2019-12450.patch
+		patch -p1 < $PATCHES/glib2/001-automake-compat.patch
+		patch -p1 < $PATCHES/glib2/002-fix-gthreadedresolver.patch
+		touch .patched
+	fi
 fi
 
 if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--with-libiconv=gnu  \
-	--enable-static \
-	glib_cv_stack_grows=no \
-	glib_cv_uscore=no \
-	ac_cv_func_posix_getpwuid_r=yes \
-	ac_cv_func_posix_getgrgid_r=yes
-	touch .configured
+	if [ "$DESTARCH" == "mipsel" ];then
+		LDFLAGS=$LDFLAGS \
+		CPPFLAGS=$CPPFLAGS \
+		CFLAGS=$CFLAGS \
+		CXXFLAGS=$CXXFLAGS \
+		$CONFIGURE \
+		--with-libiconv=gnu  \
+		--enable-static \
+		glib_cv_stack_grows=no \
+		glib_cv_uscore=no \
+		ac_cv_func_posix_getpwuid_r=yes \
+		ac_cv_func_posix_getgrgid_r=yes
+		touch .configured
+	else
+		autoreconf -f -i
+		LDFLAGS=$LDFLAGS \
+		CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
+		CFLAGS="-Wno-error=missing-include-dirs $CFLAGS" \
+		CXXFLAGS=$CXXFLAGS \
+		$CONFIGURE \
+		--enable-shared \
+		--enable-static \
+		--disable-debug \
+		--disable-selinux \
+		--disable-libmount \
+		--disable-fam \
+		--disable-man \
+		--with-libiconv=gnu \
+		--with-pcre=internal \
+		glib_cv_stack_grows=no \
+		glib_cv_uscore=no \
+		ac_cv_path_GLIB_GENMARSHAL=`which glib-genmarshal` \
+		ac_cv_func_mmap_fixed_mapped=yes \
+		c_cv_func_posix_getpwuid_r=yes \
+		ac_cv_func_posix_getgrgid_r=yes
+		touch .configured
+	fi
 fi
 
 if [ ! -f .built ]; then
