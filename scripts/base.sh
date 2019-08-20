@@ -184,6 +184,46 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######## ####################################################################
+# ZSTD # ####################################################################
+######## ####################################################################
+
+ZSTD_VERSION=1.4.3
+
+cd $SRC/zstd
+
+if [ ! -f .extracted ]; then
+	rm -rf zstd-${ZSTD_VERSION}
+	tar zxvf zstd-${ZSTD_VERSION}.tar.gz
+	touch .extracted
+fi
+
+cd zstd-${ZSTD_VERSION}
+
+if [ ! -f .built ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	PREFIX=$PREFIX \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	PREFIX=$PREFIX \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
