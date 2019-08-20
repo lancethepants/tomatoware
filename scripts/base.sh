@@ -109,6 +109,46 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+####### #####################################################################
+# LZ4 # #####################################################################
+####### #####################################################################
+
+LZ4_VERSION=1.9.1
+
+cd $SRC/lz4
+
+if [ ! -f .extracted ]; then
+        rm -rf lz4-${LZ4_VERSION}
+        tar zxvf lz4-${LZ4_VERSION}.tar.gz
+        touch .extracted
+fi
+
+cd lz4-${LZ4_VERSION}
+
+if [ ! -f .built ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	PREFIX=$PREFIX \
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        CXXFLAGS=$CXXFLAGS \
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	PREFIX=$PREFIX \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	make install DESTDIR=$BASE
+        touch .installed
+fi
+
 ############ ################################################################
 # XZ UTILS # ################################################################
 ############ ################################################################
