@@ -1626,3 +1626,40 @@ if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
 fi
+
+########## ##################################################################
+# MANDOC # ##################################################################
+########## ##################################################################
+
+MANDOC_VERSION=1.14.5
+
+cd $SRC/mandoc
+
+if [ ! -f .extracted ]; then
+	rm -rf mandoc-${MANDOC_VERSION}
+	tar zxvf mandoc-${MANDOC_VERSION}.tar.gz
+	cp $SRC/mandoc/config.h mandoc-${MANDOC_VERSION}
+	cp $SRC/mandoc/Makefile.local mandoc-${MANDOC_VERSION}
+	sed -i 's,mmc,'"${PREFIX#"/"}"',g' $SRC/mandoc/config.h
+	touch .extracted
+fi
+
+cd mandoc-${MANDOC_VERSION}
+
+if [ ! -f .built ]; then
+	DESTARCH=$DESTARCH
+	_PREFIX=$PREFIX \
+	_LDFLAGS=$LDFLAGS \
+	_CPPFLAGS=$CPPFLAGS \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	DESTARCH=$DESTARCH
+	_PREFIX=$PREFIX \
+	_LDFLAGS=$LDFLAGS \
+	_CPPFLAGS=$CPPFLAGS \
+	make install DESTDIR=$BASE
+	touch .installed
+fi
