@@ -224,6 +224,44 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+####### #####################################################################
+# LUA # #####################################################################
+####### #####################################################################
+
+LUA_VERSION=5.3.5
+
+cd $SRC/lua
+
+if [ ! -f .extracted ]; then
+	rm -rf lua-${LUA_VERSION}
+	tar zxvf lua-${LUA_VERSION}.tar.gz
+	touch .extracted
+fi
+
+cd lua-${LUA_VERSION}
+
+if [ ! -f .built ]; then
+	make \
+	linux \
+	CC=$DESTARCH-linux-gcc \
+	INSTALL_TOP=$BASE$PREFIX \
+	MYCFLAGS="$CFLAGS $CPPFLAGS" \
+	MYLDFLAGS="$LDFLAGS"
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make \
+	linux \
+	CC=$DESTARCH-linux-gcc \
+	INSTALL_TOP=$BASE$PREFIX \
+	MYCFLAGS="$CFLAGS $CPPFLAGS" \
+	MYLDFLAGS="$LDFLAGS" \
+	install \
+	DESTDIR=$BASE
+	touch .installed
+fi
+
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
