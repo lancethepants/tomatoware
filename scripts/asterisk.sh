@@ -101,6 +101,116 @@ if [ ! -f .edit_sed ]; then
 	touch .edit_sed
 fi
 
+################ ############################################################
+# LIBGPG-ERROR # ############################################################
+################ ############################################################
+
+LIBGPG_ERROR_VERSION=1.36
+
+cd $SRC/libgpg-error
+
+if [ ! -f .extracted ]; then
+	rm -rf libgpg-error-${LIBGPG_ERROR_VERSION} libgpg-error-${LIBGPG_ERROR_VERSION}_host
+	tar xvjf libgpg-error-${LIBGPG_ERROR_VERSION}.tar.bz2
+	cp -r libgpg-error-${LIBGPG_ERROR_VERSION} libgpg-error-${LIBGPG_ERROR_VERSION}_host
+	touch .extracted
+fi
+
+cd libgpg-error-${LIBGPG_ERROR_VERSION}_host
+
+if [ ! -f .built_host ]; then
+	./configure \
+	--prefix=$SRC/libgpg-error/libgpg-error-${LIBGPG_ERROR_VERSION}_host
+	$MAKE
+	make install
+	touch .built_host
+fi
+
+cd ../libgpg-error-${LIBGPG_ERROR_VERSION}
+
+if [ ! -f .patched ]; then
+#	patch -p1 < $PATCHES/libgpg-error/020-gawk5-support.patch
+	touch .patched
+fi
+
+if [ "$DESTARCH" == "mipsel" ]; then
+	os=mips-unknown-linux-gnu
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	os=arm-unknown-linux-gnueabi
+fi
+
+if [ ! -f .configured ]; then
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure --prefix=$PREFIX --host=$os \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .edit_sed ]; then
+	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g;
+		s,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
+	$DEST/lib/libgpg-error.la
+	touch .edit_sed
+fi
+
+############# ###############################################################
+# LIBGCRYPT # ###############################################################
+############# ###############################################################
+
+LIBGCRYPT_VERSION=1.8.4
+
+cd $SRC/libgcrypt
+
+if [ ! -f .extracted ]; then
+	rm -rf libgcrypt-${LIBGCRYPT_VERSION}
+	tar xvjf libgcrypt-${LIBGCRYPT_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd libgcrypt-${LIBGCRYPT_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--with-gpg-error-prefix="$SRC/libgpg-error/libgpg-error-${LIBGPG_ERROR_VERSION}_host" \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ########### #################################################################
 # IKSEMEL # #################################################################
 ########### #################################################################
