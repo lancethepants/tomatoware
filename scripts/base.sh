@@ -2007,6 +2007,8 @@ if ! [[ -f .built ]]; then
 	-sZLIB_LIBPATH=$DEST/lib \
 	-sLZMA_INCLUDE=$DEST/include \
 	-sLZMA_LIBPATH=$DEST/lib \
+	-sZSTD_INCLUDE=$DEST/include \
+	-sZSTD_LIBPATH=$DEST/lib \
 	install \
 	|| true
 	touch .built
