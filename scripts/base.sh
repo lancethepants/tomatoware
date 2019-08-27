@@ -1430,6 +1430,7 @@ fi
 
 if [ ! -f .installed ]; then
 	make install DESTDIR=$DEST
+	cp $SRC/unrar/unrar.1 $DEST/man/man1
 	touch .installed
 fi
 
