@@ -425,6 +425,7 @@ fi
 
 if [ ! -f $DEST/bin/ninja ]; then
 	cp ninja $DEST/bin/
+	cp $SRC/ninja/ninja.1 $DEST/man/man1
 fi
 
 ######### ###################################################################
