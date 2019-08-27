@@ -1489,6 +1489,7 @@ if [ ! -f .installed ]; then
 	CURL_LDFLAGS=-lcurl \
 	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre" \
 	install DESTDIR=$BASE
+	tar xvJf $SRC/git/git-manpages-${GIT_VERSION}.tar.xz -C $DEST/man
 	touch .installed
 fi
 
