@@ -1533,6 +1533,7 @@ fi
 
 if [ ! -f .installed ]; then
 	cp ./src/upx.out $DEST/bin/upx
+	cp ./doc/upx.1 $DEST/man/man1
 	touch .installed
 fi
 
