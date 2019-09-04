@@ -34,9 +34,9 @@ ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/crten
 ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/crtendS.o $DEST/usr/lib
 ln -sf ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/crtfastmath.o $DEST/usr/lib
 
-ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so.6.0.26
-ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so.6
-ln -sf ../usr/lib/libstdc++.so.6.0.26 $DEST/lib/libstdc++.so
+ln -sf ../usr/lib/libstdc++.so.6.0.27 $DEST/lib/libstdc++.so.6.0.27
+ln -sf ../usr/lib/libstdc++.so.6.0.27 $DEST/lib/libstdc++.so.6
+ln -sf ../usr/lib/libstdc++.so.6.0.27 $DEST/lib/libstdc++.so
 ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc_eh.a $DEST/lib
 ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc.a $DEST/lib
 
