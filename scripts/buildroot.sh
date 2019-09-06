@@ -523,6 +523,7 @@ if [ "$DESTARCH" == "arm" ];then
 	TARGETS_TO_BUILD="ARM;Mips"
 	LLVM_TARGET_ARCH="ARM"
 	MFLOAT="-mfloat-abi=soft"
+	TARGET_TRIPLE="arm-unknown-linux-uclibcgnueabi"
 fi
 
 cd $SRC/llvm/llvm-project
@@ -540,26 +541,29 @@ if [ ! -f .configured ]; then
 	cd build
 	cmake \
 	-GNinja \
+	-DDEFAULT_SYSROOT=$PREFIX \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_CROSSCOMPILING=True \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DLLVM_ENABLE_FFI=ON \
-	-DFFI_INCLUDE_DIR="$DEST/lib/libffi-3.2.1/include" \
-	-DFFI_LIBRARY_DIR=$DEST/lib \
-	-DLLVM_BUILD_LLVM_DYLIB=ON \
-	-DLLVM_LINK_LLVM_DYLIB=ON \
 	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
 	-DCMAKE_C_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CFLAGS $MFLOAT" \
 	-DCMAKE_CXX_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CXXFLAGS $MFLOAT" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DCMAKE_SHARED_LINKER_FLAGS="$LDFLAGS" \
+	-DFFI_INCLUDE_DIR="$DEST/lib/libffi-3.2.1/include" \
+	-DFFI_LIBRARY_DIR=$DEST/lib \
+	-DLLVM_ENABLE_FFI=ON \
+	-DLLVM_BUILD_LLVM_DYLIB=ON \
+	-DLLVM_LINK_LLVM_DYLIB=ON \
 	-DLLVM_ENABLE_PROJECTS="clang;lld" \
 	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
 	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
+	-DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
 	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/llvm-tblgen" \
+	-DCLANG_DEFAULT_LINKER="lld" \
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/clang-tblgen" \
 	../llvm
 	touch ../.configured
@@ -590,8 +594,8 @@ if [ ! -f .postinstalled ]; then
 
 	echo '#!/bin/sh' > $DEST/bin/clang
 	echo '#!/bin/sh' > $DEST/bin/clang++
-	echo 'exec '"$PREFIX"'/bin/clang-bin/clang --sysroot='"$PREFIX"' --target='"$DESTARCH"'-linux-uclibc'"$GNUEABI"' -mfloat-abi=soft "$@"' >> $DEST/bin/clang
-	echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ --sysroot='"$PREFIX"' --target='"$DESTARCH"'-linux-uclibc'"$GNUEABI"' -mfloat-abi=soft "$@"' >> $DEST/bin/clang++
+	echo 'exec '"$PREFIX"'/bin/clang-bin/clang -mfloat-abi=soft "$@"' >> $DEST/bin/clang
+	echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ -mfloat-abi=soft "$@"' >> $DEST/bin/clang++
 	chmod +x $DEST/bin/clang $DEST/bin/clang++
 
 	if [ "$DESTARCH" = "arm" ]; then
