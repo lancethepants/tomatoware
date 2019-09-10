@@ -24,6 +24,7 @@ RUN	apt-get update && \
 	python \
 	rsync \
 	sudo \
+	swig \
 	texinfo \
 	unzip \
 	vim \
