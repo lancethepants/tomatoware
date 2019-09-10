@@ -523,7 +523,8 @@ if [ "$DESTARCH" == "arm" ];then
 	TARGETS_TO_BUILD="ARM;Mips"
 	LLVM_TARGET_ARCH="ARM"
 	MFLOAT="-mfloat-abi=soft"
-	TARGET_TRIPLE="arm-unknown-linux-uclibcgnueabi"
+	HOST_TRIPLE="arm-unknown-linux"
+	TARGET_TRIPLE="arm-unknown-linux-gnueabi"
 fi
 
 cd $SRC/llvm/llvm-project
@@ -532,6 +533,7 @@ if [ ! -f .patched ]; then
 	cp $PATCHES/llvm/dynamic-linker.patch .
 	sed -i 's,mmc,'"${PREFIX#"/"}"',g' dynamic-linker.patch
 	patch -p1 < dynamic-linker.patch
+	patch -p1 < $PATCHES/llvm/001-llvm.patch
 	touch .patched
 fi
 
@@ -558,7 +560,9 @@ if [ ! -f .configured ]; then
 	-DLLVM_ENABLE_FFI=ON \
 	-DLLVM_BUILD_LLVM_DYLIB=ON \
 	-DLLVM_LINK_LLVM_DYLIB=ON \
-	-DLLVM_ENABLE_PROJECTS="clang;lld" \
+	-DLLVM_ENABLE_THREADS=ON \
+	-DLLVM_ENABLE_PROJECTS="clang;lld;lldb" \
+	-DLLVM_HOST_TRIPLE=$HOST_TRIPLE \
 	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
 	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
 	-DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
@@ -582,21 +586,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .postinstalled ]; then
-	rm -f $DEST/bin/clang $DEST/bin/clang++
-	mkdir -p $DEST/bin/clang-bin
-	ln -sf ../clang-8 $DEST/bin/clang-bin/clang
-	ln -sf ../clang-8 $DEST/bin/clang-bin/clang++
 	ln -sf llvm-ar $DEST/bin/clang-ar
-
-	if [ "$DESTARCH" = "arm" ]; then
-		GNUEABI=gnueabi
-	fi
-
-	echo '#!/bin/sh' > $DEST/bin/clang
-	echo '#!/bin/sh' > $DEST/bin/clang++
-	echo 'exec '"$PREFIX"'/bin/clang-bin/clang -mfloat-abi=soft "$@"' >> $DEST/bin/clang
-	echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ -mfloat-abi=soft "$@"' >> $DEST/bin/clang++
-	chmod +x $DEST/bin/clang $DEST/bin/clang++
 
 	if [ "$DESTARCH" = "arm" ]; then
 		ln -sf llvm-ar $DEST/bin/mipsel-linux-ar
@@ -611,8 +601,8 @@ if [ ! -f .postinstalled ]; then
 
 		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
 		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
-		echo 'exec '"$PREFIX"'/bin/clang-bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
-		echo 'exec '"$PREFIX"'/bin/clang-bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/clang++-mipsel
 
 		echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
