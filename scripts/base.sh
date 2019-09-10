@@ -604,6 +604,12 @@ if [ ! -f .linked ]; then
 	ln -sf libncursesw.a $DEST/lib/libcurses.a
 	ln -sf libncursesw.so $DEST/lib/libcurses.so
 	ln -sf libcurses.so $DEST/lib/libtinfo.so
+
+	ln -sf libpanelw.a $DEST/lib/libpanel.a
+	ln -sf libpanelw.so $DEST/lib/libpanel.so
+	ln -sf libpanelw.so.$M $DEST/lib/libnpanel.so.$M
+	ln -sf libpanelw.so.$M.$m $DEST/lib/libpanel.so.$M.$m
+	ln -sf libpanelw_g.a $DEST/lib/libpanel_g.a
 	touch .linked
 fi
 
@@ -1283,6 +1289,7 @@ if [ ! -f .configured ]; then
 	--host=$DESTARCH-linux \
 	--build=`uname -m`-linux-gnu \
 	--with-system-ffi \
+	--enable-shared \
 	--disable-pydoc \
 	--disable-test-modules \
 	--disable-nis \
@@ -1376,6 +1383,7 @@ if [ ! -f .configured ]; then
 	--build=`uname -m`-linux-gnu \
 	--with-openssl=$DEST \
 	--with-system-ffi \
+	--enable-shared \
 	--disable-pydoc \
 	--disable-test-modules \
 	--disable-nis \
@@ -2012,4 +2020,39 @@ if ! [[ -f .built ]]; then
 	install \
 	|| true
 	touch .built
+fi
+
+########### #################################################################
+# LIBEDIT # #################################################################
+########### #################################################################
+
+LIBEDIT_VERSION=20190324-3.1
+
+cd $SRC/libedit
+
+if [ ! -f .extracted ]; then
+	rm -rf libedit-${LIBEDIT_VERSION}
+	tar zxvf libedit-${LIBEDIT_VERSION}.tar.gz
+	touch .extracted
+fi
+
+cd libedit-${LIBEDIT_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
 fi
