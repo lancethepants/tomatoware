@@ -494,7 +494,7 @@ LLVM_VERSION=8.0.1
 cd $SRC/llvm
 
 if [ ! -f .extracted ]; then
-	find . -type d -name "llvm*" -exec rm -rf {} +
+	rm -rf llvm-project llvm-project_host
 	tar xvJf llvm-project.tar.xz
 	cp -r llvm-project llvm-project_host
 	touch .extracted
