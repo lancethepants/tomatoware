@@ -902,13 +902,13 @@ fi
 # FINDUTILS # ###############################################################
 ############# ###############################################################
 
-FINDUTILS_VERSION=4.6.0
+FINDUTILS_VERSION=4.7.0
 
 cd $SRC/findutils
 
 if [ ! -f .extracted ]; then
 	rm -rf findutils-${FINDUTILS_VERSION}
-	tar zxvf findutils-${FINDUTILS_VERSION}.tar.gz
+	tar xvJf findutils-${FINDUTILS_VERSION}.tar.xz
 	touch .extracted
 fi
 
