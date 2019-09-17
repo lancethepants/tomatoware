@@ -434,7 +434,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .installed_example ]; then
-	tar zxvf ../asterisk_gv.tgz -C $DEST/etc
+	make install samples DESTDIR=$BASE
 	mkdir -p $DEST/etc/config
 	cp ../asterisk.wanup $DEST/etc/config
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
