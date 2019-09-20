@@ -489,7 +489,7 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 
-LLVM_VERSION=8.0.1
+LLVM_VERSION=9.0.0
 
 cd $SRC/llvm
 
@@ -507,10 +507,11 @@ if [ ! -f .built-native ]; then
 	cmake \
 	-GNinja \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DLLVM_ENABLE_PROJECTS="clang" \
+	-DLLVM_ENABLE_PROJECTS="clang;lldb" \
+	-DLLDB_DISABLE_LIBEDIT=1 \
 	-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1 \
 	../llvm/
-	ninja llvm-tblgen clang-tblgen
+	ninja llvm-tblgen clang-tblgen lldb-tblgen
 	touch ../.built-native
 fi
 
@@ -569,6 +570,7 @@ if [ ! -f .configured ]; then
 	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/llvm-tblgen" \
 	-DCLANG_DEFAULT_LINKER="lld" \
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/clang-tblgen" \
+	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/lldb-tblgen" \
 	../llvm
 	touch ../.configured
 fi
