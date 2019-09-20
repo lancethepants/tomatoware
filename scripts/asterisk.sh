@@ -362,7 +362,7 @@ fi
 # ASTERISK # ################################################################
 ############ ################################################################
 
-ASTERISK_VERSION=13.20.0
+ASTERISK_VERSION=git
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -370,7 +370,7 @@ cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
 	rm -rf asterisk-${ASTERISK_VERSION}
-	tar zxvf asterisk-${ASTERISK_VERSION}.tar.gz
+	tar xvJf asterisk-${ASTERISK_VERSION}.tar.xz
 	touch .extracted
 fi
 
@@ -397,9 +397,11 @@ if [ ! -f .configured ]; then
 	CXXFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
 	./configure --prefix=$PREFIX --host=$os \
 	--without-sdl \
+	--without-lua \
 	--disable-xmldoc \
 	--with-externals-cache=$SRC/pjsip \
 	--with-pjproject-bundled \
+	--with-libedit=$DEST \
 	--with-libxml2=$DEST \
 	--with-mysqlclient=$DEST \
 	--with-crypto=$DEST \
@@ -412,6 +414,7 @@ if [ ! -f .configured ]; then
 	--with-sqlite3=$DEST \
 	--with-srtp=$DEST \
 	--with-ssl=$DEST \
+	--with-crypto=$DEST \
 	--with-z=$DEST
 
 	make menuselect.makeopts CC=cc CXX=g++ || true
@@ -422,9 +425,10 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	ASTLDFLAGS=$LDFLAGS \
+	ASTLDFLAGS="$LDFLAGS -lgnutls -lnettle" \
 	ASTCFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
-	$MAKE
+	$MAKE \
+	PJPROJECT_CONFIGURE_OPTS="--host=$os --with-ssl=$DEST"
 	touch .built
 fi
 
@@ -447,43 +451,43 @@ unset PKG_CONFIG_LIBDIR
 # ASTERISK CHAN_DONGLE # ####################################################
 ######################## ####################################################
 
-cd $SRC/asterisk
+#cd $SRC/asterisk
 
-if [ ! -f .extracted_chan_dongle ]; then
-	rm -rf asterisk-chan-dongle
-	tar zxvf asterisk-chan-dongle.tgz
-	touch .extracted_chan_dongle
-fi
+#if [ ! -f .extracted_chan_dongle ]; then
+#	rm -rf asterisk-chan-dongle
+#	tar zxvf asterisk-chan-dongle.tgz
+#	touch .extracted_chan_dongle
+#fi
 
-cd asterisk-chan-dongle
+#cd asterisk-chan-dongle
 
-if [ ! -f .pre-configured ]; then
-	patch < $PATCHES/asterisk/asterisk-chan-dongle.patch
-	./bootstrap
-	touch .pre-configured
-fi
+#if [ ! -f .pre-configured ]; then
+#	patch < $PATCHES/asterisk/asterisk-chan-dongle.patch
+#	./bootstrap
+#	touch .pre-configured
+#fi
 
-if [ ! -f .configured ]; then
-	DEST=$DEST \
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--with-asterisk=$DEST/include \
-	--with-astversion=${ASTERISK_VERSION}
-	touch .configured
-fi
+#if [ ! -f .configured ]; then
+#	DEST=$DEST \
+#	LDFLAGS=$LDFLAGS \
+#	CPPFLAGS=$CPPFLAGS \
+#	CFLAGS=$CFLAGS \
+#	CXXFLAGS=$CXXFLAGS \
+#	$CONFIGURE \
+#	--with-asterisk=$DEST/include \
+#	--with-astversion=${ASTERISK_VERSION}
+#	touch .configured
+#fi
 
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
+#if [ ! -f .built ]; then
+#	$MAKE
+#	touch .built
+#fi
 
-if [ ! -f .installed ]; then
-	make install
-	touch .installed
-fi
+#if [ ! -f .installed ]; then
+#	make install
+#	touch .installed
+#fi
 
 ###################### ######################################################
 # TIME ZONE DATABASE # ######################################################
