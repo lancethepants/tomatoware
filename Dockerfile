@@ -21,7 +21,7 @@ RUN	apt-get update && \
 	libxml2-dev \
 	locales \
 	pkg-config \
-	python \
+	python-dev \
 	rsync \
 	sudo \
 	swig \
