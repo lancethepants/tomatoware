@@ -1012,6 +1012,41 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+############ ################################################################
+# SLIBTOOL # ################################################################
+############ ################################################################
+
+SLIBTOOL_VERSION=0.5.28
+
+cd $SRC/slibtool
+
+if [ ! -f .extracted ]; then
+        rm -rf slibtool-${SLIBTOOL_VERSION}
+        tar xvJf slibtool-${SLIBTOOL_VERSION}.tar.xz
+        touch .extracted
+fi
+
+cd slibtool-${SLIBTOOL_VERSION}
+
+if [ ! -f .configured ]; then
+        LDFLAGS=$LDFLAGS \
+        CPPFLAGS=$CPPFLAGS \
+        CFLAGS=$CFLAGS \
+        CXXFLAGS=$CXXFLAGS \
+        $CONFIGURE
+        touch .configured
+fi
+
+if [ ! -f .built ]; then
+        $MAKE
+        touch .built
+fi
+
+if [ ! -f .installed ]; then
+        make install DESTDIR=$BASE
+        touch .installed
+fi
+
 ###### ######################################################################
 # M4 # ######################################################################
 ###### ######################################################################
