@@ -1,5 +1,6 @@
---- Makefile.orig	2014-03-02 17:54:05.883131863 -0700
-+++ Makefile	2014-03-02 17:54:53.580780745 -0700
+diff -Naur bzip2-1.0.8_orig/Makefile bzip2-1.0.8/Makefile
+--- bzip2-1.0.8_orig/Makefile	2019-10-14 14:03:29.990325593 -0600
++++ bzip2-1.0.8/Makefile	2019-10-14 14:03:40.054429724 -0600
 @@ -15,16 +15,15 @@
  SHELL=/bin/sh
  
@@ -36,11 +37,11 @@
  	chmod a+r $(PREFIX)/include/bzlib.h
  	cp -f libbz2.a $(PREFIX)/lib
  	chmod a+r $(PREFIX)/lib/libbz2.a
-+	cp -f libbz2.so.1.0.6 $(PREFIX)/lib
-+	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.6
-+	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1.0
-+	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so.1
-+	ln -s -f libbz2.so.1.0.6 $(PREFIX)/lib/libbz2.so
++	cp -f libbz2.so.1.0.8 $(PREFIX)/lib
++	chmod a+x $(PREFIX)/lib/libbz2.so.1.0.8
++	ln -s -f libbz2.so.1.0.8 $(PREFIX)/lib/libbz2.so.1.0
++	ln -s -f libbz2.so.1.0.8 $(PREFIX)/lib/libbz2.so.1
++	ln -s -f libbz2.so.1.0.8 $(PREFIX)/lib/libbz2.so
  	cp -f bzgrep $(PREFIX)/bin/bzgrep
 -	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
 -	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
