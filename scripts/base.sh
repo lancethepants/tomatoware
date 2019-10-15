@@ -6,7 +6,7 @@ source ./scripts/environment.sh
 # BZIP2 # ###################################################################
 ######### ###################################################################
 
-BZIP2_VERSION=1.0.6
+BZIP2_VERSION=1.0.8
 
 cd $SRC/bzip2
 
@@ -19,8 +19,8 @@ fi
 cd bzip2-${BZIP2_VERSION}
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/bzip2/bzip2.patch
-	patch < $PATCHES/bzip2/bzip2_so.patch
+	patch -p1 < $PATCHES/bzip2/bzip2.patch
+	patch -p1 < $PATCHES/bzip2/bzip2_so.patch
 	touch .patched
 fi
 
