@@ -1295,12 +1295,19 @@ fi
 
 cd tar-${TAR_VERSION}
 
+if [ "$DESTARCH" == "mipsel" ];then
+	tarextraconfig="gl_cv_func_working_utimes=yes
+			gl_cv_func_futimens_works=no
+			gl_cv_func_utimensat_works=no"
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	$tarextraconfig
 	touch .configured
 fi
 
