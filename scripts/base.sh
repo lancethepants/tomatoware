@@ -526,7 +526,7 @@ fi
 
 cd libffi-${LIBFFI_VERSION}
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
+if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
 	patch -p1 < $PATCHES/libffi/mips.softfloat.patch
 	touch .patched
 fi
