@@ -256,8 +256,6 @@ fi
 # BINUTILS # ################################################################
 ############ ################################################################
 
-BINUTILS_VERSION=2.32
-
 mkdir -p $SRC/binutils && cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
@@ -298,6 +296,67 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	touch .installed
+fi
+
+################## ##########################################################
+# BINUTILS-CROSS # ##########################################################
+################## ##########################################################
+
+if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+
+mkdir -p $SRC/binutils-cross && cd $SRC/binutils-cross
+
+if [ ! -f .extracted ]; then
+	rm -rf binutils-${BINUTILS_VERSION} build-binutils
+	tar xvJf $SRC/toolchain/dl/binutils/binutils-${BINUTILS_VERSION}.tar.xz -C $SRC/binutils-cross
+	mkdir build-binutils
+	touch .extracted
+fi
+
+cd build-binutils
+
+hostos=arm-buildroot-linux-uclibcgnueabi
+targetos=mipsel-buildroot-linux-uclibc
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	../binutils-${BINUTILS_VERSION}/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	--with-sysroot=$PREFIX/mipsel$PREFIX \
+	--enable-gold=yes \
+	--disable-werror \
+	--disable-nls
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .symlinked ]; then
+	ln -sf $PREFIX/mipsel$PREFIX/include $DEST/mipsel-buildroot-linux-uclibc/include
+	ln -sf mipsel-buildroot-linux-uclibc-ar $DEST/bin/mipsel-linux-ar
+	ln -sf mipsel-buildroot-linux-uclibc-as $DEST/bin/mipsel-linux-as
+	ln -sf mipsel-buildroot-linux-uclibc-ld $DEST/bin/mipsel-linux-ld
+	ln -sf mipsel-buildroot-linux-uclibc-ld.bfd $DEST/bin/mipsel-linux-ld.bfd
+	ln -sf mipsel-buildroot-linux-uclibc-ld.gold $DEST/bin/mipsel-linux-ld.gold
+	ln -sf mipsel-buildroot-linux-uclibc-nm $DEST/bin/mipsel-linux-nm
+	ln -sf mipsel-buildroot-linux-uclibc-objcopy $DEST/bin/mipsel-linux-objcopy
+	ln -sf mipsel-buildroot-linux-uclibc-objdump $DEST/bin/mipsel-linux-objdump
+	ln -sf mipsel-buildroot-linux-uclibc-ranlib $DEST/bin/mipsel-linux-ranlib
+	ln -sf mipsel-buildroot-linux-uclibc-readelf $DEST/bin/mipsel-linux-readelf
+	ln -sf mipsel-buildroot-linux-uclibc-strip $DEST/bin/mipsel-linux-strip
+	touch .symlinked
+fi
+
 fi
 
 ####### #####################################################################
@@ -392,6 +451,97 @@ if [ ! -f .symlinked ]; then
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
         touch .symlinked
+fi
+
+############# ###############################################################
+# GCC-CROSS # ###############################################################
+############# ###############################################################
+
+if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+
+mkdir -p $SRC/gcc-cross && cd $SRC/gcc-cross
+
+if [ ! -f .extracted ]; then
+	rm -rf gcc-${GCC_VERSION} gcc-build
+	tar xvJf $SRC/toolchain/dl/gcc/gcc-${GCC_VERSION}.tar.xz -C $SRC/gcc-cross
+	mkdir gcc-build
+	touch .extracted
+fi
+
+cd gcc-${GCC_VERSION}
+
+if [ ! -f .patched ]; then
+	cp $PATCHES/gcc/gcc-9.1.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-9.1.0-specs-1.patch
+	patch -p1 < gcc-9.1.0-specs-1.patch
+	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
+	touch .patched
+fi
+
+cd ../gcc-build
+
+hostos=arm-buildroot-linux-uclibcgnueabi
+targetos=mipsel-buildroot-linux-uclibc
+gccextraconfig="--with-abi=32
+		--with-arch=mips32"
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	../gcc-${GCC_VERSION}/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	--with-mpc-include=$DEST/include \
+	--with-mpc-lib=$DEST/lib \
+	--with-mpfr-include=$DEST/include \
+	--with-mpfr-lib=$DEST/lib \
+	--with-gmp-include=$DEST/include \
+	--with-gmp-lib=$DEST/lib \
+	--enable-languages=c,c++ \
+	--enable-shared \
+	--enable-static \
+	--enable-threads=posix \
+	--enable-tls \
+	--enable-version-specific-runtime-libs \
+	--with-float=soft \
+	--with-gnu-as \
+	--with-gnu-ld \
+	--disable-__cxa_atexit \
+	--disable-decimal-float \
+	--disable-libgomp \
+	--disable-libmudflap \
+	--disable-libsanitizer \
+	--disable-libssp \
+	--disable-libstdcxx-pch \
+	--disable-multilib \
+	--disable-nls \
+	--disable-werror \
+	--without-cloog \
+	--without-isl \
+	$gccextraconfig
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .symlinked ]; then
+	ln -sf mipsel-buildroot-linux-uclibc-gcc $DEST/bin/mipsel-linux-cc
+	ln -sf mipsel-buildroot-linux-uclibc-gcc $DEST/bin/mipsel-linux-gcc
+	ln -sf mipsel-buildroot-linux-uclibc-g++ $DEST/bin/mipsel-linux-c++
+	ln -sf mipsel-buildroot-linux-uclibc-g++ $DEST/bin/mipsel-linux-g++
+
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crt1.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crt1.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crti.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crti.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crtn.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crtn.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/Scrt1.o $DEST/mipsel-buildroot-linux-uclibc/lib/Scrt1.o
+	touch .symlinked
+fi
+
 fi
 
 ######### ###################################################################
@@ -591,15 +741,6 @@ if [ ! -f .postinstalled ]; then
 	ln -sf llvm-ar $DEST/bin/clang-ar
 
 	if [ "$DESTARCH" = "arm" ]; then
-		ln -sf llvm-ar $DEST/bin/mipsel-linux-ar
-		ln -sf llvm-ranlib $DEST/bin/mipsel-linux-ranlib
-		ln -sf llvm-strip $DEST/bin/mipsel-linux-strip
-		ln -sf llvm-as $DEST/bin/mipsel-linux-as
-		ln -sf llvm-nm $DEST/bin/mipsel-linux-nm
-		ln -sf llvm-objcopy $DEST/bin/mipsel-linux-objcopy
-		ln -sf llvm-objdump $DEST/bin/mipsel-linux-objdump
-		ln -sf ld.lld $DEST/bin/mipsel-linux-link
-		ln -sf ld.lld $DEST/bin/mipsel-linux-ld
 
 		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
 		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
