@@ -811,6 +811,18 @@ if [ ! -f .symlinked ]; then
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang++
+
+	if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-c++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-cc
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-g++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-gcc
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-c++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-cc
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-g++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-gcc
+	fi
 	touch .symlinked
 fi
 
