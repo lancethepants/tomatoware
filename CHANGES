@@ -1,4 +1,11 @@
-Rebase March 24, 2015
+2.0	November 7, 2019
+
+	gcc 9.2.0
+		Can now cross-compile mipsel target binaries on arm host
+	llvm 9.0.0 (arm only)
+		Can compile arm and mipsel targets
+	uclibc-ng 1.0.32
+	Most other libraries and utilies at latest versions
 
 1.3
 	Update uclibc-ng to 1.0.13
