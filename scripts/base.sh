@@ -1680,7 +1680,7 @@ fi
 # SCREEN # ##################################################################
 ########## ##################################################################
 
-SCREEN_VERSION=4.6.2
+SCREEN_VERSION=4.7.0
 
 cd $SRC/screen
 
@@ -1693,8 +1693,12 @@ fi
 cd screen-${SCREEN_VERSION}
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/screen/screen.patch
-	touch .patched
+	for file in $PATCHES/screen/*.patch
+	do
+		patch -p1 < "$file"
+	done
+	autoreconf
+        touch .patched
 fi
 
 if [ ! -f .configured ]; then
@@ -1702,7 +1706,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--enable-colors256
 	touch .configured
 fi
 
