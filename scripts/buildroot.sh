@@ -822,6 +822,8 @@ if [ ! -f .symlinked ]; then
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-cc
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-g++
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-gcc
+		ln -sf ../ccache $DEST/bin/ccache_bin/clang-mipsel
+		ln -sf ../ccache $DEST/bin/ccache_bin/clang++-mipsel
 	fi
 	touch .symlinked
 fi
