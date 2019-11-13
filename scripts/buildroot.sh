@@ -754,6 +754,8 @@ if [ ! -f .postinstalled ]; then
 		echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
 		echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
+
+		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-buildroot-linux-uclibc/bin/ld.lld
 	fi
 
 	touch .postinstalled
