@@ -607,9 +607,16 @@ if [ ! -f .linked ]; then
 
 	ln -sf libpanelw.a $DEST/lib/libpanel.a
 	ln -sf libpanelw.so $DEST/lib/libpanel.so
-	ln -sf libpanelw.so.$M $DEST/lib/libnpanel.so.$M
+	ln -sf libpanelw.so.$M $DEST/lib/libpanel.so.$M
 	ln -sf libpanelw.so.$M.$m $DEST/lib/libpanel.so.$M.$m
 	ln -sf libpanelw_g.a $DEST/lib/libpanel_g.a
+
+	ln -sf libmenuw.a $DEST/lib/libmenu.a
+	ln -sf libmenuw.so $DEST/lib/libmenu.so
+	ln -sf libmenuw.so.$M $DEST/lib/libmenu.so.$M
+	ln -sf libmenuw.so.$M.$m $DEST/lib/libmenu.so.$M.$m
+	ln -sf libmenuw_g.a $DEST/lib/libmenu_g.a
+
 	touch .linked
 fi
 
