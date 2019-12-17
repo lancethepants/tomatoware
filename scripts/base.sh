@@ -514,7 +514,7 @@ fi
 # LIBFFI # ##################################################################
 ########## ##################################################################
 
-LIBFFI_VERSION=3.2.1
+LIBFFI_VERSION=3.3
 
 cd $SRC/libffi
 
@@ -527,7 +527,9 @@ fi
 cd libffi-${LIBFFI_VERSION}
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
-	patch -p1 < $PATCHES/libffi/mips.softfloat.patch
+	patch -p1 < $PATCHES/libffi/0002-Fix-use-of-compact-eh-frames-on-MIPS.patch
+	patch -p1 < $PATCHES/libffi/0003-libffi-enable-hardfloat-in-the-MIPS-assembly-code.patch
+	autoreconf
 	touch .patched
 fi
 
