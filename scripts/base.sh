@@ -1988,13 +1988,13 @@ fi
 # BOOST  # ##################################################################
 ########## ##################################################################
 
-BOOST_VERSION=1_71_0
+BOOST_VERSION=1_72_0
 
 cd $SRC/boost
 
 if [ ! -f .extracted ]; then
 	rm -rf boost_${BOOST_VERSION} build
-	tar xvjf boost_${BOOST_VERSION}.tar.bz2
+	tar xvJf boost_${BOOST_VERSION}.tar.xz
 	mkdir -p $SRC/boost/build
 	touch .extracted
 fi
