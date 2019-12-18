@@ -9,20 +9,20 @@ source ./scripts/environment.sh
 cd $SRC/ccache
 
 if [ ! -f .extracted-native ]; then
-        rm -rf ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
-        tar xvJf ccache-${CCACHE_VERSION}.tar.xz
-        mv ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
-        touch .extracted-native
+	rm -rf ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
+	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
+	mv ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
+	touch .extracted-native
 fi
 
 cd ccache-${CCACHE_VERSION}-native
 
 if [ ! -f .built-native ]; then
-        ./configure \
-        --prefix=$BASE/native
-        $MAKE
-        make install
-        touch .built-native
+	./configure \
+	--prefix=$BASE/native
+	$MAKE
+	make install
+	touch .built-native
 fi
 
 if [ ! -f .symlinked-native ]; then
@@ -66,19 +66,19 @@ fi
 cd $SRC/ninja
 
 if [ ! -f .extracted-native ]; then
-        rm -rf ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
-        tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-        mv ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
-        touch .extracted-native
+	rm -rf ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
+	mv ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	touch .extracted-native
 fi
 
 cd ninja-${NINJA_VERSION}-native
 
 if [ ! -f .built-native ]; then
-        python ./configure.py --bootstrap
+	python ./configure.py --bootstrap
 	mkdir -p $BASE/native/bin
 	cp ninja $BASE/native/bin
-        touch .built-native
+	touch .built-native
 fi
 
 ######### ###################################################################
@@ -88,18 +88,20 @@ fi
 cd $SRC/cmake
 
 if [ ! -f .extracted-native ]; then
-        rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
-        tar zxvf cmake-${CMAKE_VERSION}.tar.gz
-        mv cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
-        touch .extracted-native
+	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
+	mv cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	touch .extracted-native
 fi
 
 cd cmake-${CMAKE_VERSION}-native
 
 if [ ! -f .built-native ]; then
-        ./configure \
-        --prefix=$BASE/native
-        $MAKE
-        make install
-        touch .built-native
+	./bootstrap \
+	--prefix=$BASE/native \
+	-- \
+	-DCMAKE_USE_OPENSSL=OFF
+	$MAKE
+	make install
+	touch .built-native
 fi
