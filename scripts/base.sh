@@ -1842,7 +1842,7 @@ if [ ! -f .extracted ]; then
 	touch .extracted
 fi
 
-cd vim81
+cd vim82
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
