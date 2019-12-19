@@ -362,7 +362,7 @@ fi
 # ASTERISK # ################################################################
 ############ ################################################################
 
-ASTERISK_VERSION=git
+ASTERISK_VERSION=17.0.1
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -370,7 +370,7 @@ cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
 	rm -rf asterisk-${ASTERISK_VERSION}
-	tar xvJf asterisk-${ASTERISK_VERSION}.tar.xz
+	tar zxvf asterisk-${ASTERISK_VERSION}.tar.gz
 	touch .extracted
 fi
 
