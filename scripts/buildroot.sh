@@ -394,6 +394,7 @@ if [ "$DESTARCH" == "mipsel" ]; then
 	os=mipsel-buildroot-linux-uclibc
 	gccextraconfig="--with-abi=32
 			--with-arch=mips32"
+	gcclangs="c,c++,go"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -401,6 +402,7 @@ if [ "$DESTARCH" == "arm" ];then
 	gccextraconfig="--with-abi=aapcs-linux
 			--with-cpu=cortex-a9
 			--with-mode=arm"
+	gcclangs="c,c++"
 fi
 
 if [ ! -f .configured ]; then
@@ -413,7 +415,7 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
-	--enable-languages=c,c++,go \
+	--enable-languages=$gcclangs \
 	--enable-shared \
 	--enable-static \
 	--enable-threads=posix \
