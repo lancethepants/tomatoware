@@ -6,7 +6,7 @@ export BASE=$BASE
 export SRC=$SRC
 
 UCLIBCVER="1.0.32"
-BUILDROOTVER="git"
+BUILDROOTVER="2019.11"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-$FLOAT${PREFIX////-}"
 
@@ -58,6 +58,7 @@ fi
 if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
+	patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
 	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers

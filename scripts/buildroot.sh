@@ -376,9 +376,15 @@ cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-9.1.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-9.1.0-specs-1.patch
+	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' \
+		gcc-9.1.0-specs-1.patch \
+		0005-add-tomatoware-certs-path.patch
+
 	patch -p1 < gcc-9.1.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
+	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
+	patch -p1 < 0005-add-tomatoware-certs-path.patch
 	touch .patched
 fi
 
@@ -407,16 +413,16 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
-	--enable-languages=c,c++ \
+	--enable-languages=c,c++,go \
 	--enable-shared \
 	--enable-static \
 	--enable-threads=posix \
 	--enable-tls \
+	--enable-__cxa_atexit \
 	--enable-version-specific-runtime-libs \
 	--with-float=soft \
 	--with-gnu-as \
 	--with-gnu-ld \
-	--disable-__cxa_atexit \
 	--disable-decimal-float \
 	--disable-libgomp \
 	--disable-libmudflap \
@@ -450,6 +456,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
+	ln -sf gccgo $DEST/bin/$DESTARCH-linux-gccgo
         touch .symlinked
 fi
 
@@ -500,11 +507,11 @@ if [ ! -f .configured ]; then
 	--enable-static \
 	--enable-threads=posix \
 	--enable-tls \
+	--enable-__cxa_atexit \
 	--enable-version-specific-runtime-libs \
 	--with-float=soft \
 	--with-gnu-as \
 	--with-gnu-ld \
-	--disable-__cxa_atexit \
 	--disable-decimal-float \
 	--disable-libgomp \
 	--disable-libmudflap \
