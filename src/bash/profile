@@ -20,7 +20,7 @@ export GOPATH=/mmc/go
 
 # An influential go environment variable for creating static binaries.
 # Build static by default.
-export CGO_ENABLED=0
+#export CGO_ENABLED=0
 
 # You may define localization
 #export LANG='ru_RU.UTF-8'

@@ -1,0 +1,51 @@
+diff -Naur buildroot-2019.11_orig/package/gcc/9.2.0/0004-fix-libgo-for-arm.patch buildroot-2019.11/package/gcc/9.2.0/0004-fix-libgo-for-arm.patch
+--- buildroot-2019.11_orig/package/gcc/9.2.0/0004-fix-libgo-for-arm.patch	1969-12-31 17:00:00.000000000 -0700
++++ buildroot-2019.11/package/gcc/9.2.0/0004-fix-libgo-for-arm.patch	2019-12-31 11:38:14.930688402 -0700
+@@ -0,0 +1,24 @@
++diff -Naur gcc-9.2.0_orig/libgo/configure gcc-9.2.0/libgo/configure
++--- gcc-9.2.0_orig/libgo/configure	2019-12-31 11:20:45.878759707 -0700
+++++ gcc-9.2.0/libgo/configure	2019-12-31 11:22:08.783702916 -0700
++@@ -13918,7 +13918,7 @@
++     GOARCH=arm
++     case ${host} in
++       arm*b*-*-*)
++-	GOARCH=armbe
+++	GOARCH=arm
++ 	;;
++     esac
++     ;;
++diff -Naur gcc-9.2.0_orig/libgo/configure.ac gcc-9.2.0/libgo/configure.ac
++--- gcc-9.2.0_orig/libgo/configure.ac	2019-12-31 11:20:45.878759707 -0700
+++++ gcc-9.2.0/libgo/configure.ac	2019-12-31 11:21:57.411573631 -0700
++@@ -243,7 +243,7 @@
++     GOARCH=arm
++     case ${host} in
++       arm*b*-*-*)
++-	GOARCH=armbe
+++	GOARCH=arm
++ 	;;
++     esac
++     ;;
+diff -Naur buildroot-2019.11_orig/package/gcc/gcc-final/gcc-final.mk buildroot-2019.11/package/gcc/gcc-final/gcc-final.mk
+--- buildroot-2019.11_orig/package/gcc/gcc-final/gcc-final.mk	2019-12-31 11:37:11.853949621 -0700
++++ buildroot-2019.11/package/gcc/gcc-final/gcc-final.mk	2019-12-31 11:39:31.443583466 -0700
+@@ -54,6 +54,7 @@
+ 
+ # Languages supported by the cross-compiler
+ GCC_FINAL_CROSS_LANGUAGES-y = c
++GCC_FINAL_CROSS_LANGUAGES-y += go
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_INSTALL_LIBSTDCPP) += c++
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_DLANG) += d
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_FORTRAN) += fortran
+diff -Naur buildroot-2019.11_orig/package/gcc/gcc.mk buildroot-2019.11/package/gcc/gcc.mk
+--- buildroot-2019.11_orig/package/gcc/gcc.mk	2019-12-31 11:37:11.853949621 -0700
++++ buildroot-2019.11/package/gcc/gcc.mk	2019-12-31 11:37:25.742112356 -0700
+@@ -59,7 +59,7 @@
+ endef
+ 
+ HOST_GCC_EXCLUDES = \
+-	libjava/* libgo/*
++	libjava/*
+ 
+ #
+ # Create 'build' directory and configure symlink

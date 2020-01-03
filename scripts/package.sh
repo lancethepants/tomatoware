@@ -40,6 +40,13 @@ ln -sf ../usr/lib/libstdc++.so.6.0.27 $DEST/lib/libstdc++.so
 ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc_eh.a $DEST/lib
 ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc.a $DEST/lib
 
+#go symlinks. Just for arm for now.
+if [ "$DESTARCH" = "arm" ]; then
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so.14.0.0
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so.14
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so
+fi
+
 mkdir -p $DEST/usr/local
 ln -s ../../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/ $DEST/usr/local/include
 cp -r $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-buildroot-linux-uclibc$GNUEABI/bits/ $DEST/lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/

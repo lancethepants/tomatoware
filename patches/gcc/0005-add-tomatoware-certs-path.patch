@@ -1,0 +1,11 @@
+diff -Naur gcc-9.2.0_orig/libgo/go/crypto/x509/root_unix.go gcc-9.2.0/libgo/go/crypto/x509/root_unix.go
+--- gcc-9.2.0_orig/libgo/go/crypto/x509/root_unix.go	2020-01-02 13:30:08.474273968 -0700
++++ gcc-9.2.0/libgo/go/crypto/x509/root_unix.go	2020-01-02 13:33:16.832231807 -0700
+@@ -20,6 +20,7 @@
+ 	"/etc/pki/tls/certs",           // Fedora/RHEL
+ 	"/etc/openssl/certs",           // NetBSD
+ 	"/var/ssl/certs",               // AIX
++	"/opt/ssl/certs",               // Tomatoware
+ }
+ 
+ const (
