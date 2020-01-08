@@ -648,18 +648,18 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 
-LLVM_VERSION=9.0.0
+LLVM_VERSION=9.0.1
 
 cd $SRC/llvm
 
 if [ ! -f .extracted ]; then
-	rm -rf llvm-project llvm-project_host
-	tar xvJf llvm-project.tar.xz
-	cp -r llvm-project llvm-project_host
+	rm -rf llvm-project-${LLVM_VERSION} llvm-project-${LLVM_VERSION}_host
+	tar xvJf llvm-project-${LLVM_VERSION}.tar.xz
+	cp -r llvm-project-${LLVM_VERSION} llvm-project-${LLVM_VERSION}_host
 	touch .extracted
 fi
 
-cd llvm-project_host
+cd llvm-project-${LLVM_VERSION}_host
 
 if [ ! -f .built-native ]; then
 	mkdir -p build && cd build
@@ -687,7 +687,7 @@ if [ "$DESTARCH" == "arm" ];then
 	TARGET_TRIPLE="arm-unknown-linux-gnueabi"
 fi
 
-cd $SRC/llvm/llvm-project
+cd $SRC/llvm/llvm-project-${LLVM_VERSION}
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/llvm/dynamic-linker.patch .
@@ -726,15 +726,15 @@ if [ ! -f .configured ]; then
 	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
 	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
 	-DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
-	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/llvm-tblgen" \
+	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/llvm-tblgen" \
 	-DCLANG_DEFAULT_LINKER="lld" \
-	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/clang-tblgen" \
-	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project_host/build/bin/lldb-tblgen" \
+	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/clang-tblgen" \
+	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/lldb-tblgen" \
 	../llvm
 	touch ../.configured
 fi
 
-cd $SRC/llvm/llvm-project/build
+cd $SRC/llvm/llvm-project-${LLVM_VERSION}/build
 
 if [ ! -f .built ]; then
 	ninja
