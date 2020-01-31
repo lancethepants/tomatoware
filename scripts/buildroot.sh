@@ -1257,13 +1257,13 @@ fi
 # MAKE # ####################################################################
 ######## ####################################################################
 
-MAKE_VERSION=4.2.1
+MAKE_VERSION=4.3
 
 cd $SRC/make
 
 if [ ! -f .extracted ]; then
 	rm -rf make-${MAKE_VERSION}
-	tar xvjf make-${MAKE_VERSION}.tar.bz2
+	tar zxvf make-${MAKE_VERSION}.tar.gz
 	touch .extracted
 fi
 
