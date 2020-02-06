@@ -298,6 +298,15 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .symlinked ]; then
+	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
+	do
+		ln -sf $link $DEST/bin/$DESTARCH-linux-$link
+		ln -sf $link $DEST/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-$link
+	done
+	touch .symlinked
+fi
+
 ################## ##########################################################
 # BINUTILS-CROSS # ##########################################################
 ################## ##########################################################
@@ -343,17 +352,11 @@ fi
 
 if [ ! -f .symlinked ]; then
 	ln -sf $PREFIX/mipsel$PREFIX/include $DEST/mipsel-buildroot-linux-uclibc/include
-	ln -sf mipsel-buildroot-linux-uclibc-ar $DEST/bin/mipsel-linux-ar
-	ln -sf mipsel-buildroot-linux-uclibc-as $DEST/bin/mipsel-linux-as
-	ln -sf mipsel-buildroot-linux-uclibc-ld $DEST/bin/mipsel-linux-ld
-	ln -sf mipsel-buildroot-linux-uclibc-ld.bfd $DEST/bin/mipsel-linux-ld.bfd
-	ln -sf mipsel-buildroot-linux-uclibc-ld.gold $DEST/bin/mipsel-linux-ld.gold
-	ln -sf mipsel-buildroot-linux-uclibc-nm $DEST/bin/mipsel-linux-nm
-	ln -sf mipsel-buildroot-linux-uclibc-objcopy $DEST/bin/mipsel-linux-objcopy
-	ln -sf mipsel-buildroot-linux-uclibc-objdump $DEST/bin/mipsel-linux-objdump
-	ln -sf mipsel-buildroot-linux-uclibc-ranlib $DEST/bin/mipsel-linux-ranlib
-	ln -sf mipsel-buildroot-linux-uclibc-readelf $DEST/bin/mipsel-linux-readelf
-	ln -sf mipsel-buildroot-linux-uclibc-strip $DEST/bin/mipsel-linux-strip
+
+	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
+	do
+		ln -sf mipsel-buildroot-linux-uclibc-$link $DEST/bin/mipsel-linux-$link
+	done
 	touch .symlinked
 fi
 
