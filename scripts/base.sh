@@ -1261,6 +1261,7 @@ if [ ! -f .built_native ]; then
 	LDFLAGS=" -Wl,--enable-new-dtags" \
 	./configure \
 	--prefix=$SRC/python/native \
+	--without-ensurepip \
 	--enable-static \
 	--without-cxx-main \
 	--disable-sqlite3 \
@@ -1297,6 +1298,7 @@ if [ ! -f .configured ]; then
 	--prefix=$PREFIX \
 	--host=$DESTARCH-linux \
 	--build=`uname -m`-linux-gnu \
+	--without-ensurepip \
 	--with-system-ffi \
 	--enable-shared \
 	--disable-pydoc \
@@ -1390,6 +1392,7 @@ if [ ! -f .configured ]; then
 	--prefix=$PREFIX \
 	--host=$DESTARCH-linux \
 	--build=`uname -m`-linux-gnu \
+	--without-ensurepip \
 	--with-openssl=$DEST \
 	--with-system-ffi \
 	--enable-shared \
