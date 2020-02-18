@@ -1295,7 +1295,11 @@ fi
 # UTIL-LINUX # ##############################################################
 ############## ##############################################################
 
-UTIL_LINUX_VERSION=2.35
+if [ "$DESTARCH" == "mipsel" ];then
+	UTIL_LINUX_VERSION=2.34
+else
+	UTIL_LINUX_VERSION=2.35
+fi
 
 cd $SRC/util-linux
 
