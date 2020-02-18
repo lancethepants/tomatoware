@@ -1,6 +1,6 @@
-diff -Naur asterisk-chan-dongle.orig/configure.ac asterisk-chan-dongle/configure.ac
---- asterisk-chan-dongle.orig/configure.ac	2017-12-29 12:45:31.679192831 -0700
-+++ asterisk-chan-dongle/configure.ac	2017-12-29 12:48:36.657061546 -0700
+diff -Naur asterisk-chan-dongle_orig/configure.ac asterisk-chan-dongle/configure.ac
+--- asterisk-chan-dongle_orig/configure.ac	2020-02-18 11:25:02.000000000 -0700
++++ asterisk-chan-dongle/configure.ac	2020-02-18 11:34:48.103120762 -0700
 @@ -21,7 +21,7 @@
  	[asterisk],
  	AS_HELP_STRING([--with-asterisk=path], [set asterisk headers location]),
@@ -8,27 +8,29 @@ diff -Naur asterisk-chan-dongle.orig/configure.ac asterisk-chan-dongle/configure
 -	[ with_asterisk="../include /usr/include /usr/local/include /opt/local/include" ]
 +	[ with_asterisk="$DEST/include" ]
  )
- 
- dnl  Required: asterisk version
-@@ -102,7 +102,7 @@
+ dnl  Set iconv headers patch
+ AC_ARG_WITH(
+@@ -109,7 +109,7 @@
  )
  
  AC_HEADER_FIND([asterisk.h], $with_asterisk)
--AC_HEADER_FIND([iconv.h], /usr/include /usr/local/include /opt/local/include)
+-AC_HEADER_FIND([iconv.h], $with_iconv)
 +AC_HEADER_FIND([iconv.h], $DEST/include)
  
  AC_DEFINE([ICONV_CONST],[], [Define to const if you has iconv() const declaration of input buffer])
  AC_MSG_CHECKING([for iconv use const inbuf])
-@@ -200,7 +200,7 @@
-     fi
-     ])
- 
--AC_CHECK_DESTDIR([/usr/lib/asterisk/modules /usr/local/lib/asterisk/modules /opt/local/lib/asterisk/modules])
+@@ -210,9 +210,7 @@
+ dnl This detection is kind of flaky. Don't rely on it. The module
+ dnl directory could be lib64 or x86_64-linux-gnu or even somewhere
+ dnl completely custom.
+-AC_CHECK_DESTDIR([ \
+-    /usr/lib/asterisk/modules /usr/lib64/asterisk/modules \
+-    /usr/local/lib/asterisk/modules /opt/local/lib/asterisk/modules])
 +AC_CHECK_DESTDIR([$DEST/lib/asterisk/modules])
  
  dnl Checks for library functions.
  AC_FUNC_MEMCMP
-@@ -212,7 +212,7 @@
+@@ -224,7 +222,7 @@
    CFLAGS="$CFLAGS -O0 -g"
    AC_DEFINE([__DEBUG__], [1], [Build with debugging])
  else
@@ -37,7 +39,7 @@ diff -Naur asterisk-chan-dongle.orig/configure.ac asterisk-chan-dongle/configure
  fi
  
  dnl Asterisk header files use lots of old style declarations, ignore those.
-@@ -230,7 +230,7 @@
+@@ -242,7 +240,7 @@
  
  case "$target_os" in
      linux*)
