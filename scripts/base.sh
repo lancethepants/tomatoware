@@ -891,6 +891,11 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .linked ]; then
+	ln -sf libxml2/libxml $DEST/include/libxml
+	touch .linked
+fi
+
 if [ ! -f .edit_sed ]; then
 	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
 	$DEST/lib/libxml2.la
@@ -920,12 +925,14 @@ fi
 cd libxslt-${LIBXSLT_VERSION}
 
 if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
+	LDFLAGS="$LDFLAGS -lxml2" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-libxml-src=$SRC/libxml2/libxml2-${LIBXML2_VERSION} \
+	--with-libxml-prefix=$DEST \
+	--with-libxml-include-prefix=$DEST \
+	--with-libxml-libs-prefix=$DEST \
 	--without-python \
 	--without-crypto
 	touch .configured
