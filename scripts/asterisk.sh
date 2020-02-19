@@ -392,9 +392,9 @@ fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
-	CFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
-	CXXFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
+	CPPFLAGS="$CPPFLAGS $CFLAGS" \
+	CFLAGS="$CPPFLAGS $CFLAGS" \
+	CXXFLAGS="$CPPFLAGS $CFLAGS" \
 	./configure --prefix=$PREFIX --host=$os \
 	--without-sdl \
 	--without-lua \
@@ -426,7 +426,7 @@ fi
 
 if [ ! -f .built ]; then
 	ASTLDFLAGS="$LDFLAGS -lgnutls -lnettle" \
-	ASTCFLAGS="-I$DEST/include/libxml2 $CPPFLAGS $CFLAGS" \
+	ASTCFLAGS="$CPPFLAGS $CFLAGS" \
 	$MAKE \
 	PJPROJECT_CONFIGURE_OPTS="--host=$os --with-ssl=$DEST"
 	touch .built
