@@ -59,7 +59,7 @@ if [ ! -f .configured ]; then
 	else
 		autoreconf -f -i
 		LDFLAGS=$LDFLAGS \
-		CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
+		CPPFLAGS=$CPPFLAGS \
 		CFLAGS="-Wno-error=missing-include-dirs $CFLAGS" \
 		CXXFLAGS=$CXXFLAGS \
 		$CONFIGURE \
@@ -714,11 +714,11 @@ if [ ! -f .configured ]; then
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
 	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
-	-DCMAKE_C_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CFLAGS $MFLOAT" \
-	-DCMAKE_CXX_FLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS $CXXFLAGS $MFLOAT" \
+	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS $MFLOAT" \
+	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS $MFLOAT" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DCMAKE_SHARED_LINKER_FLAGS="$LDFLAGS" \
-	-DFFI_INCLUDE_DIR="$DEST/lib/libffi-3.2.1/include" \
+	-DFFI_INCLUDE_DIR=$DEST/include \
 	-DFFI_LIBRARY_DIR=$DEST/lib \
 	-DLLVM_ENABLE_FFI=ON \
 	-DLLVM_BUILD_LLVM_DYLIB=ON \
