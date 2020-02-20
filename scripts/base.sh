@@ -1298,7 +1298,7 @@ cd ../Python-${PYTHON_VERSION}
 if [ ! -f .configured ]; then
 	PATH=$SRC/python/native/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
+	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
@@ -1392,7 +1392,7 @@ cd ../Python-${PYTHON3_VERSION}
 if [ ! -f .configured ]; then
 	PATH=$SRC/python3/native3/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="-I$DEST/lib/libffi-3.2.1/include $CPPFLAGS" \
+	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
