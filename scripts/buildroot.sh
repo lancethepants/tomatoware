@@ -1703,7 +1703,7 @@ unset PYTHON_CROSS
 ####### #####################################################################
 
 UCL_VERSION=1.03
-UPX_VERSION=3.96
+UPX_VERSION=3.94
 
 export UPX_UCLDIR=$SRC/upx/ucl-${UCL_VERSION}
 
