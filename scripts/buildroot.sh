@@ -686,8 +686,8 @@ if [ "$DESTARCH" == "arm" ];then
 	TARGETS_TO_BUILD="ARM;Mips"
 	LLVM_TARGET_ARCH="ARM"
 	MFLOAT="-mfloat-abi=soft"
-	HOST_TRIPLE="arm-unknown-linux"
-	TARGET_TRIPLE="arm-unknown-linux-gnueabi"
+	HOST_TRIPLE="armv7a-unknown-linux"
+	TARGET_TRIPLE="armv7a-unknown-linux-gnueabi"
 fi
 
 cd $SRC/llvm/llvm-project-${LLVM_VERSION}
@@ -697,6 +697,7 @@ if [ ! -f .patched ]; then
 	sed -i 's,mmc,'"${PREFIX#"/"}"',g' dynamic-linker.patch
 	patch -p1 < dynamic-linker.patch
 	patch -p1 < $PATCHES/llvm/001-llvm.patch
+	patch -p1 < $PATCHES/llvm/002-ARMv7-Default-SoftFloat.patch
 	touch .patched
 fi
 
