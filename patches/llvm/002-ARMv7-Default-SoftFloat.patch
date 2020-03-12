@@ -1,0 +1,12 @@
+diff -Naur llvm-project-9.0.1_orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp llvm-project-9.0.1/clang/lib/Driver/ToolChains/Arch/ARM.cpp
+--- llvm-project-9.0.1_orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2020-03-11 14:10:01.915050350 -0600
++++ llvm-project-9.0.1/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2020-03-11 14:10:30.867343656 -0600
+@@ -249,7 +249,7 @@
+       case llvm::Triple::MuslEABI:
+       case llvm::Triple::EABI:
+         // EABI is always AAPCS, and if it was not marked 'hard', it's softfp
+-        ABI = FloatABI::SoftFP;
++        ABI = FloatABI::Soft;
+         break;
+       case llvm::Triple::Android:
+         ABI = (SubArch >= 7) ? FloatABI::SoftFP : FloatABI::Soft;
