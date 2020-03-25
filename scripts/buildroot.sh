@@ -777,6 +777,63 @@ fi
 fi
 
 ########## ##################################################################
+# GOLANG # ##################################################################
+########## ##################################################################
+
+if [ "$DESTARCH" == "mipsel" ];then
+	GOLANG_VERSION=1.13.9
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	GOLANG_VERSION=1.14.1
+fi
+
+
+cd $SRC/golang
+
+if [ ! -f .extracted ]; then
+	rm -rf go go-*
+	tar xvJf go${GOLANG_VERSION}.linux-amd64.tar.xz
+	mv go go-native
+	tar zxvf go${GOLANG_VERSION}.src.tar.gz
+	touch .extracted
+fi
+
+cd go/src
+
+if [ ! -f .patched ]; then
+	sed -i 's,\/etc\/ssl\/certs\/ca-certificates.crt,'"$PREFIX"'\/ssl\/certs\/ca-certificates.crt,g' \
+	./crypto/x509/root_linux.go
+	touch .patched
+fi
+
+if [ ! -f .built ]; then
+
+	if [ "$DESTARCH" == "mipsel" ]; then
+		PATH=$SRC/golang/go-native/bin:$PATH \
+		GOOS=linux \
+		GOARCH=mipsle \
+		GOMIPS=softfloat \
+		./bootstrap.bash
+
+		tar xvjf $SRC/golang/go-linux-mipsle-bootstrap.tbz -C $DEST/bin
+		mv $DEST/bin/go-linux-mipsle-bootstrap $DEST/bin/go-bin
+	fi
+
+	if [ "$DESTARCH" == "arm" ]; then
+		PATH=$SRC/golang/go-native/bin:$PATH \
+		GOOS=linux \
+		GOARCH=arm \
+		GOARM=5 \
+		./bootstrap.bash
+
+		tar xvjf $SRC/golang/go-linux-arm-bootstrap.tbz -C $DEST/bin
+		mv $DEST/bin/go-linux-arm-bootstrap $DEST/bin/go-bin
+	fi
+	touch .built
+fi
+
+########## ##################################################################
 # CCACHE # ##################################################################
 ########## ##################################################################
 

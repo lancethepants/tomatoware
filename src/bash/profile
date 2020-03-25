@@ -4,7 +4,8 @@
 # terminal session. Point your f\w (if necessery) to execute /mmc/etc/profile
 # at console logon.
 
-PATH=/mmc/sbin:/mmc/bin:/mmc/bin/go/bin:/mmc/go/bin:/opt/usr/sbin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/mmc/sbin:/mmc/bin:/opt/usr/sbin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/mmc/bin/go-bin/bin:$PATH
 # PATH=/mmc/bin/ccache_bin:$PATH
 
 export PATH

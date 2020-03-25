@@ -430,12 +430,21 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f .certs_installed ]; then
+######### ###################################################################
+# CERTS # ###################################################################
+######### ###################################################################
+
+if [ ! -f $SRC/certs/.installed ]; then
+	rm -rf $DEST/ssl/certs
 	mkdir -p $DEST/ssl/certs
 	cd $DEST/ssl/certs
-	curl https://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+	curl -o $SRC/certs/cacert.pem --remote-name --time-cond $SRC/certs/cacert.pem https://curl.haxx.se/ca/cacert.pem
+	cp $SRC/certs/cacert.pem .
+	cat cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+	rm cacert.pem
 	c_rehash .
-	touch $SRC/curl/curl-${CURL_VERSION}/.certs_installed
+	cp $SRC/certs/cacert.pem ./ca-certificates.crt
+	touch $SRC/certs/.installed
 fi
 
 ######### ###################################################################
