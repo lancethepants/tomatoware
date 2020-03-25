@@ -8,14 +8,6 @@ fi
 
 if [ ! -f $BASE/.configured ]; then
 
-if [ "$DESTARCH" = "arm" ]; then
-	# copy golang build script for arm builds
-	mkdir -p $DEST/scripts
-	cp $SRC/golang/build_go.sh $DEST/scripts
-	sed -i 's,\/mmc,'"$PREFIX"',g' $DEST/scripts/build_go.sh
-	SCRIPTS=scripts
-fi
-
 #Copy lib and include files from toolchain for use in the deployment system.
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/lib $DEST
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/usr $DEST
@@ -91,5 +83,5 @@ fi
 #Create tarball of the compiled project.
 cd $BASE$PREFIX
 rm -f $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz
-fakeroot-tcp tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI $MIPSEL bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ $SCRIPTS share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+fakeroot-tcp tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-buildroot-linux-uclibc$GNUEABI $MIPSEL bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
