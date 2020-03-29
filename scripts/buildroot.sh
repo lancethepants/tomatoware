@@ -651,7 +651,7 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 
-LLVM_VERSION=9.0.1
+LLVM_VERSION=10.0.0
 
 cd $SRC/llvm
 
