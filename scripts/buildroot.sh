@@ -1063,8 +1063,7 @@ fi
 cd coreutils-${COREUTILS_VERSION}
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/coreutils/0001-fix-for-dummy-man-usage.patch
-	patch -p1 < $PATCHES/coreutils/002-fix_compile_with_uclibc.patch
+	patch -p1 < $PATCHES/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
 	autoreconf
 	touch .patched
 fi
