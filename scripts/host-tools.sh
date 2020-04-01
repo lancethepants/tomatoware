@@ -110,7 +110,7 @@ fi
 # HOST GCC # ################################################################
 ############ ################################################################
 
-if [ "$BUILDHOSTGCC" == "1" ] && [ ! -f /opt/tomatoware/`uname -m`/bin/cc ]; then
+if [ "$BUILDHOSTGCC" == "1" ] && [ ! -f /opt/tomatoware/x86_64/bin/cc ]; then
 
 	mkdir -p $SRC/gcc_host && cd $SRC/gcc_host
 
@@ -121,10 +121,13 @@ if [ "$BUILDHOSTGCC" == "1" ] && [ ! -f /opt/tomatoware/`uname -m`/bin/cc ]; the
 		cd gcc-${GCC_VERSION}
 		./contrib/download_prerequisites
 		cd ../gcc-build
-		../gcc-${GCC_VERSION}/configure --prefix=/opt/tomatoware/`uname -m` --enable-languages=c,c++
+		../gcc-${GCC_VERSION}/configure \
+			--prefix=/opt/tomatoware/x86_64 \
+			--enable-languages=c,c++ \
+			--disable-multilib
 		$MAKE
 		make install
-		ln -s gcc /opt/tomatoware/`uname -m`/bin/cc
+		ln -s gcc /opt/tomatoware/x86_64/bin/cc
 		touch .built
 	fi
 fi
