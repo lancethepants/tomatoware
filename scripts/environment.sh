@@ -26,3 +26,10 @@ if [ "$DESTARCH" = "arm" ]; then
 	GNUEABI=gnueabi
 	MIPSEL=mipsel-buildroot-linux-uclibc
 fi
+
+if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
+	GCCforClang="5.1.0"
+	if [ ! "$(printf '%s\n' "$GCCforClang" "$(g++ -dumpversion)" | sort -V | head -n1)" = "$GCCforClang" ]; then
+		BUILDHOSTGCC=1
+	fi
+fi

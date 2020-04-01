@@ -6,6 +6,8 @@ export DESTARCH ?= arm
 export PREFIX ?= /mmc
 #export PREFIX ?= /mnt
 
+# Only Supported For Arm
+export BUILDLLVM ?= 1
 export BUILDCROSSTOOLS ?= 1
 
 # Do Not Edit

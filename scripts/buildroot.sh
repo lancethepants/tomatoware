@@ -649,7 +649,7 @@ fi
 # LLVM # ####################################################################
 ######## ####################################################################
 
-if [ "$DESTARCH" == "arm" ];then
+if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
 LLVM_VERSION=10.0.0
 
@@ -665,16 +665,31 @@ fi
 cd llvm-project-${LLVM_VERSION}_host
 
 if [ ! -f .built-native ]; then
+
 	mkdir -p build && cd build
-	cmake \
-	-GNinja \
-	-DCMAKE_BUILD_TYPE=Release \
-	-DLLVM_ENABLE_PROJECTS="clang;lldb" \
-	-DLLDB_DISABLE_LIBEDIT=1 \
-	-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1 \
-	../llvm/
-	ninja llvm-tblgen clang-tblgen lldb-tblgen
-	touch ../.built-native
+
+	if [ "$BUILDHOSTGCC" == "1" ]; then
+		PATH=/opt/tomatoware/`uname -m`/bin:$PATH \
+		cmake \
+		-GNinja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
+		-DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,/opt/tomatoware/`uname -m`/lib64 -L/opt/tomatoware/`uname -m`/lib64" \
+		-DLLDB_ENABLE_LIBEDIT=OFF \
+		../llvm/
+		PATH=/opt/tomatoware/`uname -m`/bin:$PATH \
+		ninja llvm-tblgen clang-tblgen lldb-tblgen
+		touch ../.built-native
+	else
+		cmake \
+		-GNinja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
+		-DLLDB_ENABLE_LIBEDIT=OFF \
+		../llvm/
+		ninja llvm-tblgen clang-tblgen lldb-tblgen
+		touch ../.built-native
+	fi
 fi
 
 if [ "$DESTARCH" == "mipsel" ];then
@@ -722,6 +737,7 @@ if [ ! -f .configured ]; then
 	-DFFI_INCLUDE_DIR=$DEST/include \
 	-DFFI_LIBRARY_DIR=$DEST/lib \
 	-DLLVM_ENABLE_FFI=ON \
+	-DLLVM_ENABLE_LIBEDIT=ON \
 	-DLLVM_BUILD_LLVM_DYLIB=ON \
 	-DLLVM_LINK_LLVM_DYLIB=ON \
 	-DLLVM_ENABLE_THREADS=ON \
@@ -734,6 +750,7 @@ if [ ! -f .configured ]; then
 	-DCLANG_DEFAULT_LINKER="lld" \
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/clang-tblgen" \
 	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/lldb-tblgen" \
+	-DLLDB_ENABLE_LUA=OFF \
 	../llvm
 	touch ../.configured
 fi

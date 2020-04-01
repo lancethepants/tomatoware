@@ -105,3 +105,26 @@ if [ ! -f .built-native ]; then
 	make install
 	touch .built-native
 fi
+
+############ ################################################################
+# HOST GCC # ################################################################
+############ ################################################################
+
+if [ "$BUILDHOSTGCC" == "1" ] && [ ! -f /opt/tomatoware/`uname -m`/bin/cc ]; then
+
+	mkdir -p $SRC/gcc_host && cd $SRC/gcc_host
+
+	if [ ! -f .built ]; then
+		rm -rf gcc-${GCC_VERSION} gcc-build
+		tar xvJf $SRC/toolchain/dl/gcc/gcc-${GCC_VERSION}.tar.xz -C $SRC/gcc_host
+		mkdir gcc-build
+		cd gcc-${GCC_VERSION}
+		./contrib/download_prerequisites
+		cd ../gcc-build
+		../gcc-${GCC_VERSION}/configure --prefix=/opt/tomatoware/`uname -m` --enable-languages=c,c++
+		$MAKE
+		make install
+		ln -s gcc /opt/tomatoware/`uname -m`/bin/cc
+		touch .built
+	fi
+fi
