@@ -1313,7 +1313,7 @@ if [ ! -f .configured ]; then
 	./configure \
 	--prefix=$PREFIX \
 	--host=$DESTARCH-linux \
-	--build=`uname -m`-linux-gnu \
+	--build=x86_64-linux-gnu \
 	--without-ensurepip \
 	--with-system-ffi \
 	--enable-shared \
@@ -1407,7 +1407,7 @@ if [ ! -f .configured ]; then
 	./configure \
 	--prefix=$PREFIX \
 	--host=$DESTARCH-linux \
-	--build=`uname -m`-linux-gnu \
+	--build=x86_64-linux-gnu \
 	--without-ensurepip \
 	--with-openssl=$DEST \
 	--with-system-ffi \
