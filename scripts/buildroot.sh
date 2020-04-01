@@ -669,7 +669,7 @@ if [ ! -f .built-native ]; then
 	mkdir -p build && cd build
 
 	if [ "$BUILDHOSTGCC" == "1" ]; then
-		PATH=/opt/tomatoware/x86_64/bin:$PATH \
+		PATH=$BASE/native/bin:/opt/tomatoware/x86_64/bin:$ORIGINALPATH \
 		cmake \
 		-GNinja \
 		-DCMAKE_BUILD_TYPE=Release \
@@ -677,7 +677,7 @@ if [ ! -f .built-native ]; then
 		-DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,/opt/tomatoware/x86_64/lib64 -L/opt/tomatoware/x86_64/lib64" \
 		-DLLDB_ENABLE_LIBEDIT=OFF \
 		../llvm/
-		PATH=/opt/tomatoware/x86_64/bin:$PATH \
+		PATH=$BASE/native/bin:/opt/tomatoware/x86_64/bin:$ORIGINALPATH \
 		ninja llvm-tblgen clang-tblgen lldb-tblgen
 		touch ../.built-native
 	else
