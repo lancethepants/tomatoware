@@ -14,6 +14,7 @@ CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
 MAKE="make -j`nproc`"
+ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH
 
 BINUTILS_VERSION=2.32
