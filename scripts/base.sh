@@ -565,23 +565,43 @@ fi
 # NCURSES # #################################################################
 ########### #################################################################
 
-NCURSES_VERSION=6.1
+NCURSES_VERSION=6.2
 M=${NCURSES_VERSION%.*}
 m=${NCURSES_VERSION#*.}
 
 cd $SRC/ncurses
 
 if [ ! -f .extracted ]; then
-	rm -rf ncurses-${NCURSES_VERSION}
+	rm -rf ncurses-${NCURSES_VERSION} ncurses-${NCURSES_VERSION}-native
 	tar zxvf ncurses-${NCURSES_VERSION}.tar.gz
+	cp -r ncurses-${NCURSES_VERSION} ncurses-${NCURSES_VERSION}-native
 	touch .extracted
 fi
 
-cd ncurses-${NCURSES_VERSION}
+cd ncurses-${NCURSES_VERSION}-native
+
+if [ ! -f .built-native ]; then
+	./configure \
+	--prefix=$SRC/ncurses/ncurses-${NCURSES_VERSION}-native/install \
+	--without-cxx \
+	--without-cxx-binding \
+	--without-ada \
+	--without-debug \
+	--without-manpages \
+	--without-profile \
+	--without-tests \
+	--without-curses-h
+	$MAKE
+	make install
+	touch .built-native
+fi
+
+cd ../ncurses-${NCURSES_VERSION}
 
 if [ ! -f .configured ]; then
+	PATH=$SRC/ncurses/ncurses-${NCURSES_VERSION}-native/install/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="-P $CPPFLAGS" \
+	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
@@ -596,11 +616,13 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
+	PATH=$SRC/ncurses/ncurses-${NCURSES_VERSION}-native/install/bin:$PATH \
 	$MAKE
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
+	PATH=$SRC/ncurses/ncurses-${NCURSES_VERSION}-native/install/bin:$PATH \
 	make install DESTDIR=$BASE
 	touch .installed
 fi
