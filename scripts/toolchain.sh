@@ -6,7 +6,7 @@ export BASE=$BASE
 export SRC=$SRC
 
 UCLIBCVER="1.0.32"
-BUILDROOTVER="2019.11"
+BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-$FLOAT${PREFIX////-}"
 
