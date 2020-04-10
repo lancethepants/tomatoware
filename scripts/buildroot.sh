@@ -418,6 +418,8 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
+	--with-sysroot=$PREFIX \
+	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
 	--enable-shared \
 	--enable-static \
@@ -507,6 +509,8 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
+	--with-sysroot=$PREFIX/mipsel$PREFIX \
+	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/usr/mipsel-buildroot-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++ \
 	--enable-shared \
 	--enable-static \
