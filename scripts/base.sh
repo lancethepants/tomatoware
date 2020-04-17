@@ -1152,7 +1152,7 @@ fi
 ######## ####################################################################
 
 PERL_VERSION=5.30.2
-PERL_CROSS_VERSION=1.3.2
+PERL_CROSS_VERSION=1.3.3
 
 cd $SRC/perl
 
