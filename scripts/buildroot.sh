@@ -801,14 +801,7 @@ fi
 # GOLANG # ##################################################################
 ########## ##################################################################
 
-if [ "$DESTARCH" == "mipsel" ];then
-	GOLANG_VERSION=1.13.9
-fi
-
-if [ "$DESTARCH" == "arm" ];then
-	GOLANG_VERSION=1.14.1
-fi
-
+GOLANG_VERSION=1.14.2
 
 cd $SRC/golang
 
