@@ -493,13 +493,15 @@ unset PKG_CONFIG_LIBDIR
 # TIME ZONE DATABASE # ######################################################
 ###################### ######################################################
 
+TZ_VERSION=2020a
+
 cd $SRC/tz
 
 if [ ! -f .extracted ]; then
 	rm -rf tz tz-native
 	mkdir tz
-	tar zxvf tzcode2019c.tar.gz -C ./tz
-	tar zxvf tzdata2019c.tar.gz -C ./tz
+	tar zxvf tzcode${TZ_VERSION}.tar.gz -C ./tz
+	tar zxvf tzdata${TZ_VERSION}.tar.gz -C ./tz
 	cp -r tz tz-native
         touch .extracted
 fi
