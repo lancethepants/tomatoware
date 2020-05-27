@@ -1911,6 +1911,11 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .symlinked ]; then
+	ln -sf less $DEST/bin/pager
+	touch .symlinked
+fi
+
 ########## ##################################################################
 # MANDOC # ##################################################################
 ########## ##################################################################
@@ -1946,4 +1951,54 @@ if [ ! -f .installed ]; then
 	_CPPFLAGS=$CPPFLAGS \
 	make install DESTDIR=$BASE
 	touch .installed
+fi
+
+######## ####################################################################
+# DPKG # ####################################################################
+######## ####################################################################
+
+DPKG_VERSION=1.20.0
+
+cd $SRC/dpkg
+
+if [ ! -f .extracted ]; then
+	rm -rf dpkg-${DPKG_VERSION}
+	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
+	touch .extracted
+fi
+
+cd dpkg-${DPKG_VERSION}
+
+if [ ! -f .configured ]; then
+	PATH=$SRC/perl/native/bin:$PATH
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--with-sysroot=$PREFIX \
+	--without-libselinux \
+	PERL_LIBDIR=$PREFIX/lib/perl5/${PERL_VERSION}
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .edit_sed ]; then
+	grep -Irl $SRC\/perl\/native $DEST | xargs sed -i -e '1,1s,'"$SRC"'/perl/native,'"$PREFIX"',g'
+	touch .edit_sed
+fi
+
+if [ ! -f .ldconfig ]; then
+	touch $DEST/bin/ldconfig
+	chmod +x $DEST/bin/ldconfig
+	touch .ldconfig
 fi
