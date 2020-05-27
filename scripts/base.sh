@@ -1151,19 +1151,29 @@ fi
 # PERL # ####################################################################
 ######## ####################################################################
 
-PERL_VERSION=5.30.2
 PERL_CROSS_VERSION=1.3.3
 
 cd $SRC/perl
 
 if [ ! -f .extracted ]; then
-	rm -rf perl-${PERL_VERSION}
+	rm -rf perl-${PERL_VERSION} perl-${PERL_VERSION}_host native
 	tar zxvf perl-${PERL_VERSION}.tar.gz
 	tar zxvf perl-cross-${PERL_CROSS_VERSION}.tar.gz -C perl-${PERL_VERSION} --strip 1
+	cp -r perl-${PERL_VERSION} perl-${PERL_VERSION}_host
 	touch .extracted
 fi
 
-cd perl-${PERL_VERSION}
+cd perl-${PERL_VERSION}_host
+
+if [ ! -f .configured ]; then
+	./configure \
+	--prefix=$SRC/perl/native
+	$MAKE
+	make install
+	touch .configured
+fi
+
+cd ../perl-${PERL_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
