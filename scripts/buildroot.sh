@@ -816,8 +816,9 @@ fi
 cd go/src
 
 if [ ! -f .patched ]; then
-	sed -i 's,\/etc\/ssl\/certs\/ca-certificates.crt,'"$PREFIX"'\/ssl\/certs\/ca-certificates.crt,g' \
-	./crypto/x509/root_linux.go
+	cp $PATCHES/golang/golang-ssl.patch .
+	sed -i 's,PREFIX,'"$PREFIX"',g' ./golang-ssl.patch
+	patch -p1 < ./golang-ssl.patch
 	touch .patched
 fi
 
