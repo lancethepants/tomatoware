@@ -1349,7 +1349,11 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	gl_cv_header_working_fcntl_h=yes \
+	ac_cv_func_gettimeofday=yes \
+	ac_cv_func_fork_works=yes \
+	make_cv_synchronous_posix_spawn=no
 	touch .configured
 fi
 
