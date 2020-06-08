@@ -11,6 +11,7 @@ toolchain:
 	./scripts/toolchain.sh
 
 clean:
+	rm -rf toolchain
 	git clean -fdxq && git reset --hard
 
 toolchain-clean:
