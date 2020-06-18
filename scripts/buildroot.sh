@@ -1729,50 +1729,39 @@ fi
 # DISTCC # ##################################################################
 ########## ##################################################################
 
-DISTCC_VERSION=3.1
-
-PYTHON_CROSS="PYTHONPATH=$SRC/python/Python-2.7.15/Lib $SRC/python/native/bin/python2"
+DISTCC_VERSION=3.3.3
 
 cd $SRC/distcc
 
 if [ ! -f .extracted ]; then
-	rm -rf distcc-distcc-${DISTCC_VERSION}
+	rm -rf distcc-${DISTCC_VERSION}
 	tar zxvf distcc-${DISTCC_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd distcc-distcc-${DISTCC_VERSION}
+cd distcc-${DISTCC_VERSION}
 
 if [ ! -f .configured ]; then
-	./autogen.sh
-	PATH=$SRC/python/native/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--without-libiberty \
+	--disable-pump-mode \
 	--disable-Werror
 	touch .configured
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/python/native/bin:$PATH \
-	$MAKE \
-	PYTHON="$PYTHON_CROSS" \
-	TEST_PYTHON="$PYTHON_CROSS" \
-	INCLUDESERVER_PYTHON=""
+	$MAKE
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE \
-	PYTHON="$PYTHON_CROSS" \
-	TEST_PYTHON="$PYTHON_CROSS" \
-	INCLUDESERVER_PYTHON=""
+	make install DESTDIR=$BASE
 	touch .installed
 fi
-
-unset PYTHON_CROSS
 
 ####### #####################################################################
 # UPX # #####################################################################
