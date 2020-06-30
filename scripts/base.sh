@@ -751,7 +751,7 @@ cd gdbm-${LIBGDBM_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
@@ -1719,7 +1719,7 @@ cd htop-${HTOP_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
