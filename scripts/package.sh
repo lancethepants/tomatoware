@@ -34,9 +34,9 @@ ln -sf ../lib/gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc.a
 
 #go symlinks. Just for arm for now.
 if [ "$DESTARCH" = "arm" ]; then
-	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so.14.0.0
-	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so.14
-	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.14.0.0 $DEST/lib/libgo.so
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16.0.0
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16
+	ln -sf ./gcc/$DESTARCH-buildroot-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so
 fi
 
 mkdir -p $DEST/usr/local
