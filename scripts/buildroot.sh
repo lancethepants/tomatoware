@@ -378,13 +378,13 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-9.1.0-specs-1.patch .
+	cp $PATCHES/gcc/gcc-10.1.0-specs-1.patch .
 	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' \
-		gcc-9.1.0-specs-1.patch \
+		gcc-10.1.0-specs-1.patch \
 		0005-add-tomatoware-certs-path.patch
 
-	patch -p1 < gcc-9.1.0-specs-1.patch
+	patch -p1 < gcc-10.1.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
 	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
 	patch -p1 < 0005-add-tomatoware-certs-path.patch
@@ -485,9 +485,9 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-9.1.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-9.1.0-specs-1.patch
-	patch -p1 < gcc-9.1.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-10.1.0-specs-1.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' gcc-10.1.0-specs-1.patch
+	patch -p1 < gcc-10.1.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
 	touch .patched
 fi

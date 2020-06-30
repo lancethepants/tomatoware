@@ -1,6 +1,6 @@
-diff -Naur gcc-9.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-9.1.0/gcc/config/aarch64/aarch64-linux.h
---- gcc-9.1.0.orig/gcc/config/aarch64/aarch64-linux.h	2019-07-01 10:53:23.266578629 -0600
-+++ gcc-9.1.0/gcc/config/aarch64/aarch64-linux.h	2019-07-01 10:54:41.647279523 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/aarch64/aarch64-linux.h gcc-10.1.0/gcc/config/aarch64/aarch64-linux.h
+--- gcc-10.1.0_bak/gcc/config/aarch64/aarch64-linux.h	2020-06-29 10:45:25.710682232 -0600
++++ gcc-10.1.0/gcc/config/aarch64/aarch64-linux.h	2020-06-29 10:49:09.736676994 -0600
 @@ -21,10 +21,10 @@
  #ifndef GCC_AARCH64_LINUX_H
  #define GCC_AARCH64_LINUX_H
@@ -14,9 +14,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-9.1.0/gcc/confi
  
  #undef  ASAN_CC1_SPEC
  #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
-diff -Naur gcc-9.1.0.orig/gcc/config/alpha/linux-elf.h gcc-9.1.0/gcc/config/alpha/linux-elf.h
---- gcc-9.1.0.orig/gcc/config/alpha/linux-elf.h	2019-07-01 10:53:23.222578235 -0600
-+++ gcc-9.1.0/gcc/config/alpha/linux-elf.h	2019-07-01 10:54:41.647279523 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/alpha/linux-elf.h gcc-10.1.0/gcc/config/alpha/linux-elf.h
+--- gcc-10.1.0_bak/gcc/config/alpha/linux-elf.h	2020-06-29 10:45:25.662681796 -0600
++++ gcc-10.1.0/gcc/config/alpha/linux-elf.h	2020-06-29 10:49:09.736676994 -0600
 @@ -23,8 +23,8 @@
  #define EXTRA_SPECS \
  { "elf_dynamic_linker", ELF_DYNAMIC_LINKER },
@@ -28,23 +28,23 @@ diff -Naur gcc-9.1.0.orig/gcc/config/alpha/linux-elf.h gcc-9.1.0/gcc/config/alph
  #if DEFAULT_LIBC == LIBC_UCLIBC
  #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
  #elif DEFAULT_LIBC == LIBC_GLIBC
-diff -Naur gcc-9.1.0.orig/gcc/config/arc/linux.h gcc-9.1.0/gcc/config/arc/linux.h
---- gcc-9.1.0.orig/gcc/config/arc/linux.h	2019-07-01 10:53:23.234578343 -0600
-+++ gcc-9.1.0/gcc/config/arc/linux.h	2019-07-01 10:54:41.651279558 -0600
-@@ -29,8 +29,8 @@
-     }						\
+diff -Naur gcc-10.1.0_bak/gcc/config/arc/linux.h gcc-10.1.0/gcc/config/arc/linux.h
+--- gcc-10.1.0_bak/gcc/config/arc/linux.h	2020-06-29 10:45:25.670681868 -0600
++++ gcc-10.1.0/gcc/config/arc/linux.h	2020-06-29 10:56:10.928267676 -0600
+@@ -30,8 +30,8 @@
    while (0)
  
--#define GLIBC_DYNAMIC_LINKER   "/lib/ld-linux-arc.so.2"
+ #define GLIBC_DYNAMIC_LINKER					\
+-  "/lib/ld-linux-arc%{mbig-endian:eb}%{mcpu=arc700:700}.so.2"
 -#define UCLIBC_DYNAMIC_LINKER  "/lib/ld-uClibc.so.0"
-+#define GLIBC_DYNAMIC_LINKER   "/opt/lib/ld-linux-arc.so.2"
++  "/opt/lib/ld-linux-arc%{mbig-endian:eb}%{mcpu=arc700:700}.so.2"
 +#define UCLIBC_DYNAMIC_LINKER  "/opt/lib/ld-uClibc.so.0"
  
  /* Note that the default is to link against dynamic libraries, if they are
     available.  Override with -static.  */
-diff -Naur gcc-9.1.0.orig/gcc/config/arm/linux-eabi.h gcc-9.1.0/gcc/config/arm/linux-eabi.h
---- gcc-9.1.0.orig/gcc/config/arm/linux-eabi.h	2019-07-01 10:53:23.238578379 -0600
-+++ gcc-9.1.0/gcc/config/arm/linux-eabi.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/arm/linux-eabi.h gcc-10.1.0/gcc/config/arm/linux-eabi.h
+--- gcc-10.1.0_bak/gcc/config/arm/linux-eabi.h	2020-06-29 10:45:25.674681905 -0600
++++ gcc-10.1.0/gcc/config/arm/linux-eabi.h	2020-06-29 10:57:24.688883193 -0600
 @@ -65,8 +65,8 @@
     GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
  
@@ -60,14 +60,14 @@ diff -Naur gcc-9.1.0.orig/gcc/config/arm/linux-eabi.h gcc-9.1.0/gcc/config/arm/l
  #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
  #endif
  #define MUSL_DYNAMIC_LINKER \
--  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}.so.1"
-+  "/opt/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}.so.1"
+-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
++  "/opt/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
  
  /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
     use the GNU/Linux version, not the generic BPABI version.  */
-diff -Naur gcc-9.1.0.orig/gcc/config/arm/linux-elf.h gcc-9.1.0/gcc/config/arm/linux-elf.h
---- gcc-9.1.0.orig/gcc/config/arm/linux-elf.h	2019-07-01 10:53:23.242578415 -0600
-+++ gcc-9.1.0/gcc/config/arm/linux-elf.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/arm/linux-elf.h gcc-10.1.0/gcc/config/arm/linux-elf.h
+--- gcc-10.1.0_bak/gcc/config/arm/linux-elf.h	2020-06-29 10:45:25.678681941 -0600
++++ gcc-10.1.0/gcc/config/arm/linux-elf.h	2020-06-29 10:49:09.736676994 -0600
 @@ -60,7 +60,7 @@
  
  #define LIBGCC_SPEC "%{mfloat-abi=soft*:-lfloat} -lgcc"
@@ -77,9 +77,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/arm/linux-elf.h gcc-9.1.0/gcc/config/arm/li
  
  #define LINUX_TARGET_LINK_SPEC  "%{h*} \
     %{static:-Bstatic} \
-diff -Naur gcc-9.1.0.orig/gcc/config/bfin/linux.h gcc-9.1.0/gcc/config/bfin/linux.h
---- gcc-9.1.0.orig/gcc/config/bfin/linux.h	2019-07-01 10:53:23.270578665 -0600
-+++ gcc-9.1.0/gcc/config/bfin/linux.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/bfin/linux.h gcc-10.1.0/gcc/config/bfin/linux.h
+--- gcc-10.1.0_bak/gcc/config/bfin/linux.h	2020-06-29 10:45:25.718682305 -0600
++++ gcc-10.1.0/gcc/config/bfin/linux.h	2020-06-29 10:49:09.736676994 -0600
 @@ -49,7 +49,7 @@
    %{shared:-G -Bdynamic} \
    %{!shared: %{!static: \
@@ -89,9 +89,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/bfin/linux.h gcc-9.1.0/gcc/config/bfin/linu
     %{static}} -init __init -fini __fini"
  
  #undef TARGET_SUPPORTS_SYNC_CALLS
-diff -Naur gcc-9.1.0.orig/gcc/config/c6x/uclinux-elf.h gcc-9.1.0/gcc/config/c6x/uclinux-elf.h
---- gcc-9.1.0.orig/gcc/config/c6x/uclinux-elf.h	2019-07-01 10:53:23.234578343 -0600
-+++ gcc-9.1.0/gcc/config/c6x/uclinux-elf.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/c6x/uclinux-elf.h gcc-10.1.0/gcc/config/c6x/uclinux-elf.h
+--- gcc-10.1.0_bak/gcc/config/c6x/uclinux-elf.h	2020-06-29 10:45:25.670681868 -0600
++++ gcc-10.1.0/gcc/config/c6x/uclinux-elf.h	2020-06-29 10:49:09.736676994 -0600
 @@ -36,7 +36,7 @@
  #define STARTFILE_SPEC \
    "%{!shared:crt1%O%s} crti%O%s %{shared|pie:crtbeginS.o%s;:crtbegin.o%s}"
@@ -101,9 +101,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/c6x/uclinux-elf.h gcc-9.1.0/gcc/config/c6x/
  
  #undef LINK_SPEC
  #define LINK_SPEC ENDIAN_LINK_SPEC \
-diff -Naur gcc-9.1.0.orig/gcc/config/cris/linux.h gcc-9.1.0/gcc/config/cris/linux.h
---- gcc-9.1.0.orig/gcc/config/cris/linux.h	2019-07-01 10:53:23.270578665 -0600
-+++ gcc-9.1.0/gcc/config/cris/linux.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/cris/linux.h gcc-10.1.0/gcc/config/cris/linux.h
+--- gcc-10.1.0_bak/gcc/config/cris/linux.h	2020-06-29 10:45:25.718682305 -0600
++++ gcc-10.1.0/gcc/config/cris/linux.h	2020-06-29 10:49:09.736676994 -0600
 @@ -102,7 +102,7 @@
  #undef CRIS_DEFAULT_CPU_VERSION
  #define CRIS_DEFAULT_CPU_VERSION CRIS_CPU_NG
@@ -113,9 +113,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/cris/linux.h gcc-9.1.0/gcc/config/cris/linu
  
  #undef CRIS_LINK_SUBTARGET_SPEC
  #define CRIS_LINK_SUBTARGET_SPEC \
-diff -Naur gcc-9.1.0.orig/gcc/config/dragonfly.h gcc-9.1.0/gcc/config/dragonfly.h
---- gcc-9.1.0.orig/gcc/config/dragonfly.h	2019-07-01 10:53:23.226578272 -0600
-+++ gcc-9.1.0/gcc/config/dragonfly.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/dragonfly.h gcc-10.1.0/gcc/config/dragonfly.h
+--- gcc-10.1.0_bak/gcc/config/dragonfly.h	2020-06-29 10:45:25.710682232 -0600
++++ gcc-10.1.0/gcc/config/dragonfly.h	2020-06-29 10:49:09.736676994 -0600
 @@ -90,7 +90,7 @@
  #undef  LINK_SPEC
  #define LINK_SPEC DFBSD_LINK_SPEC
@@ -125,9 +125,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/dragonfly.h gcc-9.1.0/gcc/config/dragonfly.
  
  
  /* Use --as-needed -lgcc_s for eh support.  */
-diff -Naur gcc-9.1.0.orig/gcc/config/freebsd-spec.h gcc-9.1.0/gcc/config/freebsd-spec.h
---- gcc-9.1.0.orig/gcc/config/freebsd-spec.h	2019-07-01 10:53:23.226578272 -0600
-+++ gcc-9.1.0/gcc/config/freebsd-spec.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/freebsd-spec.h gcc-10.1.0/gcc/config/freebsd-spec.h
+--- gcc-10.1.0_bak/gcc/config/freebsd-spec.h	2020-06-29 10:45:25.702682159 -0600
++++ gcc-10.1.0/gcc/config/freebsd-spec.h	2020-06-29 10:49:09.736676994 -0600
 @@ -115,9 +115,9 @@
     provided by <osreldate.h> directly since it breaks cross-compiling.  */
  
@@ -140,9 +140,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/freebsd-spec.h gcc-9.1.0/gcc/config/freebsd
  #endif
  
  /* NOTE: The freebsd-spec.h header is included also for various
-diff -Naur gcc-9.1.0.orig/gcc/config/frv/linux.h gcc-9.1.0/gcc/config/frv/linux.h
---- gcc-9.1.0.orig/gcc/config/frv/linux.h	2019-07-01 10:53:23.270578665 -0600
-+++ gcc-9.1.0/gcc/config/frv/linux.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/frv/linux.h gcc-10.1.0/gcc/config/frv/linux.h
+--- gcc-10.1.0_bak/gcc/config/frv/linux.h	2020-06-29 10:45:25.718682305 -0600
++++ gcc-10.1.0/gcc/config/frv/linux.h	2020-06-29 10:49:09.736676994 -0600
 @@ -34,7 +34,7 @@
  #define ENDFILE_SPEC \
    "%{shared|pie:crtendS.o%s;:crtend.o%s} crtn.o%s"
@@ -152,9 +152,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/frv/linux.h gcc-9.1.0/gcc/config/frv/linux.
  
  #undef LINK_SPEC
  #define LINK_SPEC "\
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/gnu.h gcc-9.1.0/gcc/config/i386/gnu.h
---- gcc-9.1.0.orig/gcc/config/i386/gnu.h	2019-07-01 10:53:23.250578486 -0600
-+++ gcc-9.1.0/gcc/config/i386/gnu.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/gnu.h gcc-10.1.0/gcc/config/i386/gnu.h
+--- gcc-10.1.0_bak/gcc/config/i386/gnu.h	2020-06-29 10:45:25.694682087 -0600
++++ gcc-10.1.0/gcc/config/i386/gnu.h	2020-06-29 10:49:09.736676994 -0600
 @@ -22,7 +22,7 @@
  #define GNU_USER_LINK_EMULATION "elf_i386"
  
@@ -164,9 +164,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/gnu.h gcc-9.1.0/gcc/config/i386/gnu.h
  
  #undef	STARTFILE_SPEC
  #if defined HAVE_LD_PIE
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/kfreebsd-gnu64.h gcc-9.1.0/gcc/config/i386/kfreebsd-gnu64.h
---- gcc-9.1.0.orig/gcc/config/i386/kfreebsd-gnu64.h	2019-07-01 10:53:23.246578450 -0600
-+++ gcc-9.1.0/gcc/config/i386/kfreebsd-gnu64.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/kfreebsd-gnu64.h gcc-10.1.0/gcc/config/i386/kfreebsd-gnu64.h
+--- gcc-10.1.0_bak/gcc/config/i386/kfreebsd-gnu64.h	2020-06-29 10:45:25.690682050 -0600
++++ gcc-10.1.0/gcc/config/i386/kfreebsd-gnu64.h	2020-06-29 10:49:09.740677029 -0600
 @@ -22,6 +22,6 @@
  #define GNU_USER_LINK_EMULATION64 "elf_x86_64_fbsd"
  #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64_fbsd"
@@ -177,18 +177,18 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/kfreebsd-gnu64.h gcc-9.1.0/gcc/config/
 +#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
 +#define GLIBC_DYNAMIC_LINKER64 "/opt/lib/ld-kfreebsd-x86-64.so.1"
 +#define GLIBC_DYNAMIC_LINKERX32 "/opt/lib/ld-kfreebsd-x32.so.1"
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/kfreebsd-gnu.h gcc-9.1.0/gcc/config/i386/kfreebsd-gnu.h
---- gcc-9.1.0.orig/gcc/config/i386/kfreebsd-gnu.h	2019-07-01 10:53:23.250578486 -0600
-+++ gcc-9.1.0/gcc/config/i386/kfreebsd-gnu.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/kfreebsd-gnu.h gcc-10.1.0/gcc/config/i386/kfreebsd-gnu.h
+--- gcc-10.1.0_bak/gcc/config/i386/kfreebsd-gnu.h	2020-06-29 10:45:25.690682050 -0600
++++ gcc-10.1.0/gcc/config/i386/kfreebsd-gnu.h	2020-06-29 10:49:09.740677029 -0600
 @@ -19,4 +19,4 @@
  <http://www.gnu.org/licenses/>.  */
  
  #define GNU_USER_LINK_EMULATION "elf_i386_fbsd"
 -#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
 +#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/linux64.h gcc-9.1.0/gcc/config/i386/linux64.h
---- gcc-9.1.0.orig/gcc/config/i386/linux64.h	2019-07-01 10:53:23.250578486 -0600
-+++ gcc-9.1.0/gcc/config/i386/linux64.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/linux64.h gcc-10.1.0/gcc/config/i386/linux64.h
+--- gcc-10.1.0_bak/gcc/config/i386/linux64.h	2020-06-29 10:45:25.690682050 -0600
++++ gcc-10.1.0/gcc/config/i386/linux64.h	2020-06-29 10:49:09.740677029 -0600
 @@ -27,13 +27,13 @@
  #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
  #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
@@ -209,9 +209,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/linux64.h gcc-9.1.0/gcc/config/i386/li
  #undef MUSL_DYNAMIC_LINKERX32
 -#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
 +#define MUSL_DYNAMIC_LINKERX32 "/opt/lib/ld-musl-x32.so.1"
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/linux.h gcc-9.1.0/gcc/config/i386/linux.h
---- gcc-9.1.0.orig/gcc/config/i386/linux.h	2019-07-01 10:53:23.250578486 -0600
-+++ gcc-9.1.0/gcc/config/i386/linux.h	2019-07-01 10:54:41.651279558 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/linux.h gcc-10.1.0/gcc/config/i386/linux.h
+--- gcc-10.1.0_bak/gcc/config/i386/linux.h	2020-06-29 10:45:25.694682087 -0600
++++ gcc-10.1.0/gcc/config/i386/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -20,7 +20,7 @@
  <http://www.gnu.org/licenses/>.  */
  
@@ -222,9 +222,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/linux.h gcc-9.1.0/gcc/config/i386/linu
  #undef MUSL_DYNAMIC_LINKER
 -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
 +#define MUSL_DYNAMIC_LINKER "/opt/lib/ld-musl-i386.so.1"
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/nto.h gcc-9.1.0/gcc/config/i386/nto.h
---- gcc-9.1.0.orig/gcc/config/i386/nto.h	2019-07-01 10:53:23.254578522 -0600
-+++ gcc-9.1.0/gcc/config/i386/nto.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/nto.h gcc-10.1.0/gcc/config/i386/nto.h
+--- gcc-10.1.0_bak/gcc/config/i386/nto.h	2020-06-29 10:45:25.698682123 -0600
++++ gcc-10.1.0/gcc/config/i386/nto.h	2020-06-29 10:49:09.740677029 -0600
 @@ -78,7 +78,7 @@
      %{!p:-Y P,%R/lib}} \
     %{Qy:} %{!Qn:-Qy} \
@@ -234,9 +234,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/nto.h gcc-9.1.0/gcc/config/i386/nto.h
  
  #undef	LIB_SPEC
  #define LIB_SPEC "%{!shared:%{!symbolic:-lc}}"
-diff -Naur gcc-9.1.0.orig/gcc/config/i386/openbsdelf.h gcc-9.1.0/gcc/config/i386/openbsdelf.h
---- gcc-9.1.0.orig/gcc/config/i386/openbsdelf.h	2019-07-01 10:53:23.250578486 -0600
-+++ gcc-9.1.0/gcc/config/i386/openbsdelf.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/i386/openbsdelf.h gcc-10.1.0/gcc/config/i386/openbsdelf.h
+--- gcc-10.1.0_bak/gcc/config/i386/openbsdelf.h	2020-06-29 10:45:25.694682087 -0600
++++ gcc-10.1.0/gcc/config/i386/openbsdelf.h	2020-06-29 10:49:09.740677029 -0600
 @@ -92,7 +92,7 @@
     %{static:-Bstatic} \
     %{!static:-Bdynamic} \
@@ -246,9 +246,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/i386/openbsdelf.h gcc-9.1.0/gcc/config/i386
  
  #undef STARTFILE_SPEC
  #define STARTFILE_SPEC "\
-diff -Naur gcc-9.1.0.orig/gcc/config/ia64/linux.h gcc-9.1.0/gcc/config/ia64/linux.h
---- gcc-9.1.0.orig/gcc/config/ia64/linux.h	2019-07-01 10:53:23.258578557 -0600
-+++ gcc-9.1.0/gcc/config/ia64/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/ia64/linux.h gcc-10.1.0/gcc/config/ia64/linux.h
+--- gcc-10.1.0_bak/gcc/config/ia64/linux.h	2020-06-29 10:45:25.702682159 -0600
++++ gcc-10.1.0/gcc/config/ia64/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -55,7 +55,7 @@
  /* Define this for shared library support because it isn't in the main
     linux.h file.  */
@@ -258,18 +258,18 @@ diff -Naur gcc-9.1.0.orig/gcc/config/ia64/linux.h gcc-9.1.0/gcc/config/ia64/linu
  
  #undef LINK_SPEC
  #define LINK_SPEC "\
-diff -Naur gcc-9.1.0.orig/gcc/config/kopensolaris-gnu.h gcc-9.1.0/gcc/config/kopensolaris-gnu.h
---- gcc-9.1.0.orig/gcc/config/kopensolaris-gnu.h	2019-07-01 10:53:23.222578235 -0600
-+++ gcc-9.1.0/gcc/config/kopensolaris-gnu.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/kopensolaris-gnu.h gcc-10.1.0/gcc/config/kopensolaris-gnu.h
+--- gcc-10.1.0_bak/gcc/config/kopensolaris-gnu.h	2020-06-29 10:45:25.686682014 -0600
++++ gcc-10.1.0/gcc/config/kopensolaris-gnu.h	2020-06-29 10:49:09.740677029 -0600
 @@ -37,4 +37,4 @@
      } while (0)
  
  #undef GNU_USER_DYNAMIC_LINKER
 -#define GNU_USER_DYNAMIC_LINKER "/lib/ld.so.1"
 +#define GNU_USER_DYNAMIC_LINKER "/opt/lib/ld.so.1"
-diff -Naur gcc-9.1.0.orig/gcc/config/linux.h gcc-9.1.0/gcc/config/linux.h
---- gcc-9.1.0.orig/gcc/config/linux.h	2019-07-01 10:53:23.226578272 -0600
-+++ gcc-9.1.0/gcc/config/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/linux.h gcc-10.1.0/gcc/config/linux.h
+--- gcc-10.1.0_bak/gcc/config/linux.h	2020-06-29 10:45:25.698682123 -0600
++++ gcc-10.1.0/gcc/config/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -94,10 +94,10 @@
     GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
     GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
@@ -285,9 +285,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/linux.h gcc-9.1.0/gcc/config/linux.h
  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
-diff -Naur gcc-9.1.0.orig/gcc/config/lm32/uclinux-elf.h gcc-9.1.0/gcc/config/lm32/uclinux-elf.h
---- gcc-9.1.0.orig/gcc/config/lm32/uclinux-elf.h	2019-07-01 10:53:23.262578594 -0600
-+++ gcc-9.1.0/gcc/config/lm32/uclinux-elf.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/lm32/uclinux-elf.h gcc-10.1.0/gcc/config/lm32/uclinux-elf.h
+--- gcc-10.1.0_bak/gcc/config/lm32/uclinux-elf.h	2020-06-29 10:45:25.706682196 -0600
++++ gcc-10.1.0/gcc/config/lm32/uclinux-elf.h	2020-06-29 10:49:09.740677029 -0600
 @@ -63,7 +63,7 @@
     %{shared:-shared} \
     %{symbolic:-Bsymbolic} \
@@ -297,9 +297,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/lm32/uclinux-elf.h gcc-9.1.0/gcc/config/lm3
  
  #define TARGET_OS_CPP_BUILTINS() GNU_USER_TARGET_OS_CPP_BUILTINS()
  
-diff -Naur gcc-9.1.0.orig/gcc/config/m32r/linux.h gcc-9.1.0/gcc/config/m32r/linux.h
---- gcc-9.1.0.orig/gcc/config/m32r/linux.h	2019-07-01 10:53:23.238578379 -0600
-+++ gcc-9.1.0/gcc/config/m32r/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/m32r/linux.h gcc-10.1.0/gcc/config/m32r/linux.h
+--- gcc-10.1.0_bak/gcc/config/m32r/linux.h	2020-06-29 10:45:25.674681905 -0600
++++ gcc-10.1.0/gcc/config/m32r/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -37,7 +37,7 @@
     When the -shared link option is used a final link is not being
     done.  */
@@ -309,9 +309,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/m32r/linux.h gcc-9.1.0/gcc/config/m32r/linu
  
  #undef	LINK_SPEC
  #if TARGET_LITTLE_ENDIAN
-diff -Naur gcc-9.1.0.orig/gcc/config/m68k/linux.h gcc-9.1.0/gcc/config/m68k/linux.h
---- gcc-9.1.0.orig/gcc/config/m68k/linux.h	2019-07-01 10:53:23.234578343 -0600
-+++ gcc-9.1.0/gcc/config/m68k/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/m68k/linux.h gcc-10.1.0/gcc/config/m68k/linux.h
+--- gcc-10.1.0_bak/gcc/config/m68k/linux.h	2020-06-29 10:45:25.674681905 -0600
++++ gcc-10.1.0/gcc/config/m68k/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -71,7 +71,7 @@
     When the -shared link option is used a final link is not being
     done.  */
@@ -319,11 +319,11 @@ diff -Naur gcc-9.1.0.orig/gcc/config/m68k/linux.h gcc-9.1.0/gcc/config/m68k/linu
 -#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
 +#define GLIBC_DYNAMIC_LINKER "/opt/lib/ld.so.1"
  
- #undef LINK_SPEC
- #define LINK_SPEC "-m m68kelf %{shared} \
-diff -Naur gcc-9.1.0.orig/gcc/config/microblaze/linux.h gcc-9.1.0/gcc/config/microblaze/linux.h
---- gcc-9.1.0.orig/gcc/config/microblaze/linux.h	2019-07-01 10:53:23.230578307 -0600
-+++ gcc-9.1.0/gcc/config/microblaze/linux.h	2019-07-01 10:54:41.655279594 -0600
+ #undef MUSL_DYNAMIC_LINKER
+ #define MUSL_DYNAMIC_LINKER "/lib/ld-musl-m68k.so.1"
+diff -Naur gcc-10.1.0_bak/gcc/config/microblaze/linux.h gcc-10.1.0/gcc/config/microblaze/linux.h
+--- gcc-10.1.0_bak/gcc/config/microblaze/linux.h	2020-06-29 10:45:25.670681868 -0600
++++ gcc-10.1.0/gcc/config/microblaze/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -28,8 +28,8 @@
  #undef TLS_NEEDS_GOT
  #define TLS_NEEDS_GOT 1
@@ -344,9 +344,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/microblaze/linux.h gcc-9.1.0/gcc/config/mic
  
  #undef  SUBTARGET_EXTRA_SPECS
  #define SUBTARGET_EXTRA_SPECS \
-diff -Naur gcc-9.1.0.orig/gcc/config/mips/linux.h gcc-9.1.0/gcc/config/mips/linux.h
---- gcc-9.1.0.orig/gcc/config/mips/linux.h	2019-07-01 10:53:23.226578272 -0600
-+++ gcc-9.1.0/gcc/config/mips/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/mips/linux.h gcc-10.1.0/gcc/config/mips/linux.h
+--- gcc-10.1.0_bak/gcc/config/mips/linux.h	2020-06-29 10:45:25.666681832 -0600
++++ gcc-10.1.0/gcc/config/mips/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -22,29 +22,29 @@
  #define GNU_USER_LINK_EMULATIONN32 "elf32%{EB:b}%{EL:l}tsmipn32"
  
@@ -386,9 +386,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/mips/linux.h gcc-9.1.0/gcc/config/mips/linu
  
  #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
  #define GNU_USER_DYNAMIC_LINKERN32 \
-diff -Naur gcc-9.1.0.orig/gcc/config/mn10300/linux.h gcc-9.1.0/gcc/config/mn10300/linux.h
---- gcc-9.1.0.orig/gcc/config/mn10300/linux.h	2019-07-01 10:53:23.230578307 -0600
-+++ gcc-9.1.0/gcc/config/mn10300/linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/mn10300/linux.h gcc-10.1.0/gcc/config/mn10300/linux.h
+--- gcc-10.1.0_bak/gcc/config/mn10300/linux.h	2020-06-29 10:45:25.666681832 -0600
++++ gcc-10.1.0/gcc/config/mn10300/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -32,7 +32,7 @@
  #undef  ASM_SPEC
  #define ASM_SPEC ""
@@ -398,10 +398,10 @@ diff -Naur gcc-9.1.0.orig/gcc/config/mn10300/linux.h gcc-9.1.0/gcc/config/mn1030
  
  #undef  LINK_SPEC
  #define LINK_SPEC "%{mrelax:--relax} %{shared:-shared} \
-diff -Naur gcc-9.1.0.orig/gcc/config/netbsd-elf.h gcc-9.1.0/gcc/config/netbsd-elf.h
---- gcc-9.1.0.orig/gcc/config/netbsd-elf.h	2019-07-01 10:53:23.226578272 -0600
-+++ gcc-9.1.0/gcc/config/netbsd-elf.h	2019-07-01 10:54:41.655279594 -0600
-@@ -84,7 +84,7 @@
+diff -Naur gcc-10.1.0_bak/gcc/config/netbsd-elf.h gcc-10.1.0/gcc/config/netbsd-elf.h
+--- gcc-10.1.0_bak/gcc/config/netbsd-elf.h	2020-06-29 10:45:25.702682159 -0600
++++ gcc-10.1.0/gcc/config/netbsd-elf.h	2020-06-29 10:49:09.740677029 -0600
+@@ -87,7 +87,7 @@
  	 %{!e*:-e %(netbsd_entry_point)}}} \
       %{!static: \
         %{rdynamic:-export-dynamic} \
@@ -409,10 +409,10 @@ diff -Naur gcc-9.1.0.orig/gcc/config/netbsd-elf.h gcc-9.1.0/gcc/config/netbsd-el
 +       -dynamic-linker /opt/usr/libexec/ld.elf_so} \
       %{static:-static}}"
  
- /* Use --as-needed -lgcc_s for eh support.  */
-diff -Naur gcc-9.1.0.orig/gcc/config/nios2/linux.h gcc-9.1.0/gcc/config/nios2/linux.h
---- gcc-9.1.0.orig/gcc/config/nios2/linux.h	2019-07-01 10:53:23.262578594 -0600
-+++ gcc-9.1.0/gcc/config/nios2/linux.h	2019-07-01 10:54:41.655279594 -0600
+ /* Provide the standard list of subtarget extra specs for NetBSD targets.  */
+diff -Naur gcc-10.1.0_bak/gcc/config/nios2/linux.h gcc-10.1.0/gcc/config/nios2/linux.h
+--- gcc-10.1.0_bak/gcc/config/nios2/linux.h	2020-06-29 10:45:25.702682159 -0600
++++ gcc-10.1.0/gcc/config/nios2/linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -29,7 +29,7 @@
  #undef CPP_SPEC
  #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
@@ -422,9 +422,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/nios2/linux.h gcc-9.1.0/gcc/config/nios2/li
  
  #undef LINK_SPEC
  #define LINK_SPEC LINK_SPEC_ENDIAN \
-diff -Naur gcc-9.1.0.orig/gcc/config/pa/pa-linux.h gcc-9.1.0/gcc/config/pa/pa-linux.h
---- gcc-9.1.0.orig/gcc/config/pa/pa-linux.h	2019-07-01 10:53:23.262578594 -0600
-+++ gcc-9.1.0/gcc/config/pa/pa-linux.h	2019-07-01 10:54:41.655279594 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/pa/pa-linux.h gcc-10.1.0/gcc/config/pa/pa-linux.h
+--- gcc-10.1.0_bak/gcc/config/pa/pa-linux.h	2020-06-29 10:45:25.706682196 -0600
++++ gcc-10.1.0/gcc/config/pa/pa-linux.h	2020-06-29 10:49:09.740677029 -0600
 @@ -37,7 +37,7 @@
  /* Define this for shared library support because it isn't in the main
     linux.h file.  */
@@ -434,9 +434,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/pa/pa-linux.h gcc-9.1.0/gcc/config/pa/pa-li
  
  #undef LINK_SPEC
  #define LINK_SPEC "\
-diff -Naur gcc-9.1.0.orig/gcc/config/pa/pa-openbsd.h gcc-9.1.0/gcc/config/pa/pa-openbsd.h
---- gcc-9.1.0.orig/gcc/config/pa/pa-openbsd.h	2019-07-01 10:53:23.262578594 -0600
-+++ gcc-9.1.0/gcc/config/pa/pa-openbsd.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/pa/pa-openbsd.h gcc-10.1.0/gcc/config/pa/pa-openbsd.h
+--- gcc-10.1.0_bak/gcc/config/pa/pa-openbsd.h	2020-06-29 10:45:25.706682196 -0600
++++ gcc-10.1.0/gcc/config/pa/pa-openbsd.h	2020-06-29 10:49:09.744677063 -0600
 @@ -139,7 +139,7 @@
     %{static:-Bstatic} \
     %{!static:-Bdynamic} \
@@ -446,10 +446,10 @@ diff -Naur gcc-9.1.0.orig/gcc/config/pa/pa-openbsd.h gcc-9.1.0/gcc/config/pa/pa-
  
  #undef STARTFILE_SPEC
  #define STARTFILE_SPEC "\
-diff -Naur gcc-9.1.0.orig/gcc/config/rs6000/linux64.h gcc-9.1.0/gcc/config/rs6000/linux64.h
---- gcc-9.1.0.orig/gcc/config/rs6000/linux64.h	2019-07-01 10:53:23.274578701 -0600
-+++ gcc-9.1.0/gcc/config/rs6000/linux64.h	2019-07-01 11:47:30.608051553 -0600
-@@ -435,24 +435,24 @@
+diff -Naur gcc-10.1.0_bak/gcc/config/rs6000/linux64.h gcc-10.1.0/gcc/config/rs6000/linux64.h
+--- gcc-10.1.0_bak/gcc/config/rs6000/linux64.h	2020-06-29 10:45:25.722682341 -0600
++++ gcc-10.1.0/gcc/config/rs6000/linux64.h	2020-06-29 10:49:09.744677063 -0600
+@@ -419,24 +419,24 @@
  #undef	LINK_OS_DEFAULT_SPEC
  #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
  
@@ -481,10 +481,10 @@ diff -Naur gcc-9.1.0.orig/gcc/config/rs6000/linux64.h gcc-9.1.0/gcc/config/rs600
  
  #undef  DEFAULT_ASM_ENDIAN
  #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
-diff -Naur gcc-9.1.0.orig/gcc/config/rs6000/sysv4.h gcc-9.1.0/gcc/config/rs6000/sysv4.h
---- gcc-9.1.0.orig/gcc/config/rs6000/sysv4.h	2019-07-01 10:53:23.274578701 -0600
-+++ gcc-9.1.0/gcc/config/rs6000/sysv4.h	2019-07-01 11:49:53.769329400 -0600
-@@ -781,10 +781,10 @@
+diff -Naur gcc-10.1.0_bak/gcc/config/rs6000/sysv4.h gcc-10.1.0/gcc/config/rs6000/sysv4.h
+--- gcc-10.1.0_bak/gcc/config/rs6000/sysv4.h	2020-06-29 10:45:25.722682341 -0600
++++ gcc-10.1.0/gcc/config/rs6000/sysv4.h	2020-06-29 10:49:09.744677063 -0600
+@@ -780,10 +780,10 @@
  
  #define MUSL_DYNAMIC_LINKER_E ENDIAN_SELECT("","le","")
  
@@ -497,7 +497,7 @@ diff -Naur gcc-9.1.0.orig/gcc/config/rs6000/sysv4.h gcc-9.1.0/gcc/config/rs6000/
  
  #ifndef GNU_USER_DYNAMIC_LINKER
  #define GNU_USER_DYNAMIC_LINKER GLIBC_DYNAMIC_LINKER
-@@ -814,7 +814,7 @@
+@@ -813,7 +813,7 @@
  #define LINK_OS_NETBSD_SPEC "\
  %{!shared: %{!static: \
    %{rdynamic:-export-dynamic} \
@@ -506,9 +506,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/rs6000/sysv4.h gcc-9.1.0/gcc/config/rs6000/
  
  #define CPP_OS_NETBSD_SPEC "\
  -D__powerpc__ -D__NetBSD__ -D__KPRINTF_ATTRIBUTE__"
-diff -Naur gcc-9.1.0.orig/gcc/config/s390/linux.h gcc-9.1.0/gcc/config/s390/linux.h
---- gcc-9.1.0.orig/gcc/config/s390/linux.h	2019-07-01 10:53:23.242578415 -0600
-+++ gcc-9.1.0/gcc/config/s390/linux.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/s390/linux.h gcc-10.1.0/gcc/config/s390/linux.h
+--- gcc-10.1.0_bak/gcc/config/s390/linux.h	2020-06-29 10:45:25.682681977 -0600
++++ gcc-10.1.0/gcc/config/s390/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -72,8 +72,8 @@
  #define MULTILIB_DEFAULTS { "m31" }
  #endif
@@ -518,11 +518,11 @@ diff -Naur gcc-9.1.0.orig/gcc/config/s390/linux.h gcc-9.1.0/gcc/config/s390/linu
 +#define GLIBC_DYNAMIC_LINKER32 "/opt/lib/ld.so.1"
 +#define GLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64.so.1"
  
- #undef  LINK_SPEC
- #define LINK_SPEC \
-diff -Naur gcc-9.1.0.orig/gcc/config/sh/linux.h gcc-9.1.0/gcc/config/sh/linux.h
---- gcc-9.1.0.orig/gcc/config/sh/linux.h	2019-07-01 10:53:23.246578450 -0600
-+++ gcc-9.1.0/gcc/config/sh/linux.h	2019-07-01 10:54:41.659279631 -0600
+ #undef MUSL_DYNAMIC_LINKER32
+ #define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-s390.so.1"
+diff -Naur gcc-10.1.0_bak/gcc/config/sh/linux.h gcc-10.1.0/gcc/config/sh/linux.h
+--- gcc-10.1.0_bak/gcc/config/sh/linux.h	2020-06-29 10:45:25.686682014 -0600
++++ gcc-10.1.0/gcc/config/sh/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -61,10 +61,10 @@
  
  #undef MUSL_DYNAMIC_LINKER
@@ -536,9 +536,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/sh/linux.h gcc-9.1.0/gcc/config/sh/linux.h
  
  #undef SUBTARGET_LINK_EMUL_SUFFIX
  #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
-diff -Naur gcc-9.1.0.orig/gcc/config/sparc/linux64.h gcc-9.1.0/gcc/config/sparc/linux64.h
---- gcc-9.1.0.orig/gcc/config/sparc/linux64.h	2019-07-01 10:53:23.258578557 -0600
-+++ gcc-9.1.0/gcc/config/sparc/linux64.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/sparc/linux64.h gcc-10.1.0/gcc/config/sparc/linux64.h
+--- gcc-10.1.0_bak/gcc/config/sparc/linux64.h	2020-06-29 10:45:25.698682123 -0600
++++ gcc-10.1.0/gcc/config/sparc/linux64.h	2020-06-29 10:49:09.744677063 -0600
 @@ -84,8 +84,8 @@
     When the -shared link option is used a final link is not being
     done.  */
@@ -550,9 +550,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/sparc/linux64.h gcc-9.1.0/gcc/config/sparc/
  
  #ifdef SPARC_BI_ARCH
  
-diff -Naur gcc-9.1.0.orig/gcc/config/sparc/linux.h gcc-9.1.0/gcc/config/sparc/linux.h
---- gcc-9.1.0.orig/gcc/config/sparc/linux.h	2019-07-01 10:53:23.258578557 -0600
-+++ gcc-9.1.0/gcc/config/sparc/linux.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/sparc/linux.h gcc-10.1.0/gcc/config/sparc/linux.h
+--- gcc-10.1.0_bak/gcc/config/sparc/linux.h	2020-06-29 10:45:25.698682123 -0600
++++ gcc-10.1.0/gcc/config/sparc/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -84,7 +84,7 @@
     When the -shared link option is used a final link is not being
     done.  */
@@ -562,9 +562,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/sparc/linux.h gcc-9.1.0/gcc/config/sparc/li
  
  #undef  LINK_SPEC
  #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
-diff -Naur gcc-9.1.0.orig/gcc/config/sparc/openbsd64.h gcc-9.1.0/gcc/config/sparc/openbsd64.h
---- gcc-9.1.0.orig/gcc/config/sparc/openbsd64.h	2019-07-01 10:53:23.258578557 -0600
-+++ gcc-9.1.0/gcc/config/sparc/openbsd64.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/sparc/openbsd64.h gcc-10.1.0/gcc/config/sparc/openbsd64.h
+--- gcc-10.1.0_bak/gcc/config/sparc/openbsd64.h	2020-06-29 10:45:25.702682159 -0600
++++ gcc-10.1.0/gcc/config/sparc/openbsd64.h	2020-06-29 10:49:09.744677063 -0600
 @@ -64,7 +64,7 @@
     %{static:-Bstatic} \
     %{!static:-Bdynamic} \
@@ -574,9 +574,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/sparc/openbsd64.h gcc-9.1.0/gcc/config/spar
  
  /* As an elf system, we need crtbegin/crtend stuff.  */
  #undef STARTFILE_SPEC
-diff -Naur gcc-9.1.0.orig/gcc/config/tilegx/linux.h gcc-9.1.0/gcc/config/tilegx/linux.h
---- gcc-9.1.0.orig/gcc/config/tilegx/linux.h	2019-07-01 10:53:23.270578665 -0600
-+++ gcc-9.1.0/gcc/config/tilegx/linux.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/tilegx/linux.h gcc-10.1.0/gcc/config/tilegx/linux.h
+--- gcc-10.1.0_bak/gcc/config/tilegx/linux.h	2020-06-29 10:45:25.718682305 -0600
++++ gcc-10.1.0/gcc/config/tilegx/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -32,8 +32,8 @@
      %{!static: \
        %{rdynamic:-export-dynamic} \
@@ -588,9 +588,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/tilegx/linux.h gcc-9.1.0/gcc/config/tilegx/
      %{static:-static}}"
  
  #define MULTILIB_DEFAULTS { "m64" }
-diff -Naur gcc-9.1.0.orig/gcc/config/tilepro/linux.h gcc-9.1.0/gcc/config/tilepro/linux.h
---- gcc-9.1.0.orig/gcc/config/tilepro/linux.h	2019-07-01 10:53:23.242578415 -0600
-+++ gcc-9.1.0/gcc/config/tilepro/linux.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/tilepro/linux.h gcc-10.1.0/gcc/config/tilepro/linux.h
+--- gcc-10.1.0_bak/gcc/config/tilepro/linux.h	2020-06-29 10:45:25.682681977 -0600
++++ gcc-10.1.0/gcc/config/tilepro/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -27,7 +27,7 @@
    %{!shared: \
      %{!static: \
@@ -600,9 +600,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/tilepro/linux.h gcc-9.1.0/gcc/config/tilepr
      %{static:-static}}"
  
  #define NO_PROFILE_COUNTERS	1
-diff -Naur gcc-9.1.0.orig/gcc/config/vax/linux.h gcc-9.1.0/gcc/config/vax/linux.h
---- gcc-9.1.0.orig/gcc/config/vax/linux.h	2019-07-01 10:53:23.266578629 -0600
-+++ gcc-9.1.0/gcc/config/vax/linux.h	2019-07-01 10:54:41.659279631 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/vax/linux.h gcc-10.1.0/gcc/config/vax/linux.h
+--- gcc-10.1.0_bak/gcc/config/vax/linux.h	2020-06-29 10:45:25.714682269 -0600
++++ gcc-10.1.0/gcc/config/vax/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -41,7 +41,7 @@
    %{!shared: \
      %{!static: \
@@ -612,9 +612,9 @@ diff -Naur gcc-9.1.0.orig/gcc/config/vax/linux.h gcc-9.1.0/gcc/config/vax/linux.
      %{static:-static}}"
  
  #undef  WCHAR_TYPE
-diff -Naur gcc-9.1.0.orig/gcc/config/xtensa/linux.h gcc-9.1.0/gcc/config/xtensa/linux.h
---- gcc-9.1.0.orig/gcc/config/xtensa/linux.h	2019-07-01 10:53:23.258578557 -0600
-+++ gcc-9.1.0/gcc/config/xtensa/linux.h	2019-07-01 10:54:41.663279668 -0600
+diff -Naur gcc-10.1.0_bak/gcc/config/xtensa/linux.h gcc-10.1.0/gcc/config/xtensa/linux.h
+--- gcc-10.1.0_bak/gcc/config/xtensa/linux.h	2020-06-29 10:45:25.698682123 -0600
++++ gcc-10.1.0/gcc/config/xtensa/linux.h	2020-06-29 10:49:09.744677063 -0600
 @@ -46,7 +46,7 @@
    %{mauto-litpools:--auto-litpools} \
    %{mno-auto-litpools:--no-auto-litpools}"

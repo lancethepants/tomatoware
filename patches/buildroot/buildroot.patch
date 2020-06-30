@@ -1,11 +1,11 @@
-diff -Naur buildroot-git_orig/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch buildroot-git/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch
---- buildroot-git_orig/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch	1969-12-31 17:00:00.000000000 -0700
-+++ buildroot-git/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch	2020-05-18 13:56:48.332551356 -0600
+diff -Naur buildroot_orig/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch buildroot/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch
+--- buildroot_orig/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch	1969-12-31 17:00:00.000000000 -0700
++++ buildroot/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch	2020-06-29 11:36:30.871685245 -0600
 @@ -0,0 +1,24 @@
-+diff -Naur gcc-9.2.0_orig/libgo/configure gcc-9.2.0/libgo/configure
-+--- gcc-9.2.0_orig/libgo/configure	2019-12-31 11:20:45.878759707 -0700
-++++ gcc-9.2.0/libgo/configure	2019-12-31 11:22:08.783702916 -0700
-+@@ -13918,7 +13918,7 @@
++diff -Naur gcc-10.1.0_orig/libgo/configure gcc-10.1.0/libgo/configure
++--- gcc-10.1.0_orig/libgo/configure	2020-06-29 10:40:43.876021398 -0600
+++++ gcc-10.1.0/libgo/configure	2020-06-29 10:41:19.168366983 -0600
++@@ -14090,7 +14090,7 @@
 +     GOARCH=arm
 +     case ${host} in
 +       arm*b*-*-*)
@@ -14,10 +14,10 @@ diff -Naur buildroot-git_orig/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch bui
 + 	;;
 +     esac
 +     ;;
-+diff -Naur gcc-9.2.0_orig/libgo/configure.ac gcc-9.2.0/libgo/configure.ac
-+--- gcc-9.2.0_orig/libgo/configure.ac	2019-12-31 11:20:45.878759707 -0700
-++++ gcc-9.2.0/libgo/configure.ac	2019-12-31 11:21:57.411573631 -0700
-+@@ -243,7 +243,7 @@
++diff -Naur gcc-10.1.0_orig/libgo/configure.ac gcc-10.1.0/libgo/configure.ac
++--- gcc-10.1.0_orig/libgo/configure.ac	2020-06-29 10:40:43.876021398 -0600
+++++ gcc-10.1.0/libgo/configure.ac	2020-06-29 10:41:19.168366983 -0600
++@@ -256,7 +256,7 @@
 +     GOARCH=arm
 +     case ${host} in
 +       arm*b*-*-*)
@@ -26,9 +26,9 @@ diff -Naur buildroot-git_orig/package/gcc/9.3.0/0004-fix-libgo-for-arm.patch bui
 + 	;;
 +     esac
 +     ;;
-diff -Naur buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk buildroot-git/package/gcc/gcc-final/gcc-final.mk
---- buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk	2020-05-18 13:56:36.096450952 -0600
-+++ buildroot-git/package/gcc/gcc-final/gcc-final.mk	2020-05-18 13:56:48.332551356 -0600
+diff -Naur buildroot_orig/package/gcc/gcc-final/gcc-final.mk buildroot/package/gcc/gcc-final/gcc-final.mk
+--- buildroot_orig/package/gcc/gcc-final/gcc-final.mk	2020-06-29 11:35:08.283100320 -0600
++++ buildroot/package/gcc/gcc-final/gcc-final.mk	2020-06-29 11:35:16.519158503 -0600
 @@ -54,6 +54,7 @@
  
  # Languages supported by the cross-compiler
@@ -37,9 +37,9 @@ diff -Naur buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk buildroot-git/p
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_INSTALL_LIBSTDCPP) += c++
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_DLANG) += d
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_FORTRAN) += fortran
-diff -Naur buildroot-git_orig/package/gcc/gcc.mk buildroot-git/package/gcc/gcc.mk
---- buildroot-git_orig/package/gcc/gcc.mk	2020-05-18 13:56:36.096450952 -0600
-+++ buildroot-git/package/gcc/gcc.mk	2020-05-18 13:56:48.332551356 -0600
+diff -Naur buildroot_orig/package/gcc/gcc.mk buildroot/package/gcc/gcc.mk
+--- buildroot_orig/package/gcc/gcc.mk	2020-06-29 11:35:08.283100320 -0600
++++ buildroot/package/gcc/gcc.mk	2020-06-29 11:35:16.519158503 -0600
 @@ -48,7 +48,7 @@
  endef
  
