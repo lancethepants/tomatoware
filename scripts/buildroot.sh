@@ -1658,7 +1658,7 @@ cd cpio-${CPIO_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
@@ -1743,7 +1743,7 @@ cd distcc-${DISTCC_VERSION}
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
+	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
@@ -1933,7 +1933,7 @@ if [ ! -f .built ]; then
 	DESTARCH=$DESTARCH
 	_PREFIX=$PREFIX \
 	_LDFLAGS=$LDFLAGS \
-	_CPPFLAGS=$CPPFLAGS \
+	_CPPFLAGS="$CPPFLAGS -fcommon" \
 	$MAKE
 	touch .built
 fi
