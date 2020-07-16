@@ -1,0 +1,41 @@
+From e0686f7c03ce8e51ccffefeb6365e50311e6dd10 Mon Sep 17 00:00:00 2001
+From: lancethepants <lancethepants@gmail.com>
+Date: Wed, 15 Jul 2020 13:09:26 -0600
+Subject: [PATCH] Starting with GCC-10 multiple definitions of global variables
+ by will be rejected. This fixes multiple definitions of _dl_pagesize and
+ _dl_tls_static_size while attempting static linking.
+
+---
+ libc/misc/elf/dl-support.c                 | 2 +-
+ libpthread/nptl/sysdeps/generic/libc-tls.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libc/misc/elf/dl-support.c b/libc/misc/elf/dl-support.c
+index 87cd1bb72..eaf08f5bb 100644
+--- a/libc/misc/elf/dl-support.c
++++ b/libc/misc/elf/dl-support.c
+@@ -29,7 +29,7 @@ void (*_dl_init_static_tls) (struct link_map *) = &_dl_nothread_init_static_tls;
+ 
+ ElfW(Phdr) *_dl_phdr;
+ size_t _dl_phnum;
+-size_t _dl_pagesize;
++extern size_t _dl_pagesize;
+ 
+ void internal_function _dl_aux_init (ElfW(auxv_t) *av);
+ void internal_function _dl_aux_init (ElfW(auxv_t) *av)
+diff --git a/libpthread/nptl/sysdeps/generic/libc-tls.c b/libpthread/nptl/sysdeps/generic/libc-tls.c
+index d746c9a38..a1d2ef913 100644
+--- a/libpthread/nptl/sysdeps/generic/libc-tls.c
++++ b/libpthread/nptl/sysdeps/generic/libc-tls.c
+@@ -72,7 +72,7 @@ struct dtv_slotinfo_list *_dl_tls_dtv_slotinfo_list;
+ /* Number of modules in the static TLS block.  */
+ size_t _dl_tls_static_nelem;
+ /* Size of the static TLS block.  */
+-size_t _dl_tls_static_size;
++extern size_t _dl_tls_static_size;
+ /* Size actually allocated in the static TLS block.  */
+ size_t _dl_tls_static_used;
+ /* Alignment requirement of the static TLS block.  */
+-- 
+2.20.1
+
