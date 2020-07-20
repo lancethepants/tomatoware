@@ -611,7 +611,7 @@ cd cmake-${CMAKE_VERSION}
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
 	if [ "$DESTARCH" == "mipsel" ];then
-		patch -p1 < $PATCHES/cmake/epoll_create1.patch
+		patch -p1 < $PATCHES/cmake/compat.patch
 	fi
 	touch .patched
 fi
