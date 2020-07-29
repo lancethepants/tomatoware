@@ -1,6 +1,6 @@
-diff -Naur buildroot_orig/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch buildroot/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch
---- buildroot_orig/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch	1969-12-31 17:00:00.000000000 -0700
-+++ buildroot/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch	2020-06-29 11:36:30.871685245 -0600
+diff -Naur buildroot-git_orig/package/gcc/10.2.0/0004-fix-libgo-for-arm.patch buildroot-git/package/gcc/10.2.0/0004-fix-libgo-for-arm.patch
+--- buildroot-git_orig/package/gcc/10.2.0/0004-fix-libgo-for-arm.patch	1969-12-31 17:00:00.000000000 -0700
++++ buildroot-git/package/gcc/10.2.0/0004-fix-libgo-for-arm.patch	2020-07-28 07:59:38.492334957 -0600
 @@ -0,0 +1,24 @@
 +diff -Naur gcc-10.1.0_orig/libgo/configure gcc-10.1.0/libgo/configure
 +--- gcc-10.1.0_orig/libgo/configure	2020-06-29 10:40:43.876021398 -0600
@@ -26,9 +26,9 @@ diff -Naur buildroot_orig/package/gcc/10.1.0/0004-fix-libgo-for-arm.patch buildr
 + 	;;
 +     esac
 +     ;;
-diff -Naur buildroot_orig/package/gcc/gcc-final/gcc-final.mk buildroot/package/gcc/gcc-final/gcc-final.mk
---- buildroot_orig/package/gcc/gcc-final/gcc-final.mk	2020-06-29 11:35:08.283100320 -0600
-+++ buildroot/package/gcc/gcc-final/gcc-final.mk	2020-06-29 11:35:16.519158503 -0600
+diff -Naur buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk buildroot-git/package/gcc/gcc-final/gcc-final.mk
+--- buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk	2020-07-28 07:59:28.960266868 -0600
++++ buildroot-git/package/gcc/gcc-final/gcc-final.mk	2020-07-28 07:59:38.496334986 -0600
 @@ -54,6 +54,7 @@
  
  # Languages supported by the cross-compiler
@@ -37,9 +37,9 @@ diff -Naur buildroot_orig/package/gcc/gcc-final/gcc-final.mk buildroot/package/g
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_INSTALL_LIBSTDCPP) += c++
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_DLANG) += d
  GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_FORTRAN) += fortran
-diff -Naur buildroot_orig/package/gcc/gcc.mk buildroot/package/gcc/gcc.mk
---- buildroot_orig/package/gcc/gcc.mk	2020-06-29 11:35:08.283100320 -0600
-+++ buildroot/package/gcc/gcc.mk	2020-06-29 11:35:16.519158503 -0600
+diff -Naur buildroot-git_orig/package/gcc/gcc.mk buildroot-git/package/gcc/gcc.mk
+--- buildroot-git_orig/package/gcc/gcc.mk	2020-07-28 07:59:28.960266868 -0600
++++ buildroot-git/package/gcc/gcc.mk	2020-07-28 07:59:38.496334986 -0600
 @@ -48,7 +48,7 @@
  endef
  
