@@ -5,3 +5,4 @@
 005-uclibc-ldd-static.patch
 006-uclibc-ldso-search-path2.patch
 007-fix-static-linking-multiple-definitions.patch
+008-stddef-include.patch
