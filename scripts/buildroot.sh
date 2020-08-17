@@ -1374,7 +1374,7 @@ fi
 if [ "$DESTARCH" == "mipsel" ];then
 	UTIL_LINUX_VERSION=2.34
 else
-	UTIL_LINUX_VERSION=2.35
+	UTIL_LINUX_VERSION=2.36
 fi
 
 cd $SRC/util-linux
