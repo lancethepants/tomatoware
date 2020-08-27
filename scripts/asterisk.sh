@@ -383,11 +383,11 @@ if [ ! -f .patched ]; then
 fi
 
 if [ "$DESTARCH" == "mipsel" ];then
-	os=mipsel-buildroot-linux-uclibc
+	os=mipsel-tomatoware-linux-uclibc
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-buildroot-linux-uclibcgnueabi
+	os=arm-tomatoware-linux-uclibcgnueabi
 fi
 
 if [ ! -f .configured ]; then

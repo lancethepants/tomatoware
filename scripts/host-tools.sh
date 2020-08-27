@@ -32,11 +32,11 @@ if [ ! -f .symlinked-native ]; then
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-g++
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc-$GCC_VERSION
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-c++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-g++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc-$GCC_VERSION
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-c++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-g++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc-$GCC_VERSION
 
 	ln -sf ccache $BASE/native/bin/cc
 	ln -sf ccache $BASE/native/bin/gcc
@@ -50,10 +50,10 @@ if [ ! -f .symlinked-native ]; then
 		ln -sf ccache $BASE/native/bin/mipsel-linux-g++
 		ln -sf ccache $BASE/native/bin/mipsel-linux-gcc
 
-		ln -sf ccache $BASE/native/bin/mipsel-buildroot-linux-uclibc-c++
-		ln -sf ccache $BASE/native/bin/mipsel-buildroot-linux-uclibc-cc
-		ln -sf ccache $BASE/native/bin/mipsel-buildroot-linux-uclibc-g++
-		ln -sf ccache $BASE/native/bin/mipsel-buildroot-linux-uclibc-gcc
+		ln -sf ccache $BASE/native/bin/mipsel-tomatoware-linux-uclibc-c++
+		ln -sf ccache $BASE/native/bin/mipsel-tomatoware-linux-uclibc-cc
+		ln -sf ccache $BASE/native/bin/mipsel-tomatoware-linux-uclibc-g++
+		ln -sf ccache $BASE/native/bin/mipsel-tomatoware-linux-uclibc-gcc
 	fi
 
 	touch .symlinked-native
