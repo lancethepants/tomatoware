@@ -27,7 +27,7 @@ CCACHE_VERSION=3.7.11
 if [ "$DESTARCH" = "arm" ]; then
 	GNUEABI=gnueabi
 	if [ "$BUILDCROSSTOOLS" == "1" ]; then
-		MIPSEL=mipsel-buildroot-linux-uclibc
+		MIPSEL=mipsel-tomatoware-linux-uclibc
 	fi
 fi
 

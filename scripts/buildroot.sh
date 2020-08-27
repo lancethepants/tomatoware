@@ -268,11 +268,11 @@ fi
 cd build-binutils
 
 if [ "$DESTARCH" == "mipsel" ];then
-        os=mipsel-buildroot-linux-uclibc
+        os=mipsel-tomatoware-linux-uclibc
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-buildroot-linux-uclibcgnueabi
+	os=arm-tomatoware-linux-uclibcgnueabi
 fi
 
 if [ ! -f .configured ]; then
@@ -302,7 +302,7 @@ if [ ! -f .symlinked ]; then
 	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
 	do
 		ln -sf $link $DEST/bin/$DESTARCH-linux-$link
-		ln -sf $link $DEST/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-$link
+		ln -sf $link $DEST/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-$link
 	done
 	touch .symlinked
 fi
@@ -324,8 +324,8 @@ fi
 
 cd build-binutils
 
-hostos=arm-buildroot-linux-uclibcgnueabi
-targetos=mipsel-buildroot-linux-uclibc
+hostos=arm-tomatoware-linux-uclibcgnueabi
+targetos=mipsel-tomatoware-linux-uclibc
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -351,11 +351,11 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .symlinked ]; then
-	ln -sf $PREFIX/mipsel$PREFIX/include $DEST/mipsel-buildroot-linux-uclibc/include
+	ln -sf $PREFIX/mipsel$PREFIX/include $DEST/mipsel-tomatoware-linux-uclibc/include
 
 	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
 	do
-		ln -sf mipsel-buildroot-linux-uclibc-$link $DEST/bin/mipsel-linux-$link
+		ln -sf mipsel-tomatoware-linux-uclibc-$link $DEST/bin/mipsel-linux-$link
 	done
 	touch .symlinked
 fi
@@ -394,14 +394,14 @@ fi
 cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
-	os=mipsel-buildroot-linux-uclibc
+	os=mipsel-tomatoware-linux-uclibc
 	gccextraconfig="--with-abi=32
 			--with-arch=mips32"
 	gcclangs="c,c++"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-buildroot-linux-uclibcgnueabi
+	os=arm-tomatoware-linux-uclibcgnueabi
 	gccextraconfig="--with-abi=aapcs-linux
 			--with-cpu=cortex-a9
 			--with-mode=arm"
@@ -419,7 +419,7 @@ if [ ! -f .configured ]; then
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
 	--with-sysroot=$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-buildroot-linux-uclibc$GNUEABI/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
 	--enable-shared \
 	--enable-static \
@@ -459,7 +459,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf gcc $DEST/bin/cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-gcc
-	ln -sf gcc $DEST/bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
+	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
@@ -494,8 +494,8 @@ fi
 
 cd ../gcc-build
 
-hostos=arm-buildroot-linux-uclibcgnueabi
-targetos=mipsel-buildroot-linux-uclibc
+hostos=arm-tomatoware-linux-uclibcgnueabi
+targetos=mipsel-tomatoware-linux-uclibc
 gccextraconfig="--with-abi=32
 		--with-arch=mips32"
 
@@ -510,7 +510,7 @@ if [ ! -f .configured ]; then
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/usr/mipsel-buildroot-linux-uclibc/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/usr/mipsel-tomatoware-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++ \
 	--enable-shared \
 	--enable-static \
@@ -546,15 +546,15 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .symlinked ]; then
-	ln -sf mipsel-buildroot-linux-uclibc-gcc $DEST/bin/mipsel-linux-cc
-	ln -sf mipsel-buildroot-linux-uclibc-gcc $DEST/bin/mipsel-linux-gcc
-	ln -sf mipsel-buildroot-linux-uclibc-g++ $DEST/bin/mipsel-linux-c++
-	ln -sf mipsel-buildroot-linux-uclibc-g++ $DEST/bin/mipsel-linux-g++
+	ln -sf mipsel-tomatoware-linux-uclibc-gcc $DEST/bin/mipsel-linux-cc
+	ln -sf mipsel-tomatoware-linux-uclibc-gcc $DEST/bin/mipsel-linux-gcc
+	ln -sf mipsel-tomatoware-linux-uclibc-g++ $DEST/bin/mipsel-linux-c++
+	ln -sf mipsel-tomatoware-linux-uclibc-g++ $DEST/bin/mipsel-linux-g++
 
-	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crt1.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crt1.o
-	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crti.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crti.o
-	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crtn.o  $DEST/mipsel-buildroot-linux-uclibc/lib/crtn.o
-	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/Scrt1.o $DEST/mipsel-buildroot-linux-uclibc/lib/Scrt1.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crt1.o  $DEST/mipsel-tomatoware-linux-uclibc/lib/crt1.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crti.o  $DEST/mipsel-tomatoware-linux-uclibc/lib/crti.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crtn.o  $DEST/mipsel-tomatoware-linux-uclibc/lib/crtn.o
+	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/Scrt1.o $DEST/mipsel-tomatoware-linux-uclibc/lib/Scrt1.o
 	touch .symlinked
 fi
 
@@ -789,7 +789,7 @@ if [ ! -f .postinstalled ]; then
 		echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
 
-		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-buildroot-linux-uclibc/bin/ld.lld
+		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
 	fi
 
 	touch .postinstalled
@@ -892,10 +892,10 @@ if [ ! -f .symlinked ]; then
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-cc
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-g++
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-gcc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-c++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-cc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-g++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-buildroot-linux-uclibc$GNUEABI-gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang++
 
@@ -905,10 +905,10 @@ if [ ! -f .symlinked ]; then
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-cc
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-g++
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-gcc
-		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-c++
-		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-cc
-		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-g++
-		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-buildroot-linux-uclibc-gcc
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-tomatoware-linux-uclibc-c++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-tomatoware-linux-uclibc-cc
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-tomatoware-linux-uclibc-g++
+		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-tomatoware-linux-uclibc-gcc
 		ln -sf ../ccache $DEST/bin/ccache_bin/clang-mipsel
 		ln -sf ../ccache $DEST/bin/ccache_bin/clang++-mipsel
 	fi
