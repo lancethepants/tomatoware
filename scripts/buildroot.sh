@@ -791,7 +791,8 @@ if [ ! -f .postinstalled ]; then
 			echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
 			chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
 
-		fi	ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
+			ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
+		fi
 	fi
 
 	touch .postinstalled
