@@ -782,14 +782,16 @@ if [ ! -f .postinstalled ]; then
 		echo 'exec '"$PREFIX"'/bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/clang++-mipsel
 
-		echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
-		echo 'export PKG_CONFIG_DIR=' >> $DEST/bin/mipsel-linux-pkg-config
-		echo 'export PKG_CONFIG_LIBDIR='"$PREFIX"'/mipsel'"$PREFIX"'/lib/pkgconfig' >> $DEST/bin/mipsel-linux-pkg-config
-		echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
-		echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
-		chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
+		if [ "$BUILDCROSSTOOLS" == "1" ]; then
 
-		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
+			echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
+			echo 'export PKG_CONFIG_DIR=' >> $DEST/bin/mipsel-linux-pkg-config
+			echo 'export PKG_CONFIG_LIBDIR='"$PREFIX"'/mipsel'"$PREFIX"'/lib/pkgconfig' >> $DEST/bin/mipsel-linux-pkg-config
+			echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
+			echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
+			chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
+
+		fi	ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
 	fi
 
 	touch .postinstalled
