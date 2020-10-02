@@ -419,7 +419,7 @@ if [ ! -f .configured ]; then
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
 	--with-sysroot=$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/usr/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
 	--enable-shared \
 	--enable-static \
@@ -510,7 +510,7 @@ if [ ! -f .configured ]; then
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/usr/mipsel-tomatoware-linux-uclibc/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++ \
 	--enable-shared \
 	--enable-static \
