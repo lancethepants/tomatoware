@@ -1,27 +1,30 @@
---- uClibc-0.9.32.orig/utils/ldconfig.c
-+++ uClibc-0.9.32/utils/ldconfig.c
-@@ -949,10 +949,10 @@
+diff -Naur uClibc-ng-1.0.36_orig/utils/ldconfig.c uClibc-ng-1.0.36/utils/ldconfig.c
+--- uClibc-ng-1.0.36_orig/utils/ldconfig.c	2020-10-26 13:36:26.693559465 -0600
++++ uClibc-ng-1.0.36/utils/ldconfig.c	2020-10-26 13:36:57.646066254 -0600
+@@ -949,10 +949,11 @@
  
  		/* look ma, no defaults */
  		if (!nodefault) {
 -			scan_dir(UCLIBC_RUNTIME_PREFIX "lib");
 -			scan_dir(UCLIBC_RUNTIME_PREFIX "usr/lib");
-+			scan_dir("/opt/lib");
-+			scan_dir("/opt/usr/lib");
++			scan_dir("/mmc/lib");
++			scan_dir("/mmc/usr/lib");
++			scan_dir("/mmc/usr/local/lib");
  #ifndef __LDSO_CACHE_SUPPORT__
 -			scan_dir(UCLIBC_RUNTIME_PREFIX "usr/X11R6/lib");
-+			scan_dir("opt/X11R6/lib");
++			scan_dir("/mmc/X11R6/lib");
  #else
  			/* I guess the defaults aren't good enough */
  			if ((extpath = get_extpath())) {
-@@ -963,8 +963,8 @@
+@@ -963,8 +964,9 @@
  						while (cp[--len] == '/' && len)
  							cp[len] = 0;
  					/* we do the redundancy check only if cache usage is enabled */
 -					if (strcmp(UCLIBC_RUNTIME_PREFIX "lib", cp) == 0
 -					    || strcmp(UCLIBC_RUNTIME_PREFIX "usr/lib", cp) == 0) {
-+					if (strcmp("/opt/lib", cp) == 0
-+					    || strcmp("/opt/usr/lib", cp) == 0) {
++					if (strcmp("/mmc/lib", cp) == 0
++					    || strcmp("/mmc/usr/lib", cp) == 0
++						|| strcmp("/mmc/usr/local/lib", cp) == 0) {
  						if (verbose >= 0)
  							warnx("You should remove `%s' from `%s'", cp, LDSO_CONF);
  						continue;

@@ -1,7 +1,7 @@
-diff -Naur uClibc-ng-1.0.26_orig/ldso/ldso/dl-elf.c uClibc-ng-1.0.26/ldso/ldso/dl-elf.c
---- uClibc-ng-1.0.26_orig/ldso/ldso/dl-elf.c	2017-09-08 11:07:44.314799705 -0600
-+++ uClibc-ng-1.0.26/ldso/ldso/dl-elf.c	2017-09-08 11:08:19.899208129 -0600
-@@ -306,19 +306,6 @@
+diff -Naur uClibc-ng-1.0.36_orig/ldso/ldso/dl-elf.c uClibc-ng-1.0.36/ldso/ldso/dl-elf.c
+--- uClibc-ng-1.0.36_orig/ldso/ldso/dl-elf.c	2020-10-26 11:01:13.381237792 -0600
++++ uClibc-ng-1.0.36/ldso/ldso/dl-elf.c	2020-10-26 11:24:56.736067064 -0600
+@@ -308,19 +308,6 @@
  		}
  	}
  #endif
@@ -21,7 +21,7 @@ diff -Naur uClibc-ng-1.0.26_orig/ldso/ldso/dl-elf.c uClibc-ng-1.0.26/ldso/ldso/d
  #if defined SHARED && defined __LDSO_SEARCH_INTERP_PATH__
  	/* Look for libraries wherever the shared library loader
  	 * was installed */
-@@ -327,7 +314,6 @@
+@@ -329,7 +316,6 @@
  	if (tpnt1 != NULL)
  		return tpnt1;
  #endif
@@ -29,10 +29,10 @@ diff -Naur uClibc-ng-1.0.26_orig/ldso/ldso/dl-elf.c uClibc-ng-1.0.26/ldso/ldso/d
  	/* Lastly, search the standard list of paths for the library.
  	   This list must exactly match the list in uClibc/ldso/util/ldd.c */
  	_dl_if_debug_dprint("\tsearching full lib path list\n");
-diff -Naur uClibc-ng-1.0.26_orig/ldso/ldso/Makefile.in uClibc-ng-1.0.26/ldso/ldso/Makefile.in
---- uClibc-ng-1.0.26_orig/ldso/ldso/Makefile.in	2017-09-08 11:07:44.314799705 -0600
-+++ uClibc-ng-1.0.26/ldso/ldso/Makefile.in	2017-09-08 11:08:19.899208129 -0600
-@@ -34,11 +34,6 @@
+diff -Naur uClibc-ng-1.0.36_orig/ldso/ldso/Makefile.in uClibc-ng-1.0.36/ldso/ldso/Makefile.in
+--- uClibc-ng-1.0.36_orig/ldso/ldso/Makefile.in	2020-10-26 11:01:13.381237792 -0600
++++ uClibc-ng-1.0.36/ldso/ldso/Makefile.in	2020-10-26 11:24:56.736067064 -0600
+@@ -32,11 +32,6 @@
  
  CFLAGS-ldso.c := -DLDSO_ELFINTERP=\"$(TARGET_ARCH)/elfinterp.c\"
  

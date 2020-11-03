@@ -1,11 +1,12 @@
---- uClibc-0.9.32.orig/ldso/include/dl-defs.h
-+++ uClibc-0.9.32/ldso/include/dl-defs.h
-@@ -36,7 +36,7 @@
+diff -Naur uClibc-ng-1.0.36_orig/ldso/include/dl-defs.h uClibc-ng-1.0.36/ldso/include/dl-defs.h
+--- uClibc-ng-1.0.36_orig/ldso/include/dl-defs.h	2020-10-26 11:01:13.381237792 -0600
++++ uClibc-ng-1.0.36/ldso/include/dl-defs.h	2020-10-26 11:16:56.475141897 -0600
+@@ -35,7 +35,7 @@
  #ifndef __LDSO_BASE_FILENAME__
  #define __LDSO_BASE_FILENAME__ "ld.so"
  #endif
 -#define LDSO_BASE_PATH UCLIBC_RUNTIME_PREFIX "etc/" __LDSO_BASE_FILENAME__
-+#define LDSO_BASE_PATH "/opt/etc/" __LDSO_BASE_FILENAME__
++#define LDSO_BASE_PATH "/mmc/etc/" __LDSO_BASE_FILENAME__
  
  #ifdef __LDSO_PRELOAD_FILE_SUPPORT__
  #define LDSO_PRELOAD LDSO_BASE_PATH ".preload"
