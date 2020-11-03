@@ -5,7 +5,7 @@ source ./scripts/environment.sh
 export BASE=$BASE
 export SRC=$SRC
 
-UCLIBCVER="1.0.35"
+UCLIBCVER="1.0.36"
 BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-$FLOAT${PREFIX////-}"
@@ -71,7 +71,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	if [ "$DESTARCH" == "mipsel" ];then
 		echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
 	fi
-	sed -i 's,\/opt,'"$PREFIX"',g' \
+	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
 	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
 	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \

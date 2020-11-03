@@ -1,16 +1,16 @@
-diff -Naur uClibc-0.9.33.2.orig/ldso/ldso/dl-elf.c uClibc-0.9.33.2/ldso/ldso/dl-elf.c
---- uClibc-0.9.33.2.orig/ldso/ldso/dl-elf.c	2012-05-15 01:20:09.000000000 -0600
-+++ uClibc-0.9.33.2/ldso/ldso/dl-elf.c	2015-02-20 14:01:20.711286638 -0700
-@@ -296,10 +296,9 @@
+diff -Naur uClibc-ng-1.0.36_orig/ldso/ldso/dl-elf.c uClibc-ng-1.0.36/ldso/ldso/dl-elf.c
+--- uClibc-ng-1.0.36_orig/ldso/ldso/dl-elf.c	2020-10-26 11:01:13.381237792 -0600
++++ uClibc-ng-1.0.36/ldso/ldso/dl-elf.c	2020-10-26 11:03:34.558725069 -0600
+@@ -334,10 +334,9 @@
  	   This list must exactly match the list in uClibc/ldso/util/ldd.c */
  	_dl_if_debug_dprint("\tsearching full lib path list\n");
  	tpnt1 = search_for_named_library(libname, rflags,
 -					UCLIBC_RUNTIME_PREFIX "lib:"
 -					UCLIBC_RUNTIME_PREFIX "usr/lib"
-+					"/opt/lib"
++					"/mmc/lib:/mmc/usr/lib:/mmc/usr/local/lib"
  #ifndef __LDSO_CACHE_SUPPORT__
 -					":" UCLIBC_RUNTIME_PREFIX "usr/X11R6/lib"
-+					":" "/opt/X11R6/lib"
++					":" "/mmc/X11R6/lib"
  #endif
- 					, rpnt);
+ 					, rpnt, NULL);
  	if (tpnt1 != NULL)

@@ -1,6 +1,7 @@
---- uClibc-0.9.32.orig/utils/Makefile.in.orig
-+++ uClibc-0.9.32/utils/Makefile.in
-@@ -31,7 +31,7 @@ else
+diff -Naur uClibc-ng-1.0.36_orig/utils/Makefile.in uClibc-ng-1.0.36/utils/Makefile.in
+--- uClibc-ng-1.0.36_orig/utils/Makefile.in	2020-10-26 11:01:13.393237919 -0600
++++ uClibc-ng-1.0.36/utils/Makefile.in	2020-10-26 11:23:24.515702836 -0600
+@@ -36,7 +36,7 @@
  CFLAGS-ldconfig += $(CFLAGS-utils-shared)
  endif
  
