@@ -15,33 +15,9 @@ cp -rf $DEST/usr/include $DEST
 rm -rf $DEST/usr/include
 ln -sf ../include $DEST/usr/include
 
-ln -sf ../usr/lib/crt1.o $DEST/lib/
-ln -sf ../usr/lib/crti.o $DEST/lib/
-ln -sf ../usr/lib/crtn.o $DEST/lib/
-ln -sf ../usr/lib/Scrt1.o $DEST/lib/
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtbegin.o $DEST/usr/lib/
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtbeginS.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtbeginT.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtend.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtendS.o $DEST/usr/lib
-ln -sf ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/crtfastmath.o $DEST/usr/lib
-
-ln -sf ../usr/lib/libstdc++.so.6.0.28 $DEST/lib/libstdc++.so.6.0.28
-ln -sf ../usr/lib/libstdc++.so.6.0.28 $DEST/lib/libstdc++.so.6
-ln -sf ../usr/lib/libstdc++.so.6.0.28 $DEST/lib/libstdc++.so
-ln -sf ../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc_eh.a $DEST/lib
-ln -sf ../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgcc.a $DEST/lib
-
-#go symlinks. Just for arm for now.
-if [ "$DESTARCH" = "arm" ]; then
-	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16.0.0
-	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16
-	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so
-fi
-
-mkdir -p $DEST/usr/local
-ln -s ../../lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/ $DEST/usr/local/include
-cp -r $DEST/lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/bits/ $DEST/lib/gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/
+#Add include paths for clang to find things
+ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
+ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/ $DEST/lib/gcc/c++2
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.
