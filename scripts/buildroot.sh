@@ -705,9 +705,14 @@ if [ "$DESTARCH" == "arm" ];then
 	TARGETS_TO_BUILD="ARM;Mips"
 	LLVM_TARGET_ARCH="ARM"
 	MFLOAT="-mfloat-abi=soft"
-	HOST_TRIPLE="armv7a-unknown-linux"
-	TARGET_TRIPLE="armv7a-unknown-linux-gnueabi"
+	HOST_TRIPLE="armv7a-tomatoware-linux"
+	TARGET_TRIPLE="armv7a-tomatoware-linux-gnueabi"
 fi
+
+C_INCLUDE_DIRS=\
+/lib/gcc/c++:\
+/lib/gcc/c++2:\
+/usr/include
 
 cd $SRC/llvm/llvm-project-${LLVM_VERSION}
 
@@ -738,6 +743,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS $MFLOAT" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DCMAKE_SHARED_LINKER_FLAGS="$LDFLAGS" \
+	-DC_INCLUDE_DIRS="$C_INCLUDE_DIRS" \
 	-DFFI_INCLUDE_DIR=$DEST/include \
 	-DFFI_LIBRARY_DIR=$DEST/lib \
 	-DLLVM_ENABLE_FFI=ON \
@@ -776,10 +782,12 @@ if [ ! -f .postinstalled ]; then
 
 	if [ "$DESTARCH" = "arm" ]; then
 
+		ln -s arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-uclibcgnueabi
+
 		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
 		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
-		echo 'exec '"$PREFIX"'/bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
-		echo 'exec '"$PREFIX"'/bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target=mipsel-linux-uclibc -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target='"$MIPSEL"' -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
+		echo 'exec '"$PREFIX"'/bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target='"$MIPSEL"' -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/clang++-mipsel
 
 		if [ "$BUILDCROSSTOOLS" == "1" ]; then
