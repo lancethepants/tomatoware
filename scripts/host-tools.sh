@@ -18,8 +18,10 @@ fi
 cd ccache-${CCACHE_VERSION}-native
 
 if [ ! -f .built-native ]; then
-	./configure \
-	--prefix=$BASE/native
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=$BASE/native \
+	-DZSTD_FROM_INTERNET=ON \
+	./
 	$MAKE
 	make install
 	touch .built-native
