@@ -68,13 +68,13 @@ fi
 cd $SRC/ninja
 
 if [ ! -f .extracted-native ]; then
-	rm -rf ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	rm -rf ninja-v${NINJA_VERSION} ninja-v${NINJA_VERSION}-native
 	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-	mv ninja-${NINJA_VERSION} ninja-${NINJA_VERSION}-native
+	mv ninja-v${NINJA_VERSION} ninja-v${NINJA_VERSION}-native
 	touch .extracted-native
 fi
 
-cd ninja-${NINJA_VERSION}-native
+cd ninja-v${NINJA_VERSION}-native
 
 if [ ! -f .built-native ]; then
 	python ./configure.py --bootstrap
