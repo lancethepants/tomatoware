@@ -868,12 +868,17 @@ fi
 cd ccache-${CCACHE_VERSION}
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
-        CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE
-        touch .configured
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	./
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
