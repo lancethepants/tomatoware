@@ -561,12 +561,12 @@ fi
 cd $SRC/ninja
 
 if [ ! -f .extracted ]; then
-	rm -rf ninja-${NINJA_VERSION}
+	rm -rf ninja-v${NINJA_VERSION}
 	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
 	touch .extracted
 fi
 
-cd ninja-${NINJA_VERSION}
+cd ninja-v${NINJA_VERSION}
 
 if [ ! -f .configured ]; then
 	CXX=$DESTARCH-linux-g++ \
