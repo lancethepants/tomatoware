@@ -268,88 +268,6 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-############ ################################################################
-# LIBICONV # ################################################################
-############ ################################################################
-
-LIBICONV_VERSION=1.16
-
-cd $SRC/libiconv
-
-if [ ! -f .extracted ]; then
-	rm -rf libiconv-${LIBICONV_VERSION}
-	tar zxvf libiconv-${LIBICONV_VERSION}.tar.gz
-	touch .extracted
-fi
-
-cd libiconv-${LIBICONV_VERSION}
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--enable-static
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
-########### #################################################################
-# GETTEXT # #################################################################
-########### #################################################################
-
-GETTEXT_VERSION=0.21
-
-cd $SRC/gettext
-
-if [ ! -f .extracted ]; then
-	rm -rf gettext-${GETTEXT_VERSION}
-	tar xvJf gettext-${GETTEXT_VERSION}.tar.xz
-	touch .extracted
-fi
-
-cd gettext-${GETTEXT_VERSION}
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/gettext/spawn.patch
-	touch .patched
-fi
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
-	touch .installed
-fi
-
-if [ ! -f .edit_sed ]; then
-        sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-        $DEST/lib/libintl.la
-        touch .edit_sed
-fi
-
 ######## ####################################################################
 # FLEX # ####################################################################
 ######## ####################################################################
@@ -928,15 +846,9 @@ if [ ! -f .linked ]; then
 fi
 
 if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libxml2.la
-	touch .edit_sed
-fi
-
-if [ ! -f .edit_sed2 ]; then
 	sed -i 's,'"$PREFIX"'\/lib\/liblzma.la,'"$DEST"'\/lib\/liblzma.la,g' \
 	$DEST/lib/libxml2.la
-	touch .edit_sed2
+	touch .edit_sed
 fi
 
 ########### #################################################################
@@ -1533,9 +1445,10 @@ if [ ! -f .built ]; then
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
 	USE_LIBPCRE1=yes \
+	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre"
 	touch .built
 fi
 
@@ -1553,9 +1466,10 @@ if [ ! -f .installed ]; then
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
 	USE_LIBPCRE1=yes \
+	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lgettextlib -liconv -lintl -lpcre" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre" \
 	install DESTDIR=$BASE
 	tar xvJf $SRC/git/git-manpages-${GIT_VERSION}.tar.xz -C $DEST/man
 	touch .installed
