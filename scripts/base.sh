@@ -1386,7 +1386,7 @@ fi
 # UNRAR # ###################################################################
 ######### ###################################################################
 
-UNRAR_VERSION=5.9.4
+UNRAR_VERSION=6.0.1
 
 cd $SRC/unrar
 
@@ -1399,7 +1399,7 @@ fi
 cd unrar
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/unrar/unrar.patch
+	patch -p1 < $PATCHES/unrar/unrar.patch
 	touch .patched
 fi
 
