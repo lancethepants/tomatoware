@@ -1,6 +1,6 @@
 diff -Naur unrar_orig/makefile unrar/makefile
---- unrar_orig/makefile	2018-04-16 08:40:02.960801853 -0600
-+++ unrar/makefile	2018-04-16 08:41:42.373492749 -0600
+--- unrar_orig/makefile	2020-11-06 07:43:07.188996056 -0700
++++ unrar/makefile	2020-11-06 07:43:20.561089094 -0700
 @@ -2,13 +2,13 @@
  # Makefile for UNIX - unrar
  
