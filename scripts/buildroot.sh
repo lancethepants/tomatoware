@@ -649,7 +649,7 @@ fi
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
-LLVM_VERSION=10.0.1
+LLVM_VERSION=11.0.0
 
 cd $SRC/llvm
 
