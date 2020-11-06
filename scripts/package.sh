@@ -19,6 +19,12 @@ ln -sf ../include $DEST/usr/include
 ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
 ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/ $DEST/lib/gcc/c++2
 
+if [ "$DESTARCH" = "arm" ]; then
+	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16.0.0
+	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so.16
+	ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.16.0.0 $DEST/lib/libgo.so
+fi
+
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.
 find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
