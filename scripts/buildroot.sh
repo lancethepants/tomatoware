@@ -49,7 +49,7 @@ if [ ! -f .configured ]; then
 		CFLAGS=$CFLAGS \
 		CXXFLAGS=$CXXFLAGS \
 		$CONFIGURE \
-		--with-libiconv=gnu  \
+		--with-libiconv=native  \
 		--enable-static \
 		glib_cv_stack_grows=no \
 		glib_cv_uscore=no \
@@ -60,7 +60,7 @@ if [ ! -f .configured ]; then
 		autoreconf -f -i
 		LDFLAGS=$LDFLAGS \
 		CPPFLAGS=$CPPFLAGS \
-		CFLAGS="-Wno-error=missing-include-dirs $CFLAGS" \
+		CFLAGS="-Wno-error=missing-include-dirs -Wno-error=format-nonliteral $CFLAGS" \
 		CXXFLAGS=$CXXFLAGS \
 		$CONFIGURE \
 		--enable-shared \
@@ -70,7 +70,7 @@ if [ ! -f .configured ]; then
 		--disable-libmount \
 		--disable-fam \
 		--disable-man \
-		--with-libiconv=gnu \
+		--with-libiconv=native \
 		--with-pcre=internal \
 		glib_cv_stack_grows=no \
 		glib_cv_uscore=no \
@@ -93,12 +93,6 @@ if [ ! -f .installed ]; then
 fi
 
 unset PKG_CONFIG_LIBDIR
-
-if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g;s,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libglib-2.0.la
-	touch .edit_sed
-fi
 
 ############## ##############################################################
 # PKG-CONFIG # ##############################################################
