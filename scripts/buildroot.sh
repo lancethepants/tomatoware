@@ -755,6 +755,7 @@ if [ ! -f .configured ]; then
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/clang-tblgen" \
 	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}_host/build/bin/lldb-tblgen" \
 	-DLLDB_ENABLE_LUA=OFF \
+	-DLLDB_ENABLE_PYTHON=OFF \
 	../llvm
 	touch ../.configured
 fi
