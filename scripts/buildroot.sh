@@ -868,6 +868,11 @@ fi
 
 cd ccache-${CCACHE_VERSION}
 
+if [ "$DESTARCH" == "mipsel" ]; then
+	atomic="-latomic"
+fi
+
+
 if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
@@ -877,7 +882,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
-	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$atomic $LDFLAGS" \
 	./
 	touch .configured
 fi
