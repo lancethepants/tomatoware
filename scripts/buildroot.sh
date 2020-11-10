@@ -777,7 +777,7 @@ if [ ! -f .postinstalled ]; then
 
 	if [ "$DESTARCH" = "arm" ]; then
 
-		ln -s arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-uclibcgnueabi
+		ln -s arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
 
 		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
 		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
