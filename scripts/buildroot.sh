@@ -704,9 +704,9 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 C_INCLUDE_DIRS=\
-/lib/gcc/c++:\
-/lib/gcc/c++2:\
-/usr/include
+lib/gcc/c++:\
+lib/gcc/c++2:\
+usr/include
 
 cd $SRC/llvm/llvm-project-${LLVM_VERSION}
 
