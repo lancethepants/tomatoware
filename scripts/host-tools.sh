@@ -101,6 +101,7 @@ cd cmake-${CMAKE_VERSION}-native
 if [ ! -f .built-native ]; then
 	./bootstrap \
 	--prefix=$BASE/native \
+	--parallel=`nproc` \
 	-- \
 	-DCMAKE_USE_OPENSSL=OFF
 	$MAKE
