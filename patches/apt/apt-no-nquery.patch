@@ -1,0 +1,12 @@
+diff -Naur apt-2.1.11_orig/apt-pkg/contrib/srvrec.cc apt-2.1.11/apt-pkg/contrib/srvrec.cc
+--- apt-2.1.11_orig/apt-pkg/contrib/srvrec.cc	2020-12-03 16:36:47.407086009 -0700
++++ apt-2.1.11/apt-pkg/contrib/srvrec.cc	2020-12-03 16:37:02.979203324 -0700
+@@ -70,7 +70,7 @@
+    // Close on return
+    std::shared_ptr<void> guard(&res, res_nclose);
+ 
+-   answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
++   answer_len = res_query(name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
+    if (answer_len == -1)
+       return false;
+    if (answer_len < (int)sizeof(HEADER))
