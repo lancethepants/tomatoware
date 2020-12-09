@@ -1,0 +1,11 @@
+diff -Naur apt-2.1.11_orig/apt-pkg/init.cc apt-2.1.11/apt-pkg/init.cc
+--- apt-2.1.11_orig/apt-pkg/init.cc	2020-12-04 14:32:16.774658365 -0700
++++ apt-2.1.11/apt-pkg/init.cc	2020-12-04 14:33:13.219122685 -0700
+@@ -210,7 +210,6 @@
+    Cnf.CndSet("Acquire::Changelogs::AlwaysOnline::Origin::Ubuntu", true);
+ 
+ 
+-   Cnf.CndSet("DPkg::Path", "/usr/sbin:/usr/bin:/sbin:/bin");
+ 
+    // Read an alternate config file
+    _error->PushToStack();

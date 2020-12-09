@@ -528,3 +528,56 @@ if [ ! -f .installed ]; then
 	zic=../tz-native/zic
 	touch .installed
 fi
+
+####### #####################################################################
+# APT # #####################################################################
+####### #####################################################################
+
+APT_VERSION=2.1.11
+
+cd $SRC/apt
+
+if [ ! -f .extracted ]; then
+	rm -rf apt-${APT_VERSION}
+	tar xvJf apt-${APT_VERSION}.tar.xz
+	touch .extracted
+fi
+
+cd apt-${APT_VERSION}
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
+	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
+	touch .patched
+fi
+
+
+if [ ! -f .configured ]; then
+	cmake \
+	-Wno-dev \
+	-DCMAKE_CROSSCOMPILING=TRUE \
+	-DDPKG_DATADIR=$PREFIX/share/dpkg \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DBERKELEY_DB_INCLUDE_DIRS=$DEST/include \
+	-DWITH_DOC=OFF \
+	-DWITH_TESTS=OFF \
+	.
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi

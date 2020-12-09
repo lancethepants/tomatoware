@@ -9,6 +9,7 @@ RUN	apt-get update && \
 	cmake \
 	cpio \
 	curl \
+	docbook-xsl \
 	flex \
 	gawk \
 	gettext \
@@ -21,6 +22,7 @@ RUN	apt-get update && \
 	libxml2-dev \
 	locales \
 	pkg-config \
+	po4a \
 	python-dev \
 	rsync \
 	sudo \
@@ -28,7 +30,8 @@ RUN	apt-get update && \
 	texinfo \
 	unzip \
 	vim \
-	wget
+	wget \
+	xsltproc
 
 RUN	dpkg-reconfigure locales && \
 	locale-gen C.UTF-8 && \
