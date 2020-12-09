@@ -580,5 +580,6 @@ fi
 
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
+	echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
 	touch .installed
 fi
