@@ -541,6 +541,7 @@ cd $SRC/apt
 if [ ! -f .extracted ]; then
 	rm -rf apt-${APT_VERSION}
 	tar xvJf apt-${APT_VERSION}.tar.xz
+	cp $SRC/apt/triehash $BASE/native/bin
 	touch .extracted
 fi
 
