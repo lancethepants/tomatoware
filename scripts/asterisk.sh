@@ -61,6 +61,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--with-default-trust-store-file=$PREFIX/ssl/certs/ca-certificates.crt \
 	--enable-local-libopts \
 	--without-p11-kit \
 	--with-included-libtasn1 \
