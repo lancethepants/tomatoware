@@ -2000,6 +2000,7 @@ fi
 
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
+	touch $DEST/var/lib/dpkg/status
 	touch .installed
 fi
 
