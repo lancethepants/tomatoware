@@ -90,12 +90,6 @@ unset PKG_CONFIG_LIBDIR
 
 if [ ! -f .edit_sed ]; then
 
-	sed -i 's,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libgnutls.la
-
-	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g' \
-	$DEST/lib/libgnutls.la
-
 	sed -i 's,'"$PREFIX"'\/lib\/libgmp.la,'"$DEST"'\/lib\/libgmp.la,g' \
 	$DEST/lib/libgnutls.la
 
@@ -111,28 +105,12 @@ LIBGPG_ERROR_VERSION=1.39
 cd $SRC/libgpg-error
 
 if [ ! -f .extracted ]; then
-	rm -rf libgpg-error-${LIBGPG_ERROR_VERSION} libgpg-error-${LIBGPG_ERROR_VERSION}_host
+	rm -rf libgpg-error-${LIBGPG_ERROR_VERSION}
 	tar xvjf libgpg-error-${LIBGPG_ERROR_VERSION}.tar.bz2
-	cp -r libgpg-error-${LIBGPG_ERROR_VERSION} libgpg-error-${LIBGPG_ERROR_VERSION}_host
 	touch .extracted
 fi
 
-cd libgpg-error-${LIBGPG_ERROR_VERSION}_host
-
-if [ ! -f .built_host ]; then
-	./configure \
-	--prefix=$SRC/libgpg-error/libgpg-error-${LIBGPG_ERROR_VERSION}_host
-	$MAKE
-	make install
-	touch .built_host
-fi
-
-cd ../libgpg-error-${LIBGPG_ERROR_VERSION}
-
-if [ ! -f .patched ]; then
-#	patch -p1 < $PATCHES/libgpg-error/020-gawk5-support.patch
-	touch .patched
-fi
+cd libgpg-error-${LIBGPG_ERROR_VERSION}
 
 if [ "$DESTARCH" == "mipsel" ]; then
 	os=mips-unknown-linux-gnu
@@ -168,13 +146,6 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ ! -f .edit_sed ]; then
-	sed -i 's,'"$PREFIX"'\/lib\/libintl.la,'"$DEST"'\/lib\/libintl.la,g;
-		s,'"$PREFIX"'\/lib\/libiconv.la,'"$DEST"'\/lib\/libiconv.la,g' \
-	$DEST/lib/libgpg-error.la
-	touch .edit_sed
-fi
-
 ############# ###############################################################
 # LIBGCRYPT # ###############################################################
 ############# ###############################################################
@@ -192,13 +163,200 @@ fi
 cd libgcrypt-${LIBGCRYPT_VERSION}
 
 if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--with-gpg-error-prefix="$SRC/libgpg-error/libgpg-error-${LIBGPG_ERROR_VERSION}_host" \
+	./configure --prefix=$PREFIX --host=$os \
+	--with-libgpg-error-prefix=$DEST \
 	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+############# ###############################################################
+# LIBASSUAN # ###############################################################
+############# ###############################################################
+
+LIBASSUAN_VERSION=2.5.4
+
+cd $SRC/libassuan
+
+if [ ! -f .extracted ]; then
+	rm -rf libassuan-${LIBASSUAN_VERSION}
+	tar xvjf libassuan-${LIBASSUAN_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd libassuan-${LIBASSUAN_VERSION}
+
+if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure --prefix=$PREFIX --host=$os \
+	--with-libgpg-error-prefix=$DEST \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+########### #################################################################
+# LIBKSBA # #################################################################
+########### #################################################################
+
+LIBKSBA_VERSION=1.5.0
+
+cd $SRC/libksba
+
+if [ ! -f .extracted ]; then
+	rm -rf libksba-${LIBKSBA_VERSION}
+	tar xvjf libksba-${LIBKSBA_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd libksba-${LIBKSBA_VERSION}
+
+if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure --prefix=$PREFIX --host=$os \
+	--with-libgpg-error-prefix=$DEST \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+######## ####################################################################
+# NPTH # ####################################################################
+######## ####################################################################
+
+NPTH_VERSION=1.6
+
+cd $SRC/npth
+
+if [ ! -f .extracted ]; then
+	rm -rf npth-${NPTH_VERSION}
+	tar xvjf npth-${NPTH_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd npth-${NPTH_VERSION}
+
+if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure --prefix=$PREFIX --host=$os \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+######### ###################################################################
+# GNUPG # ###################################################################
+######### ###################################################################
+
+GNUPG_VERSION=2.2.25
+
+cd $SRC/gnupg
+
+if [ ! -f .extracted ]; then
+	rm -rf gnupg-${GNUPG_VERSION}
+	tar xvjf gnupg-${GNUPG_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd gnupg-${GNUPG_VERSION}
+
+if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	LD=$DESTARCH-linux-ld \
+	STRIP=$DESTARCH-linux-strip \
+	AR=$DESTARCH-linux-ar \
+	RANLIB=$DESTARCH-linux-ranlib \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	./configure --prefix=$PREFIX --host=$os \
+	--with-libgpg-error-prefix=$DEST \
+	--with-gpg-error-prefix=$DEST \
+	--with-libgcrypt-prefix=$DEST \
+	--with-libassuan-prefix=$DEST \
+	--with-ksba-prefix=$DEST \
+	--with-npth-prefix=$DEST \
+	--disable-ldap
 	touch .configured
 fi
 
