@@ -1,0 +1,64 @@
+diff -Naur libpcap-1.10.0_orig/pcap-linux.c libpcap-1.10.0/pcap-linux.c
+--- libpcap-1.10.0_orig/pcap-linux.c	2021-01-13 11:48:57.343702032 -0700
++++ libpcap-1.10.0/pcap-linux.c	2021-01-13 11:50:05.780137838 -0700
+@@ -1444,33 +1444,33 @@
+ 	 *
+ 	 * if that fails, we try an AF_INET socket.
+ 	 */
+-	fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
+-	if (fd != -1) {
+-		/*
+-		 * OK, let's make sure we can do an SIOCGIFNAME
+-		 * ioctl.
+-		 */
+-		struct ifreq ifr;
+-
+-		memset(&ifr, 0, sizeof(ifr));
+-		if (ioctl(fd, SIOCGIFNAME, &ifr) == 0 ||
+-		    errno != EOPNOTSUPP) {
+-			/*
+-			 * It succeeded, or failed for some reason
+-			 * other than "netlink sockets don't support
+-			 * device ioctls".  Go with the AF_NETLINK
+-			 * socket.
+-			 */
+-			return (fd);
+-		}
+-
+-		/*
+-		 * OK, that didn't work, so it's as bad as "netlink
+-		 * sockets aren't available".  Close the socket and
+-		 * drive on.
+-		 */
+-		close(fd);
+-	}
++//	fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
++//	if (fd != -1) {
++//		/*
++//		 * OK, let's make sure we can do an SIOCGIFNAME
++//		 * ioctl.
++//		 */
++//		struct ifreq ifr;
++//
++//		memset(&ifr, 0, sizeof(ifr));
++//		if (ioctl(fd, SIOCGIFNAME, &ifr) == 0 ||
++//		    errno != EOPNOTSUPP) {
++//			/*
++//			 * It succeeded, or failed for some reason
++//			 * other than "netlink sockets don't support
++//			 * device ioctls".  Go with the AF_NETLINK
++//			 * socket.
++//			 */
++//			return (fd);
++//		}
++//
++//		/*
++//		 * OK, that didn't work, so it's as bad as "netlink
++//		 * sockets aren't available".  Close the socket and
++//		 * drive on.
++//		 */
++//		close(fd);
++//	}
+ 
+ 	/*
+ 	 * Now try an AF_UNIX socket.

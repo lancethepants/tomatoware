@@ -1,0 +1,53 @@
+diff -Naur libpcap-1.10.0_orig/bpf_image.c libpcap-1.10.0/bpf_image.c
+--- libpcap-1.10.0_orig/bpf_image.c	2021-01-13 11:48:57.339702009 -0700
++++ libpcap-1.10.0/bpf_image.c	2021-01-13 11:53:06.857455058 -0700
+@@ -306,11 +306,6 @@
+ 		operand = "x";
+ 		break;
+ 
+-	case BPF_ALU|BPF_MOD|BPF_X:
+-		op = "mod";
+-		operand = "x";
+-		break;
+-
+ 	case BPF_ALU|BPF_AND|BPF_X:
+ 		op = "and";
+ 		operand = "x";
+@@ -321,11 +316,6 @@
+ 		operand = "x";
+ 		break;
+ 
+-	case BPF_ALU|BPF_XOR|BPF_X:
+-		op = "xor";
+-		operand = "x";
+-		break;
+-
+ 	case BPF_ALU|BPF_LSH|BPF_X:
+ 		op = "lsh";
+ 		operand = "x";
+@@ -360,12 +350,6 @@
+ 		operand = operand_buf;
+ 		break;
+ 
+-	case BPF_ALU|BPF_MOD|BPF_K:
+-		op = "mod";
+-		(void)snprintf(operand_buf, sizeof operand_buf, "#%d", p->k);
+-		operand = operand_buf;
+-		break;
+-
+ 	case BPF_ALU|BPF_AND|BPF_K:
+ 		op = "and";
+ 		(void)snprintf(operand_buf, sizeof operand_buf, "#0x%x", p->k);
+@@ -377,12 +361,6 @@
+ 		(void)snprintf(operand_buf, sizeof operand_buf, "#0x%x", p->k);
+ 		operand = operand_buf;
+ 		break;
+-
+-	case BPF_ALU|BPF_XOR|BPF_K:
+-		op = "xor";
+-		(void)snprintf(operand_buf, sizeof operand_buf, "#0x%x", p->k);
+-		operand = operand_buf;
+-		break;
+ 
+ 	case BPF_ALU|BPF_LSH|BPF_K:
+ 		op = "lsh";
