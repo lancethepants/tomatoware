@@ -416,6 +416,14 @@ fi
 
 cd libpcap-${LIBPCAP_VERSION}
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libpcap/libpcap-no-mod-and-xor.patch
+		if [ "$DESTARCH" == "mipsel" ]; then
+			patch -p1 < $PATCHES/libpcap/libpcap-no-NETLINK_GENERIC.patch
+		fi
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
