@@ -1722,6 +1722,7 @@ cd bash-${BASH_VERSION}
 if [ ! -f .patched ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
 	patch < $PATCHES/bash/002-force-internal-readline.patch
+	patch -p1 < $PATCHES/bash/bash-random.patch
 	touch .patched
 fi
 

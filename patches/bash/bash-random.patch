@@ -1,0 +1,12 @@
+diff -Naur bash-5.1_orig/lib/sh/random.c bash-5.1/lib/sh/random.c
+--- bash-5.1_orig/lib/sh/random.c	2021-01-14 13:35:35.260884601 -0700
++++ bash-5.1/lib/sh/random.c	2021-01-14 13:35:48.869035694 -0700
+@@ -184,7 +184,7 @@
+ #  define GRND_RANDOM 2
+ #endif
+ 
+-static ssize_t
++ssize_t
+ getrandom (buf, len, flags)
+      void *buf;
+      size_t len;
