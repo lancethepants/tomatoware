@@ -1707,7 +1707,7 @@ fi
 # BASH # ####################################################################
 ######## ####################################################################
 
-BASH_VERSION=5.0
+BASH_VERSION=5.1
 
 cd $SRC/bash
 
@@ -1748,7 +1748,7 @@ if [ ! -f .configured ]; then
 	bash_cv_under_sys_siglist=no \
 	bash_cv_opendir_not_robust=no \
 	bash_cv_ulimit_maxfds=no \
-	bash_cv_getenv_redef=yes \
+	bash_cv_getenv_redef=no \
 	bash_cv_must_reinstall_sighandlers=no \
 	bash_cv_wcontinued_broken=no \
 	bash_cv_func_strcoll_broken=no
