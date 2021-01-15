@@ -688,6 +688,41 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+########## ##################################################################
+# XXHASH # ##################################################################
+########## ##################################################################
+
+XXHASH_VERSION=0.8.0
+
+cd $SRC/xxhash
+
+if [ ! -f .extracted ]; then
+	rm -rf xxHash-${XXHASH_VERSION}
+	tar xvJf xxHash-${XXHASH_VERSION}.tar.xz
+	touch .extracted
+fi
+
+cd xxHash-${XXHASH_VERSION}
+
+if [ ! -f .built ]; then
+	CC=$DESTARCH-linux-gcc \
+	CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	prefix=$PREFIX \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	CC=$DESTARCH-linux-gcc \
+	CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	prefix=$PREFIX \
+	make install \
+	DESTDIR=$BASE
+	touch .installed
+fi
+
 ####### #####################################################################
 # APT # #####################################################################
 ####### #####################################################################
@@ -725,7 +760,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
-	-DBERKELEY_DB_INCLUDE_DIRS=$DEST/include \
+	-DBERKELEY_INCLUDE_DIRS=$DEST/include \
 	-DWITH_DOC=OFF \
 	-DWITH_TESTS=OFF \
 	.
