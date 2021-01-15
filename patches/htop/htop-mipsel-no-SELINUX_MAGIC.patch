@@ -1,0 +1,14 @@
+diff -Naur htop-3.0.5_orig/linux/SELinuxMeter.c htop-3.0.5/linux/SELinuxMeter.c
+--- htop-3.0.5_orig/linux/SELinuxMeter.c	2021-01-15 10:59:53.560499681 -0700
++++ htop-3.0.5/linux/SELinuxMeter.c	2021-01-15 11:00:16.612793182 -0700
+@@ -35,10 +35,6 @@
+       return false;
+    }
+ 
+-   if ((uint32_t)sfbuf.f_type != (uint32_t)SELINUX_MAGIC) {
+-      return false;
+-   }
+-
+    struct statvfs vfsbuf;
+    r = statvfs("/sys/fs/selinux", &vfsbuf);
+    if (r != 0 || (vfsbuf.f_flag & ST_RDONLY)) {
