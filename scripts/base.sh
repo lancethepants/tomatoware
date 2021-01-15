@@ -1639,6 +1639,11 @@ fi
 
 cd htop-${HTOP_VERSION}
 
+if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
+	patch -p1 < $PATCHES/htop/htop-mipsel-no-SELINUX_MAGIC.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS="$CPPFLAGS -fcommon" \
