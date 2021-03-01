@@ -727,13 +727,13 @@ fi
 # APT # #####################################################################
 ####### #####################################################################
 
-APT_VERSION=2.1.18
+APT_VERSION=2.2.1
 
 cd $SRC/apt
 
 if [ ! -f .extracted ]; then
 	rm -rf apt-${APT_VERSION}
-	tar xvJf apt-${APT_VERSION}.tar.xz
+	tar xvjf apt-${APT_VERSION}.tar.bz2
 	cp $SRC/apt/triehash $BASE/native/bin
 	touch .extracted
 fi
