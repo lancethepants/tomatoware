@@ -1,0 +1,11 @@
+diff -Naur apt-2.2.1_orig/apt-pkg/contrib/strutl.h apt-2.2.1/apt-pkg/contrib/strutl.h
+--- apt-2.2.1_orig/apt-pkg/contrib/strutl.h	2021-03-02 07:54:46.686193957 -0700
++++ apt-2.2.1/apt-pkg/contrib/strutl.h	2021-03-02 07:55:41.898511232 -0700
+@@ -23,6 +23,7 @@
+ #include <apt-pkg/string_view.h>
+ #include <stddef.h>
+ #include <time.h>
++#include <cstdarg>
+ 
+ #include "macros.h"
+ 
