@@ -356,7 +356,7 @@ if [ ! -f $SRC/certs/.installed ]; then
 	rm -rf $DEST/ssl/certs
 	mkdir -p $DEST/ssl/certs
 	cd $DEST/ssl/certs
-	curl -o $SRC/certs/cacert.pem --remote-name --time-cond $SRC/certs/cacert.pem https://curl.haxx.se/ca/cacert.pem
+	curl -o $SRC/certs/cacert.pem --remote-name --time-cond $SRC/certs/cacert.pem https://curl.se/ca/cacert.pem
 	cp $SRC/certs/cacert.pem .
 	cat cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
 	rm cacert.pem
