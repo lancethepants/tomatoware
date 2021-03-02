@@ -743,6 +743,7 @@ cd apt-${APT_VERSION}
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
 	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
+	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
 	touch .patched
 fi
 
