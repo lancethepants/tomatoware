@@ -38,3 +38,7 @@ if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 		BUILDHOSTGCC=1
 	fi
 fi
+
+Status () {
+	echo -e '\033]2;'compiling $1'\007'
+}
