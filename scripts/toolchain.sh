@@ -27,7 +27,7 @@ if [ -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 
 	if [ "$GCCTEST" != "$GCC_VERSION" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]; then
 
-		echo "WARNING: Out of date $DESTARCH toolchain detected. Please run \"make toolchain-clean\" and re-run to create new toolchain."
+		echo "Error: Out of date $DESTARCH toolchain detected. Please run \"make toolchain-clean\" and re-run to create new toolchain."
 		exit 1
 	fi
 fi
@@ -44,11 +44,11 @@ if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 
 		if [ "$GCCTEST" != "$GCC_VERSION" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]; then
 
-			echo "WARNING: Out of date mipsel toolchain detected. This is needed for $DESTARCH cross-gcc. Please compile an up-to-date toolchain for mipsel first."
+			echo "Error: Out of date mipsel toolchain detected. This is needed for $DESTARCH cross-gcc. Please compile an up-to-date toolchain for mipsel first or disable cross-gcc by setting \"BUILDCROSSTOOLS\" to \"0\" in config.mk."
 			exit 1
 		fi
 	else
-		echo "mipsel toolchain not detected. This is needed for $DESTARCH cross-gcc Please compile an up-to-date toolchain for mipsel first."
+		echo "Error: mipsel toolchain not detected. This is needed for $DESTARCH cross-gcc. Please compile an up-to-date toolchain for mipsel first or disable cross-gcc by setting \"BUILDCROSSTOOLS\" to \"0\" in config.mk."
 		exit 1
 	fi
 
