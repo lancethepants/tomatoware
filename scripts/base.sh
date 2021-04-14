@@ -235,7 +235,7 @@ fi
 ########### #################################################################
 Status "openssl"
 
-OPENSSL_VERSION=1.1.1j
+OPENSSL_VERSION=1.1.1k
 
 cd $SRC/openssl
 
@@ -246,6 +246,14 @@ if [ ! -f .extracted ]; then
 fi
 
 cd openssl-${OPENSSL_VERSION}
+
+# Patch taken from openwrt.
+# Neither current arm or mipsel routers have aes hardware acceleration.
+# If we ever get aarch64 support we may want to disable this for those devices.
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/openssl/140-allow-prefer-chacha20.patch
+	touch .patched
+fi
 
 if [ "$DESTARCH" == "mipsel" ];then
 	os=linux-mips32
@@ -261,7 +269,8 @@ if [ ! -f .configured ]; then
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
 	--prefix=$PREFIX shared zlib \
 	--with-zlib-lib=$DEST/lib \
-	--with-zlib-include=$DEST/include
+	--with-zlib-include=$DEST/include \
+	-DOPENSSL_PREFER_CHACHA_OVER_GCM
 	touch .configured
 fi
 
