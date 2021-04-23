@@ -534,7 +534,7 @@ fi
 ############ ################################################################
 Status "asterisk"
 
-ASTERISK_VERSION=17.9.2
+ASTERISK_VERSION=17.9.3
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
