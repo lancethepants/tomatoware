@@ -103,7 +103,7 @@ fi
 ################ ############################################################
 Status "libgpg-error"
 
-LIBGPG_ERROR_VERSION=1.41
+LIBGPG_ERROR_VERSION=1.42
 
 cd $SRC/libgpg-error
 
