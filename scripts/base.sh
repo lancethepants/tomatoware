@@ -1623,7 +1623,7 @@ fi
 ########### #################################################################
 Status "openssh"
 
-OPENSSH_VERSION=8.4p1
+OPENSSH_VERSION=8.6p1
 
 cd $SRC/openssh
 
