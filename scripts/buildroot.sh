@@ -1298,7 +1298,7 @@ fi
 ############ ################################################################
 Status "slibtool"
 
-SLIBTOOL_VERSION=0.5.28
+SLIBTOOL_VERSION=0.5.33
 
 cd $SRC/slibtool
 
