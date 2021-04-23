@@ -1,18 +1,7 @@
-commit e4c40c7e7a9b33a9d4795b8b9dacc5537cefe2b5
-Author: lancethepants <lancethepants@gmail.com>
-Date:   Tue Nov 10 11:50:34 2020 -0700
-
-    Fixes an issue where adding a relative path to the C include Directories via the C_INCLUDE_DIRS compile time option, there is a "/" ommitted to join the sysroot and the supplied relative path. Sysroot is not expected to have a trailing "/", and...
-    
-    ...the relative path of course does not start with "/", so the "/" is needed to properly join them.
-    
-    Differential Revision: https://reviews.llvm.org/D91194
-
-diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
-index c847be9ee26..f242f571312 100644
---- a/clang/lib/Driver/ToolChains/Darwin.cpp
-+++ b/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -1959,9 +1959,12 @@ void DarwinClang::AddClangSystemIncludeArgs(const llvm::opt::ArgList &DriverArgs
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Darwin.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Darwin.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Darwin.cpp	2021-04-23 11:05:33.332947604 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Darwin.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -1981,9 +1981,12 @@
      llvm::SmallVector<llvm::StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (llvm::StringRef dir : dirs) {
@@ -28,11 +17,10 @@ index c847be9ee26..f242f571312 100644
      }
    } else {
      // Otherwise, add <sysroot>/usr/include.
-diff --git a/clang/lib/Driver/ToolChains/Fuchsia.cpp b/clang/lib/Driver/ToolChains/Fuchsia.cpp
-index 79d3a8d554d..cc12f93f8a4 100644
---- a/clang/lib/Driver/ToolChains/Fuchsia.cpp
-+++ b/clang/lib/Driver/ToolChains/Fuchsia.cpp
-@@ -296,9 +296,12 @@ void Fuchsia::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Fuchsia.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Fuchsia.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -320,9 +320,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -48,11 +36,10 @@ index 79d3a8d554d..cc12f93f8a4 100644
      }
      return;
    }
-diff --git a/clang/lib/Driver/ToolChains/Hurd.cpp b/clang/lib/Driver/ToolChains/Hurd.cpp
-index a700d7b9064..e165ac24025 100644
---- a/clang/lib/Driver/ToolChains/Hurd.cpp
-+++ b/clang/lib/Driver/ToolChains/Hurd.cpp
-@@ -158,9 +158,12 @@ void Hurd::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Hurd.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Hurd.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Hurd.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Hurd.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -158,9 +158,12 @@
      SmallVector<StringRef, 5> Dirs;
      CIncludeDirs.split(Dirs, ":");
      for (StringRef Dir : Dirs) {
@@ -68,11 +55,10 @@ index a700d7b9064..e165ac24025 100644
      }
      return;
    }
-diff --git a/clang/lib/Driver/ToolChains/Linux.cpp b/clang/lib/Driver/ToolChains/Linux.cpp
-index 180350476c3..1816593b2f2 100644
---- a/clang/lib/Driver/ToolChains/Linux.cpp
-+++ b/clang/lib/Driver/ToolChains/Linux.cpp
-@@ -578,9 +578,12 @@ void Linux::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -586,9 +586,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -88,11 +74,10 @@ index 180350476c3..1816593b2f2 100644
      }
      return;
    }
-diff --git a/clang/lib/Driver/ToolChains/OpenBSD.cpp b/clang/lib/Driver/ToolChains/OpenBSD.cpp
-index f155d74632f..0f8169bb413 100644
---- a/clang/lib/Driver/ToolChains/OpenBSD.cpp
-+++ b/clang/lib/Driver/ToolChains/OpenBSD.cpp
-@@ -274,9 +274,12 @@ void OpenBSD::AddClangSystemIncludeArgs(
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/OpenBSD.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/OpenBSD.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -274,9 +274,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -108,11 +93,10 @@ index f155d74632f..0f8169bb413 100644
      }
      return;
    }
-diff --git a/clang/lib/Driver/ToolChains/Solaris.cpp b/clang/lib/Driver/ToolChains/Solaris.cpp
-index 4ed4d839ad1..96cf71ed254 100644
---- a/clang/lib/Driver/ToolChains/Solaris.cpp
-+++ b/clang/lib/Driver/ToolChains/Solaris.cpp
-@@ -245,9 +245,12 @@ void Solaris::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Solaris.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Solaris.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Solaris.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Solaris.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -245,9 +245,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -128,11 +112,10 @@ index 4ed4d839ad1..96cf71ed254 100644
      }
      return;
    }
-diff --git a/clang/lib/Driver/ToolChains/WebAssembly.cpp b/clang/lib/Driver/ToolChains/WebAssembly.cpp
-index 6b654886e77..bd5d0fcfbaf 100644
---- a/clang/lib/Driver/ToolChains/WebAssembly.cpp
-+++ b/clang/lib/Driver/ToolChains/WebAssembly.cpp
-@@ -331,9 +331,12 @@ void WebAssembly::AddClangSystemIncludeArgs(const ArgList &DriverArgs,
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/WebAssembly.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/WebAssembly.cpp	2021-04-23 11:10:09.674886146 -0600
+@@ -331,9 +331,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
