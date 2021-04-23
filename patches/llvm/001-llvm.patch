@@ -1,7 +1,7 @@
-diff -Naur llvm-project-orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp llvm-project/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp
---- llvm-project-orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2019-09-09 14:50:46.696853779 -0600
-+++ llvm-project/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2019-09-09 14:53:23.618371165 -0600
-@@ -64,7 +64,7 @@
+diff -Naur llvm-project-12.0.0.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp llvm-project-12.0.0/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp
+--- llvm-project-12.0.0.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2021-04-23 11:02:43.539763330 -0600
++++ llvm-project-12.0.0/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2021-04-23 11:03:12.571965347 -0600
+@@ -63,7 +63,7 @@
      if (value == -1)
        ExitWithError(error_fd, "personality get");
  

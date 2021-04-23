@@ -1,7 +1,7 @@
-diff -Naur llvm-project.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project/clang/lib/Driver/ToolChains/Linux.cpp
---- llvm-project.orig/clang/lib/Driver/ToolChains/Linux.cpp	2019-04-09 10:01:01.261123030 -0600
-+++ llvm-project/clang/lib/Driver/ToolChains/Linux.cpp	2019-04-09 10:02:06.985625049 -0600
-@@ -562,8 +562,8 @@
+diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp
+--- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:05:33.328947576 -0600
++++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:13:26.328271193 -0600
+@@ -472,8 +472,8 @@
          Triple.getEnvironment() == llvm::Triple::GNUEABIHF ||
          tools::arm::getARMFloatABI(*this, Args) == tools::arm::FloatABI::Hard;
  
@@ -12,7 +12,7 @@ diff -Naur llvm-project.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project/
      break;
    }
    case llvm::Triple::mips:
-@@ -572,16 +572,16 @@
+@@ -482,16 +482,16 @@
    case llvm::Triple::mips64el: {
      bool IsNaN2008 = tools::mips::isNaN2008(Args, Triple);
  
