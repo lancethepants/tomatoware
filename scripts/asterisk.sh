@@ -43,7 +43,7 @@ fi
 ########## ##################################################################
 Status "gnutls"
 
-GNUTLS_VERSION=3.7.0
+GNUTLS_VERSION=3.7.1
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
