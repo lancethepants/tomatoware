@@ -199,7 +199,7 @@ fi
 ############# ###############################################################
 Status "libassuan"
 
-LIBASSUAN_VERSION=2.5.4
+LIBASSUAN_VERSION=2.5.5
 
 cd $SRC/libassuan
 
