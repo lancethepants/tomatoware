@@ -1970,6 +1970,12 @@ fi
 
 cd tmux-${TMUX_VERSION}
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/tmux/100-add-crosscompiling-fallbacks.patch
+	autoreconf
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
