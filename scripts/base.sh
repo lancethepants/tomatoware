@@ -1537,11 +1537,11 @@ if [ ! -f .built ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	USE_LIBPCRE1=yes \
+	USE_LIBPCRE2=yes \
 	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8"
 	touch .built
 fi
 
@@ -1558,11 +1558,11 @@ if [ ! -f .installed ]; then
 	SNPRINTF_RETURNS_BOGUS=no \
 	NO_TCLTK=yes \
 	NO_R_TO_GCC_LINKER=yes \
-	USE_LIBPCRE1=yes \
+	USE_LIBPCRE2=yes \
 	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8" \
 	install DESTDIR=$BASE
 	tar xvJf $SRC/git/git-manpages-${GIT_VERSION}.tar.xz -C $DEST/man
 	touch .installed
