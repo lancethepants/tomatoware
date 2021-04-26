@@ -1195,6 +1195,49 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######### ###################################################################
+# PCRE2 # ###################################################################
+######### ###################################################################
+Status "pcre2"
+
+PCRE2_VERSION=10.36
+
+cd $SRC/pcre2
+
+if [ ! -f .extracted ]; then
+	rm -rf pcre2-${PCRE2_VERSION}
+	tar xvjf pcre2-${PCRE2_VERSION}.tar.bz2
+	touch .extracted
+fi
+
+cd pcre2-${PCRE2_VERSION}
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--enable-pcre2grep-libz \
+	--enable-pcre2grep-libbz2 \
+	--enable-pcre2test-libreadline \
+	--enable-jit \
+	--enable-pcre2-8 \
+	--enable-pcre2-16 \
+	--enable-pcre2-32
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make install DESTDIR=$BASE
+	touch .installed
+fi
+
 ############### #############################################################
 # PAR2CMDLINE # #############################################################
 ############### #############################################################
