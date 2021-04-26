@@ -682,6 +682,7 @@ if [ ! -f .built-native ]; then
 		PATH=$BASE/native/bin:/opt/tomatoware/x86_64/bin:$ORIGINALPATH \
 		cmake \
 		-GNinja \
+		-Wno-dev \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
 		-DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,/opt/tomatoware/x86_64/lib64 -L/opt/tomatoware/x86_64/lib64" \
@@ -693,6 +694,7 @@ if [ ! -f .built-native ]; then
 	else
 		cmake \
 		-GNinja \
+		-Wno-dev \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
 		-DLLDB_ENABLE_LIBEDIT=OFF \
@@ -738,6 +740,7 @@ if [ ! -f .configured ]; then
 	cd build
 	cmake \
 	-GNinja \
+	-Wno-dev \
 	-DDEFAULT_SYSROOT=$PREFIX \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_CROSSCOMPILING=True \
