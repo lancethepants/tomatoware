@@ -1107,7 +1107,7 @@ fi
 ######## ####################################################################
 Status "perl"
 
-PERL_CROSS_VERSION=1.3.5
+PERL_CROSS_VERSION=1.3.6
 
 cd $SRC/perl
 
