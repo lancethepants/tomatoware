@@ -689,7 +689,7 @@ fi
 ########### #################################################################
 Status "libgdbm"
 
-LIBGDBM_VERSION=1.19
+LIBGDBM_VERSION=1.20
 
 cd $SRC/libgdbm
 
