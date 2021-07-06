@@ -1663,7 +1663,7 @@ fi
 ########### #################################################################
 Status "texinfo"
 
-TEXINFO_VERSION=6.7
+TEXINFO_VERSION=6.8
 
 cd $SRC/texinfo
 
