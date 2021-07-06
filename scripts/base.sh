@@ -425,7 +425,7 @@ fi
 ########### #################################################################
 Status "libpcap"
 
-LIBPCAP_VERSION=1.10.0
+LIBPCAP_VERSION=1.10.1
 
 cd $SRC/libpcap
 
