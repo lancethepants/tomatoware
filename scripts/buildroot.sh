@@ -1786,7 +1786,7 @@ fi
 ########## ##################################################################
 Status "distcc"
 
-DISTCC_VERSION=3.3.5
+DISTCC_VERSION=3.4
 
 cd $SRC/distcc
 
