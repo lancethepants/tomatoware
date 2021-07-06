@@ -471,7 +471,7 @@ fi
 ########## ##################################################################
 Status "libffi"
 
-LIBFFI_VERSION=3.3
+LIBFFI_VERSION=3.4.2
 
 cd $SRC/libffi
 
