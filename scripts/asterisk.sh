@@ -244,7 +244,7 @@ fi
 ########### #################################################################
 Status "libksba"
 
-LIBKSBA_VERSION=1.5.1
+LIBKSBA_VERSION=1.6.0
 
 cd $SRC/libksba
 
