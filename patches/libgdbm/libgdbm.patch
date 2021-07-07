@@ -1,0 +1,13 @@
+diff -Naur gdbm-1.20_orig/src/gdbm.h.in gdbm-1.20/src/gdbm.h.in
+--- gdbm-1.20_orig/src/gdbm.h.in	2021-07-06 20:14:18.052776461 -0600
++++ gdbm-1.20/src/gdbm.h.in	2021-07-06 20:14:35.568924355 -0600
+@@ -36,6 +36,9 @@
+ extern "C" {
+ # endif
+ 
++# include <sys/types.h>
++# include <unistd.h>
++
+ /* Parameters to gdbm_open for READERS, WRITERS, and WRITERS who
+    can create the database. */
+ # define GDBM_READER	0	/* A reader. */
