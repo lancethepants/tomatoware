@@ -1359,6 +1359,7 @@ if [ ! -f .configured ]; then
 	--disable-pydoc \
 	--disable-test-modules \
 	--disable-nis \
+	--enable-optimizations \
 	ac_cv_have_long_long_format=yes \
 	ac_cv_file__dev_ptmx=yes \
 	ac_cv_file__dev_ptc=yes \
@@ -1456,6 +1457,7 @@ if [ ! -f .configured ]; then
 	--disable-test-modules \
 	--disable-nis \
 	--disable-idle3 \
+	--enable-optimizations \
 	ac_cv_little_endian_double=yes \
 	ac_cv_have_long_long_format=yes \
 	ac_cv_file__dev_ptmx=yes \
