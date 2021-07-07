@@ -1350,11 +1350,6 @@ fi
 
 cd m4-${M4_VERSION}
 
-if [ ! -f .patched ]; then
-        patch -p1 < $PATCHES/m4/gnulib_fix_posixspawn.patch
-        touch .patched
-fi
-
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
