@@ -352,6 +352,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .symlinked ]; then
+
 	ln -sf $PREFIX/mipsel$PREFIX/include $DEST/mipsel-tomatoware-linux-uclibc/include
 
 	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
@@ -561,6 +562,17 @@ if [ ! -f .symlinked ]; then
 	touch .symlinked
 fi
 
+if [ ! -f .pkgconfig ]; then
+
+	echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
+	echo 'export PKG_CONFIG_DIR=' >> $DEST/bin/mipsel-linux-pkg-config
+	echo 'export PKG_CONFIG_LIBDIR='"$PREFIX"'/mipsel'"$PREFIX"'/lib/pkgconfig' >> $DEST/bin/mipsel-linux-pkg-config
+	echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
+	echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
+	chmod +x $DEST/bin/mipsel-linux-pkg-config
+	touch .pkgconfig
+fi
+
 fi
 
 ######### ###################################################################
@@ -704,11 +716,6 @@ if [ ! -f .built-native ]; then
 	fi
 fi
 
-if [ "$DESTARCH" == "mipsel" ];then
-	TARGETS_TO_BUILD="Mips"
-	LLVM_TARGET_ARCH="Mips"
-fi
-
 if [ "$DESTARCH" == "arm" ];then
 	TARGETS_TO_BUILD="ARM;Mips"
 	LLVM_TARGET_ARCH="ARM"
@@ -789,31 +796,20 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .postinstalled ]; then
+
 	ln -sf llvm-ar $DEST/bin/clang-ar
+	ln -sf arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
 
-	if [ "$DESTARCH" = "arm" ]; then
+	if [ "$BUILDCROSSTOOLS" == "1" ]; then
 
-		ln -s arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
+		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
 
 		echo '#!/bin/sh' > $DEST/bin/clang-mipsel
 		echo '#!/bin/sh' > $DEST/bin/clang++-mipsel
 		echo 'exec '"$PREFIX"'/bin/clang   --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target='"$MIPSEL"' -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang-mipsel
 		echo 'exec '"$PREFIX"'/bin/clang++ --sysroot='"$PREFIX"'/mipsel'"$PREFIX"' --target='"$MIPSEL"' -mfloat-abi=soft -mips32 "$@"' >> $DEST/bin/clang++-mipsel
 		chmod +x $DEST/bin/clang-mipsel $DEST/bin/clang++-mipsel
-
-		if [ "$BUILDCROSSTOOLS" == "1" ]; then
-
-			echo '#!/bin/sh' > $DEST/bin/mipsel-linux-pkg-config
-			echo 'export PKG_CONFIG_DIR=' >> $DEST/bin/mipsel-linux-pkg-config
-			echo 'export PKG_CONFIG_LIBDIR='"$PREFIX"'/mipsel'"$PREFIX"'/lib/pkgconfig' >> $DEST/bin/mipsel-linux-pkg-config
-			echo 'export PKG_CONFIG_SYSROOT_DIR='"$PREFIX"'/mipsel' >> $DEST/bin/mipsel-linux-pkg-config
-			echo 'exec pkg-config "$@"' >> $DEST/bin/mipsel-linux-pkg-config
-			chmod +x $DEST/bin/clang-mipsel $DEST/bin/mipsel-linux-pkg-config
-
-			ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
-		fi
 	fi
-
 	touch .postinstalled
 fi
 
