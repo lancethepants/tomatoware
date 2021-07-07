@@ -701,6 +701,11 @@ fi
 
 cd gdbm-${LIBGDBM_VERSION}
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libgdbm/libgdbm.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS="$CPPFLAGS -fcommon" \
