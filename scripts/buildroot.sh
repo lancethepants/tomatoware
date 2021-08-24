@@ -381,16 +381,19 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-10.1.0-specs-1.patch .
+	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
 	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' \
-		gcc-10.1.0-specs-1.patch \
+		gcc-11.2.0-specs-1.patch \
 		0005-add-tomatoware-certs-path.patch
 
-	patch -p1 < gcc-10.1.0-specs-1.patch
+	patch -p1 < gcc-11.2.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
 	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
 	patch -p1 < 0005-add-tomatoware-certs-path.patch
+	patch -p1 < $PATCHES/gcc/0006-fix-libgo-uclibc-ng.patch
+	patch -p1 < $PATCHES/gcc/0007-fix-libffi-mips-softflaot.patch
+	patch -p1 < $PATCHES/gcc/0008-fix-libgo-mips-syscall.patch
 	touch .patched
 fi
 
@@ -400,7 +403,7 @@ if [ "$DESTARCH" == "mipsel" ]; then
 	os=mipsel-tomatoware-linux-uclibc
 	gccextraconfig="--with-abi=32
 			--with-arch=mips32"
-	gcclangs="c,c++"
+	gcclangs="c,c++,go"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -489,10 +492,19 @@ fi
 cd gcc-${GCC_VERSION}
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-10.1.0-specs-1.patch .
-	sed -i 's,\/opt,'"$PREFIX"',g' gcc-10.1.0-specs-1.patch
-	patch -p1 < gcc-10.1.0-specs-1.patch
+	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
+	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
+	sed -i 's,\/opt,'"$PREFIX"',g' \
+		gcc-11.2.0-specs-1.patch \
+		0005-add-tomatoware-certs-path.patch
+
+	patch -p1 < gcc-11.2.0-specs-1.patch
 	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
+	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
+	patch -p1 < 0005-add-tomatoware-certs-path.patch
+	patch -p1 < $PATCHES/gcc/0006-fix-libgo-uclibc-ng.patch
+	patch -p1 < $PATCHES/gcc/0007-fix-libffi-mips-softflaot.patch
+	patch -p1 < $PATCHES/gcc/0008-fix-libgo-mips-syscall.patch
 	touch .patched
 fi
 
@@ -515,7 +527,7 @@ if [ ! -f .configured ]; then
 	--with-gmp-lib=$DEST/lib \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
-	--enable-languages=c,c++ \
+	--enable-languages=c,c++,go \
 	--enable-shared \
 	--enable-static \
 	--enable-threads=posix \
