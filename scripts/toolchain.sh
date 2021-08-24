@@ -59,9 +59,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
 
-	if [ "$DESTARCH" == "arm" ]; then
-		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
-	fi
+	patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
 
 	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
 	cp -r $SRC/toolchain/patches $BASE/toolchain

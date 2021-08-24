@@ -1,7 +1,7 @@
-diff -Naur gcc-10.1.0_orig/libgo/configure gcc-10.1.0/libgo/configure
---- gcc-10.1.0_orig/libgo/configure	2020-06-29 10:40:43.876021398 -0600
-+++ gcc-10.1.0/libgo/configure	2020-06-29 10:41:19.168366983 -0600
-@@ -14090,7 +14090,7 @@
+diff -Naur gcc-11.2.0_orig/libgo/configure gcc-11.2.0/libgo/configure
+--- gcc-11.2.0_orig/libgo/configure	2021-08-23 08:24:14.063539409 -0600
++++ gcc-11.2.0/libgo/configure	2021-08-23 08:44:15.317493295 -0600
+@@ -14144,7 +14144,7 @@
      GOARCH=arm
      case ${host} in
        arm*b*-*-*)
@@ -10,10 +10,10 @@ diff -Naur gcc-10.1.0_orig/libgo/configure gcc-10.1.0/libgo/configure
  	;;
      esac
      ;;
-diff -Naur gcc-10.1.0_orig/libgo/configure.ac gcc-10.1.0/libgo/configure.ac
---- gcc-10.1.0_orig/libgo/configure.ac	2020-06-29 10:40:43.876021398 -0600
-+++ gcc-10.1.0/libgo/configure.ac	2020-06-29 10:41:19.168366983 -0600
-@@ -256,7 +256,7 @@
+diff -Naur gcc-11.2.0_orig/libgo/configure.ac gcc-11.2.0/libgo/configure.ac
+--- gcc-11.2.0_orig/libgo/configure.ac	2021-08-23 08:24:14.063539409 -0600
++++ gcc-11.2.0/libgo/configure.ac	2021-08-23 08:44:15.317493295 -0600
+@@ -260,7 +260,7 @@
      GOARCH=arm
      case ${host} in
        arm*b*-*-*)

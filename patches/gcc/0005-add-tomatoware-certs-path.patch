@@ -1,11 +1,19 @@
-diff -Naur gcc-9.2.0_orig/libgo/go/crypto/x509/root_unix.go gcc-9.2.0/libgo/go/crypto/x509/root_unix.go
---- gcc-9.2.0_orig/libgo/go/crypto/x509/root_unix.go	2020-01-02 13:30:08.474273968 -0700
-+++ gcc-9.2.0/libgo/go/crypto/x509/root_unix.go	2020-01-02 13:33:16.832231807 -0700
-@@ -20,6 +20,7 @@
- 	"/etc/pki/tls/certs",           // Fedora/RHEL
- 	"/etc/openssl/certs",           // NetBSD
- 	"/var/ssl/certs",               // AIX
-+	"/opt/ssl/certs",               // Tomatoware
- }
+diff -Naur gcc-11.2.0_orig/libgo/go/crypto/x509/root_linux.go gcc-11.2.0/libgo/go/crypto/x509/root_linux.go
+--- gcc-11.2.0_orig/libgo/go/crypto/x509/root_linux.go	2021-08-23 17:21:23.909462925 -0600
++++ gcc-11.2.0/libgo/go/crypto/x509/root_linux.go	2021-08-24 07:52:13.896602943 -0600
+@@ -6,6 +6,7 @@
  
- const (
+ // Possible certificate files; stop after finding one.
+ var certFiles = []string{
++	"/opt/ssl/certs/ca-certificates.crt",                // Tomatoware
+ 	"/etc/ssl/certs/ca-certificates.crt",                // Debian/Ubuntu/Gentoo etc.
+ 	"/etc/pki/tls/certs/ca-bundle.crt",                  // Fedora/RHEL 6
+ 	"/etc/ssl/ca-bundle.pem",                            // OpenSUSE
+@@ -17,6 +18,7 @@
+ // Possible directories with certificate files; stop after successfully
+ // reading at least one file from a directory.
+ var certDirectories = []string{
++	"/opt/ssl/certs",               // Tomatoware
+ 	"/etc/ssl/certs",               // SLES10/SLES11, https://golang.org/issue/12139
+ 	"/etc/pki/tls/certs",           // Fedora/RHEL
+ 	"/system/etc/security/cacerts", // Android
