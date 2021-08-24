@@ -566,6 +566,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf mipsel-tomatoware-linux-uclibc-gcc $DEST/bin/mipsel-linux-gcc
 	ln -sf mipsel-tomatoware-linux-uclibc-g++ $DEST/bin/mipsel-linux-c++
 	ln -sf mipsel-tomatoware-linux-uclibc-g++ $DEST/bin/mipsel-linux-g++
+	ln -sf mipsel-tomatoware-linux-uclibc-gccgo $DEST/bin/mipsel-linux-gccgo
 
 	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crt1.o  $DEST/mipsel-tomatoware-linux-uclibc/lib/crt1.o
 	ln -sf $PREFIX/mipsel$PREFIX/usr/lib/crti.o  $DEST/mipsel-tomatoware-linux-uclibc/lib/crti.o
