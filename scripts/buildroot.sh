@@ -1159,7 +1159,7 @@ fi
 ############# ###############################################################
 Status "diffutils"
 
-DIFFUTILS_VERSION=3.7
+DIFFUTILS_VERSION=3.8
 
 cd $SRC/diffutils
 
