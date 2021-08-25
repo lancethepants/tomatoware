@@ -999,7 +999,7 @@ fi
 ############ ################################################################
 Status "automake"
 
-AUTOMAKE_VERSION=1.16.3
+AUTOMAKE_VERSION=1.16.4
 
 cd $SRC/automake
 
