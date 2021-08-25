@@ -22,6 +22,7 @@ if [ ! -f .built-native ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$BASE/native \
 	-DZSTD_FROM_INTERNET=ON \
+	-DREDIS_STORAGE_BACKEND=OFF \
 	./
 	$MAKE
 	make install

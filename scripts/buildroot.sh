@@ -910,6 +910,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$atomic $LDFLAGS" \
+	-DREDIS_STORAGE_BACKEND=OFF \
 	./
 	touch .configured
 fi
