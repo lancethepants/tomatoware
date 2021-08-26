@@ -660,6 +660,7 @@ if [ ! -f .configured ]; then
 	-DOPENSSL_LIBRARIES=$DEST/lib \
 	-DCURSES_INCLUDE_PATH=$DEST/include \
 	-DCURSES_CURSES_LIBRARY=$DEST/lib/libcurses.so \
+	-DBUILD_TESTING=OFF \
 	./
 	touch .configured
 fi
