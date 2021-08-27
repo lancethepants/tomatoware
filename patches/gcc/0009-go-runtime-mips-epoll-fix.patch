@@ -1,0 +1,31 @@
+diff -Naur gcc-11.2.0_orig/libgo/go/runtime/netpoll_epoll.go gcc-11.2.0/libgo/go/runtime/netpoll_epoll.go
+--- gcc-11.2.0_orig/libgo/go/runtime/netpoll_epoll.go	2021-08-26 10:32:19.017845371 -0600
++++ gcc-11.2.0/libgo/go/runtime/netpoll_epoll.go	2021-08-26 10:40:58.793230953 -0600
+@@ -2,6 +2,7 @@
+ // Use of this source code is governed by a BSD-style
+ // license that can be found in the LICENSE file.
+ 
++//go:build linux
+ // +build linux
+ 
+ package runtime
+@@ -34,15 +35,12 @@
+ )
+ 
+ func netpollinit() {
+-	epfd = epollcreate1(_EPOLL_CLOEXEC)
++	epfd = epollcreate(1024)
+ 	if epfd < 0 {
+-		epfd = epollcreate(1024)
+-		if epfd < 0 {
+-			println("runtime: epollcreate failed with", -epfd)
+-			throw("runtime: netpollinit failed")
+-		}
+-		closeonexec(epfd)
++		println("runtime: epollcreate failed with", -epfd)
++		throw("runtime: netpollinit failed")
+ 	}
++	closeonexec(epfd)
+ 	r, w, cerrno := nonblockingPipe()
+ 	if cerrno != 0 {
+ 		println("runtime: pipe failed with", cerrno)

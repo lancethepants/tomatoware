@@ -394,6 +394,9 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gcc/0006-fix-libgo-uclibc-ng.patch
 	patch -p1 < $PATCHES/gcc/0007-fix-libffi-mips-softflaot.patch
 	patch -p1 < $PATCHES/gcc/0008-fix-libgo-mips-syscall.patch
+	if [ "$DESTARCH" == "mipsel" ];then
+		patch -p1 < $PATCHES/gcc/0009-go-runtime-mips-epoll-fix.patch
+	fi
 	touch .patched
 fi
 
