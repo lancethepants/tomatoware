@@ -427,6 +427,8 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
+	--with-zstd-lib=$DEST/lib \
+	--with-zstd-include=$DEST/include \
 	--with-sysroot=$PREFIX \
 	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
@@ -528,6 +530,8 @@ if [ ! -f .configured ]; then
 	--with-mpfr-lib=$DEST/lib \
 	--with-gmp-include=$DEST/include \
 	--with-gmp-lib=$DEST/lib \
+	--with-zstd-lib=$DEST/lib \
+	--with-zstd-include=$DEST/include \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++,go \
