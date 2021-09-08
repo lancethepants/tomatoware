@@ -268,7 +268,7 @@ fi
 cd build-binutils
 
 if [ "$DESTARCH" == "mipsel" ];then
-        os=mipsel-tomatoware-linux-uclibc
+	os=mipsel-tomatoware-linux-uclibc
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -475,7 +475,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
 	ln -sf gccgo $DEST/bin/$DESTARCH-linux-gccgo
-        touch .symlinked
+	touch .symlinked
 fi
 
 ############# ###############################################################
@@ -692,9 +692,9 @@ fi
 ######## ####################################################################
 Status "llvm"
 
-if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
-
 LLVM_VERSION=12.0.1
+
+if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
 cd $SRC/llvm
 
@@ -896,9 +896,9 @@ Status "ccache"
 cd $SRC/ccache
 
 if [ ! -f .extracted ]; then
-        rm -rf ccache-${CCACHE_VERSION}
-        tar xvJf ccache-${CCACHE_VERSION}.tar.xz
-        touch .extracted
+	rm -rf ccache-${CCACHE_VERSION}
+	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
+	touch .extracted
 fi
 
 cd ccache-${CCACHE_VERSION}
@@ -924,13 +924,13 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 if [ ! -f .symlinked ]; then
@@ -1570,7 +1570,7 @@ if [ ! -f .extracted ]; then
 	tar xvJf grep-${GREP_VERSION}.tar.xz
 	touch .extracted
 fi
- 
+
 cd grep-${GREP_VERSION}
 
 if [ ! -f .configured ]; then
@@ -1645,30 +1645,30 @@ SED_VERSION=4.8
 cd $SRC/sed
 
 if [ ! -f .extracted ]; then
-        rm -rf sed-${SED_VERSION}
-        tar xvJf sed-${SED_VERSION}.tar.xz
-        touch .extracted
+	rm -rf sed-${SED_VERSION}
+	tar xvJf sed-${SED_VERSION}.tar.xz
+	touch .extracted
 fi
 
 cd sed-${SED_VERSION}
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE
-        touch .configured
+	$CONFIGURE
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 ########### #################################################################
@@ -1681,30 +1681,30 @@ TEXINFO_VERSION=6.8
 cd $SRC/texinfo
 
 if [ ! -f .extracted ]; then
-        rm -rf texinfo-${TEXINFO_VERSION}
-        tar xvJf texinfo-${TEXINFO_VERSION}.tar.xz
-        touch .extracted
+	rm -rf texinfo-${TEXINFO_VERSION}
+	tar xvJf texinfo-${TEXINFO_VERSION}.tar.xz
+	touch .extracted
 fi
 
 cd texinfo-${TEXINFO_VERSION}
 
 if [ ! -f .configured ]; then
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-        $CONFIGURE
-        touch .configured
+	$CONFIGURE
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
-        $MAKE
-        touch .built
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
-        make install DESTDIR=$BASE
-        touch .installed
+	make install DESTDIR=$BASE
+	touch .installed
 fi
 
 ######## ####################################################################
@@ -1905,8 +1905,8 @@ fi
 cd gdb-${GDB_VERSION}
 
 if [ ! -f .patched ]; then
-        patch -p1 < $PATCHES/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-        touch .patched
+	patch -p1 < $PATCHES/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+	touch .patched
 fi
 
 if [ ! -f .configured ]; then

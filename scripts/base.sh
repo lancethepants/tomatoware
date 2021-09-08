@@ -122,9 +122,9 @@ LZ4_VERSION=1.9.3
 cd $SRC/lz4
 
 if [ ! -f .extracted ]; then
-        rm -rf lz4-${LZ4_VERSION}
-        tar zxvf lz4-${LZ4_VERSION}.tar.gz
-        touch .extracted
+	rm -rf lz4-${LZ4_VERSION}
+	tar zxvf lz4-${LZ4_VERSION}.tar.gz
+	touch .extracted
 fi
 
 cd lz4-${LZ4_VERSION}
@@ -133,12 +133,12 @@ if [ ! -f .built ]; then
 	CC=$DESTARCH-linux-gcc \
 	CXX=$DESTARCH-linux-g++ \
 	PREFIX=$PREFIX \
-        LDFLAGS=$LDFLAGS \
-        CPPFLAGS=$CPPFLAGS \
-        CFLAGS=$CFLAGS \
-        CXXFLAGS=$CXXFLAGS \
-        $MAKE
-        touch .built
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$MAKE
+	touch .built
 fi
 
 if [ ! -f .installed ]; then
@@ -150,7 +150,7 @@ if [ ! -f .installed ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	make install DESTDIR=$BASE
-        touch .installed
+	touch .installed
 fi
 
 ############ ################################################################
@@ -439,9 +439,9 @@ cd libpcap-${LIBPCAP_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/libpcap/libpcap-no-mod-and-xor.patch
-		if [ "$DESTARCH" == "mipsel" ]; then
-			patch -p1 < $PATCHES/libpcap/libpcap-no-NETLINK_GENERIC.patch
-		fi
+	if [ "$DESTARCH" == "mipsel" ]; then
+		patch -p1 < $PATCHES/libpcap/libpcap-no-NETLINK_GENERIC.patch
+	fi
 	touch .patched
 fi
 
@@ -1090,7 +1090,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	./
-        touch .configured
+	touch .configured
 fi
 
 if [ ! -f .built ]; then
@@ -1336,9 +1336,9 @@ if [ ! -f .built_native ]; then
 	--disable-pyo-build \
 	ac_cv_prog_HAS_HG=/bin/false \
 	ac_cv_prog_SVNVERSION=/bin/false
-        make
-        make install
-        touch .built_native
+	make
+	make install
+	touch .built_native
 fi
 
 cd ../Python-${PYTHON_VERSION}
@@ -1382,7 +1382,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f $DEST/bin/python ]; then
-        ln -s python2 $DEST/bin/python
+	ln -s python2 $DEST/bin/python
 fi
 
 ########### #################################################################
@@ -1782,7 +1782,7 @@ if [ ! -f .patched ]; then
 		patch -p1 < "$file"
 	done
 	autoreconf
-        touch .patched
+	touch .patched
 fi
 
 if [ ! -f .configured ]; then
