@@ -129,10 +129,12 @@ if [ "$BUILDHOSTGCC" == "1" ] && [ ! -f /opt/tomatoware/x86_64/bin/cc ]; then
 		cd gcc-${GCC_VERSION}
 		./contrib/download_prerequisites
 		cd ../gcc-build
+
 		../gcc-${GCC_VERSION}/configure \
-			--prefix=/opt/tomatoware/x86_64 \
-			--enable-languages=c,c++ \
-			--disable-multilib
+		--prefix=/opt/tomatoware/x86_64 \
+		--enable-languages=c,c++ \
+		--disable-multilib
+
 		$MAKE
 		make install
 		ln -s gcc /opt/tomatoware/x86_64/bin/cc

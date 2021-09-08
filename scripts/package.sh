@@ -3,7 +3,7 @@
 source ./scripts/environment.sh
 
 if [ -f $BASE/.packaged ]; then
-exit
+	exit
 fi
 
 if [ ! -f $BASE/.configured ]; then
@@ -58,6 +58,7 @@ mkdir -p $DEST/tmp
 chmod 1777 $DEST/tmp/
 
 touch $BASE/.configured
+
 fi
 
 #Create tarball of the compiled project.

@@ -84,7 +84,7 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .installed_binary ]; then
-	cp ../libgnutls-config $DEST/bin        
+	cp ../libgnutls-config $DEST/bin
 	touch .installed_binary
 fi
 
@@ -676,16 +676,16 @@ if [ ! -f .extracted ]; then
 	tar zxvf tzcode${TZ_VERSION}.tar.gz -C ./tz
 	tar zxvf tzdata${TZ_VERSION}.tar.gz -C ./tz
 	cp -r tz tz-native
-        touch .extracted
+	touch .extracted
 fi
 
 cd tz-native
 
 if [ ! -f .installed ]; then
-        make \
-        TOPDIR=$PREFIX \
-        DESTDIR=$BASE
-        touch .installed
+	make \
+	TOPDIR=$PREFIX \
+	DESTDIR=$BASE
+	touch .installed
 fi
 
 cd ../tz
