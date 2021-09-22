@@ -1,19 +1,12 @@
-*** /home/lance/Makefile	2012-11-21 11:55:55.552553000 -0700
---- ./Makefile	2012-11-21 11:56:41.292553000 -0700
-***************
-*** 232,238 ****
-  	$(AUTORECONF)
-  	-rm -rf autom4te.cache
-  
-! install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key check-config
-  install-nokeys: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf
-  install-nosysconf: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files
-  
---- 232,238 ----
-  	$(AUTORECONF)
-  	-rm -rf autom4te.cache
-  
-! install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key
-  install-nokeys: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf
-  install-nosysconf: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files
-  
+diff -Naur openssh-8.7p1.orig/Makefile.in openssh-8.7p1/Makefile.in
+--- openssh-8.7p1.orig/Makefile.in	2021-09-22 10:37:36.011383269 -0600
++++ openssh-8.7p1/Makefile.in	2021-09-22 10:41:07.981298167 -0600
+@@ -377,7 +377,7 @@
+ 	$(AUTORECONF)
+ 	-rm -rf autom4te.cache .depend.bak
+ 
+-install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key check-config
++install: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf host-key
+ install-nokeys: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files install-sysconf
+ install-nosysconf: $(CONFIGFILES) $(MANPAGES) $(TARGETS) install-files
+ 

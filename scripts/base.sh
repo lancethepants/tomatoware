@@ -1679,6 +1679,11 @@ cd openssh-${OPENSSH_VERSION}
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
+	patch -p1 < $PATCHES/openssh/remove_check-config.patch
+
+	if [ "$DESTARCH" == "mipsel" ];then
+		patch -p1 < $PATCHES/openssh/openssh-EVP_PKEY_get_base_id.patch
+	fi
 	touch .patched
 fi
 
@@ -1693,11 +1698,6 @@ if [ ! -f .configured ]; then
 	--with-privsep-path=/var/empty \
 	--with-pam
 	touch .configured
-fi
-
-if [ ! -f .makefile_patch ]; then
-	patch < $PATCHES/openssh/remove_check-config.patch
-	touch .makefile_patch
 fi
 
 if [ ! -f .built ]; then

@@ -1,0 +1,86 @@
+diff -Naur openssh-8.7p1.orig/regress/misc/sk-dummy/sk-dummy.c openssh-8.7p1/regress/misc/sk-dummy/sk-dummy.c
+--- openssh-8.7p1.orig/regress/misc/sk-dummy/sk-dummy.c	2021-09-22 10:31:29.436109340 -0600
++++ openssh-8.7p1/regress/misc/sk-dummy/sk-dummy.c	2021-09-22 10:32:56.636882283 -0600
+@@ -328,8 +328,8 @@
+ 		skdebug(__func__, "PEM_read_bio_PrivateKey failed");
+ 		goto out;
+ 	}
+-	if (EVP_PKEY_base_id(pk) != EVP_PKEY_EC) {
+-		skdebug(__func__, "Not an EC key: %d", EVP_PKEY_base_id(pk));
++	if (EVP_PKEY_get_base_id(pk) != EVP_PKEY_EC) {
++		skdebug(__func__, "Not an EC key: %d", EVP_PKEY_get_base_id(pk));
+ 		goto out;
+ 	}
+ 	if ((ec = EVP_PKEY_get1_EC_KEY(pk)) == NULL) {
+diff -Naur openssh-8.7p1.orig/sshkey.c openssh-8.7p1/sshkey.c
+--- openssh-8.7p1.orig/sshkey.c	2021-09-22 10:31:29.444109411 -0600
++++ openssh-8.7p1/sshkey.c	2021-09-22 10:33:17.265065757 -0600
+@@ -4608,7 +4608,7 @@
+ 			r = convert_libcrypto_error();
+ 		goto out;
+ 	}
+-	if (EVP_PKEY_base_id(pk) == EVP_PKEY_RSA &&
++	if (EVP_PKEY_get_base_id(pk) == EVP_PKEY_RSA &&
+ 	    (type == KEY_UNSPEC || type == KEY_RSA)) {
+ 		if ((prv = sshkey_new(KEY_UNSPEC)) == NULL) {
+ 			r = SSH_ERR_ALLOC_FAIL;
+@@ -4625,7 +4625,7 @@
+ 		}
+ 		if ((r = check_rsa_length(prv->rsa)) != 0)
+ 			goto out;
+-	} else if (EVP_PKEY_base_id(pk) == EVP_PKEY_DSA &&
++	} else if (EVP_PKEY_get_base_id(pk) == EVP_PKEY_DSA &&
+ 	    (type == KEY_UNSPEC || type == KEY_DSA)) {
+ 		if ((prv = sshkey_new(KEY_UNSPEC)) == NULL) {
+ 			r = SSH_ERR_ALLOC_FAIL;
+@@ -4637,7 +4637,7 @@
+ 		DSA_print_fp(stderr, prv->dsa, 8);
+ #endif
+ #ifdef OPENSSL_HAS_ECC
+-	} else if (EVP_PKEY_base_id(pk) == EVP_PKEY_EC &&
++	} else if (EVP_PKEY_get_base_id(pk) == EVP_PKEY_EC &&
+ 	    (type == KEY_UNSPEC || type == KEY_ECDSA)) {
+ 		if ((prv = sshkey_new(KEY_UNSPEC)) == NULL) {
+ 			r = SSH_ERR_ALLOC_FAIL;
+diff -Naur openssh-8.7p1.orig/ssh-keygen.c openssh-8.7p1/ssh-keygen.c
+--- openssh-8.7p1.orig/ssh-keygen.c	2021-09-22 10:31:29.444109411 -0600
++++ openssh-8.7p1/ssh-keygen.c	2021-09-22 10:33:34.993223613 -0600
+@@ -693,7 +693,7 @@
+ 		    identity_file);
+ 	}
+ 	fclose(fp);
+-	switch (EVP_PKEY_base_id(pubkey)) {
++	switch (EVP_PKEY_get_base_id(pubkey)) {
+ 	case EVP_PKEY_RSA:
+ 		if ((*k = sshkey_new(KEY_UNSPEC)) == NULL)
+ 			fatal("sshkey_new failed");
+@@ -717,7 +717,7 @@
+ #endif
+ 	default:
+ 		fatal_f("unsupported pubkey type %d",
+-		    EVP_PKEY_base_id(pubkey));
++		    EVP_PKEY_get_base_id(pubkey));
+ 	}
+ 	EVP_PKEY_free(pubkey);
+ 	return;
+diff -Naur openssh-8.7p1.orig/ssh-pkcs11.c openssh-8.7p1/ssh-pkcs11.c
+--- openssh-8.7p1.orig/ssh-pkcs11.c	2021-09-22 10:31:29.444109411 -0600
++++ openssh-8.7p1/ssh-pkcs11.c	2021-09-22 10:32:32.100664350 -0600
+@@ -991,7 +991,7 @@
+ 		goto out;
+ 	}
+ 
+-	if (EVP_PKEY_base_id(evp) == EVP_PKEY_RSA) {
++	if (EVP_PKEY_get_base_id(evp) == EVP_PKEY_RSA) {
+ 		if (EVP_PKEY_get0_RSA(evp) == NULL) {
+ 			error("invalid x509; no rsa key");
+ 			goto out;
+@@ -1015,7 +1015,7 @@
+ 		key->flags |= SSHKEY_FLAG_EXT;
+ 		rsa = NULL;	/* now owned by key */
+ #ifdef HAVE_EC_KEY_METHOD_NEW
+-	} else if (EVP_PKEY_base_id(evp) == EVP_PKEY_EC) {
++	} else if (EVP_PKEY_get_base_id(evp) == EVP_PKEY_EC) {
+ 		if (EVP_PKEY_get0_EC_KEY(evp) == NULL) {
+ 			error("invalid x509; no ec key");
+ 			goto out;
