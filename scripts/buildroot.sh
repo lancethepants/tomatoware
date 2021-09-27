@@ -841,7 +841,7 @@ fi
 ########## ##################################################################
 Status "golang"
 
-GOLANG_VERSION=1.17
+GOLANG_VERSION=1.17.1
 
 cd $SRC/golang
 
