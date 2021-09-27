@@ -1122,7 +1122,7 @@ fi
 ############# ###############################################################
 Status "coreutils"
 
-COREUTILS_VERSION=8.32
+COREUTILS_VERSION=9.0
 
 cd $SRC/coreutils
 
@@ -1133,12 +1133,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd coreutils-${COREUTILS_VERSION}
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
-	autoreconf
-	touch .patched
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
