@@ -1715,7 +1715,7 @@ fi
 ######## ####################################################################
 Status "htop"
 
-HTOP_VERSION=3.0.5
+HTOP_VERSION=3.1.0
 
 cd $SRC/htop
 
@@ -1727,14 +1727,10 @@ fi
 
 cd htop-${HTOP_VERSION}
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
-	patch -p1 < $PATCHES/htop/htop-mipsel-no-SELINUX_MAGIC.patch
-	touch .patched
-fi
-
 if [ ! -f .configured ]; then
+	./autogen.sh
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="$CPPFLAGS -fcommon" \
+	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
