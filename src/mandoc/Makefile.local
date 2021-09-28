@@ -1,9 +1,12 @@
 BUILD_TARGETS	= 
 INSTALL_TARGETS	= 
+AR		= ${DESTARCH}-linux-ar
 CC		= ${DESTARCH}-linux-gcc
 CFLAGS		= -g -W -Wall -Wmissing-prototypes -Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter ${_CPPFLAGS}
 LDADD		=     -lz
 LDFLAGS		= ${_LDFLAGS}
+MANDOC_COBJS	=  compat_ohash.o compat_progname.o compat_reallocarray.o compat_recallocarray.o compat_strtonum.o
+SOELIM_COBJS	=  compat_progname.o compat_reallocarray.o compat_stringlist.o
 STATIC		= -static
 PREFIX		= ${_PREFIX}
 BINDIR		= ${_PREFIX}/bin
