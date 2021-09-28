@@ -743,7 +743,7 @@ fi
 ####### #####################################################################
 Status "apt"
 
-APT_VERSION=2.3.8
+APT_VERSION=2.3.9
 
 cd $SRC/apt
 
@@ -760,6 +760,7 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
 	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
 	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
+	patch -p1 < $PATCHES/apt/apt-sandbox-as-nobody.patch
 	touch .patched
 fi
 

@@ -1,0 +1,12 @@
+diff -Naur apt-2.3.9_orig/apt-pkg/init.cc apt-2.3.9/apt-pkg/init.cc
+--- apt-2.3.9_orig/apt-pkg/init.cc	2021-09-28 10:59:51.217663584 -0600
++++ apt-2.3.9/apt-pkg/init.cc	2021-09-28 11:00:06.633838831 -0600
+@@ -185,7 +185,7 @@
+    Cnf.CndSet("Acquire::cdrom::mount", "/media/cdrom/");
+ 
+    // The default user we drop to in the methods
+-   Cnf.CndSet("APT::Sandbox::User", "_apt");
++   Cnf.CndSet("APT::Sandbox::User", "nobody");
+ 
+    Cnf.CndSet("Acquire::IndexTargets::deb::Packages::MetaKey", "$(COMPONENT)/binary-$(ARCHITECTURE)/Packages");
+    Cnf.CndSet("Acquire::IndexTargets::deb::Packages::flatMetaKey", "Packages");
