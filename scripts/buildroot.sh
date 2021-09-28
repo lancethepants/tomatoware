@@ -1514,7 +1514,7 @@ fi
 ######## ####################################################################
 Status "wget"
 
-WGET_VERSION=1.21.1
+WGET_VERSION=1.21.2
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
