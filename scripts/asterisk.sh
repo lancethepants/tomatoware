@@ -498,7 +498,7 @@ fi
 ########### #################################################################
 Status "jannson"
 
-JANSSON_VERSION=2.13.1
+JANSSON_VERSION=2.14
 
 cd $SRC/jansson
 
