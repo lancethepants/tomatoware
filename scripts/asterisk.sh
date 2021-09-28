@@ -666,7 +666,7 @@ unset PKG_CONFIG_LIBDIR
 ###################### ######################################################
 Status "time zone database"
 
-TZ_VERSION=2021a
+TZ_VERSION=2021b
 
 cd $SRC/tz
 
