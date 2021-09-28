@@ -1982,7 +1982,7 @@ fi
 ########## ##################################################################
 Status "mandoc"
 
-MANDOC_VERSION=1.14.5
+MANDOC_VERSION=1.14.6
 
 cd $SRC/mandoc
 
