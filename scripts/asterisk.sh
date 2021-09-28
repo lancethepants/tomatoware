@@ -425,7 +425,7 @@ unset PKG_CONFIG_PATH
 ######## ####################################################################
 Status "srtp"
 
-SRTP_VERSION=2.4.0
+SRTP_VERSION=2.4.2
 
 cd $SRC/srtp
 
