@@ -1689,9 +1689,9 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
 	patch -p1 < $PATCHES/openssh/remove_check-config.patch
 
-	if [ "$DESTARCH" == "mipsel" ];then
-		patch -p1 < $PATCHES/openssh/openssh-EVP_PKEY_get_base_id.patch
-	fi
+#	if [ "$DESTARCH" == "mipsel" ];then
+#		patch -p1 < $PATCHES/openssh/openssh-EVP_PKEY_get_base_id.patch
+#	fi
 	touch .patched
 fi
 
