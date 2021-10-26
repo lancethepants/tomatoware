@@ -1701,6 +1701,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--with-ssl-dir=$DEST \
 	--sysconfdir=$PREFIX/etc/ssh \
 	--with-pid-dir=/var/run \
 	--with-privsep-path=/var/empty \
