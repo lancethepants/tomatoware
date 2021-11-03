@@ -692,7 +692,7 @@ fi
 ######## ####################################################################
 Status "llvm"
 
-LLVM_VERSION=12.0.1
+LLVM_VERSION=13.0.0
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
@@ -759,6 +759,7 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/llvm/001-llvm.patch
 	patch -p1 < $PATCHES/llvm/002-ARMv7-Default-SoftFloat.patch
 	patch -p1 < $PATCHES/llvm/003-CINCLUDES.patch
+	patch -p1 < $PATCHES/llvm/004-Intel-PT-not-supported.patch
 	touch .patched
 fi
 
@@ -771,6 +772,7 @@ if [ ! -f .configured ]; then
 	-Wno-dev \
 	-DDEFAULT_SYSROOT=$PREFIX \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_CROSSCOMPILING=True \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
