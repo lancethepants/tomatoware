@@ -12,12 +12,13 @@ NETTLE_VERSION=3.7.3
 cd $SRC/nettle
 
 if [ ! -f .extracted ]; then
-	rm -rf nettle-${NETTLE_VERSION}
+	rm -rf nettle nettle-${NETTLE_VERSION}
 	tar zxvf nettle-${NETTLE_VERSION}.tar.gz
+	mv nettle-${NETTLE_VERSION} nettle
 	touch .extracted
 fi
 
-cd nettle-${NETTLE_VERSION}
+cd nettle
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -50,12 +51,13 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/gnutls
 
 if [ ! -f .extracted ]; then
-	rm -rf gnutls-${GNUTLS_VERSION}
+	rm -rf gnutls gnutls-${GNUTLS_VERSION}
 	tar xvJf gnutls-${GNUTLS_VERSION}.tar.xz
+	mv gnutls-${GNUTLS_VERSION} gnutls
 	touch .extracted
 fi
 
-cd gnutls-${GNUTLS_VERSION}
+cd gnutls
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -108,12 +110,13 @@ LIBGPG_ERROR_VERSION=1.43
 cd $SRC/libgpg-error
 
 if [ ! -f .extracted ]; then
-	rm -rf libgpg-error-${LIBGPG_ERROR_VERSION}
+	rm -rf libgpg-error libgpg-error-${LIBGPG_ERROR_VERSION}
 	tar xvjf libgpg-error-${LIBGPG_ERROR_VERSION}.tar.bz2
+	mv libgpg-error-${LIBGPG_ERROR_VERSION} libgpg-error
 	touch .extracted
 fi
 
-cd libgpg-error-${LIBGPG_ERROR_VERSION}
+cd libgpg-error
 
 if [ "$DESTARCH" == "mipsel" ]; then
 	os=mips-unknown-linux-gnu
@@ -159,12 +162,13 @@ LIBGCRYPT_VERSION=1.9.4
 cd $SRC/libgcrypt
 
 if [ ! -f .extracted ]; then
-	rm -rf libgcrypt-${LIBGCRYPT_VERSION}
+	rm -rf libgcrypt libgcrypt-${LIBGCRYPT_VERSION}
 	tar xvjf libgcrypt-${LIBGCRYPT_VERSION}.tar.bz2
+	mv libgcrypt-${LIBGCRYPT_VERSION} libgcrypt
 	touch .extracted
 fi
 
-cd libgcrypt-${LIBGCRYPT_VERSION}
+cd libgcrypt
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -204,12 +208,13 @@ LIBASSUAN_VERSION=2.5.5
 cd $SRC/libassuan
 
 if [ ! -f .extracted ]; then
-	rm -rf libassuan-${LIBASSUAN_VERSION}
+	rm -rf libassuan libassuan-${LIBASSUAN_VERSION}
 	tar xvjf libassuan-${LIBASSUAN_VERSION}.tar.bz2
+	mv libassuan-${LIBASSUAN_VERSION} libassuan
 	touch .extracted
 fi
 
-cd libassuan-${LIBASSUAN_VERSION}
+cd libassuan
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -249,12 +254,13 @@ LIBKSBA_VERSION=1.6.0
 cd $SRC/libksba
 
 if [ ! -f .extracted ]; then
-	rm -rf libksba-${LIBKSBA_VERSION}
+	rm -rf libksba libksba-${LIBKSBA_VERSION}
 	tar xvjf libksba-${LIBKSBA_VERSION}.tar.bz2
+	mv libksba-${LIBKSBA_VERSION} libksba
 	touch .extracted
 fi
 
-cd libksba-${LIBKSBA_VERSION}
+cd libksba
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -294,12 +300,13 @@ NPTH_VERSION=1.6
 cd $SRC/npth
 
 if [ ! -f .extracted ]; then
-	rm -rf npth-${NPTH_VERSION}
+	rm -rf npth npth-${NPTH_VERSION}
 	tar xvjf npth-${NPTH_VERSION}.tar.bz2
+	mv npth-${NPTH_VERSION} npth
 	touch .extracted
 fi
 
-cd npth-${NPTH_VERSION}
+cd npth
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -338,12 +345,13 @@ GNUPG_VERSION=2.3.3
 cd $SRC/gnupg
 
 if [ ! -f .extracted ]; then
-	rm -rf gnupg-${GNUPG_VERSION}
+	rm -rf gnupg gnupg-${GNUPG_VERSION}
 	tar xvjf gnupg-${GNUPG_VERSION}.tar.bz2
+	mv gnupg-${GNUPG_VERSION} gnupg
 	touch .extracted
 fi
 
-cd gnupg-${GNUPG_VERSION}
+cd gnupg
 
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
@@ -390,12 +398,13 @@ export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
 cd $SRC/iksemel
 
 if [ ! -f .extracted ]; then
-	rm -rf iksemel-${IKSEMEL_VERSION}
+	rm -rf iksemel iksemel-${IKSEMEL_VERSION}
 	tar zxvf iksemel-${IKSEMEL_VERSION}.tar.gz
+	mv iksemel-${IKSEMEL_VERSION} iksemel
 	touch .extracted
 fi
 
-cd iksemel-${IKSEMEL_VERSION}
+cd iksemel
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -430,12 +439,13 @@ SRTP_VERSION=2.4.2
 cd $SRC/srtp
 
 if [ ! -f .extracted ]; then
-	rm -rf libsrtp-${SRTP_VERSION}
+	rm -rf libsrtp libsrtp-${SRTP_VERSION}
 	tar zxvf libsrtp-${SRTP_VERSION}.tar.gz
+	mv libsrtp-${SRTP_VERSION} libsrtp
 	touch .extracted
 fi
 
-cd libsrtp-${SRTP_VERSION}
+cd libsrtp
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -466,12 +476,13 @@ UNIXODBC_VERSION=2.3.9
 cd $SRC/odbc
 
 if [ ! -f .extracted ]; then
-	rm -rf unixODBC-${UNIXODBC_VERSION}
+	rm -rf unixODBC unixODBC-${UNIXODBC_VERSION}
 	tar zxvf unixODBC-${UNIXODBC_VERSION}.tar.gz
+	mv unixODBC-${UNIXODBC_VERSION} unixODBC
 	touch .extracted
 fi
 
-cd unixODBC-${UNIXODBC_VERSION}
+cd unixODBC
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -503,12 +514,13 @@ JANSSON_VERSION=2.14
 cd $SRC/jansson
 
 if [ ! -f .extracted ]; then
-	rm -rf jansson-${JANSSON_VERSION}
+	rm -rf jansson jansson-${JANSSON_VERSION}
 	tar xvjf jansson-${JANSSON_VERSION}.tar.bz2
+	mv jansson-${JANSSON_VERSION} jansson
 	touch .extracted
 fi
 
-cd jansson-${JANSSON_VERSION}
+cd jansson
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -541,12 +553,13 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/asterisk
 
 if [ ! -f .extracted ]; then
-	rm -rf asterisk-${ASTERISK_VERSION}
+	rm -rf asterisk asterisk-${ASTERISK_VERSION}
 	tar zxvf asterisk-${ASTERISK_VERSION}.tar.gz
+	mv asterisk-${ASTERISK_VERSION} asterisk
 	touch .extracted
 fi
 
-cd asterisk-${ASTERISK_VERSION}
+cd asterisk
 
 if [ ! -f .patched ]; then
 	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
@@ -712,12 +725,13 @@ XXHASH_VERSION=0.8.0
 cd $SRC/xxhash
 
 if [ ! -f .extracted ]; then
-	rm -rf xxHash-${XXHASH_VERSION}
+	rm -rf xxHash xxHash-${XXHASH_VERSION}
 	tar xvJf xxHash-${XXHASH_VERSION}.tar.xz
+	mv xxHash-${XXHASH_VERSION} xxHash
 	touch .extracted
 fi
 
-cd xxHash-${XXHASH_VERSION}
+cd xxHash
 
 if [ ! -f .built ]; then
 	CC=$DESTARCH-linux-gcc \
@@ -748,13 +762,14 @@ APT_VERSION=2.3.11
 cd $SRC/apt
 
 if [ ! -f .extracted ]; then
-	rm -rf apt-${APT_VERSION}
+	rm -rf apt apt-${APT_VERSION}
 	tar xvjf apt-${APT_VERSION}.tar.bz2
+	mv apt-${APT_VERSION} apt
 	cp $SRC/apt/triehash $BASE/native/bin
 	touch .extracted
 fi
 
-cd apt-${APT_VERSION}
+cd apt
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
