@@ -18,16 +18,17 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/glib2
 
 if [ ! -f .extracted ]; then
-	rm -rf glib-${GLIB_VERSION}
+	rm -rf glib glib-${GLIB_VERSION}
 	if [ "$DESTARCH" == "mipsel" ];then
 		tar zxvf glib-${GLIB_VERSION}.tar.gz
 	else
 		tar xvJf glib-${GLIB_VERSION}.tar.xz
 	fi
+	mv glib-${GLIB_VERSION} glib
 	touch .extracted
 fi
 
-cd glib-${GLIB_VERSION}
+cd glib
 
 if [ ! -f .patched ]; then
 	if [ "$DESTARCH" == "mipsel" ];then
@@ -105,12 +106,13 @@ PKG_CONFIG_VERSION=0.29.2
 cd $SRC/pkg-config
 
 if [ ! -f .extracted ]; then
-	rm -rf pkg-config-${PKG_CONFIG_VERSION}
+	rm -rf pkg-config pkg-config-${PKG_CONFIG_VERSION}
 	tar zxvf pkg-config-${PKG_CONFIG_VERSION}.tar.gz
+	mv pkg-config-${PKG_CONFIG_VERSION} pkg-config
 	touch .extracted
 fi
 
-cd pkg-config-${PKG_CONFIG_VERSION}
+cd pkg-config
 
 if [ ! -f .configured ]; then
 	GLIB_CFLAGS="-I$DEST/include/glib-2.0 -I$DEST/lib/glib-2.0/include" \
@@ -144,12 +146,13 @@ GMP_VERSION=6.2.1
 cd $SRC/gmp
 
 if [ ! -f .extracted ]; then
-	rm -rf gmp-${GMP_VERSION}
+	rm -rf gmp gmp-${GMP_VERSION}
 	tar xvJf gmp-${GMP_VERSION}.tar.xz
+	mv gmp-${GMP_VERSION} gmp
 	touch .extracted
 fi
 
-cd gmp-${GMP_VERSION}
+cd gmp
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -181,12 +184,13 @@ MPFR_VERSION=4.1.0
 cd $SRC/mpfr
 
 if [ ! -f .extracted ]; then
-	rm -rf mpfr-${MPFR_VERSION}
+	rm -rf mpfr mpfr-${MPFR_VERSION}
 	tar xvJf mpfr-${MPFR_VERSION}.tar.xz
+	mv mpfr-${MPFR_VERSION} mpfr
 	touch .extracted
 fi
 
-cd mpfr-${MPFR_VERSION}
+cd mpfr
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -223,12 +227,13 @@ MPC_VERSION=1.2.1
 cd $SRC/mpc
 
 if [ ! -f .extracted ]; then
-	rm -rf mpc-${MPC_VERSION}
+	rm -rf mpc mpc-${MPC_VERSION}
 	tar zxvf mpc-${MPC_VERSION}.tar.gz
+	mv mpc-${MPC_VERSION} mpc
 	touch .extracted
 fi
 
-cd mpc-${MPC_VERSION}
+cd mpc
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -259,8 +264,9 @@ Status "binutils"
 mkdir -p $SRC/binutils && cd $SRC/binutils
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-${BINUTILS_VERSION} build-binutils
+	rm -rf binutils binutils-${BINUTILS_VERSION} build-binutils
 	tar xvJf $SRC/toolchain/dl/binutils/binutils-${BINUTILS_VERSION}.tar.xz -C $SRC/binutils
+	mv binutils-${BINUTILS_VERSION} binutils
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -280,7 +286,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-${BINUTILS_VERSION}/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
@@ -317,8 +323,9 @@ if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 mkdir -p $SRC/binutils-cross && cd $SRC/binutils-cross
 
 if [ ! -f .extracted ]; then
-	rm -rf binutils-${BINUTILS_VERSION} build-binutils
+	rm -rf binutils binutils-${BINUTILS_VERSION} build-binutils
 	tar xvJf $SRC/toolchain/dl/binutils/binutils-${BINUTILS_VERSION}.tar.xz -C $SRC/binutils-cross
+	mv binutils-${BINUTILS_VERSION} binutils
 	mkdir build-binutils
 	touch .extracted
 fi
@@ -333,7 +340,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils-${BINUTILS_VERSION}/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	../binutils/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
@@ -372,13 +379,14 @@ Status "gcc"
 mkdir -p $SRC/gcc && cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-${GCC_VERSION} gcc-build
+	rm -rf gcc gcc-${GCC_VERSION} gcc-build
 	tar xvJf $SRC/toolchain/dl/gcc/gcc-${GCC_VERSION}.tar.xz -C $SRC/gcc
+	mv gcc-${GCC_VERSION} gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-${GCC_VERSION}
+cd gcc
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
@@ -420,7 +428,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-${GCC_VERSION}/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc/configure --prefix=$PREFIX --host=$os --target=$os \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -488,13 +496,14 @@ if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 mkdir -p $SRC/gcc-cross && cd $SRC/gcc-cross
 
 if [ ! -f .extracted ]; then
-	rm -rf gcc-${GCC_VERSION} gcc-build
+	rm -rf gcc gcc-${GCC_VERSION} gcc-build
 	tar xvJf $SRC/toolchain/dl/gcc/gcc-${GCC_VERSION}.tar.xz -C $SRC/gcc-cross
+	mv gcc-${GCC_VERSION} gcc
 	mkdir gcc-build
 	touch .extracted
 fi
 
-cd gcc-${GCC_VERSION}
+cd gcc
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
@@ -523,7 +532,7 @@ gccextraconfig="--with-abi=32
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc-${GCC_VERSION}/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	../gcc/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -603,12 +612,13 @@ Status "ninja"
 cd $SRC/ninja
 
 if [ ! -f .extracted ]; then
-	rm -rf ninja-v${NINJA_VERSION}
+	rm -rf ninja ninja-v${NINJA_VERSION}
 	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
+	mv ninja-v${NINJA_VERSION} ninja
 	touch .extracted
 fi
 
-cd ninja-v${NINJA_VERSION}
+cd ninja
 
 if [ ! -f .configured ]; then
 	CXX=$DESTARCH-linux-g++ \
@@ -638,12 +648,13 @@ Status "cmake"
 cd $SRC/cmake
 
 if [ ! -f .extracted ]; then
-	rm -rf cmake-${CMAKE_VERSION}
+	rm -rf cmake cmake-${CMAKE_VERSION}
 	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
+	mv cmake-${CMAKE_VERSION} cmake
 	touch .extracted
 fi
 
-cd cmake-${CMAKE_VERSION}
+cd cmake
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/cmake/cmake.patch
@@ -699,13 +710,15 @@ if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 cd $SRC/llvm
 
 if [ ! -f .extracted ]; then
-	rm -rf llvm-project-${LLVM_VERSION}.src llvm-project-${LLVM_VERSION}.src_host
+	rm -rf llvm-project llvm-project-host llvm-project-${LLVM_VERSION}.src
 	tar xvJf llvm-project-${LLVM_VERSION}.src.tar.xz
-	cp -r llvm-project-${LLVM_VERSION}.src llvm-project-${LLVM_VERSION}.src_host
+	mv llvm-project-${LLVM_VERSION}.src llvm-project
+	tar xvJf llvm-project-${LLVM_VERSION}.src.tar.xz
+	mv llvm-project-${LLVM_VERSION}.src llvm-project-host
 	touch .extracted
 fi
 
-cd llvm-project-${LLVM_VERSION}.src_host
+cd llvm-project-host
 
 if [ ! -f .built-native ]; then
 
@@ -750,7 +763,7 @@ lib/gcc/c++:\
 lib/gcc/c++2:\
 usr/include
 
-cd $SRC/llvm/llvm-project-${LLVM_VERSION}.src
+cd $SRC/llvm/llvm-project
 
 if [ ! -f .patched ]; then
 	cp $PATCHES/llvm/dynamic-linker.patch .
@@ -796,17 +809,17 @@ if [ ! -f .configured ]; then
 	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
 	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
 	-DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
-	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}.src_host/build/bin/llvm-tblgen" \
+	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/llvm-tblgen" \
 	-DCLANG_DEFAULT_LINKER="lld" \
-	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}.src_host/build/bin/clang-tblgen" \
-	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-${LLVM_VERSION}.src_host/build/bin/lldb-tblgen" \
+	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/clang-tblgen" \
+	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/lldb-tblgen" \
 	-DLLDB_ENABLE_LUA=OFF \
 	-DLLDB_ENABLE_PYTHON=OFF \
 	../llvm
 	touch ../.configured
 fi
 
-cd $SRC/llvm/llvm-project-${LLVM_VERSION}.src/build
+cd $SRC/llvm/llvm-project/build
 
 if [ ! -f .built ]; then
 	ninja
@@ -898,12 +911,13 @@ Status "ccache"
 cd $SRC/ccache
 
 if [ ! -f .extracted ]; then
-	rm -rf ccache-${CCACHE_VERSION}
+	rm -rf ccache ccache-${CCACHE_VERSION}
 	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
+	mv ccache-${CCACHE_VERSION} ccache
 	touch .extracted
 fi
 
-cd ccache-${CCACHE_VERSION}
+cd ccache
 
 if [ "$DESTARCH" == "mipsel" ]; then
 	atomic="-latomic"
@@ -979,12 +993,13 @@ AUTOCONF_VERSION=2.71
 cd $SRC/autoconf
 
 if [ ! -f .extracted ]; then
-	rm -rf autoconf-${AUTOCONF_VERSION}
+	rm -rf autoconf autoconf-${AUTOCONF_VERSION}
 	tar xvJf autoconf-${AUTOCONF_VERSION}.tar.xz
+	mv autoconf-${AUTOCONF_VERSION} autoconf
 	touch .extracted
 fi
 
-cd autoconf-${AUTOCONF_VERSION}
+cd autoconf
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1015,12 +1030,13 @@ AUTOMAKE_VERSION=1.16.5
 cd $SRC/automake
 
 if [ ! -f .extracted ]; then
-	rm -rf automake-${AUTOMAKE_VERSION}
+	rm -rf automake automake-${AUTOMAKE_VERSION}
 	tar xvJf automake-${AUTOMAKE_VERSION}.tar.xz
+	mv automake-${AUTOMAKE_VERSION} automake
 	touch .extracted
 fi
 
-cd automake-${AUTOMAKE_VERSION}
+cd automake
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1051,12 +1067,13 @@ BISON_VERSION=3.8.2
 cd $SRC/bison
 
 if [ ! -f .extracted ]; then
-	rm -rf bison-${BISON_VERSION}
+	rm -rf bison bison-${BISON_VERSION}
 	tar xvJf bison-${BISON_VERSION}.tar.xz
+	mv bison-${BISON_VERSION} bison
 	touch .extracted
 fi
 
-cd bison-${BISON_VERSION}
+cd bison
 
 if [ ! -f .patched ]; then
 	cp -v Makefile.in{,.orig}
@@ -1093,12 +1110,13 @@ CHECK_VERSION=0.10.0
 cd $SRC/check
 
 if [ ! -f .extracted ]; then
-	rm -rf check-${CHECK_VERSION}
+	rm -rf check check-${CHECK_VERSION}
 	tar zxvf check-${CHECK_VERSION}.tar.gz
+	mv check-${CHECK_VERSION} check
 	touch .extracted
 fi
 
-cd check-${CHECK_VERSION}
+cd check
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1129,12 +1147,13 @@ COREUTILS_VERSION=9.0
 cd $SRC/coreutils
 
 if [ ! -f .extracted ]; then
-	rm -rf coreutils-${COREUTILS_VERSION}
+	rm -rf coreutils coreutils-${COREUTILS_VERSION}
 	tar xvJf coreutils-${COREUTILS_VERSION}.tar.xz
+	mv coreutils-${COREUTILS_VERSION} coreutils
 	touch .extracted
 fi
 
-cd coreutils-${COREUTILS_VERSION}
+cd coreutils
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1169,12 +1188,13 @@ DIFFUTILS_VERSION=3.8
 cd $SRC/diffutils
 
 if [ ! -f .extracted ]; then
-	rm -rf diffutils-${DIFFUTILS_VERSION}
+	rm -rf diffutils diffutils-${DIFFUTILS_VERSION}
 	tar xvJf diffutils-${DIFFUTILS_VERSION}.tar.xz
+	mv diffutils-${DIFFUTILS_VERSION} diffutils
 	touch .extracted
 fi
 
-cd diffutils-${DIFFUTILS_VERSION}
+cd diffutils
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1205,12 +1225,13 @@ FINDUTILS_VERSION=4.8.0
 cd $SRC/findutils
 
 if [ ! -f .extracted ]; then
-	rm -rf findutils-${FINDUTILS_VERSION}
+	rm -rf findutils findutils-${FINDUTILS_VERSION}
 	tar xvJf findutils-${FINDUTILS_VERSION}.tar.xz
+	mv findutils-${FINDUTILS_VERSION} findutils
 	touch .extracted
 fi
 
-cd findutils-${FINDUTILS_VERSION}
+cd findutils
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1242,12 +1263,13 @@ GAWK_VERSION=5.1.0
 cd $SRC/gawk
 
 if [ ! -f .extracted ]; then
-	rm -rf gawk-${GAWK_VERSION}
+	rm -rf gawk gawk-${GAWK_VERSION}
 	tar xvJf gawk-${GAWK_VERSION}.tar.xz
+	mv gawk-${GAWK_VERSION} gawk
 	touch .extracted
 fi
 
-cd gawk-${GAWK_VERSION}
+cd gawk
 
 if [ ! -f .edit_sed ]; then
 	cp -v extension/Makefile.in{,.orig}
@@ -1284,12 +1306,13 @@ LIBTOOL_VERSION=2.4.6
 cd $SRC/libtool
 
 if [ ! -f .extracted ]; then
-	rm -rf libtool-${LIBTOOL_VERSION}
+	rm -rf libtool libtool-${LIBTOOL_VERSION}
 	tar xvJf libtool-${LIBTOOL_VERSION}.tar.xz
+	mv libtool-${LIBTOOL_VERSION} libtool
 	touch .extracted
 fi
 
-cd libtool-${LIBTOOL_VERSION}
+cd libtool
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1320,12 +1343,13 @@ SLIBTOOL_VERSION=0.5.34
 cd $SRC/slibtool
 
 if [ ! -f .extracted ]; then
-	rm -rf slibtool-${SLIBTOOL_VERSION}
+	rm -rf slibtool slibtool-${SLIBTOOL_VERSION}
 	tar xvJf slibtool-${SLIBTOOL_VERSION}.tar.xz
+	mv slibtool-${SLIBTOOL_VERSION} slibtool
 	touch .extracted
 fi
 
-cd slibtool-${SLIBTOOL_VERSION}
+cd slibtool
 
 if [ ! -f .configured ]; then
 	CC=$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc \
@@ -1357,12 +1381,13 @@ M4_VERSION=1.4.19
 cd $SRC/m4
 
 if [ ! -f .extracted ]; then
-	rm -rf m4-${M4_VERSION}
+	rm -rf m4 m4-${M4_VERSION}
 	tar xvJf m4-${M4_VERSION}.tar.xz
+	mv m4-${M4_VERSION} m4
 	touch .extracted
 fi
 
-cd m4-${M4_VERSION}
+cd m4
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1393,12 +1418,13 @@ MAKE_VERSION=4.3
 cd $SRC/make
 
 if [ ! -f .extracted ]; then
-	rm -rf make-${MAKE_VERSION}
+	rm -rf make make-${MAKE_VERSION}
 	tar zxvf make-${MAKE_VERSION}.tar.gz
+	mv make-${MAKE_VERSION} make
 	touch .extracted
 fi
 
-cd make-${MAKE_VERSION}
+cd make
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1437,12 +1463,13 @@ fi
 cd $SRC/util-linux
 
 if [ ! -f .extracted ]; then
-	rm -rf util-linux-${UTIL_LINUX_VERSION}
+	rm -rf util-linux util-linux-${UTIL_LINUX_VERSION}
 	tar xvJf util-linux-${UTIL_LINUX_VERSION}.tar.xz
+	mv util-linux-${UTIL_LINUX_VERSION} util-linux
 	touch .extracted
 fi
 
-cd util-linux-${UTIL_LINUX_VERSION}
+cd util-linux
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 	sed -i 's,epoll_create1,epoll_create,g' ./libmount/src/monitor.c
@@ -1485,12 +1512,13 @@ PATCH_VERSION=2.7.6
 cd $SRC/patch
 
 if [ ! -f .extracted ]; then
-	rm -rf  patch-${PATCH_VERSION}
+	rm -rf  patch patch-${PATCH_VERSION}
 	tar xvJf patch-${PATCH_VERSION}.tar.xz
+	mv patch-${PATCH_VERSION} patch
 	touch .extracted
 fi
 
-cd patch-${PATCH_VERSION}
+cd patch
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1523,12 +1551,13 @@ export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 cd $SRC/wget
 
 if [ ! -f .extracted ]; then
-	rm -rf wget-${WGET_VERSION}
+	rm -rf wget wget-${WGET_VERSION}
 	tar zxvf wget-${WGET_VERSION}.tar.gz
+	mv wget-${WGET_VERSION} wget
 	touch .extracted
 fi
 
-cd wget-${WGET_VERSION}
+cd wget
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1562,12 +1591,13 @@ GREP_VERSION=3.7
 cd $SRC/grep
 
 if [ ! -f .extracted ]; then
-	rm -rf grep-${GREP_VERSION}
+	rm -rf grep grep-${GREP_VERSION}
 	tar xvJf grep-${GREP_VERSION}.tar.xz
+	mv grep-${GREP_VERSION} grep
 	touch .extracted
 fi
 
-cd grep-${GREP_VERSION}
+cd grep
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1598,12 +1628,13 @@ TAR_VERSION=1.32
 cd $SRC/tar
 
 if [ ! -f .extracted ]; then
-	rm -rf tar-${TAR_VERSION}
+	rm -rf tar tar-${TAR_VERSION}
 	tar xvJf tar-${TAR_VERSION}.tar.xz
+	mv tar-${TAR_VERSION} tar
 	touch .extracted
 fi
 
-cd tar-${TAR_VERSION}
+cd tar
 
 if [ "$DESTARCH" == "mipsel" ];then
 	tarextraconfig="gl_cv_func_working_utimes=yes
@@ -1641,12 +1672,13 @@ SED_VERSION=4.8
 cd $SRC/sed
 
 if [ ! -f .extracted ]; then
-	rm -rf sed-${SED_VERSION}
+	rm -rf sed sed-${SED_VERSION}
 	tar xvJf sed-${SED_VERSION}.tar.xz
+	mv sed-${SED_VERSION} sed
 	touch .extracted
 fi
 
-cd sed-${SED_VERSION}
+cd sed
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1677,12 +1709,13 @@ TEXINFO_VERSION=6.8
 cd $SRC/texinfo
 
 if [ ! -f .extracted ]; then
-	rm -rf texinfo-${TEXINFO_VERSION}
+	rm -rf texinfo texinfo-${TEXINFO_VERSION}
 	tar xvJf texinfo-${TEXINFO_VERSION}.tar.xz
+	mv texinfo-${TEXINFO_VERSION} texinfo
 	touch .extracted
 fi
 
-cd texinfo-${TEXINFO_VERSION}
+cd texinfo
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1713,12 +1746,13 @@ CPIO_VERSION=2.13
 cd $SRC/cpio
 
 if [ ! -f .extracted ]; then
-	rm -rf cpio-${CPIO_VERSION}
+	rm -rf cpio cpio-${CPIO_VERSION}
 	tar xvjf cpio-${CPIO_VERSION}.tar.bz2
+	mv cpio-${CPIO_VERSION} cpio
 	touch .extracted
 fi
 
-cd cpio-${CPIO_VERSION}
+cd cpio
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1749,24 +1783,25 @@ FILE_VERSION=5.41
 cd $SRC/file
 
 if [ ! -f .extracted ]; then
-	rm -rf file-${FILE_VERSION} file-${FILE_VERSION}-native
+	rm -rf file file-host file-${FILE_VERSION}
 	tar zxvf file-${FILE_VERSION}.tar.gz
-	cp -r file-${FILE_VERSION} file-${FILE_VERSION}-native
+	mv file-${FILE_VERSION} file
+	cp -r file file-host
 	touch .extracted
 fi
 
-cd file-${FILE_VERSION}-native
+cd file-host
 
-if [ ! -f .built-native ]; then
+if [ ! -f .built-host ]; then
 	autoreconf -f -i
 	./configure \
-	--prefix=$SRC/file/file-${FILE_VERSION}-native
+	--prefix=$SRC/file/file-host
 	$MAKE
 	make install
-	touch .built-native
+	touch .built-host
 fi
 
-cd ../file-${FILE_VERSION}
+cd ../file
 
 if [ ! -f .configured ]; then
 	autoreconf -f -i
@@ -1780,7 +1815,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/file/file-${FILE_VERSION}-native/bin:$PATH \
+	PATH=$SRC/file/file-host/bin:$PATH \
 	$MAKE
 	touch .built
 fi
@@ -1800,12 +1835,13 @@ DISTCC_VERSION=3.4
 cd $SRC/distcc
 
 if [ ! -f .extracted ]; then
-	rm -rf distcc-${DISTCC_VERSION}
+	rm -rf distcc distcc-${DISTCC_VERSION}
 	tar zxvf distcc-${DISTCC_VERSION}.tar.gz
+	mv distcc-${DISTCC_VERSION} distcc
 	touch .extracted
 fi
 
-cd distcc-${DISTCC_VERSION}
+cd distcc
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1837,19 +1873,20 @@ Status "upx"
 UCL_VERSION=1.03
 UPX_VERSION=3.94
 
-export UPX_UCLDIR=$SRC/upx/ucl-${UCL_VERSION}
+export UPX_UCLDIR=$SRC/upx/ucl
 
 cd $SRC/upx
 
 if [ ! -f .extracted ]; then
-	rm -rf ucl-${UCL_VERSION} upx-${UPX_VERSION}-src upx
+	rm -rf ucl upx ucl-${UCL_VERSION} upx-${UPX_VERSION}-src
 	tar zxvf ucl-${UCL_VERSION}.tar.gz
 	tar xvJf upx-${UPX_VERSION}-src.tar.xz
+	mv ucl-${UCL_VERSION} ucl
 	mv upx-${UPX_VERSION}-src upx
 	touch .extracted
 fi
 
-cd ucl-${UCL_VERSION}
+cd ucl
 
 if [ ! -f .built_ucl ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1893,12 +1930,13 @@ GDB_VERSION=7.12.1
 cd $SRC/gdb
 
 if [ ! -f .extracted ]; then
-	rm -rf gdb-${GDB_VERSION}
+	rm -rf gdb gdb-${GDB_VERSION}
 	tar xvJf gdb-${GDB_VERSION}.tar.xz
+	mv gdb-${GDB_VERSION} gdb
 	touch .extracted
 fi
 
-cd gdb-${GDB_VERSION}
+cd gdb
 
 if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
@@ -1948,12 +1986,13 @@ LESS_VERSION=590
 cd $SRC/less
 
 if [ ! -f .extracted ]; then
-	rm -rf less-${LESS_VERSION}
+	rm -rf less less-${LESS_VERSION}
 	tar zxvf less-${LESS_VERSION}.tar.gz
+	mv less-${LESS_VERSION} less
 	touch .extracted
 fi
 
-cd less-${LESS_VERSION}
+cd less
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1989,15 +2028,16 @@ MANDOC_VERSION=1.14.6
 cd $SRC/mandoc
 
 if [ ! -f .extracted ]; then
-	rm -rf mandoc-${MANDOC_VERSION}
+	rm -rf mandoc mandoc-${MANDOC_VERSION}
 	tar zxvf mandoc-${MANDOC_VERSION}.tar.gz
-	cp $SRC/mandoc/config.h mandoc-${MANDOC_VERSION}
-	cp $SRC/mandoc/Makefile.local mandoc-${MANDOC_VERSION}
-	sed -i 's,mmc,'"${PREFIX#"/"}"',g' $SRC/mandoc/config.h
+	mv mandoc-${MANDOC_VERSION} mandoc
+	cp $SRC/mandoc/config.h mandoc
+	cp $SRC/mandoc/Makefile.local mandoc
+	sed -i 's,mmc,'"${PREFIX#"/"}"',g' $SRC/mandoc/mandoc/config.h
 	touch .extracted
 fi
 
-cd mandoc-${MANDOC_VERSION}
+cd mandoc
 
 if [ ! -f .built ]; then
 	DESTARCH=$DESTARCH
@@ -2027,12 +2067,13 @@ DPKG_VERSION=1.20.9
 cd $SRC/dpkg
 
 if [ ! -f .extracted ]; then
-	rm -rf dpkg-${DPKG_VERSION}
+	rm -rf dpkg dpkg-${DPKG_VERSION}
 	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
+	mv dpkg-${DPKG_VERSION} dpkg
 	touch .extracted
 fi
 
-cd dpkg-${DPKG_VERSION}
+cd dpkg
 
 if [ ! -f .configured ]; then
 	PATH=$SRC/perl/native/bin:$PATH

@@ -10,13 +10,13 @@ Status "host-ccache"
 cd $SRC/ccache
 
 if [ ! -f .extracted-native ]; then
-	rm -rf ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
+	rm -rf ccache-native ccache-${CCACHE_VERSION}
 	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
-	mv ccache-${CCACHE_VERSION} ccache-${CCACHE_VERSION}-native
+	mv ccache-${CCACHE_VERSION} ccache-native
 	touch .extracted-native
 fi
 
-cd ccache-${CCACHE_VERSION}-native
+cd ccache-native
 
 if [ ! -f .built-native ]; then
 	cmake \
@@ -71,13 +71,13 @@ Status "host-ninja"
 cd $SRC/ninja
 
 if [ ! -f .extracted-native ]; then
-	rm -rf ninja-v${NINJA_VERSION} ninja-v${NINJA_VERSION}-native
+	rm -rf ninja-native ninja-v${NINJA_VERSION}
 	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-	mv ninja-v${NINJA_VERSION} ninja-v${NINJA_VERSION}-native
+	mv ninja-v${NINJA_VERSION} ninja-native
 	touch .extracted-native
 fi
 
-cd ninja-v${NINJA_VERSION}-native
+cd ninja-native
 
 if [ ! -f .built-native ]; then
 	python ./configure.py --bootstrap
@@ -94,13 +94,13 @@ Status "host-cmake"
 cd $SRC/cmake
 
 if [ ! -f .extracted-native ]; then
-	rm -rf cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	rm -rf cmake-native cmake-${CMAKE_VERSION}
 	tar zxvf cmake-${CMAKE_VERSION}.tar.gz
-	mv cmake-${CMAKE_VERSION} cmake-${CMAKE_VERSION}-native
+	mv cmake-${CMAKE_VERSION} cmake-native
 	touch .extracted-native
 fi
 
-cd cmake-${CMAKE_VERSION}-native
+cd cmake-native
 
 if [ ! -f .built-native ]; then
 	./bootstrap \
