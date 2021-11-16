@@ -2,6 +2,22 @@
 
 source ./scripts/environment.sh
 
+######### ###################################################################
+# Meson # ###################################################################
+######### ###################################################################
+Status "meson"
+
+MESON_VERSION=0.60.1
+
+cd $SRC/meson
+
+if [ ! -f .extracted ]; then
+	rm -rf meson meson-${MESON_VERSION}
+	tar zxvf meson-${MESON_VERSION}.tar.gz
+	mv meson-${MESON_VERSION} meson
+	touch .extracted
+fi
+
 ######## ####################################################################
 # GLIB # ####################################################################
 ######## ####################################################################
@@ -10,7 +26,7 @@ Status "glib"
 if [ "$DESTARCH" == "mipsel" ];then
 	GLIB_VERSION=2.26.1
 else
-	GLIB_VERSION=2.58.3
+	GLIB_VERSION=2.70.1
 fi
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
@@ -37,9 +53,8 @@ if [ ! -f .patched ]; then
 		patch < $PATCHES/glib2.mipsel/010-move-iconv-to-libs.patch
 		touch .patched
 	else
-		patch -p1 < $PATCHES/glib2/000-CVE-2019-12450.patch
-		patch -p1 < $PATCHES/glib2/001-automake-compat.patch
-		patch -p1 < $PATCHES/glib2/002-fix-gthreadedresolver.patch
+		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
+		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
 		touch .patched
 	fi
 fi
@@ -59,38 +74,48 @@ if [ ! -f .configured ]; then
 		ac_cv_func_posix_getgrgid_r=yes
 		touch .configured
 	else
-		autoreconf -f -i
-		LDFLAGS=$LDFLAGS \
-		CPPFLAGS=$CPPFLAGS \
-		CFLAGS="-Wno-error=missing-include-dirs -Wno-error=format-nonliteral $CFLAGS" \
-		CXXFLAGS=$CXXFLAGS \
-		$CONFIGURE \
-		--enable-shared \
-		--enable-static \
-		--disable-debug \
-		--disable-selinux \
-		--disable-libmount \
-		--disable-fam \
-		--disable-man \
-		--with-libiconv=native \
-		--with-pcre=internal \
-		glib_cv_stack_grows=no \
-		glib_cv_uscore=no \
-		ac_cv_path_GLIB_GENMARSHAL=`which glib-genmarshal` \
-		ac_cv_func_mmap_fixed_mapped=yes \
-		c_cv_func_posix_getpwuid_r=yes \
-		ac_cv_func_posix_getgrgid_r=yes
+		PATH=$SRC/perl/native/bin:$PATH \
+		$SRC/meson/meson/meson.py \
+		build \
+		--cross-file $SRC/meson/arm-cross.txt \
+		--prefix /mmc \
+		-Dbuildtype='release' \
+		-Ddefault_library='both' \
+		-Dstrip='true' \
+		-Dselinux='disabled' \
+		-Dlibmount='disabled' \
+		-Dfam='false' \
+		-Dman='false' \
+		-Dc_args="-Wno-error=missing-include-dirs $CPPFLAGS $CFLAGS" \
+		-Dcpp_args="-Wno-error=missing-include-dirs $CPPFLAGS $CXXFLAGS" \
+		-Dc_link_args="$LDFLAGS" \
+		-Dcpp_link_args="$LDFLAGS"
 		touch .configured
 	fi
 fi
 
-if [ ! -f .built ]; then
+if [ "$DESTARCH" == "mipsel" ] && [ ! -f .built ]; then
 	$MAKE
 	touch .built
 fi
 
-if [ ! -f .installed ]; then
+if [ "$DESTARCH" == "arm" ] && [ ! -f .built ]; then
+	$SRC/meson/meson/meson.py \
+	compile \
+	-C build
+	touch .built
+fi
+
+if [ "$DESTARCH" == "mipsel" ] && [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ "$DESTARCH" == "arm" ] && [ ! -f .installed ]; then
+	DESTDIR=$BASE \
+	$SRC/meson/meson/meson.py \
+	install \
+	-C build
 	touch .installed
 fi
 
@@ -2076,7 +2101,7 @@ fi
 cd dpkg
 
 if [ ! -f .configured ]; then
-	PATH=$SRC/perl/native/bin:$PATH
+	PATH=$SRC/perl/native/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
