@@ -2130,7 +2130,6 @@ if [ ! -f .edit_sed ]; then
 fi
 
 if [ ! -f .ldconfig ]; then
-	touch $DEST/bin/ldconfig
-	chmod +x $DEST/bin/ldconfig
+	ln -sf true $DEST/bin/ldconfig
 	touch .ldconfig
 fi
