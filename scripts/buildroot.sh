@@ -1648,7 +1648,7 @@ fi
 ####### #####################################################################
 Status "tar"
 
-TAR_VERSION=1.32
+TAR_VERSION=1.34
 
 cd $SRC/tar
 
@@ -1660,6 +1660,11 @@ if [ ! -f .extracted ]; then
 fi
 
 cd tar
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/tar/tar-1.33-remove-o_path-usage.patch
+	touch .patched
+fi
 
 if [ "$DESTARCH" == "mipsel" ];then
 	tarextraconfig="gl_cv_func_working_utimes=yes
