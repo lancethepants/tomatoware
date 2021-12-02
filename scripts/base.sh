@@ -1654,13 +1654,13 @@ fi
 ####### #####################################################################
 Status "pam"
 
-LINUX_PAM_VERSION=1.3.0
+LINUX_PAM_VERSION=1.5.2
 
 cd $SRC/pam
 
 if [ ! -f .extracted ]; then
 	rm -rf Linux-PAM Linux-PAM-${LINUX_PAM_VERSION}
-	tar xvjf Linux-PAM-${LINUX_PAM_VERSION}.tar.bz2
+	tar xvJf Linux-PAM-${LINUX_PAM_VERSION}.tar.xz
 	mv Linux-PAM-${LINUX_PAM_VERSION} Linux-PAM
 	touch .extracted
 fi
@@ -1668,12 +1668,8 @@ fi
 cd Linux-PAM
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/pam/0002-Conditionally-compile-per-ruserok-availability.patch
+	patch -p1 < $PATCHES/pam/PR_SET_NO_NEW_PRIVS_OLD_KERNEL.PATCH
 	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,'"$PREFIX"'\/etc\/pam,g' {} \;
-	aclocal
-	automake --add-missing
-	autoconf
-
 	touch .patched
 fi
 
@@ -1685,7 +1681,8 @@ if [ ! -f .configured ]; then
 	$CONFIGURE \
 	--enable-read-both-confs \
 	--disable-nls \
-	ac_cv_search_crypt=no
+	ac_cv_search_crypt=no \
+	ac_cv_func_quotactl=no
 	touch .configured
 fi
 

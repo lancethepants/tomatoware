@@ -1,0 +1,33 @@
+From e1bb3465543fc3e26a5cb76e539562e4bb3e5159 Mon Sep 17 00:00:00 2001
+From: "Dmitry V. Levin" <ldv@altlinux.org>
+Date: Wed, 24 Nov 2021 08:00:00 +0000
+Subject: [PATCH] modules/pam_limits: fix build with old Linux kernel headers
+
+As PR_SET_NO_NEW_PRIVS was introduced by Linux kernel commit
+v3.5-rc1~161^2~37, provide a fallback definition to fix build
+with older Linux kernel headers.
+
+* modules/pam_limits/pam_limits.c [!PR_SET_NO_NEW_PRIVS]
+(PR_SET_NO_NEW_PRIVS): New macro.
+
+Resolves: https://github.com/linux-pam/linux-pam/issues/406
+Fixes: dd9cf929 ("modules/pam_limits: add support for nonewprivs")
+---
+ modules/pam_limits/pam_limits.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/modules/pam_limits/pam_limits.c b/modules/pam_limits/pam_limits.c
+index 531889658..06800b486 100644
+--- a/modules/pam_limits/pam_limits.c
++++ b/modules/pam_limits/pam_limits.c
+@@ -47,6 +47,10 @@
+ #include <libaudit.h>
+ #endif
+ 
++#ifndef PR_SET_NO_NEW_PRIVS
++# define PR_SET_NO_NEW_PRIVS 38 /* from <linux/prctl.h> */
++#endif
++
+ /* Module defines */
+ #define LINE_LENGTH 1024
+ 
