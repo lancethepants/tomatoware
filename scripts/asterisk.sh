@@ -810,3 +810,10 @@ if [ ! -f .installed ]; then
 	echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
 	touch .installed
 fi
+
+if [ ! -f .repo ]; then
+	mkdir -p $DEST/share/keyrings
+	cat $SRC/apt/apt_pub.gpg | gpg --dearmor > $DEST/share/keyrings/tomatoware-archive-keyring.gpg
+	cp $SRC/apt/tomatoware.list $DEST/etc/apt/sources.list.d
+	touch .repo
+fi
