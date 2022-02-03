@@ -1715,7 +1715,7 @@ fi
 ########## ##################################################################
 Status "screen"
 
-SCREEN_VERSION=4.8.0
+SCREEN_VERSION=4.9.0
 
 cd $SRC/screen
 
