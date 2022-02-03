@@ -1677,13 +1677,13 @@ fi
 ######## ####################################################################
 Status "htop"
 
-HTOP_VERSION=3.1.1
+HTOP_VERSION=3.1.2
 
 cd $SRC/htop
 
 if [ ! -f .extracted ]; then
 	rm -rf htop htop-${HTOP_VERSION}
-	tar zxvf htop-${HTOP_VERSION}.tar.gz
+	tar xvJf htop-${HTOP_VERSION}.tar.xz
 	mv htop-${HTOP_VERSION} htop
 	touch .extracted
 fi
