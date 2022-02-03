@@ -9,10 +9,10 @@ Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/configure.ac b/configure.ac
-index 612e32faf5..2a6aaeff60 100644
+index a81a24c..41a21ff 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3412,6 +3412,12 @@ AC_ARG_ENABLE(openssl,
+@@ -3427,6 +3427,12 @@ AC_ARG_ENABLE(openssl,
  	     DISABLED_EXTENSIONS="${DISABLED_EXTENSIONS} ssl _ssl _hashlib"
  	  fi])
  
@@ -26,5 +26,5 @@ index 612e32faf5..2a6aaeff60 100644
  AC_ARG_ENABLE(tk,
  	AS_HELP_STRING([--disable-tk], [disable tk]),
 -- 
-2.25.1
+2.30.2
 
