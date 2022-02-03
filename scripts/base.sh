@@ -620,7 +620,7 @@ fi
 ############### #############################################################
 Status "libreadline"
 
-LIBREADLINE_VERSION=8.1
+LIBREADLINE_VERSION=8.1.2
 
 cd $SRC/libreadline
 
