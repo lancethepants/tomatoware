@@ -526,7 +526,7 @@ fi
 ########### #################################################################
 Status "ncurses"
 
-NCURSES_VERSION=6.2
+NCURSES_VERSION=6.3
 M=${NCURSES_VERSION%.*}
 m=${NCURSES_VERSION#*.}
 
