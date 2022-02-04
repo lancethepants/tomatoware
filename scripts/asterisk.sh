@@ -720,7 +720,7 @@ fi
 ########## ##################################################################
 Status "xxhash"
 
-XXHASH_VERSION=0.8.0
+XXHASH_VERSION=0.8.1
 
 cd $SRC/xxhash
 
