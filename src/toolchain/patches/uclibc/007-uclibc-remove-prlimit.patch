@@ -1,0 +1,59 @@
+diff -Naur uClibc-ng-1.0.40_orig/include/sys/resource.h uClibc-ng-1.0.40/include/sys/resource.h
+--- uClibc-ng-1.0.40_orig/include/sys/resource.h	2022-02-04 12:59:47.613768952 -0700
++++ uClibc-ng-1.0.40/include/sys/resource.h	2022-02-04 13:00:25.366039741 -0700
+@@ -101,13 +101,6 @@
+      __THROW;
+ libc_hidden_proto(setpriority)
+ 
+-#ifdef __USE_GNU
+-/* Modify and return resource limits of a process atomically.  */
+-extern int prlimit (__pid_t __pid, enum __rlimit_resource __resource,
+-		      const struct rlimit *__new_limit,
+-		      struct rlimit *__old_limit) __THROW;
+-#endif
+-
+ __END_DECLS
+ 
+ #endif	/* sys/resource.h  */
+diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/Makefile.in uClibc-ng-1.0.40/libc/sysdeps/linux/common/Makefile.in
+--- uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/Makefile.in	2022-02-04 12:59:47.593768809 -0700
++++ uClibc-ng-1.0.40/libc/sysdeps/linux/common/Makefile.in	2022-02-04 13:00:25.366039741 -0700
+@@ -38,7 +38,6 @@
+ 	pipe2.c \
+ 	ppoll.c \
+ 	prctl.c \
+-	prlimit.c \
+ 	readahead.c \
+ 	reboot.c \
+ 	remap_file_pages.c \
+diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c uClibc-ng-1.0.40/libc/sysdeps/linux/common/prlimit.c
+--- uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c	2022-02-04 12:59:47.593768809 -0700
++++ uClibc-ng-1.0.40/libc/sysdeps/linux/common/prlimit.c	1969-12-31 17:00:00.000000000 -0700
+@@ -1,27 +0,0 @@
+-/* Get/set resource limits.  Linux specific syscall.
+-   Copyright (C) 2021-2022 Free Software Foundation, Inc.
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Lesser General Public
+-   License as published by the Free Software Foundation; either
+-   version 2.1 of the License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Lesser General Public License for more details.
+-
+-   You should have received a copy of the GNU Lesser General Public
+-   License along with the GNU C Library; if not, see
+-   <https://www.gnu.org/licenses/>.  */
+-
+-#include <sys/resource.h>
+-#include <sysdep.h>
+-
+-int
+-prlimit (__pid_t pid, enum __rlimit_resource resource,
+-	     const struct rlimit *new_rlimit, struct rlimit *old_rlimit)
+-{
+-  return INLINE_SYSCALL (prlimit64, 4, pid, resource, new_rlimit,
+-			      old_rlimit);
+-}
