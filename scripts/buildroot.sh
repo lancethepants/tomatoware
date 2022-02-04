@@ -1246,7 +1246,7 @@ fi
 ############# ###############################################################
 Status "findutils"
 
-FINDUTILS_VERSION=4.8.0
+FINDUTILS_VERSION=4.9.0
 
 cd $SRC/findutils
 
