@@ -1691,7 +1691,6 @@ fi
 cd htop
 
 if [ ! -f .configured ]; then
-	./autogen.sh
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
