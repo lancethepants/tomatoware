@@ -1514,7 +1514,8 @@ if [ ! -f .configured ]; then
 	--disable-nls \
 	--disable-wall \
 	--disable-su \
-	--disable-rfkill
+	--disable-rfkill \
+	--disable-raw
 	touch .configured
 fi
 
