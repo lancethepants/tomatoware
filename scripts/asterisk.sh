@@ -759,6 +759,8 @@ Status "apt"
 
 APT_VERSION=2.3.15
 
+export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
+
 cd $SRC/apt
 
 if [ ! -f .extracted ]; then
@@ -817,3 +819,5 @@ if [ ! -f .repo ]; then
 	cp $SRC/apt/tomatoware.list $DEST/etc/apt/sources.list.d
 	touch .repo
 fi
+
+unset PKG_CONFIG_LIBDIR
