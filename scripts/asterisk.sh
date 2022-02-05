@@ -735,7 +735,7 @@ cd xxHash
 
 if [ ! -f .built ]; then
 	CC=$DESTARCH-linux-gcc \
-	CFLAGS=$CFLAGS \
+	CFLAGS="-std=c99 $CFLAGS" \
 	LDFLAGS=$LDFLAGS \
 	prefix=$PREFIX \
 	$MAKE
@@ -744,7 +744,7 @@ fi
 
 if [ ! -f .installed ]; then
 	CC=$DESTARCH-linux-gcc \
-	CFLAGS=$CFLAGS \
+	CFLAGS="-std=c99 $CFLAGS" \
 	LDFLAGS=$LDFLAGS \
 	prefix=$PREFIX \
 	make install \
