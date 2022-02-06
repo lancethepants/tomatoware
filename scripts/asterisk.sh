@@ -810,6 +810,7 @@ fi
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
 	echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
+	sed -i -e '1,1s,\#\!\/bin\/sh,\#\!'"$PREFIX"'\/bin\/bash,g' $DEST/bin/apt-key
 	touch .installed
 fi
 
