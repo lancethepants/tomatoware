@@ -69,6 +69,9 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	if [ "$DESTARCH" == "mipsel" ];then
 		echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
 	fi
+	if [ "$DESTARCH" == "arm" ];then
+		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
+	fi
 	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
 	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
