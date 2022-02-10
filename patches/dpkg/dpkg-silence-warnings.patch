@@ -1,0 +1,17 @@
+diff -Naur dpkg-1.21.1_orig/src/remove.c dpkg-1.21.1/src/remove.c
+--- dpkg-1.21.1_orig/src/remove.c	2022-02-10 15:02:34.661006356 -0700
++++ dpkg-1.21.1/src/remove.c	2022-02-10 15:03:03.709224528 -0700
+@@ -448,8 +448,8 @@
+     debug(dbg_eachfiledetail, "removal_bulk removing '%s'", fnvb.buf);
+     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
+     if (errno == ENOTEMPTY || errno == EEXIST) {
+-      warning(_("while removing %.250s, directory '%.250s' not empty so not removed"),
+-              pkg_name(pkg, pnaw_nonambig), namenode->name);
++//      warning(_("while removing %.250s, directory '%.250s' not empty so not removed"),
++//              pkg_name(pkg, pnaw_nonambig), namenode->name);
+       push_leftover(&leftover,namenode);
+       continue;
+     } else if (errno == EBUSY || errno == EPERM) {
+File dpkg-1.21.1_orig/tests/t-unpack-fifo/pkg-fifo/test-fifo is a fifo while file dpkg-1.21.1/tests/t-unpack-fifo/pkg-fifo/test-fifo is a fifo
+File dpkg-1.21.1_orig/tests/t-unpack-hardlink/pkg-hardlink/test-fifo-link0 is a fifo while file dpkg-1.21.1/tests/t-unpack-hardlink/pkg-hardlink/test-fifo-link0 is a fifo
+File dpkg-1.21.1_orig/tests/t-unpack-hardlink/pkg-hardlink/test-fifo-link1 is a fifo while file dpkg-1.21.1/tests/t-unpack-hardlink/pkg-hardlink/test-fifo-link1 is a fifo

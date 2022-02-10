@@ -2107,6 +2107,12 @@ fi
 
 cd dpkg
 
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/dpkg/dpkg-silence-warnings.patch
+	touch .patched
+fi
+
+
 if [ ! -f .configured ]; then
 	PATH=$SRC/perl/native/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
