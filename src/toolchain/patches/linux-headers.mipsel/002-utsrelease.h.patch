@@ -1,0 +1,5 @@
+diff -Nuar linux-2.6.22.19_orig/include/linux/utsrelease.h linux-2.6.22.19/include/linux/utsrelease.h
+--- linux-2.6.22.19_orig/include/linux/utsrelease.h	1969-12-31 17:00:00.000000000 -0700
++++ linux-2.6.22.19/include/linux/utsrelease.h	2015-11-24 08:33:59.947399104 -0700
+@@ -0,0 +1 @@
++#define UTS_RELEASE "2.6.22.19"
