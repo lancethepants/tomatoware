@@ -274,9 +274,7 @@ if [ ! -f .configured ]; then
 	./Configure $os \
 	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 \
 	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
-	--prefix=$PREFIX shared zlib \
-	--with-zlib-lib=$DEST/lib \
-	--with-zlib-include=$DEST/include \
+	--prefix=$PREFIX shared no-zlib \
 	-DOPENSSL_PREFER_CHACHA_OVER_GCM
 	touch .configured
 fi
