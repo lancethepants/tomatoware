@@ -682,7 +682,6 @@ fi
 cd cmake
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/cmake/cmake.patch
 	if [ "$DESTARCH" == "mipsel" ];then
 		patch -p1 < $PATCHES/cmake/compat.patch
 	fi
@@ -691,6 +690,8 @@ fi
 
 if [ ! -f .configured ]; then
 	cmake \
+	-GNinja \
+	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
@@ -704,22 +705,18 @@ if [ ! -f .configured ]; then
 	-DCURSES_INCLUDE_PATH=$DEST/include \
 	-DCURSES_CURSES_LIBRARY=$DEST/lib/libcurses.so \
 	-DBUILD_TESTING=OFF \
+	-DHAVE_POLL_FINE=1 \
 	./
 	touch .configured
 fi
 
-if [ ! -f .edit_sed ]; then
-	sed -i '/cmake_install/s/bin\/cmake/\/usr\/bin\/cmake/g' Makefile
-	touch .edit_sed
-fi
-
 if [ ! -f .built ]; then
-	$MAKE
+	ninja
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	DESTDIR=$BASE ninja install
 	touch .installed
 fi
 
@@ -811,7 +808,6 @@ if [ ! -f .configured ]; then
 	-DDEFAULT_SYSROOT=$PREFIX \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_SYSTEM_NAME="Linux" \
-	-DCMAKE_CROSSCOMPILING=True \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
@@ -951,6 +947,7 @@ fi
 
 if [ ! -f .configured ]; then
 	cmake \
+	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
