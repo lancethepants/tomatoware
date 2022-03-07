@@ -785,7 +785,7 @@ fi
 if [ ! -f .configured ]; then
 	cmake \
 	-Wno-dev \
-	-DCMAKE_CROSSCOMPILING=TRUE \
+	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DDPKG_DATADIR=$PREFIX/share/dpkg \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
