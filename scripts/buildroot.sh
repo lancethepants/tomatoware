@@ -1483,7 +1483,7 @@ Status "util-linux"
 if [ "$DESTARCH" == "mipsel" ];then
 	UTIL_LINUX_VERSION=2.34
 else
-	UTIL_LINUX_VERSION=2.37.3
+	UTIL_LINUX_VERSION=2.37.4
 fi
 
 cd $SRC/util-linux
