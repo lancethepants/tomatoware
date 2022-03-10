@@ -1623,12 +1623,7 @@ fi
 ########### #################################################################
 Status "openssh"
 
-if [ "$DESTARCH" == "mipsel" ];then
-	OPENSSH_VERSION=8.8p1
-else
-	OPENSSH_VERSION=8.9p1
-fi
-
+OPENSSH_VERSION=8.8p1
 
 cd $SRC/openssh
 
