@@ -757,7 +757,7 @@ fi
 ####### #####################################################################
 Status "apt"
 
-APT_VERSION=2.4.1
+APT_VERSION=2.4.2
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
