@@ -1324,7 +1324,7 @@ fi
 ########### #################################################################
 Status "libtool"
 
-LIBTOOL_VERSION=2.4.6
+LIBTOOL_VERSION=2.4.7
 
 cd $SRC/libtool
 
