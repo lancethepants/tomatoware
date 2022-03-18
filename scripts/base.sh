@@ -241,7 +241,7 @@ fi
 ########### #################################################################
 Status "openssl"
 
-OPENSSL_VERSION=1.1.1m
+OPENSSL_VERSION=1.1.1n
 
 cd $SRC/openssl
 
