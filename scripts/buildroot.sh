@@ -2091,13 +2091,13 @@ fi
 ######## ####################################################################
 Status "dpkg"
 
-DPKG_VERSION=1.21.1
+DPKG_VERSION=1.21.2
 
 cd $SRC/dpkg
 
 if [ ! -f .extracted ]; then
 	rm -rf dpkg dpkg-${DPKG_VERSION}
-	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
+	tar xvjf dpkg-${DPKG_VERSION}.tar.bz2
 	mv dpkg-${DPKG_VERSION} dpkg
 	touch .extracted
 fi
