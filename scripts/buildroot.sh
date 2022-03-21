@@ -2097,7 +2097,7 @@ cd $SRC/dpkg
 
 if [ ! -f .extracted ]; then
 	rm -rf dpkg dpkg-${DPKG_VERSION}
-	tar xvjf dpkg-${DPKG_VERSION}.tar.bz2
+	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
 	mv dpkg-${DPKG_VERSION} dpkg
 	touch .extracted
 fi
