@@ -570,7 +570,7 @@ if [ ! -f .configured ]; then
 	--with-normal \
 	--with-shared \
 	--enable-rpath \
-	--with-fallbacks=xterm \
+	--with-fallbacks=xterm,xterm-256color \
 	--disable-stripping
 	touch .configured
 fi
