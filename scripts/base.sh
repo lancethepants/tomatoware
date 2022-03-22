@@ -597,6 +597,7 @@ if [ ! -f .linked ]; then
 	ln -sf libncursesw.a $DEST/lib/libcurses.a
 	ln -sf libncursesw.so $DEST/lib/libcurses.so
 	ln -sf libcurses.so $DEST/lib/libtinfo.so
+	ln -sf libcurses.a $DEST/lib/libtinfo.a
 
 	ln -sf libpanelw.a $DEST/lib/libpanel.a
 	ln -sf libpanelw.so $DEST/lib/libpanel.so
