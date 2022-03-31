@@ -157,7 +157,7 @@ fi
 ############# ###############################################################
 Status "libgcrypt"
 
-LIBGCRYPT_VERSION=1.9.4
+LIBGCRYPT_VERSION=1.10.1
 
 cd $SRC/libgcrypt
 
