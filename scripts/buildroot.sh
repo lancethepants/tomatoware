@@ -725,7 +725,7 @@ fi
 ######## ####################################################################
 Status "llvm"
 
-LLVM_VERSION=13.0.1
+LLVM_VERSION=14.0.0
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
@@ -794,7 +794,7 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/llvm/001-llvm.patch
 	patch -p1 < $PATCHES/llvm/002-ARMv7-Default-SoftFloat.patch
 	patch -p1 < $PATCHES/llvm/003-CINCLUDES.patch
-	patch -p1 < $PATCHES/llvm/004-Intel-PT-not-supported.patch
+	patch -p1 < $PATCHES/llvm/004-getloadavg.patch
 	touch .patched
 fi
 

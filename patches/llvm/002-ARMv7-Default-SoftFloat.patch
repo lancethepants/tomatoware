@@ -1,7 +1,7 @@
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Arch/ARM.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2021-04-23 11:08:42.286271945 -0600
-@@ -220,7 +220,7 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Arch/ARM.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Arch/ARM.cpp	2022-03-25 13:20:41.507246814 -0600
+@@ -370,7 +370,7 @@
      case llvm::Triple::MuslEABI:
      case llvm::Triple::EABI:
        // EABI is always AAPCS, and if it was not marked 'hard', it's softfp

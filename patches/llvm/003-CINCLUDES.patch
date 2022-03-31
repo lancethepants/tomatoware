@@ -1,7 +1,7 @@
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Darwin.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Darwin.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Darwin.cpp	2021-04-23 11:05:33.332947604 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Darwin.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -1981,9 +1981,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Darwin.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Darwin.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Darwin.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Darwin.cpp	2022-03-25 13:27:49.250346997 -0600
+@@ -2176,9 +2176,12 @@
      llvm::SmallVector<llvm::StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (llvm::StringRef dir : dirs) {
@@ -17,10 +17,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Darwin.cpp llvm-
      }
    } else {
      // Otherwise, add <sysroot>/usr/include.
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Fuchsia.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Fuchsia.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -320,9 +320,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Fuchsia.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Fuchsia.cpp	2022-03-25 13:27:49.250346997 -0600
+@@ -347,9 +347,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -36,9 +36,9 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Fuchsia.cpp llvm
      }
      return;
    }
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Hurd.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Hurd.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Hurd.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Hurd.cpp	2021-04-23 11:10:09.674886146 -0600
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Hurd.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Hurd.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Hurd.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Hurd.cpp	2022-03-25 13:27:49.250346997 -0600
 @@ -158,9 +158,12 @@
      SmallVector<StringRef, 5> Dirs;
      CIncludeDirs.split(Dirs, ":");
@@ -55,10 +55,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Hurd.cpp llvm-pr
      }
      return;
    }
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -586,9 +586,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-25 13:27:49.306347388 -0600
+@@ -578,9 +578,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -74,10 +74,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-p
      }
      return;
    }
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/OpenBSD.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/OpenBSD.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -274,9 +274,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/OpenBSD.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/OpenBSD.cpp	2022-03-25 13:27:49.306347388 -0600
+@@ -302,9 +302,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -93,10 +93,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/OpenBSD.cpp llvm
      }
      return;
    }
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Solaris.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Solaris.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Solaris.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Solaris.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -245,9 +245,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Solaris.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Solaris.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Solaris.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Solaris.cpp	2022-03-25 13:27:49.306347388 -0600
+@@ -252,9 +252,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
@@ -112,10 +112,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Solaris.cpp llvm
      }
      return;
    }
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/WebAssembly.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/WebAssembly.cpp	2021-04-23 11:10:09.674886146 -0600
-@@ -331,9 +331,12 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/WebAssembly.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/WebAssembly.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/WebAssembly.cpp	2022-03-25 13:27:49.306347388 -0600
+@@ -400,9 +400,12 @@
      SmallVector<StringRef, 5> dirs;
      CIncludeDirs.split(dirs, ":");
      for (StringRef dir : dirs) {
