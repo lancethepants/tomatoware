@@ -757,7 +757,7 @@ fi
 ####### #####################################################################
 Status "apt"
 
-APT_VERSION=2.4.2
+APT_VERSION=2.4.3
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -765,7 +765,7 @@ cd $SRC/apt
 
 if [ ! -f .extracted ]; then
 	rm -rf apt apt-${APT_VERSION}
-	tar xvjf apt-${APT_VERSION}.tar.bz2
+	tar xvJf apt-${APT_VERSION}.tar.xz
 	mv apt-${APT_VERSION} apt
 	cp $SRC/apt/triehash $BASE/native/bin
 	touch .extracted
