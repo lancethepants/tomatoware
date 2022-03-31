@@ -1,12 +1,12 @@
-diff -Naur llvm-project-12.0.0.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp llvm-project-12.0.0/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp
---- llvm-project-12.0.0.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2021-04-23 11:02:43.539763330 -0600
-+++ llvm-project-12.0.0/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2021-04-23 11:03:12.571965347 -0600
-@@ -63,7 +63,7 @@
-     if (value == -1)
-       ExitWithError(error_fd, "personality get");
+diff -Naur llvm-project-14.0.0.src.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp llvm-project-14.0.0.src/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp
+--- llvm-project-14.0.0.src.orig/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/lldb/source/Host/posix/ProcessLauncherPosixFork.cpp	2022-03-26 22:52:34.079913787 -0600
+@@ -64,7 +64,7 @@
+   if (value == -1)
+     ExitWithError(error_fd, "personality get");
  
--    value = personality(ADDR_NO_RANDOMIZE | value);
-+    value = personality(0x0040000 | value);
-     if (value == -1)
-       ExitWithError(error_fd, "personality set");
-   }
+-  value = personality(ADDR_NO_RANDOMIZE | value);
++  value = personality(0x0040000 | value);
+   if (value == -1)
+     ExitWithError(error_fd, "personality set");
+ #endif

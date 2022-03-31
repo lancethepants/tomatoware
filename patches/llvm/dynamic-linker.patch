@@ -1,7 +1,7 @@
-diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp
---- llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:05:33.328947576 -0600
-+++ llvm-project-12.0.0/clang/lib/Driver/ToolChains/Linux.cpp	2021-04-23 11:13:26.328271193 -0600
-@@ -472,8 +472,8 @@
+diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp
+--- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-14 03:44:55.000000000 -0600
++++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-25 13:09:51.370146774 -0600
+@@ -454,8 +454,8 @@
          Triple.getEnvironment() == llvm::Triple::GNUEABIHF ||
          tools::arm::getARMFloatABI(*this, Args) == tools::arm::FloatABI::Hard;
  
@@ -11,10 +11,10 @@ diff -Naur llvm-project-12.0.0.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-p
 +    Loader = HF ? "ld-uClibc.so.1" : "ld-uClibc.so.1";
      break;
    }
-   case llvm::Triple::mips:
-@@ -482,16 +482,16 @@
+   case llvm::Triple::m68k:
+@@ -468,16 +468,16 @@
    case llvm::Triple::mips64el: {
-     bool IsNaN2008 = tools::mips::isNaN2008(Args, Triple);
+     bool IsNaN2008 = tools::mips::isNaN2008(getDriver(), Args, Triple);
  
 -    LibDir = "lib" + tools::mips::getMipsABILibSuffix(Args, Triple);
 +    LibDir = "mmc/lib" + tools::mips::getMipsABILibSuffix(Args, Triple);
