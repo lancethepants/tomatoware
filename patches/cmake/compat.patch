@@ -1,7 +1,7 @@
-diff -Naur cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/core.c cmake-3.19.0/Utilities/cmlibuv/src/unix/core.c
---- cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/core.c	2020-11-23 12:41:11.892269582 -0700
-+++ cmake-3.19.0/Utilities/cmlibuv/src/unix/core.c	2020-11-23 12:42:18.824703879 -0700
-@@ -1035,7 +1035,7 @@
+diff -Naur cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/core.c cmake-3.23.0/Utilities/cmlibuv/src/unix/core.c
+--- cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/core.c	2022-03-29 09:02:43.000000000 -0600
++++ cmake-3.23.0/Utilities/cmlibuv/src/unix/core.c	2022-04-01 15:21:00.165700209 -0600
+@@ -1046,7 +1046,7 @@
  #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__linux__)
    int r;
  
@@ -10,12 +10,12 @@ diff -Naur cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/core.c cmake-3.19.0/Util
    if (r == -1)
      return UV__ERR(errno);
  
-diff -Naur cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/linux-core.c cmake-3.19.0/Utilities/cmlibuv/src/unix/linux-core.c
---- cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/linux-core.c	2020-11-23 12:41:11.892269582 -0700
-+++ cmake-3.19.0/Utilities/cmlibuv/src/unix/linux-core.c	2020-11-23 12:48:57.615148932 -0700
-@@ -85,8 +85,9 @@
+diff -Naur cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/epoll.c cmake-3.23.0/Utilities/cmlibuv/src/unix/epoll.c
+--- cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/epoll.c	2022-03-29 09:02:43.000000000 -0600
++++ cmake-3.23.0/Utilities/cmlibuv/src/unix/epoll.c	2022-04-01 15:24:01.772290613 -0600
+@@ -26,8 +26,9 @@
  
- int uv__platform_loop_init(uv_loop_t* loop) {
+ int uv__epoll_init(uv_loop_t* loop) {
    int fd;
 -  fd = epoll_create1(O_CLOEXEC);
 -
@@ -25,15 +25,15 @@ diff -Naur cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/linux-core.c cmake-3.19.
    /* epoll_create1() can fail either because it's not implemented (old kernel)
     * or because it doesn't understand the O_CLOEXEC flag.
     */
-diff -Naur cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/process.c cmake-3.19.0/Utilities/cmlibuv/src/unix/process.c
---- cmake-3.19.0_orig/Utilities/cmlibuv/src/unix/process.c	2020-11-23 12:41:11.892269582 -0700
-+++ cmake-3.19.0/Utilities/cmlibuv/src/unix/process.c	2020-11-23 12:49:38.967392433 -0700
-@@ -151,7 +151,7 @@
- 
- 
- int uv__make_pipe(int fds[2], int flags) {
+diff -Naur cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/pipe.c cmake-3.23.0/Utilities/cmlibuv/src/unix/pipe.c
+--- cmake-3.23.0.orig/Utilities/cmlibuv/src/unix/pipe.c	2022-03-29 09:02:43.000000000 -0600
++++ cmake-3.23.0/Utilities/cmlibuv/src/unix/pipe.c	2022-04-01 15:21:58.282540650 -0600
+@@ -382,7 +382,7 @@
+ int uv_pipe(uv_os_fd_t fds[2], int read_flags, int write_flags) {
+   uv_os_fd_t temp[2];
+   int err;
 -#if defined(__FreeBSD__) || defined(__linux__)
 +#if defined(__FreeBSD__)
-   if (pipe2(fds, flags | O_CLOEXEC))
-     return UV__ERR(errno);
+   int flags = O_CLOEXEC;
  
+   if ((read_flags & UV_NONBLOCK_PIPE) && (write_flags & UV_NONBLOCK_PIPE))
