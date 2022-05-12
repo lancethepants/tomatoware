@@ -1164,7 +1164,7 @@ fi
 ############# ###############################################################
 Status "coreutils"
 
-COREUTILS_VERSION=9.0
+COREUTILS_VERSION=9.1
 
 cd $SRC/coreutils
 
