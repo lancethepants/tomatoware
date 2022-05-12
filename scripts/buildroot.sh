@@ -725,7 +725,7 @@ fi
 ######## ####################################################################
 Status "llvm"
 
-LLVM_VERSION=14.0.0
+LLVM_VERSION=14.0.3
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
