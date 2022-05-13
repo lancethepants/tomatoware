@@ -471,7 +471,7 @@ fi
 ############ ################################################################
 Status "unixodbc"
 
-UNIXODBC_VERSION=2.3.9
+UNIXODBC_VERSION=2.3.11
 
 cd $SRC/odbc
 
