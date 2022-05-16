@@ -414,22 +414,18 @@ fi
 cd gcc
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
-	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
+	cp $PATCHES/gcc/gcc-12.1.0-specs-1.patch .
+	cp $PATCHES/gcc/0003-add-tomatoware-certs-path.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' \
-		gcc-11.2.0-specs-1.patch \
-		0005-add-tomatoware-certs-path.patch
+		gcc-12.1.0-specs-1.patch \
+		0003-add-tomatoware-certs-path.patch
 
-	patch -p1 < gcc-11.2.0-specs-1.patch
-	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
-	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
-	patch -p1 < 0005-add-tomatoware-certs-path.patch
-	patch -p1 < $PATCHES/gcc/0006-fix-libgo-uclibc-ng.patch
-	patch -p1 < $PATCHES/gcc/0007-fix-libffi-mips-softflaot.patch
-	patch -p1 < $PATCHES/gcc/0008-fix-libgo-mips-syscall.patch
+	patch -p1 < $PATCHES/gcc/0001-fix-libgo-mips-syscall.patch
 	if [ "$DESTARCH" == "mipsel" ];then
-		patch -p1 < $PATCHES/gcc/0009-go-runtime-mips-epoll-fix.patch
+		patch -p1 < $PATCHES/gcc/0002-go-runtime-mips-epoll-fix.patch
 	fi
+	patch -p1 < 0003-add-tomatoware-certs-path.patch
+	patch -p1 < gcc-12.1.0-specs-1.patch
 	touch .patched
 fi
 
@@ -531,19 +527,16 @@ fi
 cd gcc
 
 if [ ! -f .patched ]; then
-	cp $PATCHES/gcc/gcc-11.2.0-specs-1.patch .
-	cp $PATCHES/gcc/0005-add-tomatoware-certs-path.patch .
+	cp $PATCHES/gcc/gcc-12.1.0-specs-1.patch .
+	cp $PATCHES/gcc/0003-add-tomatoware-certs-path.patch .
 	sed -i 's,\/opt,'"$PREFIX"',g' \
-		gcc-11.2.0-specs-1.patch \
-		0005-add-tomatoware-certs-path.patch
+		gcc-12.1.0-specs-1.patch \
+		0003-add-tomatoware-certs-path.patch
 
-	patch -p1 < gcc-11.2.0-specs-1.patch
-	patch -p1 < $PATCHES/gcc/0810-arm-softfloat-libgcc.patch
-	patch -p1 < $PATCHES/gcc/0004-fix-libgo-for-arm.patch
-	patch -p1 < 0005-add-tomatoware-certs-path.patch
-	patch -p1 < $PATCHES/gcc/0006-fix-libgo-uclibc-ng.patch
-	patch -p1 < $PATCHES/gcc/0007-fix-libffi-mips-softflaot.patch
-	patch -p1 < $PATCHES/gcc/0008-fix-libgo-mips-syscall.patch
+	patch -p1 < $PATCHES/gcc/0001-fix-libgo-mips-syscall.patch
+	patch -p1 < 0003-add-tomatoware-certs-path.patch
+	patch -p1 < gcc-12.1.0-specs-1.patch
+	patch -p1 < $PATCHES/gcc/fix-canadian-cross-build.patch
 	touch .patched
 fi
 

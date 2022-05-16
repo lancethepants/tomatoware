@@ -19,9 +19,9 @@ ln -sf ../include $DEST/usr/include
 ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
 ln -sf ./$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/ $DEST/lib/gcc/c++2
 
-ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.19.0.0 $DEST/lib/libgo.so.19.0.0
-ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.19.0.0 $DEST/lib/libgo.so.19
-ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.19.0.0 $DEST/lib/libgo.so
+ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21.0.0
+ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21
+ln -sf ./gcc/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so
 
 #Remove build path directory $BASE from all libtool .la files.
 #This makes sure the libtool files show the correct paths to libraries for the deployment system.

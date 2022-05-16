@@ -1,0 +1,20 @@
+diff -Naur gcc-12.1.0_orig/libgo/go/runtime/netpoll_epoll.go gcc-12.1.0/libgo/go/runtime/netpoll_epoll.go
+--- gcc-12.1.0_orig/libgo/go/runtime/netpoll_epoll.go	2022-05-16 11:16:28.129932502 -0600
++++ gcc-12.1.0/libgo/go/runtime/netpoll_epoll.go	2022-05-16 11:38:07.928277106 -0600
+@@ -34,13 +34,10 @@
+ )
+ 
+ func netpollinit() {
+-	epfd = epollcreate1(_EPOLL_CLOEXEC)
++	epfd = epollcreate(1024)
+ 	if epfd < 0 {
+-		epfd = epollcreate(1024)
+-		if epfd < 0 {
+-			println("runtime: epollcreate failed with", -epfd)
+-			throw("runtime: netpollinit failed")
+-		}
++		println("runtime: epollcreate failed with", -epfd)
++		throw("runtime: netpollinit failed")
+ 		closeonexec(epfd)
+ 	}
+ 	r, w, cerrno := nonblockingPipe()

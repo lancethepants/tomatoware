@@ -1,0 +1,17 @@
+diff -Naur gcc-12.1.0_orig/libgo/go/syscall/syscall_linux_mipsx.go gcc-12.1.0/libgo/go/syscall/syscall_linux_mipsx.go
+--- gcc-12.1.0_orig/libgo/go/syscall/syscall_linux_mipsx.go	2022-05-16 11:16:28.153932684 -0600
++++ gcc-12.1.0/libgo/go/syscall/syscall_linux_mipsx.go	2022-05-16 11:24:28.893575587 -0600
+@@ -8,11 +8,11 @@
+ 
+ import "unsafe"
+ 
+-func (r *PtraceRegs) PC() uint64 {
++func (r *PtraceRegs) PC() uint32 {
+ 	return r.Cp0_epc
+ }
+ 
+-func (r *PtraceRegs) SetPC(pc uint64) {
++func (r *PtraceRegs) SetPC(pc uint32) {
+ 	r.Cp0_epc = pc
+ }
+ 

@@ -1,0 +1,19 @@
+diff -Naur gcc-12.1.0_orig/libgo/go/crypto/x509/root_linux.go gcc-12.1.0/libgo/go/crypto/x509/root_linux.go
+--- gcc-12.1.0_orig/libgo/go/crypto/x509/root_linux.go	2022-05-16 11:16:28.097932259 -0600
++++ gcc-12.1.0/libgo/go/crypto/x509/root_linux.go	2022-05-16 12:54:03.241931264 -0600
+@@ -6,6 +6,7 @@
+ 
+ // Possible certificate files; stop after finding one.
+ var certFiles = []string{
++	"/opt/ssl/certs/ca-certificates.crt",                // Tomatoware
+ 	"/etc/ssl/certs/ca-certificates.crt",                // Debian/Ubuntu/Gentoo etc.
+ 	"/etc/pki/tls/certs/ca-bundle.crt",                  // Fedora/RHEL 6
+ 	"/etc/ssl/ca-bundle.pem",                            // OpenSUSE
+@@ -16,6 +17,7 @@
+ 
+ // Possible directories with certificate files; all will be read.
+ var certDirectories = []string{
++	"/opt/ssl/certs",               // Tomatoware
+ 	"/etc/ssl/certs",               // SLES10/SLES11, https://golang.org/issue/12139
+ 	"/etc/pki/tls/certs",           // Fedora/RHEL
+ 	"/system/etc/security/cacerts", // Android

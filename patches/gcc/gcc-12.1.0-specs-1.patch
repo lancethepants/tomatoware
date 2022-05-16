@@ -1,0 +1,37 @@
+diff -Naur gcc-12.1.0_orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
+--- gcc-12.1.0_orig/gcc/config/linux.h	2022-05-17 10:37:54.333947959 -0600
++++ gcc-12.1.0/gcc/config/linux.h	2022-05-17 10:47:42.790444682 -0600
+@@ -99,10 +99,10 @@
+    GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
+    GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
+    supporting both 32-bit and 64-bit compilation.  */
+-#define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
+-#define UCLIBC_DYNAMIC_LINKERX32 "/lib/ldx32-uClibc.so.0"
++#define UCLIBC_DYNAMIC_LINKER "/opt/lib/ld-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKER32 "/opt/lib/ld-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKER64 "/opt/lib/ld64-uClibc.so.1"
++#define UCLIBC_DYNAMIC_LINKERX32 "/opt/lib/ldx32-uClibc.so.1"
+ #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
+ #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
+ #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
+diff -Naur gcc-12.1.0_orig/gcc/config/mips/linux.h gcc-12.1.0/gcc/config/mips/linux.h
+--- gcc-12.1.0_orig/gcc/config/mips/linux.h	2022-05-17 10:37:54.321947867 -0600
++++ gcc-12.1.0/gcc/config/mips/linux.h	2022-05-17 10:48:32.118822411 -0600
+@@ -30,12 +30,12 @@
+ 
+ #undef UCLIBC_DYNAMIC_LINKER32
+ #define UCLIBC_DYNAMIC_LINKER32 \
+-  "%{mnan=2008:/lib/ld-uClibc-mipsn8.so.0;:/lib/ld-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib/ld-uClibc-mipsn8.so.1;:/opt/lib/ld-uClibc.so.1}"
+ #undef UCLIBC_DYNAMIC_LINKER64
+ #define UCLIBC_DYNAMIC_LINKER64 \
+-  "%{mnan=2008:/lib/ld64-uClibc-mipsn8.so.0;:/lib/ld64-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib/ld64-uClibc-mipsn8.so.1;:/opt/lib/ld64-uClibc.so.1}"
+ #define UCLIBC_DYNAMIC_LINKERN32 \
+-  "%{mnan=2008:/lib32/ld-uClibc-mipsn8.so.0;:/lib32/ld-uClibc.so.0}"
++  "%{mnan=2008:/opt/lib32/ld-uClibc-mipsn8.so.1;:/opt/lib32/ld-uClibc.so.1}"
+ 
+ #undef MUSL_DYNAMIC_LINKER32
+ #define MUSL_DYNAMIC_LINKER32 \
