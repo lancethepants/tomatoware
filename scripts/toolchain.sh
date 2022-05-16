@@ -58,20 +58,25 @@ fi
 if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
-
 	patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
-
 	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
 	echo "UCLIBC_HAS_FTS=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
+
 	if [ "$DESTARCH" == "mipsel" ];then
 		echo "# UCLIBC_USE_MIPS_PREFETCH is not set" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
+		mkdir -p $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+		cp $BASE/patches/gcc/0001-fix-libgo-mips-syscall.patch \
+		   $BASE/patches/gcc/0002-go-runtime-mips-epoll-fix.patch \
+		   $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 	fi
+
 	if [ "$DESTARCH" == "arm" ];then
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
 	fi
+
 	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
 	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
