@@ -630,9 +630,9 @@ Status "ninja"
 cd $SRC/ninja
 
 if [ ! -f .extracted ]; then
-	rm -rf ninja ninja-v${NINJA_VERSION}
-	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-	mv ninja-v${NINJA_VERSION} ninja
+	rm -rf ninja ninja-${NINJA_VERSION}
+	tar zxvf ninja-${NINJA_VERSION}.tar.gz
+	mv ninja-${NINJA_VERSION} ninja
 	touch .extracted
 fi
 

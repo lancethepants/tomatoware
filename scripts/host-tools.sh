@@ -71,9 +71,9 @@ Status "host-ninja"
 cd $SRC/ninja
 
 if [ ! -f .extracted-native ]; then
-	rm -rf ninja-native ninja-v${NINJA_VERSION}
-	tar zxvf ninja-v${NINJA_VERSION}.tar.gz
-	mv ninja-v${NINJA_VERSION} ninja-native
+	rm -rf ninja-native ninja-${NINJA_VERSION}
+	tar zxvf ninja-${NINJA_VERSION}.tar.gz
+	mv ninja-${NINJA_VERSION} ninja-native
 	touch .extracted-native
 fi
 
