@@ -5,7 +5,7 @@ source ./scripts/environment.sh
 export BASE=$BASE
 export SRC=$SRC
 
-UCLIBCVER="1.0.40"
+UCLIBCVER="1.0.41"
 BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-$FLOAT${PREFIX////-}"
