@@ -1,6 +1,6 @@
-diff -Naur uClibc-ng-1.0.40_orig/include/sys/resource.h uClibc-ng-1.0.40/include/sys/resource.h
---- uClibc-ng-1.0.40_orig/include/sys/resource.h	2022-02-04 12:59:47.613768952 -0700
-+++ uClibc-ng-1.0.40/include/sys/resource.h	2022-02-04 13:00:25.366039741 -0700
+diff -Naur uClibc-ng-1.0.41_orig/include/sys/resource.h uClibc-ng-1.0.41/include/sys/resource.h
+--- uClibc-ng-1.0.41_orig/include/sys/resource.h	2022-05-20 16:34:10.309763353 -0600
++++ uClibc-ng-1.0.41/include/sys/resource.h	2022-05-20 16:34:34.425961678 -0600
 @@ -101,13 +101,6 @@
       __THROW;
  libc_hidden_proto(setpriority)
@@ -15,9 +15,9 @@ diff -Naur uClibc-ng-1.0.40_orig/include/sys/resource.h uClibc-ng-1.0.40/include
  __END_DECLS
  
  #endif	/* sys/resource.h  */
-diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/Makefile.in uClibc-ng-1.0.40/libc/sysdeps/linux/common/Makefile.in
---- uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/Makefile.in	2022-02-04 12:59:47.593768809 -0700
-+++ uClibc-ng-1.0.40/libc/sysdeps/linux/common/Makefile.in	2022-02-04 13:00:25.366039741 -0700
+diff -Naur uClibc-ng-1.0.41_orig/libc/sysdeps/linux/common/Makefile.in uClibc-ng-1.0.41/libc/sysdeps/linux/common/Makefile.in
+--- uClibc-ng-1.0.41_orig/libc/sysdeps/linux/common/Makefile.in	2022-05-20 16:34:10.297763253 -0600
++++ uClibc-ng-1.0.41/libc/sysdeps/linux/common/Makefile.in	2022-05-20 16:34:34.425961678 -0600
 @@ -38,7 +38,6 @@
  	pipe2.c \
  	ppoll.c \
@@ -26,10 +26,10 @@ diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/Makefile.in uClibc-ng
  	readahead.c \
  	reboot.c \
  	remap_file_pages.c \
-diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c uClibc-ng-1.0.40/libc/sysdeps/linux/common/prlimit.c
---- uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c	2022-02-04 12:59:47.593768809 -0700
-+++ uClibc-ng-1.0.40/libc/sysdeps/linux/common/prlimit.c	1969-12-31 17:00:00.000000000 -0700
-@@ -1,27 +0,0 @@
+diff -Naur uClibc-ng-1.0.41_orig/libc/sysdeps/linux/common/prlimit.c uClibc-ng-1.0.41/libc/sysdeps/linux/common/prlimit.c
+--- uClibc-ng-1.0.41_orig/libc/sysdeps/linux/common/prlimit.c	2022-05-20 16:34:10.297763253 -0600
++++ uClibc-ng-1.0.41/libc/sysdeps/linux/common/prlimit.c	1969-12-31 17:00:00.000000000 -0700
+@@ -1,30 +0,0 @@
 -/* Get/set resource limits.  Linux specific syscall.
 -   Copyright (C) 2021-2022 Free Software Foundation, Inc.
 -
@@ -49,7 +49,9 @@ diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c uClibc-ng-1
 -
 -#include <sys/resource.h>
 -#include <sysdep.h>
+-#include <bits/kernel-features.h>
 -
+-#if defined __ASSUME_PRLIMIT64
 -int
 -prlimit (__pid_t pid, enum __rlimit_resource resource,
 -	     const struct rlimit *new_rlimit, struct rlimit *old_rlimit)
@@ -57,3 +59,4 @@ diff -Naur uClibc-ng-1.0.40_orig/libc/sysdeps/linux/common/prlimit.c uClibc-ng-1
 -  return INLINE_SYSCALL (prlimit64, 4, pid, resource, new_rlimit,
 -			      old_rlimit);
 -}
+-#endif
