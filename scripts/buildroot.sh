@@ -787,7 +787,6 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/llvm/001-llvm.patch
 	patch -p1 < $PATCHES/llvm/002-ARMv7-Default-SoftFloat.patch
 	patch -p1 < $PATCHES/llvm/003-CINCLUDES.patch
-	patch -p1 < $PATCHES/llvm/004-getloadavg.patch
 	touch .patched
 fi
 
