@@ -1,0 +1,228 @@
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/config/abi/pre/gnu.ver gcc-12.1.0/libstdc++-v3/config/abi/pre/gnu.ver
+--- gcc-12.1.0_orig/libstdc++-v3/config/abi/pre/gnu.ver	2022-05-24 18:25:37.363823841 -0600
++++ gcc-12.1.0/libstdc++-v3/config/abi/pre/gnu.ver	2022-05-24 20:56:27.129982215 -0600
+@@ -1295,6 +1295,7 @@
+     # condition_variable
+     _ZNSt18condition_variable10notify_allEv;
+     _ZNSt18condition_variable10notify_oneEv;
++    _ZNSt18condition_variable4waitERSt11unique_lockISt5mutexE;
+     _ZNSt18condition_variableC1Ev;
+     _ZNSt18condition_variableC2Ev;
+     _ZNSt18condition_variableD1Ev;
+@@ -1304,12 +1305,6 @@
+     _ZNSt22condition_variable_anyD1Ev;
+     _ZNSt22condition_variable_anyD2Ev;
+ 
+-#ifndef HAVE_SYMVER_SYMBOL_RENAMING_RUNTIME_SUPPORT
+-    # The original definition of this symbol gets versioned as @GLIBCXX_3.4.11
+-    # if ".symver" is supported, or as @@GLIBCXX_3.4.11 otherwise.
+-    _ZNSt18condition_variable4waitERSt11unique_lockISt5mutexE;
+-#endif
+-
+     # thread
+     _ZNSt6thread4joinEv;
+     _ZNSt6thread6detachEv;
+@@ -2425,10 +2420,6 @@
+ 
+     _ZSt21__glibcxx_assert_fail*;
+ 
+-#ifdef HAVE_SYMVER_SYMBOL_RENAMING_RUNTIME_SUPPORT
+-    # The new definition of this symbol gets versioned as @@GLIBCXX_3.4.30
+-    _ZNSt18condition_variable4waitERSt11unique_lockISt5mutexE;
+-#endif
+ 
+     # std::__timepunct<char>::_M_am_pm_format(const char**)
+     _ZNKSt11__timepunctI[cw]E15_M_am_pm_formatEPPK[cw];
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/doc/html/manual/api.html gcc-12.1.0/libstdc++-v3/doc/html/manual/api.html
+--- gcc-12.1.0_orig/libstdc++-v3/doc/html/manual/api.html	2022-05-24 18:25:37.831827106 -0600
++++ gcc-12.1.0/libstdc++-v3/doc/html/manual/api.html	2022-05-24 20:55:55.401737120 -0600
+@@ -463,9 +463,4 @@
+ For the <code class="literal">new</code> option, <code class="classname">std::allocator</code>
+ no longer derives from <code class="classname">__gnu_cxx::new_allocator</code>;
+ they both derive from <code class="classname">std::__new_allocator</code> instead.
+-</p><p>
+-<code class="function">std::condition_variable::wait</code> changed to be
+-<code class="code">noexcept(false)</code> to allow thread cancellation exceptions to
+-be thrown from <code class="function">pthread_cond_wait</code> without aborting
+-the process.
+ </p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="abi.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="appendix_porting.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="backwards.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">ABI Policy and Guidelines </td><td width="20%" align="center"><a accesskey="h" href="../index.html">Home</a></td><td width="40%" align="right" valign="top"> Backwards Compatibility</td></tr></table></div></body></html>
+\ No newline at end of file
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/doc/xml/manual/evolution.xml gcc-12.1.0/libstdc++-v3/doc/xml/manual/evolution.xml
+--- gcc-12.1.0_orig/libstdc++-v3/doc/xml/manual/evolution.xml	2022-05-24 18:25:37.819827022 -0600
++++ gcc-12.1.0/libstdc++-v3/doc/xml/manual/evolution.xml	2022-05-24 20:55:55.401737120 -0600
+@@ -1058,13 +1058,6 @@
+ they both derive from <classname>std::__new_allocator</classname> instead.
+ </para>
+ 
+-<para>
+-<function>std::condition_variable::wait</function> changed to be
+-<code>noexcept(false)</code> to allow thread cancellation exceptions to
+-be thrown from <function>pthread_cond_wait</function> without aborting
+-the process.
+-</para>
+-
+ </section>
+ 
+ </section>
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/include/bits/std_mutex.h gcc-12.1.0/libstdc++-v3/include/bits/std_mutex.h
+--- gcc-12.1.0_orig/libstdc++-v3/include/bits/std_mutex.h	2022-05-24 18:25:37.799826882 -0600
++++ gcc-12.1.0/libstdc++-v3/include/bits/std_mutex.h	2022-05-24 20:55:55.401737120 -0600
+@@ -149,7 +149,7 @@
+ 
+     // Expects: Calling thread has locked __m.
+     void
+-    wait(mutex& __m)
++    wait(mutex& __m) noexcept
+     {
+       int __e __attribute__((__unused__))
+ 	= __gthread_cond_wait(&_M_cond, __m.native_handle());
+@@ -157,14 +157,14 @@
+     }
+ 
+     void
+-    wait_until(mutex& __m, timespec& __abs_time)
++    wait_until(mutex& __m, timespec& __abs_time) noexcept
+     {
+       __gthread_cond_timedwait(&_M_cond, __m.native_handle(), &__abs_time);
+     }
+ 
+ #ifdef _GLIBCXX_USE_PTHREAD_COND_CLOCKWAIT
+     void
+-    wait_until(mutex& __m, clockid_t __clock, timespec& __abs_time)
++    wait_until(mutex& __m, clockid_t __clock, timespec& __abs_time) noexcept
+     {
+       pthread_cond_clockwait(&_M_cond, __m.native_handle(), __clock,
+ 			     &__abs_time);
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/include/std/condition_variable gcc-12.1.0/libstdc++-v3/include/std/condition_variable
+--- gcc-12.1.0_orig/libstdc++-v3/include/std/condition_variable	2022-05-24 18:25:37.787826798 -0600
++++ gcc-12.1.0/libstdc++-v3/include/std/condition_variable	2022-05-24 20:55:55.401737120 -0600
+@@ -92,7 +92,7 @@
+     notify_all() noexcept;
+ 
+     void
+-    wait(unique_lock<mutex>& __lock);
++    wait(unique_lock<mutex>& __lock) noexcept;
+ 
+     template<typename _Predicate>
+       void
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/src/c++11/compatibility-condvar.cc gcc-12.1.0/libstdc++-v3/src/c++11/compatibility-condvar.cc
+--- gcc-12.1.0_orig/libstdc++-v3/src/c++11/compatibility-condvar.cc	2022-05-24 18:25:37.767826659 -0600
++++ gcc-12.1.0/libstdc++-v3/src/c++11/compatibility-condvar.cc	2022-05-24 20:55:55.401737120 -0600
+@@ -54,35 +54,4 @@
+ _GLIBCXX_END_NAMESPACE_VERSION
+ } // namespace std
+ 
+-#if ! _GLIBCXX_INLINE_VERSION
+-// XXX GLIBCXX_ABI Deprecated
+-// gcc-12.1
+-// std::condition_variable::wait changed to noexcept(false)
+-#if defined(_GLIBCXX_SYMVER_GNU) && defined(_GLIBCXX_SHARED) \
+-    && defined(_GLIBCXX_HAVE_AS_SYMVER_DIRECTIVE) \
+-    && defined(_GLIBCXX_HAVE_SYMVER_SYMBOL_RENAMING_RUNTIME_SUPPORT)
+-namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
+-{
+-struct __nothrow_wait_cv : std::condition_variable
+-{
+-  void wait(std::unique_lock<std::mutex>&) noexcept;
+-};
+-
+-__attribute__((used))
+-void
+-__nothrow_wait_cv::wait(std::unique_lock<std::mutex>& lock) noexcept
+-{
+-  this->condition_variable::wait(lock);
+-}
+-} // namespace __gnu_cxx
+-
+-// Export a noexcept wrapper around std::condition_variable::wait
+-// with the original @GLIBCXX_3.4.11 symbol version.
+-asm(
+-  ".symver _ZN9__gnu_cxx17__nothrow_wait_cv4waitERSt11unique_lockISt5mutexE,"
+-  "_ZNSt18condition_variable4waitERSt11unique_lockISt5mutexE@GLIBCXX_3.4.11"
+-);
+-#endif
+-#endif
+-
+ #endif // _GLIBCXX_HAS_GTHREADS && _GLIBCXX_USE_C99_STDINT_TR1
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/src/c++11/condition_variable.cc gcc-12.1.0/libstdc++-v3/src/c++11/condition_variable.cc
+--- gcc-12.1.0_orig/libstdc++-v3/src/c++11/condition_variable.cc	2022-05-24 18:25:37.767826659 -0600
++++ gcc-12.1.0/libstdc++-v3/src/c++11/condition_variable.cc	2022-05-24 20:55:55.401737120 -0600
+@@ -36,7 +36,7 @@
+   condition_variable::~condition_variable() noexcept = default;
+ 
+   void
+-  condition_variable::wait(unique_lock<mutex>& __lock)
++  condition_variable::wait(unique_lock<mutex>& __lock) noexcept
+   {
+     _M_cond.wait(*__lock.mutex());
+   }
+diff -Naur gcc-12.1.0_orig/libstdc++-v3/testsuite/30_threads/condition_variable/members/103382.cc gcc-12.1.0/libstdc++-v3/testsuite/30_threads/condition_variable/members/103382.cc
+--- gcc-12.1.0_orig/libstdc++-v3/testsuite/30_threads/condition_variable/members/103382.cc	2022-05-24 18:25:37.383823980 -0600
++++ gcc-12.1.0/libstdc++-v3/testsuite/30_threads/condition_variable/members/103382.cc	1969-12-31 17:00:00.000000000 -0700
+@@ -1,66 +0,0 @@
+-// { dg-options "-pthread" }
+-// { dg-do run { target { *-*-linux* *-*-gnu* } } }
+-// { dg-require-effective-target c++11 }
+-// { dg-require-effective-target pthread }
+-// { dg-require-gthreads "" }
+-
+-#include <condition_variable>
+-#include <chrono>
+-#include <mutex>
+-#include <thread>
+-
+-// PR libstdc++/103382
+-
+-template<typename F>
+-void
+-test_cancel(F wait)
+-{
+-  std::mutex m;
+-  std::condition_variable cv;
+-  bool waiting = false;
+-
+-  std::thread t([&] {
+-    std::unique_lock<std::mutex> lock(m);
+-    waiting = true;
+-    wait(cv, lock); // __forced_unwind exception should not terminate process.
+-  });
+-
+-  // Ensure the condition variable is waiting before we cancel.
+-  // This shouldn't be necessary because pthread_mutex_lock is not
+-  // a cancellation point, but no harm in making sure we test what
+-  // we intend to test: that cancel during a wait doesn't abort.
+-  while (true)
+-  {
+-    std::unique_lock<std::mutex> lock(m);
+-    if (waiting)
+-      break;
+-  }
+-
+-  pthread_cancel(t.native_handle());
+-  t.join();
+-}
+-
+-int main()
+-{
+-  test_cancel(
+-      [](std::condition_variable& cv, std::unique_lock<std::mutex>& l) {
+-	cv.wait(l);
+-      });
+-
+-  test_cancel(
+-      [](std::condition_variable& cv, std::unique_lock<std::mutex>& l) {
+-	cv.wait(l, []{ return false; });
+-      });
+-
+-  using mins = std::chrono::minutes;
+-
+-  test_cancel(
+-      [](std::condition_variable& cv, std::unique_lock<std::mutex>& l) {
+-	cv.wait_for(l, mins(1));
+-      });
+-
+-  test_cancel(
+-      [](std::condition_variable& cv, std::unique_lock<std::mutex>& l) {
+-	cv.wait_until(l, std::chrono::system_clock::now() + mins(1));
+-      });
+-}
