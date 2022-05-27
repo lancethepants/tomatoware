@@ -746,22 +746,20 @@ if [ ! -f .built-native ]; then
 		-GNinja \
 		-Wno-dev \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
+		-DLLVM_ENABLE_PROJECTS="clang" \
 		-DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,/opt/tomatoware/x86_64/lib64 -L/opt/tomatoware/x86_64/lib64" \
-		-DLLDB_ENABLE_LIBEDIT=OFF \
 		../llvm/
 		PATH=$BASE/native/bin:/opt/tomatoware/x86_64/bin:$ORIGINALPATH \
-		ninja llvm-tblgen clang-tblgen lldb-tblgen
+		ninja llvm-tblgen clang-tblgen
 		touch ../.built-native
 	else
 		cmake \
 		-GNinja \
 		-Wno-dev \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DLLVM_ENABLE_PROJECTS="clang;lldb" \
-		-DLLDB_ENABLE_LIBEDIT=OFF \
+		-DLLVM_ENABLE_PROJECTS="clang" \
 		../llvm/
-		ninja llvm-tblgen clang-tblgen lldb-tblgen
+		ninja llvm-tblgen clang-tblgen
 		touch ../.built-native
 	fi
 fi
@@ -818,7 +816,7 @@ if [ ! -f .configured ]; then
 	-DLLVM_BUILD_LLVM_DYLIB=ON \
 	-DLLVM_LINK_LLVM_DYLIB=ON \
 	-DLLVM_ENABLE_THREADS=ON \
-	-DLLVM_ENABLE_PROJECTS="clang;lld;lldb" \
+	-DLLVM_ENABLE_PROJECTS="clang;lld" \
 	-DLLVM_HOST_TRIPLE=$HOST_TRIPLE \
 	-DLLVM_TARGET_ARCH=$LLVM_TARGET_ARCH \
 	-DLLVM_TARGETS_TO_BUILD=$TARGETS_TO_BUILD \
@@ -826,9 +824,6 @@ if [ ! -f .configured ]; then
 	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/llvm-tblgen" \
 	-DCLANG_DEFAULT_LINKER="lld" \
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/clang-tblgen" \
-	-DLLDB_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/lldb-tblgen" \
-	-DLLDB_ENABLE_LUA=OFF \
-	-DLLDB_ENABLE_PYTHON=OFF \
 	../llvm
 	touch ../.configured
 fi
