@@ -1947,7 +1947,7 @@ unset UPX_UCLDIR
 ####### #####################################################################
 Status "gdb"
 
-GDB_VERSION=7.12.1
+GDB_VERSION=12.1
 
 cd $SRC/gdb
 
@@ -1960,18 +1960,26 @@ fi
 
 cd gdb
 
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-	touch .patched
-fi
-
 if [ ! -f .configured ]; then
-	LDFLAGS="-zmuldefs $LDFLAGS" \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--disable-build-with-cxx \
+	--enable-gdb \
+	--enable-gdbserver \
+	--enable-tui \
+	--with-expat \
+	--with-lzma \
+	--with-zlib \
+	--without-uiout \
+	--disable-gdbtk \
+	--without-x \
+	--disable-sim \
+	--without-included-gettext \
+	--disable-werror \
+	--enable-static \
+	--without-mpfr \
 	ac_cv_type_uintptr_t=yes \
 	gt_cv_func_gettext_libintl=yes \
 	ac_cv_func_dcgettext=yes \
@@ -1981,15 +1989,19 @@ if [ ! -f .configured ]; then
 	bash_cv_func_sigsetjmp=present \
 	bash_cv_have_mbstate_t=yes \
 	gdb_cv_func_sigsetjmp=yes \
+	gl_cv_func_gettimeofday_clobber=no \
 	gl_cv_func_working_strerror=yes \
-	gl_cv_func_strerror_0_works=yes
+	gl_cv_func_strerror_0_works=yes \
+	gdb_cv_prfpregset_t_broken=no
 	touch .configured
 fi
 
 if [ ! -f .built ]; then
 	$MAKE \
+	gl_cv_func_gettimeofday_clobber=no \
 	gl_cv_func_working_strerror=yes \
-	gl_cv_func_strerror_0_works=yes
+	gl_cv_func_strerror_0_works=yes \
+	gdb_cv_prfpregset_t_broken=no
 	touch .built
 fi
 
