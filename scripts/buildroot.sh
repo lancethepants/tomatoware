@@ -401,7 +401,7 @@ fi
 ####### #####################################################################
 Status "gcc"
 
-mkdir -p $SRC/gcc && cd $SRC/gcc
+cd $SRC/gcc
 
 if [ ! -f .extracted ]; then
 	rm -rf gcc gcc-${GCC_VERSION} gcc-build
@@ -493,6 +493,7 @@ fi
 
 if [ ! -f .installed ]; then
 	make install DESTDIR=$BASE
+	cp $SRC/gcc/c99 $DEST/bin
 	touch .installed
 fi
 
