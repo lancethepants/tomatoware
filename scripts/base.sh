@@ -1920,7 +1920,7 @@ fi
 ######## ####################################################################
 Status "tmux"
 
-TMUX_VERSION=3.2a
+TMUX_VERSION=3.3
 
 cd $SRC/tmux
 
@@ -1932,12 +1932,6 @@ if [ ! -f .extracted ]; then
 fi
 
 cd tmux
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/tmux/100-add-crosscompiling-fallbacks.patch
-	autoreconf
-	touch .patched
-fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
