@@ -84,7 +84,6 @@ if [ ! -f .configured ]; then
 		-Dstrip='true' \
 		-Dselinux='disabled' \
 		-Dlibmount='disabled' \
-		-Dfam='false' \
 		-Dman='false' \
 		-Dc_args="-Wno-error=missing-include-dirs $CPPFLAGS $CFLAGS" \
 		-Dcpp_args="-Wno-error=missing-include-dirs $CPPFLAGS $CXXFLAGS" \
