@@ -7,7 +7,7 @@ source ./scripts/environment.sh
 ######### ###################################################################
 Status "meson"
 
-MESON_VERSION=0.62.1
+MESON_VERSION=0.62.2
 
 cd $SRC/meson
 
