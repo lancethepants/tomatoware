@@ -7,7 +7,7 @@ source ./scripts/environment.sh
 ########## ##################################################################
 Status "nettle"
 
-NETTLE_VERSION=3.7.3
+NETTLE_VERSION=3.8
 
 cd $SRC/nettle
 
