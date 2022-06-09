@@ -433,14 +433,16 @@ cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
 	os=mipsel-tomatoware-linux-uclibc
-	gccextraconfig="--with-abi=32
+	gccextraconfig="--disable-libgomp
+			--with-abi=32
 			--with-arch=mips32"
 	gcclangs="c,c++,go"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os=arm-tomatoware-linux-uclibcgnueabi
-	gccextraconfig="--with-abi=aapcs-linux
+	gccextraconfig="--enable-libgomp
+			--with-abi=aapcs-linux
 			--with-cpu=cortex-a9
 			--with-mode=arm"
 	gcclangs="c,c++,go"
@@ -471,7 +473,6 @@ if [ ! -f .configured ]; then
 	--with-gnu-as \
 	--with-gnu-ld \
 	--disable-decimal-float \
-	--disable-libgomp \
 	--disable-libmudflap \
 	--disable-libsanitizer \
 	--disable-libssp \
@@ -545,7 +546,8 @@ cd ../gcc-build
 
 hostos=arm-tomatoware-linux-uclibcgnueabi
 targetos=mipsel-tomatoware-linux-uclibc
-gccextraconfig="--with-abi=32
+gccextraconfig="--disable-libgomp
+		--with-abi=32
 		--with-arch=mips32"
 
 if [ ! -f .configured ]; then
@@ -573,7 +575,6 @@ if [ ! -f .configured ]; then
 	--with-gnu-as \
 	--with-gnu-ld \
 	--disable-decimal-float \
-	--disable-libgomp \
 	--disable-libmudflap \
 	--disable-libsanitizer \
 	--disable-libssp \
