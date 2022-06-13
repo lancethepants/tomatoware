@@ -236,6 +236,48 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+######### ###################################################################
+# P7ZIP # ###################################################################
+######### ###################################################################
+Status "p7zip"
+
+P7ZIP_VERSION=17.04
+
+cd $SRC/p7zip
+
+if [ ! -f .extracted ]; then
+	rm -rf p7zip p7zip-${P7ZIP_VERSION}
+	tar zxvf p7zip-${P7ZIP_VERSION}.tar.gz
+	mv p7zip-${P7ZIP_VERSION} p7zip
+	touch .extracted
+fi
+
+cd p7zip
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/p7zip/p7zip.patch
+	touch .patched
+fi
+
+
+if [ ! -f .built ]; then
+	make \
+	LDFLAGS="-s -static" \
+	CC=$DESTARCH-linux-gcc \
+	CXX=$DESTARCH-linux-g++ \
+	OPTFLAGS="$CFLAGS" \
+	-j`nproc`
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	make \
+	install \
+	DEST_DIR=$BASE \
+	DEST_HOME=$PREFIX
+	touch .installed
+fi
+
 ########### #################################################################
 # OPENSSL # #################################################################
 ########### #################################################################
