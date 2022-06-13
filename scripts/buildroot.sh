@@ -825,6 +825,8 @@ if [ ! -f .configured ]; then
 	-DLLVM_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/llvm-tblgen" \
 	-DCLANG_DEFAULT_LINKER="lld" \
 	-DCLANG_TABLEGEN="$SRC/llvm/llvm-project-host/build/bin/clang-tblgen" \
+	-DHAVE_POSIX_REGEX=TRUE \
+	-DHAVE_STEADY_CLOCK=TRUE \
 	../llvm
 	touch ../.configured
 fi
