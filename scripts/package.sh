@@ -53,6 +53,10 @@ sed -i 's,\/opt,'"$PREFIX"',g' $DEST/.autorun
 cp $SRC/bash/profile $DEST/etc
 sed -i 's,\/mmc,'"$PREFIX"',g' $DEST/etc/profile
 
+if [ "$DESTARCH" == "arm" ];then
+	echo "export CARGO_BUILD_TARGET=\"armv7-unknown-linux-uclibceabi\"" >> $DEST/etc/profile
+fi
+
 #Create tmp directory
 mkdir -p $DEST/tmp
 chmod 1777 $DEST/tmp/
