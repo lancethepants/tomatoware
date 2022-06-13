@@ -1,0 +1,16 @@
+diff -Naur p7zip-17.04_orig/install.sh p7zip-17.04/install.sh
+--- p7zip-17.04_orig/install.sh	2022-06-13 08:48:40.835796450 -0600
++++ p7zip-17.04/install.sh	2022-06-13 08:48:57.599983847 -0600
+@@ -159,9 +159,9 @@
+    chmod 644 "${DEST_DIR}${DEST_MAN}/man1/7zr.1"
+ fi
+ 
+-gzip "${DEST_DIR}${DEST_MAN}/man1/7z.1"
+-gzip "${DEST_DIR}${DEST_MAN}/man1/7za.1"
+-gzip "${DEST_DIR}${DEST_MAN}/man1/7zr.1"
++gzip -f "${DEST_DIR}${DEST_MAN}/man1/7z.1"
++gzip -f "${DEST_DIR}${DEST_MAN}/man1/7za.1"
++gzip -f "${DEST_DIR}${DEST_MAN}/man1/7zr.1"
+ 
+ if [ -f README ]
+ then
