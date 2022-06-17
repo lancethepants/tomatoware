@@ -13,6 +13,7 @@ CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
+MAKE1="make"
 MAKE="make -j`nproc`"
 ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH

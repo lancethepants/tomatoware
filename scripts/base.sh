@@ -33,7 +33,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install PREFIX=$DEST
+	$MAKE1 install PREFIX=$DEST
 	touch .installed
 fi
 
@@ -73,7 +73,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -111,7 +111,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -153,7 +153,7 @@ if [ ! -f .installed ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -190,7 +190,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -232,7 +232,7 @@ if [ ! -f .installed ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -271,7 +271,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make \
+	$MAKE1 \
 	install \
 	DEST_DIR=$BASE \
 	DEST_HOME=$PREFIX
@@ -322,12 +322,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make CC=$DESTARCH-linux-gcc
+	$MAKE1 CC=$DESTARCH-linux-gcc
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install CC=$DESTARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+	$MAKE1 install CC=$DESTARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
 	touch .installed
 fi
 
@@ -371,7 +371,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -411,7 +411,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -466,7 +466,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -513,7 +513,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -557,7 +557,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -594,7 +594,7 @@ if [ ! -f .built-native ]; then
 	--without-tests \
 	--without-curses-h
 	$MAKE
-	make install
+	$MAKE1 install
 	touch .built-native
 fi
 
@@ -625,7 +625,7 @@ fi
 
 if [ ! -f .installed ]; then
 	PATH=$SRC/ncurses/ncurses-native/install/bin:$PATH \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -696,7 +696,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -719,7 +719,7 @@ fi
 cd lua
 
 if [ ! -f .built ]; then
-	make \
+	$MAKE1 \
 	linux \
 	CC=$DESTARCH-linux-gcc \
 	INSTALL_TOP=$BASE$PREFIX \
@@ -729,7 +729,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make \
+	$MAKE1 \
 	linux \
 	CC=$DESTARCH-linux-gcc \
 	INSTALL_TOP=$BASE$PREFIX \
@@ -778,7 +778,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -820,7 +820,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -861,7 +861,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -893,12 +893,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make
+	$MAKE1
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -940,7 +940,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -993,7 +993,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1030,7 +1030,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1055,7 +1055,7 @@ cd mysql-connector-c-native
 
 if [ ! -f .built_native ]; then
 	cmake .
-	make
+	$MAKE1
 	touch .built_native
 fi
 
@@ -1081,14 +1081,14 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make || true
+	$MAKE1 || true
 	cp ../mysql-connector-c-native/extra/comp_err ./extra/comp_err
-	make
+	$MAKE1
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	cp -r $DEST/include/mysql/mysql/ $DEST/include/
 	rm -rf $DEST/include/mysql/mysql
 	touch .installed
@@ -1118,7 +1118,7 @@ if [ ! -f .configured ]; then
 	./configure \
 	--prefix=$SRC/perl/native
 	$MAKE
-	make install
+	$MAKE1 install
 	touch .configured
 fi
 
@@ -1138,12 +1138,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make
+	$MAKE1
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1185,7 +1185,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1229,7 +1229,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1264,13 +1264,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	make clean
 	$MAKE
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1328,8 +1327,8 @@ if [ ! -f .built_native ]; then
 	--disable-pyo-build \
 	ac_cv_prog_HAS_HG=/bin/false \
 	ac_cv_prog_SVNVERSION=/bin/false
-	make
-	make install
+	$MAKE
+	$MAKE1 install
 	touch .built_native
 fi
 
@@ -1369,7 +1368,7 @@ fi
 
 if [ ! -f .installed ]; then
 	PATH=$SRC/python/native/bin:$PATH \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1425,8 +1424,8 @@ if [ ! -f .built_native ]; then
 	--disable-ossaudiodev \
 	--disable-openssl \
 	ac_cv_prog_HAS_HG=/bin/false
-	make
-	make install
+	$MAKE
+	$MAKE1 install
 	touch .built_native
 fi
 
@@ -1469,7 +1468,7 @@ fi
 
 if [ ! -f .installed ]; then
 	PATH=$SRC/python3/native3/bin:$PATH \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1496,12 +1495,12 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
-	make
+	$MAKE1
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$DEST
+	$MAKE1 install DESTDIR=$DEST
 	cp $SRC/unrar/unrar.1 $DEST/man/man1
 	touch .installed
 fi
@@ -1525,7 +1524,7 @@ fi
 cd git
 
 if [ ! -f .built ]; then
-	make distclean
+	$MAKE1 distclean
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
@@ -1551,7 +1550,7 @@ if [ ! -f .installed ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	make \
+	$MAKE1 \
 	CC=$DESTARCH-linux-gcc \
 	AR=$DESTARCH-linux-ar \
 	prefix=$PREFIX \
@@ -1607,7 +1606,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1656,7 +1655,7 @@ fi
 if [ ! -f .installed ]; then
 	sed -i 's,mkdir -p $(namespaceddir),mkdir -p $(DESTDIR)$(namespaceddir),g' \
 	modules/pam_namespace/Makefile
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	cp -r libpam/include/security/ $DEST/include
 	touch .installed
 fi
@@ -1709,7 +1708,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$DESTARCH-linux-strip"
+	$MAKE1 install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$DESTARCH-linux-strip"
 	touch .installed
 fi
 
@@ -1746,7 +1745,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1793,7 +1792,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1859,7 +1858,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1896,7 +1895,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1944,7 +1943,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
+	$MAKE1 install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
 	touch .installed
 fi
 
@@ -1990,7 +1989,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2020,12 +2019,12 @@ fi
 if [ ! -f .built ]; then
 	PREFIX=$PREFIX \
 	RPATH=$RPATH \
-	make -f unix/Makefile  linux_noasm
+	$MAKE1 -f unix/Makefile  linux_noasm
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	make prefix=$DEST install
+	$MAKE1 prefix=$DEST install
 	touch .installed
 fi
 
@@ -2062,7 +2061,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2153,6 +2152,6 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
