@@ -35,7 +35,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -81,7 +81,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -148,7 +148,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -194,7 +194,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -240,7 +240,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -286,7 +286,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -331,7 +331,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -382,7 +382,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -423,7 +423,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -462,7 +462,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -500,7 +500,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -537,7 +537,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -602,8 +602,8 @@ if [ ! -f .configured ]; then
 	--with-crypto=$DEST \
 	--with-z=$DEST
 
-	make menuselect.makeopts CC=cc CXX=g++ || true
-	make menuselect.makeopts CC=cc CXX=g++
+	$MAKE1 menuselect.makeopts CC=cc CXX=g++ || true
+	$MAKE1 menuselect.makeopts CC=cc CXX=g++
 	./menuselect/menuselect --enable cdr_mysql menuselect.makeopts
 
 	touch .configured
@@ -618,12 +618,12 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
 if [ ! -f .installed_example ]; then
-	make install samples DESTDIR=$BASE
+	$MAKE1 install samples DESTDIR=$BASE
 	mkdir -p $DEST/etc/config
 	cp ../asterisk.wanup $DEST/etc/config
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
@@ -670,7 +670,7 @@ unset PKG_CONFIG_LIBDIR
 #fi
 
 #if [ ! -f .installed ]; then
-#	make install
+#	$MAKE1 install
 #	touch .installed
 #fi
 
@@ -695,7 +695,7 @@ fi
 cd tz-native
 
 if [ ! -f .installed ]; then
-	make \
+	$MAKE1 \
 	TOPDIR=$PREFIX \
 	DESTDIR=$BASE
 	touch .installed
@@ -704,7 +704,7 @@ fi
 cd ../tz
 
 if [ ! -f .installed ]; then
-	make install \
+	$MAKE1 install \
 	cc=$DESTARCH-linux-gcc \
 	LFLAGS="$LDFLAGS" \
 	CFLAGS="$CFLAGS" \
@@ -747,7 +747,7 @@ if [ ! -f .installed ]; then
 	CFLAGS="-std=c99 $CFLAGS" \
 	LDFLAGS=$LDFLAGS \
 	prefix=$PREFIX \
-	make install \
+	$MAKE1 install \
 	DESTDIR=$BASE
 	touch .installed
 fi
@@ -808,7 +808,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
 	sed -i -e '1,1s,\#\!\/bin\/sh,\#\!'"$PREFIX"'\/bin\/bash,g' $DEST/bin/apt-key
 	touch .installed

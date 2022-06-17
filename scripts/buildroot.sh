@@ -106,7 +106,7 @@ if [ "$DESTARCH" == "arm" ] && [ ! -f .built ]; then
 fi
 
 if [ "$DESTARCH" == "mipsel" ] && [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -156,7 +156,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -194,7 +194,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -231,7 +231,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -276,7 +276,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -324,7 +324,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -378,7 +378,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -492,7 +492,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	cp $SRC/gcc/c99 $DEST/bin
 	touch .installed
 fi
@@ -593,7 +593,7 @@ if [ ! -f .built ]; then
 	touch .built
 fi
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -958,7 +958,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1029,7 +1029,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1066,7 +1066,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1109,7 +1109,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1146,7 +1146,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1188,7 +1188,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1225,7 +1225,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1263,7 +1263,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1306,7 +1306,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1343,7 +1343,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1381,7 +1381,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1418,7 +1418,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1459,7 +1459,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1513,7 +1513,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1550,7 +1550,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1590,7 +1590,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1629,7 +1629,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1678,7 +1678,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1715,7 +1715,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1752,7 +1752,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1789,7 +1789,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1817,7 +1817,7 @@ if [ ! -f .built-host ]; then
 	./configure \
 	--prefix=$SRC/file/file-host
 	$MAKE
-	make install
+	$MAKE1 install
 	touch .built-host
 fi
 
@@ -1841,7 +1841,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -1881,7 +1881,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2004,7 +2004,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2041,7 +2041,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2085,7 +2085,7 @@ if [ ! -f .installed ]; then
 	_PREFIX=$PREFIX \
 	_LDFLAGS=$LDFLAGS \
 	_CPPFLAGS=$CPPFLAGS \
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
 
@@ -2132,7 +2132,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	make install DESTDIR=$BASE
+	$MAKE1 install DESTDIR=$BASE
 	touch $DEST/var/lib/dpkg/status
 	touch .installed
 fi
