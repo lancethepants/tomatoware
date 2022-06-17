@@ -2089,6 +2089,12 @@ if [ ! -f .patched ]; then
 	touch .patched
 fi
 
+if [ "$DESTARCH" == "arm" ];then
+	BOOST_ABI=aapcs
+else
+	BOOST_ABI=sysv
+fi
+
 if ! [[ -f .configured ]]; then
 	echo  "using gcc : $DESTARCH : $DESTARCH-linux-g++ ;" > $SRC/boost/user-config.jam
 	./bootstrap.sh
@@ -2098,13 +2104,16 @@ fi
 if ! [[ -f .built ]]; then
 	HOME=$SRC/boost \
 	./b2 \
+	-q \
 	--prefix=$DEST \
 	--build-dir=$SRC/boost/build \
 	--without-python \
+	boost.locale.posix=off \
 	toolset=gcc-$DESTARCH \
 	threading=multi \
+	abi=$BOOST_ABI \
 	variant=release \
-	cxxflags=$CXXFLAGS \
+	cxxflags="-Wno-narrowing $CXXFLAGS" \
 	-j`nproc` \
 	-sBZIP2_INCLUDE=$DEST/include \
 	-sBZIP2_LIBPATH=$DEST/lib \
@@ -2114,8 +2123,7 @@ if ! [[ -f .built ]]; then
 	-sLZMA_LIBPATH=$DEST/lib \
 	-sZSTD_INCLUDE=$DEST/include \
 	-sZSTD_LIBPATH=$DEST/lib \
-	install \
-	|| true
+	install
 	touch .built
 fi
 
