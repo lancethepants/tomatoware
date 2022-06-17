@@ -15,6 +15,7 @@ CXXFLAGS=$CFLAGS
 CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
 MAKE1="make"
 MAKE="make -j`nproc`"
+NINJA="ninja"
 ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH
 export CCACHE_DIR=$HOME/.ccache
