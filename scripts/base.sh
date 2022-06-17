@@ -261,8 +261,8 @@ fi
 
 
 if [ ! -f .built ]; then
-	make \
-	LDFLAGS="-s -static" \
+	$MAKE \
+	LDFLAGS="-static $LDFLAGS" \
 	CC=$DESTARCH-linux-gcc \
 	CXX=$DESTARCH-linux-g++ \
 	OPTFLAGS="$CFLAGS" \
