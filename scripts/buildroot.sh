@@ -651,7 +651,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	ninja
+	$NINJA
 	touch .built
 fi
 
@@ -706,12 +706,12 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	ninja
+	$NINJA
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	DESTDIR=$BASE ninja install
+	DESTDIR=$BASE $NINJA install
 	touch .installed
 fi
 
@@ -751,7 +751,7 @@ if [ ! -f .built-native ]; then
 		-DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,/opt/tomatoware/x86_64/lib64 -L/opt/tomatoware/x86_64/lib64" \
 		../llvm/
 		PATH=$BASE/native/bin:/opt/tomatoware/x86_64/bin:$ORIGINALPATH \
-		ninja llvm-tblgen clang-tblgen
+		$NINJA llvm-tblgen clang-tblgen
 		touch ../.built-native
 	else
 		cmake \
@@ -760,7 +760,7 @@ if [ ! -f .built-native ]; then
 		-DCMAKE_BUILD_TYPE=Release \
 		-DLLVM_ENABLE_PROJECTS="clang" \
 		../llvm/
-		ninja llvm-tblgen clang-tblgen
+		$NINJA llvm-tblgen clang-tblgen
 		touch ../.built-native
 	fi
 fi
@@ -834,12 +834,12 @@ fi
 cd $SRC/llvm/llvm-project/build
 
 if [ ! -f .built ]; then
-	ninja
+	$NINJA
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	DESTDIR=$BASE ninja install
+	DESTDIR=$BASE $NINJA install
 	touch .installed
 fi
 
