@@ -1904,7 +1904,7 @@ fi
 ####### #####################################################################
 Status "vim"
 
-VIM_VERSION=8.2
+VIM_VERSION=9.0
 M=${VIM_VERSION%.*}
 m=${VIM_VERSION#*.}
 
@@ -1931,9 +1931,12 @@ if [ ! -f .configured ]; then
 	vim_cv_toupper_broken=no \
 	vim_cv_terminfo=yes \
 	vim_cv_tty_group=world \
+	vim_cv_tty_mode=0620 \
 	vim_cv_getcwd_broken=no \
-	vim_cv_stat_ignores_slash=no \
-	vim_cv_memmove_handles_overlap=yes
+	vim_cv_stat_ignores_slash=yes \
+	vim_cv_memmove_handles_overlap=yes \
+	ac_cv_sizeof_int=4 \
+	ac_cv_small_wchar_t=no
 	touch .configured
 fi
 
