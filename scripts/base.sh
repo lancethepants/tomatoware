@@ -870,7 +870,7 @@ fi
 ########## ##################################################################
 Status "sqlite"
 
-SQLITE_VERSION=3380500
+SQLITE_VERSION=3390000
 
 cd $SRC/sqlite
 
