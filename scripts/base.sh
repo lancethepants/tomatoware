@@ -2002,12 +2002,14 @@ fi
 Status "unzip"
 
 UNZIP_VERSION=60
+UNZIP_PATCH_VERSION=6.0-26
 
 cd $SRC/unzip
 
 if [ ! -f .extracted ]; then
-	rm -rf unzip unzip${UNZIP_VERSION}
+	rm -rf unzip unzip${UNZIP_VERSION} debian
 	tar zxvf unzip${UNZIP_VERSION}.tar.gz
+	tar xvJf unzip_${UNZIP_PATCH_VERSION}.debian.tar.xz
 	mv unzip${UNZIP_VERSION} unzip
 	touch .extracted
 fi
@@ -2015,19 +2017,32 @@ fi
 cd unzip
 
 if [ ! -f .patched ]; then
-	patch unix/Makefile < $PATCHES/unzip/unzip.patch
+	for file in $SRC/unzip/debian/patches/*.patch
+	do
+		patch -p1 < "$file"
+	done
+	patch -p1 < $PATCHES/unzip/0001-Add-a-CMakeFile.txt-to-ease-cross-compilation.patch
 	touch .patched
 fi
 
+if [ ! -f .configured ]; then
+	cmake \
+	-GNinja \
+	-DCMAKE_SYSTEM_NAME="Linux" \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	./
+fi
+
 if [ ! -f .built ]; then
-	PREFIX=$PREFIX \
-	RPATH=$RPATH \
-	$MAKE1 -f unix/Makefile  linux_noasm
+	$NINJA
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	$MAKE1 prefix=$DEST install
+	DESTDIR=$BASE $NINJA install
 	touch .installed
 fi
 
