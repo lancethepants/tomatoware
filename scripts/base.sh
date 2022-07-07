@@ -393,6 +393,11 @@ fi
 
 cd curl
 
+if [ ! -f .patched ]; then
+        patch -p1 < $PATCHES/curl/0001-easy_lock-h-include-sched-h-if-available-to-fix-build.patch
+        touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
 	LDFLAGS=$LDFLAGS \
