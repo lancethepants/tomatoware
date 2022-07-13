@@ -1,6 +1,7 @@
 include config.mk
 
 tomatoware:toolchain
+	echo 0 > .count
 	./scripts/host-tools.sh
 	./scripts/base.sh
 	./scripts/buildroot.sh

@@ -56,6 +56,9 @@ fi
 
 
 if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
+
+	echo -e '\033]2;'Building Toolchain'\007'
+
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
 	patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
