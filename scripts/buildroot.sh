@@ -2146,3 +2146,40 @@ if [ ! -f .ldconfig ]; then
 	ln -sf true $DEST/bin/ldconfig
 	touch .ldconfig
 fi
+
+############# ###############################################################
+# PROCPS-NG # ###############################################################
+############# ###############################################################
+Status "procps-ng"
+
+PROCPS_VERSION=4.0.0
+
+cd $SRC/procps-ng
+
+if [ ! -f .extracted ]; then
+	rm -rf procps-ng procps-ng-${PROCPS_VERSION}
+	tar xvJf procps-ng-${PROCPS_VERSION}.tar.xz
+	mv procps-ng-${PROCPS_VERSION} procps-ng
+	touch .extracted
+fi
+
+cd procps-ng
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch .installed
+fi
