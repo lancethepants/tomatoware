@@ -2,6 +2,8 @@
 
 source ./scripts/environment.sh
 
+Status "Preparing Files"
+
 if [ -f $BASE/.packaged ]; then
 	exit
 fi
@@ -66,6 +68,9 @@ touch $BASE/.configured
 fi
 
 #Create tarball of the compiled project.
+
+Status "Creating $DESTARCH-$FLOAT${PREFIX////-}.tgz"
+
 cd $BASE$PREFIX
 rm -f $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz
 fakeroot-tcp tar zvcf $BASE/$DESTARCH-$FLOAT${PREFIX////-}.tgz $DESTARCH-tomatoware-linux-uclibc$GNUEABI $MIPSEL bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc

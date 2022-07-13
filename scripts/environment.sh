@@ -42,5 +42,9 @@ if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 fi
 
 Status () {
-	echo -e '\033]2;'compiling $1'\007'
+	declare COUNT=$(cat "$BASE/.count")
+	COUNT=$((COUNT+1))
+	echo "$COUNT" > $BASE/.count
+	TOTAL=$(grep -o "Status" $BASE/scripts/* --exclude=environment.sh | wc -l)
+	echo -e '\033]2;'$COUNT/$TOTAL - $1'\007'
 }
