@@ -463,6 +463,8 @@ if [ ! -f .configured ]; then
 	--with-sysroot=$PREFIX \
 	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
+	--enable-default-pie \
+	--enable-default-ssp \
 	--enable-shared \
 	--enable-static \
 	--enable-threads=posix \
@@ -565,6 +567,8 @@ if [ ! -f .configured ]; then
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++,go \
+	--enable-default-pie \
+	--enable-default-ssp \
 	--enable-shared \
 	--enable-static \
 	--enable-threads=posix \
