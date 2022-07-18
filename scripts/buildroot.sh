@@ -314,7 +314,8 @@ if [ ! -f .configured ]; then
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
-	--disable-nls
+	--disable-nls \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -368,7 +369,8 @@ if [ ! -f .configured ]; then
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
-	--disable-nls
+	--disable-nls \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -647,7 +649,7 @@ cd ninja
 if [ ! -f .configured ]; then
 	CXX=$DESTARCH-linux-g++ \
 	AR=$DESTARCH-linux-ar \
-	LDFLAGS="-static $LDFLAGS" \
+	LDFLAGS=$LDFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure.py
@@ -813,6 +815,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS $MFLOAT" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DCMAKE_SHARED_LINKER_FLAGS="$LDFLAGS" \
+	-DCMAKE_SKIP_RPATH=TRUE \
 	-DC_INCLUDE_DIRS="$C_INCLUDE_DIRS" \
 	-DFFI_INCLUDE_DIR=$DEST/include \
 	-DFFI_LIBRARY_DIR=$DEST/lib \
@@ -950,7 +953,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
-	-DCMAKE_EXE_LINKER_FLAGS="$atomic $LDFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS $atomic" \
 	-DREDIS_STORAGE_BACKEND=OFF \
 	./
 	touch .configured
@@ -1103,7 +1106,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1178,6 +1182,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--enable-single-binary=symlinks \
 	--enable-no-install-program=uptime \
 	--enable-install-program=hostname \
@@ -1219,7 +1224,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1257,6 +1263,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	gl_cv_func_wcwidth_works=yes
 	touch .configured
 fi
@@ -1300,7 +1307,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1412,7 +1420,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1450,6 +1459,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	gl_cv_header_working_fcntl_h=yes \
 	ac_cv_func_gettimeofday=yes \
 	ac_cv_func_fork_works=yes \
@@ -1466,6 +1476,65 @@ if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
+
+######## ####################################################################
+# FILE # ####################################################################
+######## ####################################################################
+Status "compiling file"
+
+FILE_VERSION=5.42
+
+cd $SRC/file
+
+if [ ! -f .extracted ]; then
+	rm -rf file file-host file-${FILE_VERSION}
+	tar zxvf file-${FILE_VERSION}.tar.gz
+	mv file-${FILE_VERSION} file
+	cp -r file file-host
+	touch .extracted
+fi
+
+cd file-host
+
+if [ ! -f .built-host ]; then
+	autoreconf -f -i
+	./configure \
+	--prefix=$SRC/file/file-host
+	$MAKE
+	$MAKE1 install
+	touch .built-host
+fi
+
+cd ../file
+
+if [ ! -f .configured ]; then
+	autoreconf -f -i
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	PATH=$SRC/file/file-host/bin:$PATH \
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch .installed
+fi
+
+if [ ! -f .edit_sed ]; then
+        sed -i 's, '"$PREFIX"'\/lib,'"$DEST"'\/lib,g' \
+        $DEST/lib/libmagic.la
+        touch .edit_sed
+fi
+
 
 ############## ##############################################################
 # UTIL-LINUX # ##############################################################
@@ -1500,6 +1569,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--disable-mount \
 	--disable-chfn-chsh-password \
 	--without-python \
@@ -1584,6 +1654,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--with-ssl=openssl
 	touch .configured
 fi
@@ -1623,7 +1694,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1672,6 +1744,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	$tarextraconfig
 	touch .configured
 fi
@@ -1709,7 +1782,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1746,7 +1820,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -1783,63 +1858,12 @@ if [ ! -f .configured ]; then
 	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-######## ####################################################################
-# FILE # ####################################################################
-######## ####################################################################
-Status "compiling file"
-
-FILE_VERSION=5.42
-
-cd $SRC/file
-
-if [ ! -f .extracted ]; then
-	rm -rf file file-host file-${FILE_VERSION}
-	tar zxvf file-${FILE_VERSION}.tar.gz
-	mv file-${FILE_VERSION} file
-	cp -r file file-host
-	touch .extracted
-fi
-
-cd file-host
-
-if [ ! -f .built-host ]; then
-	autoreconf -f -i
-	./configure \
-	--prefix=$SRC/file/file-host
-	$MAKE
-	$MAKE1 install
-	touch .built-host
-fi
-
-cd ../file
-
-if [ ! -f .configured ]; then
-	autoreconf -f -i
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--enable-static
+	--disable-rpath
 	touch .configured
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/file/file-host/bin:$PATH \
 	$MAKE
 	touch .built
 fi
@@ -1915,7 +1939,7 @@ cd ucl
 if [ ! -f .built_ucl ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS="-std=c90 $CFLAGS" \
+	CFLAGS="$CFLAGS -std=c90" \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE
 	$MAKE
@@ -1925,7 +1949,7 @@ fi
 cd ../upx
 
 if [ ! -f .built ]; then
-	LDFLAGS="-static $LDFLAGS" \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
@@ -2124,6 +2148,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--with-sysroot=$PREFIX \
 	--without-libselinux \
 	PERL_LIBDIR=$PREFIX/lib/perl5/${PERL_VERSION}
