@@ -1,0 +1,16 @@
+diff -Naur gcc-12.1.0.orig/gcc/config/arm/linux-elf.h gcc-12.1.0/gcc/config/arm/linux-elf.h
+--- gcc-12.1.0.orig/gcc/config/arm/linux-elf.h	2022-05-06 01:30:56.000000000 -0600
++++ gcc-12.1.0/gcc/config/arm/linux-elf.h	2022-07-19 08:26:14.219718634 -0600
+@@ -66,9 +66,10 @@
+    %{static:-Bstatic} \
+    %{shared:-shared} \
+    %{symbolic:-Bsymbolic} \
+-   %{!static: \
++   %{!static:%{!static-pie: \
+      %{rdynamic:-export-dynamic} \
+-     %{!shared:-dynamic-linker " GNU_USER_DYNAMIC_LINKER "}} \
++     %{!shared:-dynamic-linker " GNU_USER_DYNAMIC_LINKER "}}} \
++   %{static-pie:-Bstatic -pie --no-dynamic-linker -z text} \
+    -X \
+    %{mbig-endian:-EB} %{mlittle-endian:-EL}" \
+    SUBTARGET_EXTRA_LINK_SPEC
