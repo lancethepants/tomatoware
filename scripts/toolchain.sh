@@ -77,10 +77,12 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	fi
 
 	if [ "$DESTARCH" == "arm" ];then
+		echo "STATIC_PIE=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
 	fi
 
 	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+	cp $BASE/patches/gcc/0005-arm-static-pie.patch $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 
 	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
