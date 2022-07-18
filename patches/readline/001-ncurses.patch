@@ -1,6 +1,6 @@
-diff -Naur readline-8.1_orig/configure readline-8.1/configure
---- readline-8.1_orig/configure	2021-01-12 09:05:12.296441444 -0700
-+++ readline-8.1/configure	2021-01-12 09:05:21.840487341 -0700
+diff -Naur readline-8.1.2_orig/configure readline-8.1.2/configure
+--- readline-8.1.2_orig/configure	2022-07-14 12:39:31.450261315 -0600
++++ readline-8.1.2/configure	2022-07-14 12:39:45.118132319 -0600
 @@ -6852,10 +6852,10 @@
  $as_echo_n "checking configuration for building shared libraries... " >&6; }
          eval `TERMCAP_LIB=$TERMCAP_LIB ${CONFIG_SHELL-/bin/sh} ${srcdir}/support/shobj-conf -C "${CC}" -c ${host_cpu} -o ${host_os} -v ${host_vendor}`

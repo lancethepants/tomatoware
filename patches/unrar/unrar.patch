@@ -16,7 +16,7 @@ diff -Naur unrar_orig/makefile unrar/makefile
 -LDFLAGS=-pthread
 +STRIP=$(DESTARCH)-linux-strip
 +AR=$(DESTARCH)-linux-ar
-+LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1 -Wl,-rpath,$(PREFIX)/lib
++LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1
  DESTDIR=/usr
  
  # Linux using LCC

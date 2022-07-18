@@ -37,7 +37,6 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
-
 ######## ####################################################################
 # ZLIB # ####################################################################
 ######## ####################################################################
@@ -180,7 +179,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -262,7 +262,7 @@ fi
 
 if [ ! -f .built ]; then
 	$MAKE \
-	LDFLAGS="-static $LDFLAGS" \
+	LDFLAGS="$LDFLAGS" \
 	CC=$DESTARCH-linux-gcc \
 	CXX=$DESTARCH-linux-g++ \
 	OPTFLAGS="$CFLAGS" \
@@ -314,9 +314,9 @@ fi
 
 if [ ! -f .configured ]; then
 	./Configure $os \
-	-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 \
-	-Wl,-rpath,$RPATH -Wl,-rpath-link=$RPATH \
-	--prefix=$PREFIX shared no-zlib \
+	$LDFLAGS \
+	--prefix=$PREFIX \
+	shared no-zlib \
 	-DOPENSSL_PREFER_CHACHA_OVER_GCM
 	touch .configured
 fi
@@ -360,6 +360,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	ac_cv_func_malloc_0_nonnull=yes \
 	ac_cv_func_realloc_0_nonnull=yes
 	touch .configured
@@ -406,6 +407,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--with-ssl=$DEST \
+	--with-zstd=$DEST \
 	--with-ca-path=$PREFIX/ssl/certs
 	touch .configured
 fi
@@ -612,11 +614,12 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
+	--disable-rpath-hack \
 	--enable-widec \
 	--enable-overwrite \
 	--with-normal \
 	--with-shared \
-	--enable-rpath \
 	--with-fallbacks=xterm,xterm-256color \
 	--disable-stripping
 	touch .configured
@@ -680,7 +683,8 @@ fi
 cd readline
 
 if [ ! -f .patched ]; then
-	patch < $PATCHES/readline/readline.patch
+	patch -p1 < $PATCHES/readline/001-ncurses.patch
+	patch -p1 < $PATCHES/readline/002-no-rpath.patch
 	touch .patched
 fi
 
@@ -773,7 +777,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS="$CPPFLAGS -fcommon" \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	--disable-rpath
 	touch .configured
 fi
 
@@ -811,6 +816,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--enable-threads \
 	--enable-shared \
 	--enable-symbols \
@@ -857,7 +863,8 @@ if [ ! -f .configured ]; then
 	--enable-tcl \
 	--enable-compat185 \
 	--with-tcl=$DEST/lib \
-	--enable-dbm
+	--enable-dbm \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -929,7 +936,7 @@ cd libxml2
 if [ ! -f .configured ]; then
 	Z_CFLAGS=-I$DEST/include \
 	Z_LIBS=-L$DEST/lib \
-	LDFLAGS="-lz -llzma $LDFLAGS" \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -1131,7 +1138,7 @@ fi
 cd ../perl
 
 if [ ! -f .configured ]; then
-	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath,$RPATH" \
+	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1" \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -1547,7 +1554,7 @@ if [ ! -f .built ]; then
 	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8 -lzstd"
 	touch .built
 fi
 
@@ -1568,7 +1575,7 @@ if [ ! -f .installed ]; then
 	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8" \
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8 -lzstd" \
 	install DESTDIR=$BASE
 	tar xvJf $SRC/git/git-manpages-${GIT_VERSION}.tar.xz -C $DEST/man
 	touch .installed
@@ -1646,6 +1653,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--enable-read-both-confs \
 	--disable-nls \
 	ac_cv_search_crypt=no \
@@ -1700,6 +1708,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--without-rpath \
 	--with-ssl-dir=$DEST \
 	--sysconfdir=$PREFIX/etc/ssh \
 	--with-pid-dir=/var/run \
@@ -1833,6 +1842,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--without-bash-malloc \
 	bash_cv_wexitstatus_offset=8 \
 	bash_cv_getcwd_malloc=yes \

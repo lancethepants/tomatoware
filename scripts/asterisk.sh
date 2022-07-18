@@ -65,6 +65,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--disable-rpath \
 	--with-default-trust-store-file=$PREFIX/ssl/certs/ca-certificates.crt \
 	--enable-local-libopts \
 	--without-p11-kit \
@@ -138,7 +139,9 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
-	--enable-static
+	--enable-static \
+	--disable-rpath \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -184,7 +187,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
-	--enable-static
+	--enable-static \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -230,7 +234,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
-	--enable-static
+	--enable-static \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -276,7 +281,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
-	--enable-static
+	--enable-static \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -366,6 +372,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
+	--disable-rpath \
 	--with-libgpg-error-prefix=$DEST \
 	--with-gpg-error-prefix=$DEST \
 	--with-libgcrypt-prefix=$DEST \
@@ -413,7 +420,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
 	--without-gnutls \
-	--disable-python
+	--disable-python \
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -581,6 +589,7 @@ if [ ! -f .configured ]; then
 	CFLAGS="$CPPFLAGS $CFLAGS" \
 	CXXFLAGS="$CPPFLAGS $CFLAGS" \
 	./configure --prefix=$PREFIX --host=$os \
+	--disable-rpath \
 	--without-sdl \
 	--without-lua \
 	--disable-xmldoc \
@@ -610,7 +619,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	ASTLDFLAGS="$LDFLAGS -lgnutls -lnettle" \
+	ASTLDFLAGS=$LDFLAGS \
 	ASTCFLAGS="$CPPFLAGS $CFLAGS" \
 	$MAKE \
 	PJPROJECT_CONFIGURE_OPTS="--host=$os --with-ssl=$DEST"
