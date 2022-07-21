@@ -1,0 +1,13 @@
+diff -Naur uClibc-ng-1.0.41.orig/utils/Makefile.in uClibc-ng-1.0.41/utils/Makefile.in
+--- uClibc-ng-1.0.41.orig/utils/Makefile.in	2022-07-21 12:58:37.667865490 -0600
++++ uClibc-ng-1.0.41/utils/Makefile.in	2022-07-21 13:03:02.103889371 -0600
+@@ -17,7 +17,8 @@
+     -I$(top_srcdir)/$(KERNEL_HEADERS) \
+     -DNOT_IN_libc \
+     -B$(top_builddir)lib \
+-    -Wl,-rpath-link,$(top_builddir)lib
++    -Wl,-rpath-link,$(top_builddir)lib \
++    -Wl,--dynamic-linker=/mmc/lib/ld-uClibc.so.1
+ 
+ ifeq ($(UCLIBC_BUILD_PIE),y)
+ CFLAGS-utils-shared := $(PIEFLAG) $(LDPIEFLAG)

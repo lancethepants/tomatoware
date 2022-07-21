@@ -13,6 +13,7 @@ if [ ! -f $BASE/.configured ]; then
 #Copy lib and include files from toolchain for use in the deployment system.
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/lib $DEST
 cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/usr $DEST
+cp -rf /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/bin $DEST
 cp -rf $DEST/usr/include $DEST
 rm -rf $DEST/usr/include
 ln -sf ../include $DEST/usr/include
