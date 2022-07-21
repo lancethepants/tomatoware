@@ -88,10 +88,14 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
 	$BASE/toolchain/patches/uclibc/002-uclibc-ldconfig-opt.patch \
 	$BASE/toolchain/patches/uclibc/003-uclibc-dl-defs.patch \
-	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch
+	$BASE/toolchain/patches/uclibc/004-uclibc-ldd-opt.patch \
+	$BASE/toolchain/patches/uclibc/008-utils.patch
 
 	cd $BASE/toolchain/buildroot-${BUILDROOTVER}
 	make defconfig BR2_DEFCONFIG=defconfig
 	make
+
+	# Copy uclibc-ng utils to toolchain
+	cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/bin
 
 fi
