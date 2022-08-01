@@ -766,7 +766,7 @@ fi
 ####### #####################################################################
 Status "compiling apt"
 
-APT_VERSION=2.4.5
+APT_VERSION=2.5.2
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -787,6 +787,7 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
 	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
 	patch -p1 < $PATCHES/apt/apt-sandbox-as-nobody.patch
+	patch -p1 -R < $PATCHES/apt/reverse-701a501f.patch
 	touch .patched
 fi
 
