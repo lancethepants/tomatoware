@@ -876,7 +876,7 @@ fi
 ########## ##################################################################
 Status "compiling golang"
 
-GOLANG_VERSION=1.18.3
+GOLANG_VERSION=1.18.5
 
 cd $SRC/golang
 
