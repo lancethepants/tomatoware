@@ -7,7 +7,7 @@ source ./scripts/environment.sh
 ########## ##################################################################
 Status "compiling nettle"
 
-NETTLE_VERSION=3.8
+NETTLE_VERSION=3.8.1
 
 cd $SRC/nettle
 
