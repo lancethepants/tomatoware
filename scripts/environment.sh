@@ -7,7 +7,15 @@ BASE=`pwd`
 SRC=$BASE/src
 PATCHES=$BASE/patches
 DEST=$BASE$PREFIX
-LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath-link,$DEST/lib"
+
+if [ "$DESTARCHLIBC" == "uclibc" ]; then
+	LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath-link,$DEST/lib"
+fi
+
+if [ "$DESTARCHLIBC" == "musl" ]; then
+        LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-musl-aarch64.so.1 -Wl,-rpath-link,$DEST/lib"
+fi
+
 CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS

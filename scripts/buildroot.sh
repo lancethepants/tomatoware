@@ -26,7 +26,7 @@ Status "compiling glib"
 if [ "$DESTARCH" == "mipsel" ];then
 	GLIB_VERSION=2.26.1
 else
-	GLIB_VERSION=2.73.2
+	GLIB_VERSION=2.73.3
 fi
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
@@ -51,12 +51,14 @@ if [ ! -f .patched ]; then
 		patch < $PATCHES/glib2.mipsel/001-automake-compat.patch
 		patch -p1 < $PATCHES/glib2.mipsel/002-missing-gthread-include.patch
 		patch < $PATCHES/glib2.mipsel/010-move-iconv-to-libs.patch
-		touch .patched
-	else
+	fi
+
+	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]];then
 		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
 		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
-		touch .patched
 	fi
+
+	touch .patched
 fi
 
 if [ ! -f .configured ]; then
@@ -77,7 +79,7 @@ if [ ! -f .configured ]; then
 		PATH=$SRC/perl/native/bin:$PATH \
 		$SRC/meson/meson/meson.py \
 		build \
-		--cross-file $SRC/meson/arm-cross.txt \
+		--cross-file $SRC/meson/$DESTARCH-cross.txt \
 		--prefix /mmc \
 		-Dbuildtype='release' \
 		-Ddefault_library='both' \
@@ -85,6 +87,7 @@ if [ ! -f .configured ]; then
 		-Dselinux='disabled' \
 		-Dlibmount='disabled' \
 		-Dman='false' \
+		-Dc_std=gnu11 \
 		-Dc_args="-Wno-error=missing-include-dirs $CPPFLAGS $CFLAGS" \
 		-Dcpp_args="-Wno-error=missing-include-dirs $CPPFLAGS $CXXFLAGS" \
 		-Dc_link_args="$LDFLAGS" \
@@ -98,7 +101,7 @@ if [ "$DESTARCH" == "mipsel" ] && [ ! -f .built ]; then
 	touch .built
 fi
 
-if [ "$DESTARCH" == "arm" ] && [ ! -f .built ]; then
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]] && [ ! -f .built ]; then
 	$SRC/meson/meson/meson.py \
 	compile \
 	-C build
@@ -110,7 +113,7 @@ if [ "$DESTARCH" == "mipsel" ] && [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [ "$DESTARCH" == "arm" ] && [ ! -f .installed ]; then
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]] && [ ! -f .installed ]; then
 	DESTDIR=$BASE \
 	$SRC/meson/meson/meson.py \
 	install \
@@ -305,6 +308,10 @@ if [ "$DESTARCH" == "arm" ];then
 	os=arm-tomatoware-linux-uclibcgnueabi
 fi
 
+if [ "$DESTARCH" == "aarch64" ];then
+	os=aarch64-tomatoware-linux-musl
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -333,7 +340,7 @@ if [ ! -f .symlinked ]; then
 	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
 	do
 		ln -sf $link $DEST/bin/$DESTARCH-linux-$link
-		ln -sf $link $DEST/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-$link
+		ln -sf $link $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-$link
 	done
 	touch .symlinked
 fi
@@ -437,8 +444,9 @@ cd ../gcc-build
 if [ "$DESTARCH" == "mipsel" ]; then
 	os=mipsel-tomatoware-linux-uclibc
 	gccextraconfig="--disable-libgomp
-			--with-abi=32
-			--with-arch=mips32"
+			--with-abi=32 \
+			--with-arch=mips32 \
+			--with-float=soft"
 	gcclangs="c,c++,go"
 fi
 
@@ -446,9 +454,18 @@ if [ "$DESTARCH" == "arm" ];then
 	os=arm-tomatoware-linux-uclibcgnueabi
 	gccextraconfig="--enable-libgomp
 			--with-abi=aapcs-linux
-			--with-cpu=cortex-a9
-			--with-mode=arm"
+			--with-cpu=cortex-a9 \
+			--with-mode=arm \
+			--with-float=soft"
 	gcclangs="c,c++,go"
+fi
+
+if [ "$DESTARCH" == "aarch64" ];then
+	os=aarch64-tomatoware-linux-musl
+	gccextraconfig="--enable-libgomp
+			--with-abi=lp64
+			--with-cpu=cortex-a53"
+	gcclangs="c,c++"
 fi
 
 if [ ! -f .configured ]; then
@@ -464,7 +481,7 @@ if [ ! -f .configured ]; then
 	--with-zstd-lib=$DEST/lib \
 	--with-zstd-include=$DEST/include \
 	--with-sysroot=$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/sysroot/ \
 	--enable-languages=$gcclangs \
 	--enable-default-pie \
 	--enable-default-ssp \
@@ -474,7 +491,6 @@ if [ ! -f .configured ]; then
 	--enable-tls \
 	--enable-__cxa_atexit \
 	--enable-version-specific-runtime-libs \
-	--with-float=soft \
 	--with-gnu-as \
 	--with-gnu-ld \
 	--disable-decimal-float \
@@ -506,7 +522,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf gcc $DEST/bin/cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-gcc
-	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
+	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-cc
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
@@ -981,10 +997,10 @@ if [ ! -f .symlinked ]; then
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-cc
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-g++
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-gcc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-c++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-g++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-gcc
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang++
 
@@ -1379,12 +1395,12 @@ fi
 cd slibtool
 
 if [ ! -f .configured ]; then
-	CC=$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-gcc \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-uclibc$GNUEABI
+	./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI
 	touch .configured
 fi
 
@@ -1728,7 +1744,7 @@ fi
 
 cd tar
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/tar/tar-1.33-remove-o_path-usage.patch
 	touch .patched
 fi
@@ -1937,6 +1953,13 @@ fi
 
 cd ucl
 
+if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
+	cp $PATCHES/gnuconfig/config.guess \
+	   $PATCHES/gnuconfig/config.sub \
+	   $SRC/upx/ucl/acconfig
+        touch .patched
+fi
+
 if [ ! -f .built_ucl ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -1975,6 +1998,8 @@ unset UPX_UCLDIR
 Status "compiling gdb"
 
 GDB_VERSION=12.1
+
+if [ "$DESTARCHLIBC" == "uclibc" ]; then
 
 cd $SRC/gdb
 
@@ -2035,6 +2060,7 @@ fi
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
+fi
 fi
 
 ######## ####################################################################
@@ -2100,10 +2126,14 @@ fi
 
 cd mandoc
 
+if [ "$DESTARCHLIBC" == "musl" ]; then
+	lfts="-lfts"
+fi
+
 if [ ! -f .built ]; then
 	DESTARCH=$DESTARCH
 	_PREFIX=$PREFIX \
-	_LDFLAGS=$LDFLAGS \
+	_LDFLAGS="$LDFLAGS $lfts" \
 	_CPPFLAGS="$CPPFLAGS -fcommon" \
 	$MAKE
 	touch .built
@@ -2112,7 +2142,7 @@ fi
 if [ ! -f .installed ]; then
 	DESTARCH=$DESTARCH
 	_PREFIX=$PREFIX \
-	_LDFLAGS=$LDFLAGS \
+	_LDFLAGS="$LDFLAGS $lfts" \
 	_CPPFLAGS=$CPPFLAGS \
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
@@ -2195,12 +2225,17 @@ fi
 
 cd procps-ng
 
+if [ "$DESTARCHLIBC" == "musl" ]; then
+	procpsextraconfig="--disable-w"
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
+	$CONFIGURE \
+	$procpsextraconfig
 	touch .configured
 fi
 

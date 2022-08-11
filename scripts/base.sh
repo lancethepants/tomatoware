@@ -27,12 +27,15 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
+	_LDFLAGS=$LDFLAGS \
 	$MAKE
+	_LDFLAGS=$LDFLAGS \
 	$MAKE -f Makefile-libbz2_so
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
+	_LDFLAGS=$LDFLAGS \
 	$MAKE1 install PREFIX=$DEST
 	touch .installed
 fi
@@ -296,10 +299,7 @@ fi
 
 cd openssl
 
-# Patch taken from openwrt.
-# Neither current arm or mipsel routers have aes hardware acceleration.
-# If we ever get aarch64 support we may want to disable this for those devices.
-if [ ! -f .patched ]; then
+if [ "$DESTARCH" == "arm" ] || [ "$DESTARCH" == "mipsel" ]; then
 	patch -p1 < $PATCHES/openssl/140-allow-prefer-chacha20.patch
 	touch .patched
 fi
@@ -310,6 +310,10 @@ fi
 
 if [ "$DESTARCH" == "arm" ];then
 	os="linux-armv4 -march=armv7-a -mtune=cortex-a9"
+fi
+
+if [ "$DESTARCH" == "aarch64" ];then
+        os="linux-aarch64"
 fi
 
 if [ ! -f .configured ]; then
@@ -495,7 +499,7 @@ fi
 
 cd libpcap
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/libpcap/libpcap-no-mod-and-xor.patch
 	if [ "$DESTARCH" == "mipsel" ]; then
 		patch -p1 < $PATCHES/libpcap/libpcap-no-NETLINK_GENERIC.patch
@@ -542,7 +546,8 @@ fi
 
 cd libffi
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ]; then
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/libffi/0001-Fix-installation-location-of-libffi.patch
 	patch -p1 < $PATCHES/libffi/0002-Fix-use-of-compact-eh-frames-on-MIPS.patch
 	patch -p1 < $PATCHES/libffi/0003-libffi-enable-hardfloat-in-the-MIPS-assembly-code.patch
 	autoreconf
@@ -767,7 +772,7 @@ fi
 
 cd gdbm
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/libgdbm/libgdbm.patch
 	touch .patched
 fi
@@ -852,6 +857,13 @@ if [ ! -f .extracted ]; then
 fi
 
 cd  db/build_unix
+
+if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
+	cp $PATCHES/gnuconfig/config.guess \
+	   $PATCHES/gnuconfig/config.sub \
+	   $SRC/bdb/db/dist
+        touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -1074,7 +1086,7 @@ fi
 
 cd ../mysql-connector-c
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/libmysqlclient/libmysqlclient.patch
 	touch .patched
 fi
@@ -1138,7 +1150,7 @@ fi
 cd ../perl
 
 if [ ! -f .configured ]; then
-	LDFLAGS="-Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1" \
+	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -1536,6 +1548,10 @@ fi
 
 cd git
 
+if [ "$DESTARCH" == "aarch64" ];then
+	gitextraconfig="NO_REGEX=NeedsStartEnd"
+fi
+
 if [ ! -f .built ]; then
 	$MAKE1 distclean
 	LDFLAGS=$LDFLAGS \
@@ -1554,7 +1570,8 @@ if [ ! -f .built ]; then
 	LIBC_CONTAINS_LIBINTL=yes \
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
-	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8 -lzstd"
+	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8 -lzstd" \
+	$gitextraconfig
 	touch .built
 fi
 
@@ -1576,6 +1593,7 @@ if [ ! -f .installed ]; then
 	CURLDIR=$DEST \
 	CURL_LDFLAGS=-lcurl \
 	EXTLIBS="$LDFLAGS -lssl -lcrypto -lcurl -lz -lpcre2-8 -lzstd" \
+	$gitextraconfig \
 	install DESTDIR=$BASE
 	tar xvJf $SRC/git/git-manpages-${GIT_VERSION}.tar.xz -C $DEST/man
 	touch .installed
@@ -1609,7 +1627,8 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	$straceconfig
+	$straceconfig \
+	--enable-mpers=check
 	touch .configured
 fi
 
@@ -1642,8 +1661,10 @@ fi
 cd Linux-PAM
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/pam/PR_SET_NO_NEW_PRIVS_OLD_KERNEL.PATCH
 	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,'"$PREFIX"'\/etc\/pam,g' {} \;
+	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+		patch -p1 < $PATCHES/pam/PR_SET_NO_NEW_PRIVS_OLD_KERNEL.PATCH
+	fi
 	touch .patched
 fi
 
@@ -1692,7 +1713,7 @@ fi
 
 cd openssh
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
 	patch -p1 < $PATCHES/openssh/remove_check-config.patch
 
@@ -1829,7 +1850,7 @@ fi
 
 cd bash
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch < $PATCHES/bash/001-compile-fix.patch
 	patch < $PATCHES/bash/002-force-internal-readline.patch
 	patch -p1 < $PATCHES/bash/bash-random.patch
@@ -2118,7 +2139,7 @@ fi
 
 cd boost
 
-if [ ! -f .patched ]; then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/boost/0001-fenv.patch
 	touch .patched
 fi

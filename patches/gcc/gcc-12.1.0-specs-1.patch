@@ -1,6 +1,18 @@
-diff -Naur gcc-12.1.0_orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
---- gcc-12.1.0_orig/gcc/config/linux.h	2022-05-17 10:37:54.333947959 -0600
-+++ gcc-12.1.0/gcc/config/linux.h	2022-05-17 10:47:42.790444682 -0600
+diff -Naur gcc-12.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-12.1.0/gcc/config/aarch64/aarch64-linux.h
+--- gcc-12.1.0.orig/gcc/config/aarch64/aarch64-linux.h	2022-05-06 01:30:56.000000000 -0600
++++ gcc-12.1.0/gcc/config/aarch64/aarch64-linux.h	2022-08-12 10:42:40.030925689 -0600
+@@ -24,7 +24,7 @@
+ #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef MUSL_DYNAMIC_LINKER
+-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
++#define MUSL_DYNAMIC_LINKER "/opt/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef  ASAN_CC1_SPEC
+ #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
+diff -Naur gcc-12.1.0.orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
+--- gcc-12.1.0.orig/gcc/config/linux.h	2022-05-06 01:30:57.000000000 -0600
++++ gcc-12.1.0/gcc/config/linux.h	2022-08-12 10:41:10.435307329 -0600
 @@ -99,10 +99,10 @@
     GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
     GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
@@ -16,9 +28,9 @@ diff -Naur gcc-12.1.0_orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
-diff -Naur gcc-12.1.0_orig/gcc/config/mips/linux.h gcc-12.1.0/gcc/config/mips/linux.h
---- gcc-12.1.0_orig/gcc/config/mips/linux.h	2022-05-17 10:37:54.321947867 -0600
-+++ gcc-12.1.0/gcc/config/mips/linux.h	2022-05-17 10:48:32.118822411 -0600
+diff -Naur gcc-12.1.0.orig/gcc/config/mips/linux.h gcc-12.1.0/gcc/config/mips/linux.h
+--- gcc-12.1.0.orig/gcc/config/mips/linux.h	2022-05-06 01:30:57.000000000 -0600
++++ gcc-12.1.0/gcc/config/mips/linux.h	2022-08-12 10:41:10.479307135 -0600
 @@ -30,12 +30,12 @@
  
  #undef UCLIBC_DYNAMIC_LINKER32

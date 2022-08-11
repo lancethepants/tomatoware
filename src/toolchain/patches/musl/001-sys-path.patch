@@ -1,0 +1,23 @@
+diff -Naur musl-1.2.3.orig/ldso/dynlink.c musl-1.2.3/ldso/dynlink.c
+--- musl-1.2.3.orig/ldso/dynlink.c	2022-04-07 11:12:40.000000000 -0600
++++ musl-1.2.3/ldso/dynlink.c	2022-08-13 22:58:09.397665129 -0600
+@@ -1095,7 +1095,7 @@
+ 					sys_path = "";
+ 				}
+ 			}
+-			if (!sys_path) sys_path = "/lib:/usr/local/lib:/usr/lib";
++			if (!sys_path) sys_path = "/mmc/lib:/mmc/usr/local/lib:/mmc/usr/lib";
+ 			fd = path_open(name, sys_path, buf, sizeof buf);
+ 		}
+ 		pathname = buf;
+@@ -1752,8 +1752,8 @@
+ 
+ 	/* Only trust user/env if kernel says we're not suid/sgid */
+ 	if (!libc.secure) {
+-		env_path = getenv("LD_LIBRARY_PATH");
+-		env_preload = getenv("LD_PRELOAD");
++		env_path = getenv("MUSL_LD_LIBRARY_PATH");
++		env_preload = getenv("MUSL_LD_PRELOAD");
+ 	}
+ 
+ 	/* If the main program was already loaded by the kernel,

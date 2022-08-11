@@ -127,6 +127,10 @@ if [ "$DESTARCH" == "arm" ];then
 	os=arm-unknown-linux-gnueabi
 fi
 
+if [ "$DESTARCH" == "aarch64" ];then
+	os=aarch64-unknown-linux-musl
+fi
+
 if [ ! -f .configured ]; then
 	CC=$DESTARCH-linux-gcc \
 	CXX=$DESTARCH-linux-g++ \
@@ -554,6 +558,8 @@ fi
 ############ ################################################################
 Status "compiling asterisk"
 
+if [ "$DESTARCHLIBC" == "uclibc" ]; then
+
 ASTERISK_VERSION=17.9.4
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
@@ -637,6 +643,7 @@ if [ ! -f .installed_example ]; then
 	cp ../asterisk.wanup $DEST/etc/config
 	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
 	touch .installed_example
+fi
 fi
 
 unset PKG_CONFIG_LIBDIR
@@ -788,6 +795,9 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
 	patch -p1 < $PATCHES/apt/apt-sandbox-as-nobody.patch
 	patch -p1 -R < $PATCHES/apt/reverse-701a501f.patch
+	if [ "$DESTARCHLIBC" == "musl" ]; then
+		patch -p1 < $PATCHES/apt/fix-musl.patch
+	fi
 	touch .patched
 fi
 
@@ -819,7 +829,15 @@ fi
 
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
-	echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
+
+	if [ "$DESTARCH" == "arm" ] || [ "$DESTARCH" == "mipsel" ]; then
+		echo "APT::Architecture \"$DESTARCH\";" > $DEST/etc/apt/apt.conf
+	fi
+
+	if [ "$DESTARCH" == "aarch64" ]; then
+		echo "APT::Architecture \"arm64\";" > $DEST/etc/apt/apt.conf
+	fi
+
 	sed -i -e '1,1s,\#\!\/bin\/sh,\#\!'"$PREFIX"'\/bin\/bash,g' $DEST/bin/apt-key
 	touch .installed
 fi
