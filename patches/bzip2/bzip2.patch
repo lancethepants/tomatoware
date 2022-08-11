@@ -1,6 +1,6 @@
-diff -Naur bzip2-1.0.8_orig/Makefile bzip2-1.0.8/Makefile
---- bzip2-1.0.8_orig/Makefile	2019-10-14 14:03:29.990325593 -0600
-+++ bzip2-1.0.8/Makefile	2019-10-14 14:03:40.054429724 -0600
+diff -Naur bzip2-1.0.8.orig/Makefile bzip2-1.0.8/Makefile
+--- bzip2-1.0.8.orig/Makefile	2022-08-15 13:08:07.544867916 -0600
++++ bzip2-1.0.8/Makefile	2022-08-15 13:08:48.104788023 -0600
 @@ -15,16 +15,15 @@
  SHELL=/bin/sh
  
@@ -12,7 +12,7 @@ diff -Naur bzip2-1.0.8_orig/Makefile bzip2-1.0.8/Makefile
 +CC=$(DESTARCH)-linux-gcc
 +AR=$(DESTARCH)-linux-ar
 +RANLIB=$(DESTARCH)-linux-ranlib
-+LDFLAGS=-s  -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1
++LDFLAGS=$(_LDFLAGS)
  
  BIGFILES=-D_FILE_OFFSET_BITS=64
 -CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
