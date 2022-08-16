@@ -1124,7 +1124,12 @@ fi
 ######## ####################################################################
 Status "compiling perl"
 
-PERL_CROSS_VERSION=1.4
+if [ "$DESTARCH" == "aarch64" ]; then
+	PERL_CROSS_VERSION=1.3.5
+else
+	PERL_CROSS_VERSION=1.4
+fi
+
 
 cd $SRC/perl
 

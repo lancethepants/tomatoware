@@ -28,7 +28,12 @@ export PATH=$BASE/native/bin:$PATH
 export CCACHE_DIR=$HOME/.ccache
 export LT_SYS_LIBRARY_PATH="$PREFIX/lib $DEST/lib /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/lib"
 
-PERL_VERSION=5.36.0
+if [ "$DESTARCH" == "aarch64" ]; then
+	PERL_VERSION=5.32.1
+else
+	PERL_VERSION=5.36.0
+fi
+
 BINUTILS_VERSION=2.38
 GCC_VERSION=12.1.0
 NINJA_VERSION=1.11.0
