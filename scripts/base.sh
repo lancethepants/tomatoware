@@ -1125,7 +1125,7 @@ fi
 Status "compiling perl"
 
 if [ "$DESTARCH" == "aarch64" ]; then
-	PERL_CROSS_VERSION=1.3.5
+	PERL_CROSS_VERSION=1.3.7
 else
 	PERL_CROSS_VERSION=1.4
 fi
