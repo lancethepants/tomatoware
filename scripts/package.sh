@@ -67,6 +67,10 @@ if [ "$DESTARCH" == "arm" ];then
 	echo "export CARGO_BUILD_TARGET=\"armv7-unknown-linux-uclibceabi\"" >> $DEST/etc/profile
 fi
 
+if [ "$DESTARCH" == "aarch64" ];then
+	echo "export CARGO_BUILD_TARGET=\"aarch64-unknown-linux-musl\"" >> $DEST/etc/profile
+fi
+
 #Create tmp directory
 mkdir -p $DEST/tmp
 chmod 1777 $DEST/tmp/
