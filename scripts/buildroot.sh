@@ -300,24 +300,15 @@ fi
 
 cd build-binutils
 
-if [ "$DESTARCH" == "mipsel" ];then
-	os=mipsel-tomatoware-linux-uclibc
-fi
-
-if [ "$DESTARCH" == "arm" ];then
-	os=arm-tomatoware-linux-uclibcgnueabi
-fi
-
-if [ "$DESTARCH" == "aarch64" ];then
-	os=aarch64-tomatoware-linux-musl
-fi
-
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils/configure --prefix=$PREFIX --host=$os --target=$os \
+	../binutils/configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
@@ -442,7 +433,6 @@ fi
 cd ../gcc-build
 
 if [ "$DESTARCH" == "mipsel" ]; then
-	os=mipsel-tomatoware-linux-uclibc
 	gccextraconfig="--disable-libgomp
 			--with-abi=32 \
 			--with-arch=mips32 \
@@ -451,7 +441,6 @@ if [ "$DESTARCH" == "mipsel" ]; then
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-tomatoware-linux-uclibcgnueabi
 	gccextraconfig="--enable-libgomp
 			--with-abi=aapcs-linux
 			--with-cpu=cortex-a9 \
@@ -461,7 +450,6 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then
-	os=aarch64-tomatoware-linux-musl
 	gccextraconfig="--enable-libgomp
 			--with-abi=lp64
 			--with-cpu=cortex-a53"
@@ -471,7 +459,10 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc/configure --prefix=$PREFIX --host=$os --target=$os \
+	../gcc/configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
