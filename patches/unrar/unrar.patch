@@ -1,6 +1,6 @@
-diff -Naur unrar_orig/makefile unrar/makefile
---- unrar_orig/makefile	2020-11-06 07:43:07.188996056 -0700
-+++ unrar/makefile	2020-11-06 07:43:20.561089094 -0700
+diff -Naur unrar.orig/makefile unrar/makefile
+--- unrar.orig/makefile	2022-08-18 09:12:27.977466147 -0600
++++ unrar/makefile	2022-08-18 09:13:54.789536219 -0600
 @@ -2,13 +2,13 @@
  # Makefile for UNIX - unrar
  
@@ -16,7 +16,7 @@ diff -Naur unrar_orig/makefile unrar/makefile
 -LDFLAGS=-pthread
 +STRIP=$(DESTARCH)-linux-strip
 +AR=$(DESTARCH)-linux-ar
-+LDFLAGS=-pthread -Wl,--dynamic-linker=$(PREFIX)/lib/ld-uClibc.so.1
++LDFLAGS=$(_LDFLAGS)
  DESTDIR=/usr
  
  # Linux using LCC

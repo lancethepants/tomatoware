@@ -1525,6 +1525,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
+	_LDFLAGS=$LDFLAGS \
 	$MAKE1
 	touch .built
 fi
