@@ -18,10 +18,14 @@ cp -rf $DEST/usr/include $DEST
 rm -rf $DEST/usr/include
 ln -sf ../include $DEST/usr/include
 
-if [ "$DESTARCH" == "arm" ];then
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]];then
+
 	#Add include paths for clang to find things
 	ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
 	ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/ $DEST/lib/gcc/c++2
+fi
+
+if [ "$DESTARCH" == "arm" ];then
 
 	ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21.0.0
 	ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21

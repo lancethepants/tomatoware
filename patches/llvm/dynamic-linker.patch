@@ -1,7 +1,16 @@
-diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp
---- llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-14 03:44:55.000000000 -0600
-+++ llvm-project-14.0.0.src/clang/lib/Driver/ToolChains/Linux.cpp	2022-03-25 13:09:51.370146774 -0600
-@@ -454,8 +454,8 @@
+diff -Naur llvm-project-14.0.6.src.orig/clang/lib/Driver/ToolChains/Linux.cpp llvm-project-14.0.6.src/clang/lib/Driver/ToolChains/Linux.cpp
+--- llvm-project-14.0.6.src.orig/clang/lib/Driver/ToolChains/Linux.cpp	2022-08-18 14:27:50.788201838 -0600
++++ llvm-project-14.0.6.src/clang/lib/Driver/ToolChains/Linux.cpp	2022-08-18 14:29:30.888163942 -0600
+@@ -422,7 +422,7 @@
+         Triple.getSubArch() == llvm::Triple::PPCSubArch_spe)
+       ArchName = "powerpc-sf";
+ 
+-    return "/lib/ld-musl-" + ArchName + ".so.1";
++    return "/mmc/lib/ld-musl-" + ArchName + ".so.1";
+   }
+ 
+   std::string LibDir;
+@@ -448,8 +448,8 @@
          Triple.getEnvironment() == llvm::Triple::GNUEABIHF ||
          tools::arm::getARMFloatABI(*this, Args) == tools::arm::FloatABI::Hard;
  
@@ -12,7 +21,7 @@ diff -Naur llvm-project-14.0.0.src.orig/clang/lib/Driver/ToolChains/Linux.cpp ll
      break;
    }
    case llvm::Triple::m68k:
-@@ -468,16 +468,16 @@
+@@ -462,16 +462,16 @@
    case llvm::Triple::mips64el: {
      bool IsNaN2008 = tools::mips::isNaN2008(getDriver(), Args, Triple);
  
