@@ -736,7 +736,7 @@ Status "compiling llvm"
 
 LLVM_VERSION=14.0.6
 
-if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
+if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]]; then
 
 cd $SRC/llvm
 
@@ -785,6 +785,13 @@ if [ "$DESTARCH" == "arm" ];then
 	MFLOAT="-mfloat-abi=soft"
 	HOST_TRIPLE="armv7a-tomatoware-linux"
 	TARGET_TRIPLE="armv7a-tomatoware-linux-gnueabi"
+fi
+
+if [ "$DESTARCH" == "aarch64" ];then
+	TARGETS_TO_BUILD="AArch64"
+	LLVM_TARGET_ARCH="AArch64"
+	HOST_TRIPLE="aarch64-tomatoware-linux"
+	TARGET_TRIPLE="aarch64-tomatoware-linux-musl"
 fi
 
 C_INCLUDE_DIRS=\
@@ -861,9 +868,12 @@ fi
 if [ ! -f .postinstalled ]; then
 
 	ln -sf llvm-ar $DEST/bin/clang-ar
-	ln -sf arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
 
-	if [ "$BUILDCROSSTOOLS" == "1" ]; then
+	if [ "$DESTARCH" == "arm" ]; then
+		ln -sf arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
+	fi
+
+	if [ "$BUILDCROSSTOOLS" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 
 		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
 
