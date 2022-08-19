@@ -666,6 +666,12 @@ if [ ! -f .linked ]; then
 	ln -sf libmenuw.so.$M.$m $DEST/lib/libmenu.so.$M.$m
 	ln -sf libmenuw_g.a $DEST/lib/libmenu_g.a
 
+	ln -sf libformw.a $DEST/lib/libform.a
+	ln -sf libformw.so $DEST/lib/libform.so
+	ln -sf libformw.so.$M $DEST/lib/libform.so.$M
+	ln -sf libformw.so.$M.$m $DEST/lib/libform.so.$M.$m
+	ln -sf libformw_g.a $DEST/lib/libform_g.a
+
 	touch .linked
 fi
 
