@@ -395,6 +395,65 @@ fi
 
 fi
 
+######## ####################################################################
+# MOLD # ####################################################################
+######## ####################################################################
+Status "compiling mold"
+
+MOLD_VERSION=1.4.1
+
+if [ "$DESTARCH" == "aarch64" ];then
+
+cd $SRC/mold
+
+if [ ! -f .extracted ]; then
+	rm -rf mold mold-${MOLD_VERSION}
+	tar xvJf mold-${MOLD_VERSION}.tar.xz
+	mv mold-${MOLD_VERSION} mold
+	touch .extracted
+fi
+
+mkdir -p mold/build
+cd mold/build
+
+if [ ! -f .configured ]; then
+	cmake \
+	-GNinja \
+	-Wno-dev \
+	-DCMAKE_SYSTEM_NAME="Linux" \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_INCLUDE_PATH=$DEST/include \
+	-DCMAKE_LIBRARY_PATH=$DEST/lib \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	-DMOLD_USE_MIMALLOC=ON \
+	-DMOLD_USE_MOLD=ON \
+	-DTBBMALLOC_BUILD=ON \
+	-DTBB_BUILD=ON \
+	..
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$NINJA
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	DESTDIR=$BASE $NINJA install
+
+	mkdir -p $DEST/libexec/mold
+	ln -sf mold $DEST/bin/ld.mold
+	ln -sf mold $DEST/bin/ld64.mold
+	ln -sf ../../bin/mold $DEST/libexec/mold/ld
+	ln -sf mold.1 $DEST/share/man/man1/ld.mold.1
+	touch .installed
+fi
+fi
+
 ####### #####################################################################
 # GCC # #####################################################################
 ####### #####################################################################
