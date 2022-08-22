@@ -1,0 +1,32 @@
+From 9771b0a00ce05caf9798b857c81a81520189a5a5 Mon Sep 17 00:00:00 2001
+From: linted <linted@users.noreply.github.com>
+Date: Sun, 21 Aug 2022 00:26:48 -0400
+Subject: [PATCH] -static-pie support for mips
+
+Signed-off-by: linted <linted@users.noreply.github.com>
+---
+ gcc/config/mips/gnu-user.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/gcc/config/mips/gnu-user.h b/gcc/config/mips/gnu-user.h
+index 6aad7192e69..b1c665b7f37 100644
+--- a/gcc/config/mips/gnu-user.h
++++ b/gcc/config/mips/gnu-user.h
+@@ -56,11 +56,12 @@ along with GCC; see the file COPYING3.  If not see
+ #define GNU_USER_TARGET_LINK_SPEC "\
+   %{G*} %{EB} %{EL} %{mips*} %{shared} \
+   %{!shared: \
+-    %{!static: \
++    %{!static:%{!static-pie: \
+       %{rdynamic:-export-dynamic} \
+       %{mabi=n32: -dynamic-linker " GNU_USER_DYNAMIC_LINKERN32 "} \
+       %{mabi=64: -dynamic-linker " GNU_USER_DYNAMIC_LINKER64 "} \
+-      %{mabi=32: -dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
++      %{mabi=32: -dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}}} \
++    %{static-pie:-Bstatic -pie --no-dynamic-linker -z text} \
+     %{static}} \
+   %{mabi=n32:-m" GNU_USER_LINK_EMULATIONN32 "} \
+   %{mabi=64:-m" GNU_USER_LINK_EMULATION64 "} \
+-- 
+2.34.1
+
