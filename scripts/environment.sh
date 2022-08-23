@@ -29,7 +29,7 @@ export CCACHE_DIR=$HOME/.ccache
 export LT_SYS_LIBRARY_PATH="$PREFIX/lib $DEST/lib /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/lib"
 
 if [ "$DESTARCH" == "aarch64" ]; then
-	PERL_VERSION=5.35.9
+	PERL_VERSION=5.32.1
 else
 	PERL_VERSION=5.36.0
 fi
