@@ -416,6 +416,11 @@ fi
 mkdir -p mold/build
 cd mold/build
 
+if [ ! -f .patched ]; then
+	patch -d $SRC/mold/mold -p1 < $PATCHES/mold/ld_preload.patch
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	cmake \
 	-GNinja \

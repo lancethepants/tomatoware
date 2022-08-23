@@ -1,0 +1,12 @@
+diff -Naur mold-1.4.1.orig/elf/subprocess.cc mold-1.4.1/elf/subprocess.cc
+--- mold-1.4.1.orig/elf/subprocess.cc	2022-08-23 10:50:31.245279206 -0600
++++ mold-1.4.1/elf/subprocess.cc	2022-08-23 10:50:52.133137641 -0600
+@@ -96,7 +96,7 @@
+   std::string dso_path = find_dso(ctx, self);
+ 
+   // Set environment variables
+-  putenv(strdup(("LD_PRELOAD=" + dso_path).c_str()));
++  putenv(strdup(("MUSL_LD_PRELOAD=" + dso_path).c_str()));
+   putenv(strdup(("MOLD_PATH=" + self).c_str()));
+ 
+   // If ld, ld.lld or ld.gold is specified, run mold itself
