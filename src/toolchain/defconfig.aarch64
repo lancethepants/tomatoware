@@ -12,6 +12,7 @@ BR2_GCC_ENABLE_OPENMP=y
 BR2_DL_DIR="$(SRC)/toolchain/dl/"
 BR2_HOST_DIR="/opt/tomatoware/$(DESTARCH)$(subst /,-,$(PREFIX))"
 BR2_OPTIMIZE_2=y
+BR2_SHARED_STATIC_LIBS=y
 BR2_GLOBAL_PATCH_DIR="$(BASE)/toolchain/patches"
 BR2_INIT_NONE=y
 BR2_SYSTEM_BIN_SH_NONE=y
