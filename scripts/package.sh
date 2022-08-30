@@ -73,6 +73,7 @@ fi
 
 if [ "$DESTARCH" == "aarch64" ];then
 	echo "export CARGO_BUILD_TARGET=\"aarch64-unknown-linux-musl\"" >> $DEST/etc/profile
+	echo "unset ldd" >> $DEST/etc/profile
 fi
 
 #Create tmp directory
