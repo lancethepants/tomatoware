@@ -5,8 +5,8 @@ source ./scripts/environment.sh
 export BASE=$BASE
 export SRC=$SRC
 
-UCLIBCVER="1.0.42"
 MUSLVER="1.2.3"
+UCLIBCVER="1.0.42"
 BUILDROOTVER="git"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel$FLOAT${PREFIX////-}"
@@ -18,23 +18,44 @@ if [ ! -d /opt/tomatoware ]; then
 	sudo chmod -R 777 /opt/tomatoware
 fi
 
+# Test for toolchain up-to-date.
+if [ -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 
-if [ -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
+	MESSAGE="Error: Out of date $DESTARCH toolchain detected. First run \"make toolchain-clean\" and then \"make\""
 
-	UCLIBCTEST="$(find $TOOLCHAINDIR -name "libuClibc*" -exec basename {} \;)"
-	UCLIBCTEST=${UCLIBCTEST#libuClibc-}
-	UCLIBCTEST=${UCLIBCTEST%.so}
 	GCCTEST="$($TOOLCHAINDIR/bin/$DESTARCH-linux-gcc -dumpversion)"
-
-	if [ "$GCCTEST" != "$GCC_VERSION" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]; then
-
-		echo "Error: Out of date $DESTARCH toolchain detected. Please run \"make toolchain-clean\" and re-run to create new toolchain."
+	if [ "$GCCTEST" != "$GCC_VERSION" ]; then
+		echo "$MESSAGE"
 		exit 1
+	fi
+
+	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+
+		UCLIBCTEST="$(find $TOOLCHAINDIR -name "libuClibc*" -exec basename {} \;)"
+		UCLIBCTEST=${UCLIBCTEST#libuClibc-}
+		UCLIBCTEST=${UCLIBCTEST%.so}
+
+		if [ "$UCLIBCTEST" != "$UCLIBCVER" ]; then
+			echo "$MESSAGE"
+			exit 1
+		fi
+	fi
+
+	if [ "$DESTARCHLIBC" == "musl" ]; then
+
+		MUSLTEST="$(cat $TOOLCHAINDIR/version)"
+
+		if [ "$MUSLTEST" != "$MUSLVER" ]; then
+			echo "$MESSAGE"
+			exit 1
+		fi
 	fi
 fi
 
-# for cross-gcc
-if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
+# Test for cross-toolchain up-to-date.
+if [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+
+	MESSAGE="This is needed for $DESTARCH cross-gcc. First compile an up-to-date mipsel toolchain or disable cross-gcc by setting \"BUILDCROSSTOOLS\" to \"0\" in config.mk."
 
 	if [ -f $MIPSELTOOLCHAINDIR/bin/mipsel-linux-gcc ]; then
 
@@ -45,14 +66,13 @@ if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ] && [ "$DESTARCHLIBC
 
 		if [ "$GCCTEST" != "$GCC_VERSION" ] || [ "$UCLIBCTEST" != "$UCLIBCVER" ]; then
 
-			echo "Error: Out of date mipsel toolchain detected. This is needed for $DESTARCH cross-gcc. Please compile an up-to-date toolchain for mipsel first or disable cross-gcc by setting \"BUILDCROSSTOOLS\" to \"0\" in config.mk."
+			echo "Error: Out of date mipsel toolchain detected. $MESSAGE"
 			exit 1
 		fi
 	else
-		echo "Error: mipsel toolchain not detected. This is needed for $DESTARCH cross-gcc. Please compile an up-to-date toolchain for mipsel first or disable cross-gcc by setting \"BUILDCROSSTOOLS\" to \"0\" in config.mk."
+		echo "Error: mipsel toolchain not detected. $MESSAGE"
 		exit 1
 	fi
-
 fi
 
 
@@ -85,9 +105,11 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
 	fi
 
-	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
-	cp $BASE/patches/gcc/0005-arm-static-pie.patch $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
-	cp $BASE/patches/gcc/0006-mips-static-pie.patch $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+	mkdir -p $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch \
+	   $BASE/patches/gcc/0005-arm-static-pie.patch \
+	   $BASE/patches/gcc/0006-mips-static-pie.patch \
+	$BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 
 	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \
@@ -103,5 +125,9 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	if [ "$DESTARCHLIBC" == "uclibc" ]; then
 		# Copy uclibc-ng utils to toolchain
 		cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/bin
+	fi
+
+	if [ "$DESTARCHLIBC" == "musl" ]; then
+		echo "$MUSLVER" > $TOOLCHAINDIR/version
 	fi
 fi
