@@ -2069,8 +2069,6 @@ Status "compiling gdb"
 
 GDB_VERSION=12.1
 
-if [ "$DESTARCHLIBC" == "uclibc" ]; then
-
 cd $SRC/gdb
 
 if [ ! -f .extracted ]; then
@@ -2081,6 +2079,11 @@ if [ ! -f .extracted ]; then
 fi
 
 cd gdb
+
+if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
+	patch -p1 < $PATCHES/gdb/aarch64.patch
+	touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
@@ -2130,7 +2133,6 @@ fi
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
-fi
 fi
 
 ######## ####################################################################

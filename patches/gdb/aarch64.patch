@@ -1,0 +1,64 @@
+diff -Naur gdb-12.1.orig/gdb/aarch64-linux-nat.c gdb-12.1/gdb/aarch64-linux-nat.c
+--- gdb-12.1.orig/gdb/aarch64-linux-nat.c	2022-08-29 20:36:06.203187598 -0600
++++ gdb-12.1/gdb/aarch64-linux-nat.c	2022-08-29 20:36:51.403144555 -0600
+@@ -58,6 +58,8 @@
+ #define TRAP_HWBKPT 0x0004
+ #endif
+ 
++#include "nat/aarch64-sve-linux-sigcontext.h"
++
+ class aarch64_linux_nat_target final : public linux_nat_target
+ {
+ public:
+diff -Naur gdb-12.1.orig/gdb/nat/aarch64-sve-linux-ptrace.c gdb-12.1/gdb/nat/aarch64-sve-linux-ptrace.c
+--- gdb-12.1.orig/gdb/nat/aarch64-sve-linux-ptrace.c	2022-08-29 20:36:06.263187541 -0600
++++ gdb-12.1/gdb/nat/aarch64-sve-linux-ptrace.c	2022-08-29 20:37:38.759099539 -0600
+@@ -27,6 +27,7 @@
+ #include "gdbsupport/common-regcache.h"
+ #include "gdbsupport/byte-vector.h"
+ #include <endian.h>
++#include "nat/aarch64-sve-linux-sigcontext.h"
+ 
+ /* See nat/aarch64-sve-linux-ptrace.h.  */
+ 
+diff -Naur gdb-12.1.orig/gdb/nat/aarch64-sve-linux-sigcontext.h gdb-12.1/gdb/nat/aarch64-sve-linux-sigcontext.h
+--- gdb-12.1.orig/gdb/nat/aarch64-sve-linux-sigcontext.h	2022-08-29 20:36:06.263187541 -0600
++++ gdb-12.1/gdb/nat/aarch64-sve-linux-sigcontext.h	2022-08-29 20:38:53.695028514 -0600
+@@ -21,12 +21,6 @@
+ 
+ #define SVE_MAGIC	0x53564501
+ 
+-struct sve_context {
+-	struct _aarch64_ctx head;
+-	__u16 vl;
+-	__u16 __reserved[3];
+-};
+-
+ /*
+  * The SVE architecture leaves space for future expansion of the
+  * vector length beyond its initial architectural limit of 2048 bits
+@@ -100,8 +94,12 @@
+  * Additional data might be appended in the future.
+  */
+ 
++#ifndef SVE_SIG_ZREG_SIZE
+ #define SVE_SIG_ZREG_SIZE(vq)	((__u32)(vq) * SVE_VQ_BYTES)
++#endif
++#ifndef SVE_SIG_PREG_SIZE
+ #define SVE_SIG_PREG_SIZE(vq)	((__u32)(vq) * (SVE_VQ_BYTES / 8))
++#endif
+ #define SVE_SIG_FFR_SIZE(vq)	SVE_SIG_PREG_SIZE(vq)
+ 
+ #define SVE_SIG_REGS_OFFSET					\
+diff -Naur gdb-12.1.orig/gdbserver/linux-aarch64-low.cc gdb-12.1/gdbserver/linux-aarch64-low.cc
+--- gdb-12.1.orig/gdbserver/linux-aarch64-low.cc	2022-08-29 20:36:06.119187678 -0600
++++ gdb-12.1/gdbserver/linux-aarch64-low.cc	2022-08-29 20:38:05.363074302 -0600
+@@ -55,6 +55,8 @@
+ #include <sys/auxv.h>
+ #endif
+ 
++#include "nat/aarch64-sve-linux-sigcontext.h"
++
+ /* Linux target op definitions for the AArch64 architecture.  */
+ 
+ class aarch64_target : public linux_process_target
