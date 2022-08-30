@@ -1001,6 +1001,16 @@ if [ ! -f .built ]; then
 		tar xvjf $SRC/golang/go-linux-arm-bootstrap.tbz -C $DEST/bin
 		mv $DEST/bin/go-linux-arm-bootstrap $DEST/bin/go-bin
 	fi
+
+	if [ "$DESTARCH" == "aarch64" ]; then
+		PATH=$SRC/golang/go-native/bin:$PATH \
+		GOOS=linux \
+		GOARCH=arm64 \
+                ./bootstrap.bash
+
+                tar xvjf $SRC/golang/go-linux-arm64-bootstrap.tbz -C $DEST/bin
+                mv $DEST/bin/go-linux-arm64-bootstrap $DEST/bin/go-bin
+        fi
 	touch .built
 fi
 
