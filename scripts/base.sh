@@ -2137,7 +2137,7 @@ fi
 ########## ##################################################################
 Status "compiling boost"
 
-BOOST_VERSION=1_79_0
+BOOST_VERSION=1_80_0
 
 cd $SRC/boost
 
