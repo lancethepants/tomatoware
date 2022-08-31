@@ -2018,6 +2018,8 @@ Status "compiling upx"
 UCL_VERSION=1.03
 UPX_VERSION=3.94
 
+if [ "$DESTARCHLIBC" == "uclibc" ]; then
+
 export UPX_UCLDIR=$SRC/upx/ucl
 
 cd $SRC/upx
@@ -2069,8 +2071,12 @@ if [ ! -f .installed ]; then
 	cp ./doc/upx.1 $DEST/man/man1
 	touch .installed
 fi
-
+fi
 unset UPX_UCLDIR
+
+if [ "$DESTARCHLIBC" == "musl" ]; then
+	cp $SRC/upx/upx.aarch64 $DEST/bin/upx
+fi
 
 ####### #####################################################################
 # GDB # #####################################################################
