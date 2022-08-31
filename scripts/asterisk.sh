@@ -695,7 +695,7 @@ unset PKG_CONFIG_LIBDIR
 ###################### ######################################################
 Status "compiling time zone database"
 
-TZ_VERSION=2022a
+TZ_VERSION=2022c
 
 cd $SRC/tz
 
