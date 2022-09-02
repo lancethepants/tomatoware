@@ -1,7 +1,27 @@
-diff -Naur uClibc-ng-1.0.42.orig/extra/Configs/Config.in uClibc-ng-1.0.42/extra/Configs/Config.in
---- uClibc-ng-1.0.42.orig/extra/Configs/Config.in	2022-08-24 14:43:52.053644468 -0600
-+++ uClibc-ng-1.0.42/extra/Configs/Config.in	2022-08-24 14:44:01.205807929 -0600
-@@ -324,7 +324,7 @@
+From f5a4f77a396631bfceea2967b6a9100b09802f6c Mon Sep 17 00:00:00 2001
+From: linted <linted@users.noreply.github.com>
+Date: Sat, 20 Aug 2022 16:41:38 -0400
+Subject: [PATCH] Added support for creation of Static Position-Independent
+ Executables (PIE) on mips
+
+Updated config to allow compilation of rcrt1.o for mips and modified it's crt1.S to perform relocates in __start.
+
+The mips architecture performs relocations differently then most other architectures. reloc_static_pie was rewritten, taking code from dl-startup.c, in order to perfrom the additional relocations. Modifications were made to mips' dl-startup.h to allow for the use of contained macros without including _start definition.
+
+Signed-off-by: linted <linted@users.noreply.github.com>
+---
+ extra/Configs/Config.in                |  2 +-
+ ldso/ldso/mips/dl-startup.h            |  3 +-
+ libc/misc/internals/Makefile.in        |  2 +-
+ libc/misc/internals/reloc_static_pie.c | 93 +++++++++++++++++++++-----
+ libc/sysdeps/linux/mips/crt1.S         | 23 +++++++
+ 5 files changed, 105 insertions(+), 18 deletions(-)
+
+diff --git a/extra/Configs/Config.in b/extra/Configs/Config.in
+index e0905e956..43c04fd0a 100644
+--- a/extra/Configs/Config.in
++++ b/extra/Configs/Config.in
+@@ -324,7 +324,7 @@ config DOPIC
  config STATIC_PIE
  	bool "Add support for Static Position Independent Executables (PIE)"
  	default n
@@ -10,9 +30,10 @@ diff -Naur uClibc-ng-1.0.42.orig/extra/Configs/Config.in uClibc-ng-1.0.42/extra/
  
  config ARCH_HAS_NO_SHARED
  	bool
-diff -Naur uClibc-ng-1.0.42.orig/ldso/ldso/mips/dl-startup.h uClibc-ng-1.0.42/ldso/ldso/mips/dl-startup.h
---- uClibc-ng-1.0.42.orig/ldso/ldso/mips/dl-startup.h	2022-08-24 14:43:52.057644539 -0600
-+++ uClibc-ng-1.0.42/ldso/ldso/mips/dl-startup.h	2022-08-24 14:44:01.205807929 -0600
+diff --git a/ldso/ldso/mips/dl-startup.h b/ldso/ldso/mips/dl-startup.h
+index 8026f1702..c2168d774 100644
+--- a/ldso/ldso/mips/dl-startup.h
++++ b/ldso/ldso/mips/dl-startup.h
 @@ -7,6 +7,7 @@
  
  
@@ -21,7 +42,7 @@ diff -Naur uClibc-ng-1.0.42.orig/ldso/ldso/mips/dl-startup.h uClibc-ng-1.0.42/ld
  __asm__(""
      "	.text\n"
      "	.globl	_start\n"
-@@ -114,6 +115,7 @@
+@@ -114,6 +115,7 @@ __asm__(""
      "\n\n"
      ".previous\n"
  );
@@ -29,17 +50,18 @@ diff -Naur uClibc-ng-1.0.42.orig/ldso/ldso/mips/dl-startup.h uClibc-ng-1.0.42/ld
  
  /*
   * Get a pointer to the argv array.  On many platforms this can be just
-@@ -191,6 +193,5 @@
+@@ -191,6 +193,5 @@ do {										\
  	case R_MIPS_NONE:							\
  		break;								\
  	default:								\
 -		SEND_STDERR("Aiieeee!");					\
  		_dl_exit(1);							\
  	}
-diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/Makefile.in uClibc-ng-1.0.42/libc/misc/internals/Makefile.in
---- uClibc-ng-1.0.42.orig/libc/misc/internals/Makefile.in	2022-08-24 14:43:52.029644038 -0600
-+++ uClibc-ng-1.0.42/libc/misc/internals/Makefile.in	2022-08-24 14:44:01.205807929 -0600
-@@ -17,7 +17,7 @@
+diff --git a/libc/misc/internals/Makefile.in b/libc/misc/internals/Makefile.in
+index 69af8b76e..908b18321 100644
+--- a/libc/misc/internals/Makefile.in
++++ b/libc/misc/internals/Makefile.in
+@@ -17,7 +17,7 @@ MISC_INTERNALS_SRC := $(patsubst %.c,$(MISC_INTERNALS_DIR)/%.c,$(CSRC-y))
  MISC_INTERNALS_OBJ := $(patsubst %.c,$(MISC_INTERNALS_OUT)/%.o,$(CSRC-y))
  
  CFLAGS-__uClibc_main.c := $(SSP_DISABLE_FLAGS)
@@ -48,10 +70,17 @@ diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/Makefile.in uClibc-ng-1.0.4
  
  libc-y += $(MISC_INTERNALS_OBJ)
  ifneq ($(UCLIBC_FORMAT_SHARED_FLAT),y)
-diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c uClibc-ng-1.0.42/libc/misc/internals/reloc_static_pie.c
---- uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c	2022-08-24 14:43:52.029644038 -0600
-+++ uClibc-ng-1.0.42/libc/misc/internals/reloc_static_pie.c	2022-08-24 14:44:01.205807929 -0600
-@@ -20,28 +20,91 @@
+diff --git a/libc/misc/internals/reloc_static_pie.c b/libc/misc/internals/reloc_static_pie.c
+index 578202d23..c0027de6f 100644
+--- a/libc/misc/internals/reloc_static_pie.c
++++ b/libc/misc/internals/reloc_static_pie.c
+@@ -15,33 +15,96 @@
+    You should have received a copy of the GNU Lesser General Public
+    License along with the GNU C Library; if not, see
+    <https://www.gnu.org/licenses/>.  */
+-
++#define IS_IN_rtld      // force inline function calls
+ #include <link.h>
  #include <elf.h>
  #include <dl-elf.h>
  
@@ -73,17 +102,6 @@ diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c uClibc-n
 -    ElfW(Addr) rel_addr = 0;
 -    ElfW(Dyn) * dyn_addr = NULL;
 -    unsigned long dynamic_info[DYNAMIC_SIZE] = {0};
--
--    /* Read our own dynamic section and fill in the info array.  */
--    dyn_addr = ((void *) load_addr + elf_machine_dynamic ());
--
--    /* Use the underlying function to avoid TLS access before initialization */
--    __dl_parse_dynamic_info(dyn_addr, dynamic_info, NULL, load_addr);
--
--    /* Perform relocations */
--    relative_count = dynamic_info[DT_RELCONT_IDX];
--    rel_addr = dynamic_info[DT_RELOC_TABLE_ADDR];
--    elf_machine_relative(load_addr, rel_addr, relative_count);
 +    int indx;
 +    ElfW(Addr) got;
 +    ElfW(Dyn) *dpnt;
@@ -122,13 +140,17 @@ diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c uClibc-n
 +
 +        if (!rel_addr)
 +            continue;
-+
+ 
+-    /* Read our own dynamic section and fill in the info array.  */
+-    dyn_addr = ((void *) load_addr + elf_machine_dynamic ());
 +        if((0 == indx) && relative_count) {
 +			rel_size -= relative_count * sizeof(ELF_RELOC);
 +            elf_machine_relative(load_addr, rel_addr, relative_count);
 +			rel_addr += relative_count * sizeof(ELF_RELOC);
 +        }
-+
+ 
+-    /* Use the underlying function to avoid TLS access before initialization */
+-    __dl_parse_dynamic_info(dyn_addr, dynamic_info, NULL, load_addr);
 +#ifdef ARCH_NEEDS_BOOTSTRAP_RELOCS
 +			{
 +				ELF_RELOC *rpnt;
@@ -137,7 +159,11 @@ diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c uClibc-n
 +				unsigned long symbol_addr;
 +				int symtab_index;
 +				unsigned long *reloc_addr;
-+
+ 
+-    /* Perform relocations */
+-    relative_count = dynamic_info[DT_RELCONT_IDX];
+-    rel_addr = dynamic_info[DT_RELOC_TABLE_ADDR];
+-    elf_machine_relative(load_addr, rel_addr, relative_count);
 +				/* Now parse the relocation information */
 +				rpnt = (ELF_RELOC *) rel_addr;
 +				for (i = 0; i < rel_size; i += sizeof(ELF_RELOC), rpnt++) {
@@ -161,43 +187,47 @@ diff -Naur uClibc-ng-1.0.42.orig/libc/misc/internals/reloc_static_pie.c uClibc-n
 -}
 +}
 \ No newline at end of file
-diff -Naur uClibc-ng-1.0.42.orig/libc/sysdeps/linux/mips/crt1.S uClibc-ng-1.0.42/libc/sysdeps/linux/mips/crt1.S
---- uClibc-ng-1.0.42.orig/libc/sysdeps/linux/mips/crt1.S	2022-08-24 14:43:52.045644324 -0600
-+++ uClibc-ng-1.0.42/libc/sysdeps/linux/mips/crt1.S	2022-08-24 14:45:05.698891501 -0600
-@@ -78,6 +78,11 @@
+diff --git a/libc/sysdeps/linux/mips/crt1.S b/libc/sysdeps/linux/mips/crt1.S
+index 083615515..7c4db447c 100644
+--- a/libc/sysdeps/linux/mips/crt1.S
++++ b/libc/sysdeps/linux/mips/crt1.S
+@@ -77,6 +77,10 @@
+ #ifndef __UCLIBC_CTOR_DTOR__
  	.weak	_init
  	.weak	_fini
- #endif
++#endif
 +#ifdef L_rcrt1
 +	.type	reloc_static_pie,@function
-+	.weak	reloc_static_pie
-+	.hidden .L0
-+#endif
++	.hidden	.L0
+ #endif
  	.type	    main,@function
  	.type	    __uClibc_main,@function
- 	.ent	__start
-@@ -90,6 +95,24 @@
+@@ -89,6 +93,25 @@ __start:
+ #else
  	PTR_LA $28, _gp             /* Setup GP correctly if we're non-PIC.  */
  	move $31, $0
- #endif
++#endif
 +#ifdef L_rcrt1
-+    PTR_LA $4, _DYNAMIC           /* Place _DYNAMIC into the GOT */
-+    REG_S $4, -0x7ff0($28)
-+	jal .L0                        /* Get the current $pc address */
++	PTR_LA $4, _DYNAMIC           /* Place _DYNAMIC into the GOT */
++	REG_S $4, -0x7ff0($28)        /* offset to GOT stolen from dl-startup */
++	jal .L0                       /* Get the current $pc address */
 +.L0:
-+	INT_SUB $25, $31, $25         /* Calculate load addr */
-+	move $4, $25                  /* store load addr in param 1 */
++	PTR_SUBU $4, $31, $25         /* Calculate load addr */
++	move $31, $0                  /* Clear ra */
 +	and $29, -2 * SZREG           /* Ensure stack is aligned */
-+	addi $29, $29, (-2 * SZREG)   /* Allocate 2 register spaces on stack */
++	PTR_ADDIU $29, (-2 * SZREG)   /* Allocate 2 register spaces on stack */
 +	REG_S $2, SZREG($29)          /* Store atexit in case it exists */
 +	PTR_LA $5, reloc_static_pie   /* function calls before relocation
 +	                                 don't work unless we set $t9 manually */
-+	INT_ADDU $25, $25, $5         /* store reloc_static_pie in $t9 */
-+	bal reloc_static_pie          /* call, and pray the compiler adds a nop
-+	                                 in delay slot */
++	PTR_ADDU $25, $4, $5          /* store reloc_static_pie in $t9 */
++	jalr $25                      /* call reloc_static_pie */
++	nop							  /* delay slot, just in case */
 +	REG_L $2, SZREG($29)          /* cleanup stack */
-+	addi $29, $29, (2 * SZREG)
-+#endif
++	PTR_ADDIU $29, $29, (2 * SZREG)
++
+ #endif
  
  	PTR_LA $4, main		/* main */
- 	PTR_L $5, 0($29)		/* argc */
+-- 
+2.34.1
+

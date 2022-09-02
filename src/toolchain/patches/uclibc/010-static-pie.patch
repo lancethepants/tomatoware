@@ -1,0 +1,44 @@
+ libc/misc/internals/reloc_static_pie.c     | 2 +-
+ libpthread/nptl/sysdeps/generic/libc-tls.c | 7 +++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/libc/misc/internals/reloc_static_pie.c
+b/libc/misc/internals/reloc_static_pie.c
+index 578202d235a1..f66f7a4236c9 100644
+--- a/libc/misc/internals/reloc_static_pie.c
++++ b/libc/misc/internals/reloc_static_pie.c
+@@ -20,7 +20,7 @@
+ #include <elf.h>
+ #include <dl-elf.h>
+ 
+-ElfW(Addr) _dl_load_base = NULL;
++extern ElfW(Addr) _dl_load_base;
+ 
+ void
+ reloc_static_pie (ElfW(Addr) load_addr);
+diff --git a/libpthread/nptl/sysdeps/generic/libc-tls.c
+b/libpthread/nptl/sysdeps/generic/libc-tls.c
+index 0c8c558d05d3..d9c09fdd6667 100644
+--- a/libpthread/nptl/sysdeps/generic/libc-tls.c
++++ b/libpthread/nptl/sysdeps/generic/libc-tls.c
+@@ -117,6 +117,10 @@ init_static_tls (size_t memsz, size_t align)
+   GL(dl_tls_static_nelem) = GL(dl_tls_max_dtv_idx);
+ }
+ 
++#if !defined(__FDPIC__) && !defined(SHARED) && defined(STATIC_PIE)
++ElfW(Addr) _dl_load_base;
++#endif
++
+ void __libc_setup_tls (size_t tcbsize, size_t tcbalign);
+ void
+ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
+@@ -143,8 +147,7 @@ __libc_setup_tls (size_t tcbsize, size_t tcbalign)
+ #else
+ 	  initimage = (void *) phdr->p_vaddr;
+ #if !defined(SHARED) && defined(STATIC_PIE)
+-    extern ElfW(Addr) _dl_load_base;
+-    initimage += _dl_load_base;
++	  initimage += _dl_load_base;
+ #endif
+ #endif
+ 	  align = phdr->p_align;
