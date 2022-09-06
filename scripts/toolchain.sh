@@ -109,7 +109,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch \
 	   $BASE/patches/gcc/0005-arm-static-pie.patch \
 	   $BASE/patches/gcc/0006-mips-static-pie.patch \
-	$BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+	   $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 
 	sed -i 's,\/mmc,'"$PREFIX"',g' \
 	$BASE/toolchain/patches/uclibc/001-uclibc-ldso-search-path.patch \

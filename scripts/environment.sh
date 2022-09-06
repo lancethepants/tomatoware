@@ -13,7 +13,7 @@ if [ "$DESTARCHLIBC" == "uclibc" ]; then
 fi
 
 if [ "$DESTARCHLIBC" == "musl" ]; then
-        LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-musl-aarch64.so.1 -Wl,-rpath-link,$DEST/lib"
+	LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-musl-aarch64.so.1 -Wl,-rpath-link,$DEST/lib"
 fi
 
 CPPFLAGS="-I$DEST/include"
