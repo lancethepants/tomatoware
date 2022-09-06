@@ -452,6 +452,7 @@ if [ ! -f .installed ]; then
 	DESTDIR=$BASE $NINJA install
 	touch .installed
 fi
+
 fi
 
 ####### #####################################################################
@@ -665,6 +666,7 @@ if [ ! -f .built ]; then
 	$MAKE
 	touch .built
 fi
+
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
@@ -1001,11 +1003,11 @@ if [ ! -f .built ]; then
 		PATH=$SRC/golang/go-native/bin:$PATH \
 		GOOS=linux \
 		GOARCH=arm64 \
-                ./bootstrap.bash
+		./bootstrap.bash
 
-                tar xvjf $SRC/golang/go-linux-arm64-bootstrap.tbz -C $DEST/bin
-                mv $DEST/bin/go-linux-arm64-bootstrap $DEST/bin/go-bin
-        fi
+		tar xvjf $SRC/golang/go-linux-arm64-bootstrap.tbz -C $DEST/bin
+		mv $DEST/bin/go-linux-arm64-bootstrap $DEST/bin/go-bin
+	fi
 	touch .built
 fi
 
@@ -1622,9 +1624,9 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .edit_sed ]; then
-        sed -i 's, '"$PREFIX"'\/lib,'"$DEST"'\/lib,g' \
-        $DEST/lib/libmagic.la
-        touch .edit_sed
+	sed -i 's, '"$PREFIX"'\/lib,'"$DEST"'\/lib,g' \
+	$DEST/lib/libmagic.la
+	touch .edit_sed
 fi
 
 
@@ -2032,9 +2034,9 @@ cd ucl
 
 if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
 	cp $PATCHES/gnuconfig/config.guess \
-	   $PATCHES/gnuconfig/config.sub \
-	   $SRC/upx/ucl/acconfig
-        touch .patched
+	$PATCHES/gnuconfig/config.sub \
+	$SRC/upx/ucl/acconfig
+	touch .patched
 fi
 
 if [ ! -f .built_ucl ]; then
@@ -2066,7 +2068,9 @@ if [ ! -f .installed ]; then
 	cp ./doc/upx.1 $DEST/man/man1
 	touch .installed
 fi
+
 fi
+
 unset UPX_UCLDIR
 
 if [ "$DESTARCHLIBC" == "musl" ]; then
@@ -2229,65 +2233,6 @@ if [ ! -f .installed ]; then
 	_CPPFLAGS=$CPPFLAGS \
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
-fi
-
-######## ####################################################################
-# DPKG # ####################################################################
-######## ####################################################################
-Status "compiling dpkg"
-
-DPKG_VERSION=1.21.9
-
-cd $SRC/dpkg
-
-if [ ! -f .extracted ]; then
-	rm -rf dpkg dpkg-${DPKG_VERSION}
-	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
-	mv dpkg-${DPKG_VERSION} dpkg
-	touch .extracted
-fi
-
-cd dpkg
-
-if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/dpkg/dpkg-silence-warnings.patch
-	touch .patched
-fi
-
-
-if [ ! -f .configured ]; then
-	PATH=$SRC/perl/native/bin:$PATH \
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--disable-rpath \
-	--with-sysroot=$PREFIX \
-	--without-libselinux \
-	PERL_LIBDIR=$PREFIX/lib/perl5/${PERL_VERSION}
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch $DEST/var/lib/dpkg/status
-	touch .installed
-fi
-
-if [ ! -f .edit_sed ]; then
-	grep -Irl $SRC\/perl\/native $DEST | xargs sed -i -e '1,1s,'"$SRC"'/perl/native,'"$PREFIX"',g'
-	touch .edit_sed
-fi
-
-if [ ! -f .ldconfig ]; then
-	ln -sf true $DEST/bin/ldconfig
-	touch .ldconfig
 fi
 
 ############# ###############################################################

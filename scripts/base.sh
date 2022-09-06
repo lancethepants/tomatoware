@@ -299,7 +299,7 @@ fi
 
 cd openssl
 
-if [ "$DESTARCH" == "arm" ] || [ "$DESTARCH" == "mipsel" ]; then
+if [ ! -f .patched ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "mipsel" ]]; then
 	patch -p1 < $PATCHES/openssl/140-allow-prefer-chacha20.patch
 	touch .patched
 fi
@@ -313,7 +313,7 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then
-        os="linux-aarch64"
+	os="linux-aarch64"
 fi
 
 if [ ! -f .configured ]; then
@@ -863,7 +863,7 @@ if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
 	cp $PATCHES/gnuconfig/config.guess \
 	   $PATCHES/gnuconfig/config.sub \
 	   $SRC/bdb/db/dist
-        touch .patched
+	touch .patched
 fi
 
 if [ ! -f .configured ]; then
@@ -1723,10 +1723,6 @@ cd openssh
 if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 	patch -p1 < $PATCHES/openssh/openssh-fix-pam-uclibc-pthreads-clash.patch
 	patch -p1 < $PATCHES/openssh/remove_check-config.patch
-
-#	if [ "$DESTARCH" == "mipsel" ];then
-#		patch -p1 < $PATCHES/openssh/openssh-EVP_PKEY_get_base_id.patch
-#	fi
 	touch .patched
 fi
 

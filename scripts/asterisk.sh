@@ -2,6 +2,65 @@
 
 source ./scripts/environment.sh
 
+######## ####################################################################
+# DPKG # ####################################################################
+######## ####################################################################
+Status "compiling dpkg"
+
+DPKG_VERSION=1.21.9
+
+cd $SRC/dpkg
+
+if [ ! -f .extracted ]; then
+	rm -rf dpkg dpkg-${DPKG_VERSION}
+	tar xvJf dpkg-${DPKG_VERSION}.tar.xz
+	mv dpkg-${DPKG_VERSION} dpkg
+	touch .extracted
+fi
+
+cd dpkg
+
+if [ ! -f .patched ]; then
+	patch -p1 < $PATCHES/dpkg/dpkg-silence-warnings.patch
+	touch .patched
+fi
+
+
+if [ ! -f .configured ]; then
+	PATH=$SRC/perl/native/bin:$PATH \
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--disable-rpath \
+	--with-sysroot=$PREFIX \
+	--without-libselinux \
+	PERL_LIBDIR=$PREFIX/lib/perl5/${PERL_VERSION}
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch $DEST/var/lib/dpkg/status
+	touch .installed
+fi
+
+if [ ! -f .edit_sed ]; then
+	grep -Irl $SRC\/perl\/native $DEST | xargs sed -i -e '1,1s,'"$SRC"'/perl/native,'"$PREFIX"',g'
+	touch .edit_sed
+fi
+
+if [ ! -f .ldconfig ]; then
+	ln -sf true $DEST/bin/ldconfig
+	touch .ldconfig
+fi
+
 ########## ##################################################################
 # NETTLE # ##################################################################
 ########## ##################################################################
@@ -396,299 +455,6 @@ if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
-
-########### #################################################################
-# IKSEMEL # #################################################################
-########### #################################################################
-Status "compiling iksemel"
-
-IKSEMEL_VERSION=1.5.1.3
-
-export PKG_CONFIG_PATH=$DEST/lib/pkgconfig
-
-cd $SRC/iksemel
-
-if [ ! -f .extracted ]; then
-	rm -rf iksemel iksemel-${IKSEMEL_VERSION}
-	tar zxvf iksemel-${IKSEMEL_VERSION}.tar.gz
-	mv iksemel-${IKSEMEL_VERSION} iksemel
-	touch .extracted
-fi
-
-cd iksemel
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--without-gnutls \
-	--disable-python \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-unset PKG_CONFIG_PATH
-
-######## ####################################################################
-# SRTP # ####################################################################
-######## ####################################################################
-Status "compiling srtp"
-
-SRTP_VERSION=2.4.2
-
-cd $SRC/srtp
-
-if [ ! -f .extracted ]; then
-	rm -rf libsrtp libsrtp-${SRTP_VERSION}
-	tar zxvf libsrtp-${SRTP_VERSION}.tar.gz
-	mv libsrtp-${SRTP_VERSION} libsrtp
-	touch .extracted
-fi
-
-cd libsrtp
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="$CPPFLAGS -fcommon" \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-############ ################################################################
-# unixODBC # ################################################################
-############ ################################################################
-Status "compiling unixodbc"
-
-UNIXODBC_VERSION=2.3.11
-
-cd $SRC/odbc
-
-if [ ! -f .extracted ]; then
-	rm -rf unixODBC unixODBC-${UNIXODBC_VERSION}
-	tar zxvf unixODBC-${UNIXODBC_VERSION}.tar.gz
-	mv unixODBC-${UNIXODBC_VERSION} unixODBC
-	touch .extracted
-fi
-
-cd unixODBC
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--enable-static
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-########### #################################################################
-# JANSSON # #################################################################
-########### #################################################################
-Status "compiling jannson"
-
-JANSSON_VERSION=2.14
-
-cd $SRC/jansson
-
-if [ ! -f .extracted ]; then
-	rm -rf jansson jansson-${JANSSON_VERSION}
-	tar xvjf jansson-${JANSSON_VERSION}.tar.bz2
-	mv jansson-${JANSSON_VERSION} jansson
-	touch .extracted
-fi
-
-cd jansson
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-############ ################################################################
-# ASTERISK # ################################################################
-############ ################################################################
-Status "compiling asterisk"
-
-if [ "$DESTARCHLIBC" == "uclibc" ]; then
-
-ASTERISK_VERSION=17.9.4
-
-export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
-
-cd $SRC/asterisk
-
-if [ ! -f .extracted ]; then
-	rm -rf asterisk asterisk-${ASTERISK_VERSION}
-	tar zxvf asterisk-${ASTERISK_VERSION}.tar.gz
-	mv asterisk-${ASTERISK_VERSION} asterisk
-	touch .extracted
-fi
-
-cd asterisk
-
-if [ ! -f .patched ]; then
-	patch < $PATCHES/asterisk/010-asterisk-configure-undef-res-ninit.patch
-	sed -i 's,\/etc\/localtime,'"$PREFIX"'\/etc\/localtime,g' main/stdtime/localtime.c
-	touch .patched
-fi
-
-if [ "$DESTARCH" == "mipsel" ];then
-	os=mipsel-tomatoware-linux-uclibc
-fi
-
-if [ "$DESTARCH" == "arm" ];then
-	os=arm-tomatoware-linux-uclibcgnueabi
-fi
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS="$CPPFLAGS $CFLAGS" \
-	CFLAGS="$CPPFLAGS $CFLAGS" \
-	CXXFLAGS="$CPPFLAGS $CFLAGS" \
-	./configure --prefix=$PREFIX --host=$os \
-	--disable-rpath \
-	--without-sdl \
-	--without-lua \
-	--disable-xmldoc \
-	--with-externals-cache=$SRC/pjsip \
-	--with-pjproject-bundled \
-	--with-libedit=$DEST \
-	--with-libxml2=$DEST \
-	--with-mysqlclient=$DEST \
-	--with-crypto=$DEST \
-	--with-iconv=$DEST \
-	--with-iksemel=$DEST \
-	--with-jansson=$DEST \
-	--with-libcurl=$DEST \
-	--with-ncurses=$DEST \
-	--with-unixodbc=$DEST \
-	--with-sqlite3=$DEST \
-	--with-srtp=$DEST \
-	--with-ssl=$DEST \
-	--with-crypto=$DEST \
-	--with-z=$DEST
-
-	$MAKE1 menuselect.makeopts CC=cc CXX=g++ || true
-	$MAKE1 menuselect.makeopts CC=cc CXX=g++
-	./menuselect/menuselect --enable cdr_mysql menuselect.makeopts
-
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	ASTLDFLAGS=$LDFLAGS \
-	ASTCFLAGS="$CPPFLAGS $CFLAGS" \
-	$MAKE \
-	PJPROJECT_CONFIGURE_OPTS="--host=$os --with-ssl=$DEST"
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-if [ ! -f .installed_example ]; then
-	$MAKE1 install samples DESTDIR=$BASE
-	mkdir -p $DEST/etc/config
-	cp ../asterisk.wanup $DEST/etc/config
-	sed -i 's,\/opt,'"$PREFIX"',g' $DEST/etc/config/asterisk.wanup
-	touch .installed_example
-fi
-fi
-
-unset PKG_CONFIG_LIBDIR
-
-######################## ####################################################
-# ASTERISK CHAN_DONGLE # ####################################################
-######################## ####################################################
-
-#cd $SRC/asterisk
-
-#if [ ! -f .extracted_chan_dongle ]; then
-#	rm -rf asterisk-chan-dongle
-#	tar zxvf asterisk-chan-dongle.tgz
-#	touch .extracted_chan_dongle
-#fi
-
-#cd asterisk-chan-dongle
-
-#if [ ! -f .pre-configured ]; then
-#	patch < $PATCHES/asterisk/asterisk-chan-dongle.patch
-#	./bootstrap
-#	touch .pre-configured
-#fi
-
-#if [ ! -f .configured ]; then
-#	DEST=$DEST \
-#	LDFLAGS=$LDFLAGS \
-#	CPPFLAGS=$CPPFLAGS \
-#	CFLAGS=$CFLAGS \
-#	CXXFLAGS=$CXXFLAGS \
-#	$CONFIGURE \
-#	--with-asterisk=$DEST/include \
-#	--with-astversion=${ASTERISK_VERSION}
-#	touch .configured
-#fi
-
-#if [ ! -f .built ]; then
-#	$MAKE
-#	touch .built
-#fi
-
-#if [ ! -f .installed ]; then
-#	$MAKE1 install
-#	touch .installed
-#fi
 
 ###################### ######################################################
 # TIME ZONE DATABASE # ######################################################
