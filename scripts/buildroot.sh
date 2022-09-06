@@ -1768,7 +1768,7 @@ unset PKG_CONFIG_LIBDIR
 ######## ####################################################################
 Status "compiling grep"
 
-GREP_VERSION=3.7
+GREP_VERSION=3.8
 
 cd $SRC/grep
 
