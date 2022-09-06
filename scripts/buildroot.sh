@@ -400,7 +400,7 @@ fi
 ######## ####################################################################
 Status "compiling mold"
 
-MOLD_VERSION=1.4.1
+MOLD_VERSION=1.4.2
 
 if [ "$DESTARCH" == "aarch64" ];then
 
@@ -425,6 +425,7 @@ if [ ! -f .configured ]; then
 	cmake \
 	-GNinja \
 	-Wno-dev \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
@@ -449,12 +450,6 @@ fi
 
 if [ ! -f .installed ]; then
 	DESTDIR=$BASE $NINJA install
-
-	mkdir -p $DEST/libexec/mold
-	ln -sf mold $DEST/bin/ld.mold
-	ln -sf mold $DEST/bin/ld64.mold
-	ln -sf ../../bin/mold $DEST/libexec/mold/ld
-	ln -sf mold.1 $DEST/share/man/man1/ld.mold.1
 	touch .installed
 fi
 fi
