@@ -896,7 +896,7 @@ fi
 ########## ##################################################################
 Status "compiling sqlite"
 
-SQLITE_VERSION=3390200
+SQLITE_VERSION=3390300
 
 cd $SRC/sqlite
 
