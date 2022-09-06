@@ -7,7 +7,7 @@ source ./scripts/environment.sh
 ######### ###################################################################
 Status "compiling meson"
 
-MESON_VERSION=0.63.1
+MESON_VERSION=0.63.2
 
 cd $SRC/meson
 
