@@ -5,7 +5,7 @@ tomatoware:toolchain
 	./scripts/host-tools.sh
 	./scripts/base.sh
 	./scripts/buildroot.sh
-	./scripts/asterisk.sh
+	./scripts/repo.sh
 	./scripts/package.sh
 
 toolchain:
