@@ -2192,6 +2192,48 @@ if [ ! -f .symlinked ]; then
 	touch .symlinked
 fi
 
+############ ################################################################
+# MUSL-FTS # ################################################################
+############ ################################################################
+Status "compiling musl-fts"
+
+MUSL_FTS_VERSION=1.2.7
+
+cd $SRC/musl-fts
+
+if [ "$DESTARCHLIBC" == "musl" ]; then
+
+if [ ! -f .extracted ]; then
+	rm -rf musl-fts musl-fts-${MUSL_FTS_VERSION}
+	tar zxvf musl-fts-${MUSL_FTS_VERSION}.tar.gz
+	mv musl-fts-${MUSL_FTS_VERSION} musl-fts
+	touch .extracted
+fi
+
+cd musl-fts
+
+if [ ! -f .configured ]; then
+	./bootstrap.sh
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch .installed
+fi
+
+fi
+
 ########## ##################################################################
 # MANDOC # ##################################################################
 ########## ##################################################################

@@ -84,7 +84,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
 
 	if [ "$DESTARCHLIBC" == "uclibc" ]; then
-		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/buildroot.patch
+		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/golang.patch
 	fi
 
 	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
