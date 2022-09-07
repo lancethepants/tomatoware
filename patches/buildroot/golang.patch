@@ -1,0 +1,23 @@
+diff -Naur buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk buildroot-git/package/gcc/gcc-final/gcc-final.mk
+--- buildroot-git_orig/package/gcc/gcc-final/gcc-final.mk	2021-08-23 13:08:57.921178528 -0600
++++ buildroot-git/package/gcc/gcc-final/gcc-final.mk	2021-08-23 13:10:46.754438608 -0600
+@@ -54,6 +54,7 @@
+ 
+ # Languages supported by the cross-compiler
+ GCC_FINAL_CROSS_LANGUAGES-y = c
++GCC_FINAL_CROSS_LANGUAGES-y += go
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_INSTALL_LIBSTDCPP) += c++
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_DLANG) += d
+ GCC_FINAL_CROSS_LANGUAGES-$(BR2_TOOLCHAIN_BUILDROOT_FORTRAN) += fortran
+diff -Naur buildroot-git_orig/package/gcc/gcc.mk buildroot-git/package/gcc/gcc.mk
+--- buildroot-git_orig/package/gcc/gcc.mk	2021-08-23 13:08:57.921178528 -0600
++++ buildroot-git/package/gcc/gcc.mk	2021-08-23 13:10:47.678449325 -0600
+@@ -48,7 +48,7 @@
+ endef
+ 
+ HOST_GCC_EXCLUDES = \
+-	libjava/* libgo/*
++	libjava/*
+ 
+ #
+ # Create 'build' directory and configure symlink
