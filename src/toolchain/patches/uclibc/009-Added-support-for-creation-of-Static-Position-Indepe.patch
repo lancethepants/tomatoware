@@ -1,8 +1,8 @@
-From f5a4f77a396631bfceea2967b6a9100b09802f6c Mon Sep 17 00:00:00 2001
+From 365da5ab379a3e38e196cad370695c4b300cfe51 Mon Sep 17 00:00:00 2001
 From: linted <linted@users.noreply.github.com>
 Date: Sat, 20 Aug 2022 16:41:38 -0400
-Subject: [PATCH] Added support for creation of Static Position-Independent
- Executables (PIE) on mips
+Subject: Added support for creation of Static Position-Independent Executables
+ (PIE) on mips
 
 Updated config to allow compilation of rcrt1.o for mips and modified it's crt1.S to perform relocates in __start.
 
@@ -13,8 +13,8 @@ Signed-off-by: linted <linted@users.noreply.github.com>
  extra/Configs/Config.in                |  2 +-
  ldso/ldso/mips/dl-startup.h            |  3 +-
  libc/misc/internals/Makefile.in        |  2 +-
- libc/misc/internals/reloc_static_pie.c | 93 +++++++++++++++++++++-----
- libc/sysdeps/linux/mips/crt1.S         | 23 +++++++
+ libc/misc/internals/reloc_static_pie.c | 93 ++++++++++++++++++++++++++++------
+ libc/sysdeps/linux/mips/crt1.S         | 23 +++++++++
  5 files changed, 105 insertions(+), 18 deletions(-)
 
 diff --git a/extra/Configs/Config.in b/extra/Configs/Config.in
@@ -229,5 +229,5 @@ index 083615515..7c4db447c 100644
  
  	PTR_LA $4, main		/* main */
 -- 
-2.34.1
+cgit v1.2.3
 
