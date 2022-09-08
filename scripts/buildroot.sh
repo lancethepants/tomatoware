@@ -2318,3 +2318,41 @@ if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
 fi
+
+############ ################################################################
+# unixODBC # ################################################################
+############ ################################################################
+Status "compiling unixodbc"
+
+UNIXODBC_VERSION=2.3.11
+
+cd $SRC/odbc
+
+if [ ! -f .extracted ]; then
+	rm -rf unixODBC unixODBC-${UNIXODBC_VERSION}
+	tar zxvf unixODBC-${UNIXODBC_VERSION}.tar.gz
+	mv unixODBC-${UNIXODBC_VERSION} unixODBC
+	touch .extracted
+fi
+
+cd unixODBC
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--enable-static
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch .installed
+fi
