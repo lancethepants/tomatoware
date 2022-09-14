@@ -11,7 +11,7 @@ BR2_BINUTILS_EXTRA_CONFIG_OPTIONS="--enable-gold=yes"
 BR2_GCC_VERSION_12_X=y
 BR2_TOOLCHAIN_BUILDROOT_CXX=y
 BR2_DL_DIR="$(SRC)/toolchain/dl/"
-BR2_HOST_DIR="/opt/tomatoware/$(DESTARCH)$(FLOAT)$(subst /,-,$(PREFIX))"
+BR2_HOST_DIR="/opt/tomatoware/$(DESTARCH)-$(DESTARCHLIBC)$(subst /,-,$(PREFIX))"
 BR2_OPTIMIZE_2=y
 BR2_GLOBAL_PATCH_DIR="$(BASE)/toolchain/patches"
 BR2_INIT_NONE=y

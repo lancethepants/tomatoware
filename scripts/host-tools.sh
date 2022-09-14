@@ -36,11 +36,11 @@ if [ ! -f .symlinked-native ]; then
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-g++
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc-$GCC_VERSION
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-c++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-cc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-g++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$GNUEABI-gcc-$GCC_VERSION
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-c++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-cc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-g++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-gcc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-gcc-$GCC_VERSION
 
 	ln -sf ccache $BASE/native/bin/cc
 	ln -sf ccache $BASE/native/bin/gcc

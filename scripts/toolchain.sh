@@ -8,8 +8,8 @@ export SRC=$SRC
 MUSLVER="1.2.3"
 UCLIBCVER="1.0.42"
 BUILDROOTVER="git"
-TOOLCHAINDIR="/opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}"
-MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel$FLOAT${PREFIX////-}"
+TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}"
+MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-uclibc${PREFIX////-}"
 
 
 if [ ! -d /opt/tomatoware ]; then
@@ -87,7 +87,12 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/golang.patch
 	fi
 
-	cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
+	if [ "$DESTARCH" == "arm" ]; then
+		cp $SRC/toolchain/defconfig.$DESTARCH.$DESTARCHLIBC $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
+	else
+		cp $SRC/toolchain/defconfig.$DESTARCH $BASE/toolchain/buildroot-${BUILDROOTVER}/defconfig
+	fi
+
 	cp -r $SRC/toolchain/patches $BASE/toolchain
 	mv $BASE/toolchain/patches/linux-headers.$DESTARCH $BASE/toolchain/patches/linux-headers
 	echo "UCLIBC_HAS_BACKTRACE=y" >> $BASE/toolchain/buildroot-${BUILDROOTVER}/package/uclibc/uClibc-ng.config
@@ -101,7 +106,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		   $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 	fi
 
-	if [ "$DESTARCH" == "arm" ] || [ "$DESTARCH" == "aarch64" ];then
+	if [ "$DESTARCH" == "arm" ];then
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
 	fi
 
@@ -124,7 +129,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 
 	if [ "$DESTARCHLIBC" == "uclibc" ]; then
 		# Copy uclibc-ng utils to toolchain
-		cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/sysroot/bin
+		cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$EABI/sysroot/bin
 	fi
 
 	if [ "$DESTARCHLIBC" == "musl" ]; then
