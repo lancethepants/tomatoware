@@ -307,8 +307,8 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	../binutils/configure \
 	--prefix=$PREFIX \
-	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
-	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
+	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
@@ -331,7 +331,7 @@ if [ ! -f .symlinked ]; then
 	for link in addr2line ar c++filt gprof ld ld.bfd ld.gold nm objcopy objdump ranlib readelf size strings strip
 	do
 		ln -sf $link $DEST/bin/$DESTARCH-linux-$link
-		ln -sf $link $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-$link
+		ln -sf $link $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-$link
 	done
 	touch .symlinked
 fi
@@ -341,7 +341,7 @@ fi
 ################## ##########################################################
 Status "compiling binutils-cross"
 
-if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+if [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 
 mkdir -p $SRC/binutils-cross && cd $SRC/binutils-cross
 
@@ -507,7 +507,14 @@ if [ "$DESTARCH" == "arm" ];then
 			--with-cpu=cortex-a9 \
 			--with-mode=arm \
 			--with-float=soft"
-	gcclangs="c,c++,go"
+
+	if [ "$DESTARCHLIBC" == "uclibc" ];then
+		gcclangs="c,c++,go"
+	fi
+
+	if [ "$DESTARCHLIBC" == "musl" ];then
+		gcclangs="c,c++"
+	fi
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then
@@ -522,8 +529,8 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	../gcc/configure \
 	--prefix=$PREFIX \
-	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
-	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI \
+	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -533,7 +540,7 @@ if [ ! -f .configured ]; then
 	--with-zstd-lib=$DEST/lib \
 	--with-zstd-include=$DEST/include \
 	--with-sysroot=$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/ \
 	--enable-languages=$gcclangs \
 	--enable-default-pie \
 	--enable-default-ssp \
@@ -574,7 +581,7 @@ if [ ! -f .symlinked ]; then
 	ln -sf gcc $DEST/bin/cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-gcc
-	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-cc
+	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-cc
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
@@ -587,7 +594,7 @@ fi
 ############# ###############################################################
 Status "compiling gcc-cross"
 
-if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+if [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 
 mkdir -p $SRC/gcc-cross && cd $SRC/gcc-cross
 
@@ -635,7 +642,7 @@ if [ ! -f .configured ]; then
 	--with-zstd-lib=$DEST/lib \
 	--with-zstd-include=$DEST/include \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
-	--with-build-sysroot=/opt/tomatoware/mipsel-soft${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
+	--with-build-sysroot=/opt/tomatoware/mipsel-uclibc${PREFIX////-}/mipsel-tomatoware-linux-uclibc/sysroot/ \
 	--enable-languages=c,c++,go \
 	--enable-default-pie \
 	--enable-default-ssp \
@@ -841,11 +848,17 @@ if [ ! -f .built-native ]; then
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	TARGETS_TO_BUILD="ARM;Mips"
+	if [ "$DESTARCHLIBC" == "uclibc" ];then
+		TARGETS_TO_BUILD="ARM;Mips"
+		TARGET_TRIPLE="armv7a-tomatoware-linux-gnueabi"
+	fi
+	if [ "$DESTARCHLIBC" == "musl" ];then
+		TARGETS_TO_BUILD="ARM"
+		TARGET_TRIPLE="armv7a-tomatoware-linux-musleabi"
+	fi
 	LLVM_TARGET_ARCH="ARM"
 	MFLOAT="-mfloat-abi=soft"
 	HOST_TRIPLE="armv7a-tomatoware-linux"
-	TARGET_TRIPLE="armv7a-tomatoware-linux-gnueabi"
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then
@@ -930,11 +943,16 @@ if [ ! -f .postinstalled ]; then
 
 	ln -sf llvm-ar $DEST/bin/clang-ar
 
-	if [ "$DESTARCH" == "arm" ]; then
-		ln -sf arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
+	if [ "$DESTARCH" == "arm" ]; then 
+		if [ "$DESTARCHLIBC" == "uclibc" ]; then
+			ln -sf arm-tomatoware-linux-uclibcgnueabi $DEST/lib/gcc/armv7a-tomatoware-linux-gnueabi
+		fi
+		if [ "$DESTARCHLIBC" == "musl" ]; then
+			ln -sf arm-tomatoware-linux-musleabi $DEST/lib/gcc/armv7a-tomatoware-linux-musleabi
+		fi
 	fi
 
-	if [ "$BUILDCROSSTOOLS" == "1" ] && [ "$DESTARCH" == "arm" ]; then
+	if [ "$BUILDCROSSTOOLS" == "1" ] && [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
 
 		ln -sf $PREFIX/bin/ld.lld $DEST/mipsel-tomatoware-linux-uclibc/bin/ld.lld
 
@@ -1027,7 +1045,7 @@ fi
 
 cd ccache
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ];then
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "musl" ];then
 	patch -p1 < $PATCHES/ccache/ccache-musl.patch
 	touch .patched
 fi
@@ -1074,14 +1092,14 @@ if [ ! -f .symlinked ]; then
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-cc
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-g++
 	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-linux-gcc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-c++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-cc
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-g++
-	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-gcc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-c++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-cc
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++
+	ln -sf ../ccache $DEST/bin/ccache_bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang
 	ln -sf ../ccache $DEST/bin/ccache_bin/clang++
 
-	if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+	if [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-c++
 		ln -sf ../ccache $DEST/bin/ccache_bin/mipsel-linux-cc
@@ -1472,12 +1490,12 @@ fi
 cd slibtool
 
 if [ ! -f .configured ]; then
-	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI
+	./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI
 	touch .configured
 fi
 
@@ -1821,7 +1839,7 @@ fi
 
 cd tar
 
-if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
+if [ ! -f .patched ] && [[ "$DESTARCH" == "mipsel" || "$DESTARCH" == "arm" ]]; then
 	patch -p1 < $PATCHES/tar/tar-1.33-remove-o_path-usage.patch
 	touch .patched
 fi
@@ -2073,7 +2091,7 @@ fi
 
 unset UPX_UCLDIR
 
-if [ "$DESTARCHLIBC" == "musl" ]; then
+if [ "$DESTARCH" == "aarch64" ]; then
 	cp $SRC/upx/upx.aarch64 $DEST/bin/upx
 fi
 

@@ -1555,7 +1555,7 @@ fi
 
 cd git
 
-if [ "$DESTARCH" == "aarch64" ];then
+if [ "$DESTARCHLIBC" == "musl" ];then
 	gitextraconfig="NO_REGEX=NeedsStartEnd"
 fi
 
@@ -1669,7 +1669,7 @@ cd Linux-PAM
 
 if [ ! -f .patched ]; then
 	find libpam -iname \*.h -exec sed -i 's,\/etc\/pam,'"$PREFIX"'\/etc\/pam,g' {} \;
-	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+	if [ "$DESTARCH" == "mipsel" ] || [ "$DESTARCH" == "arm" ]; then
 		patch -p1 < $PATCHES/pam/PR_SET_NO_NEW_PRIVS_OLD_KERNEL.PATCH
 	fi
 	touch .patched

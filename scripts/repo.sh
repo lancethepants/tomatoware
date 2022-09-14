@@ -183,7 +183,12 @@ if [ "$DESTARCH" == "mipsel" ]; then
 fi
 
 if [ "$DESTARCH" == "arm" ];then
-	os=arm-unknown-linux-gnueabi
+	if [ "$DESTARCHLIBC" == "uclibc" ];then
+		os=arm-unknown-linux-gnueabi
+	fi
+	if [ "$DESTARCHLIBC" == "musl" ];then
+		os=arm-unknown-linux-musleabi
+	fi
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then

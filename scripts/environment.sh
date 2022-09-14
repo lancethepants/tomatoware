@@ -13,7 +13,7 @@ if [ "$DESTARCHLIBC" == "uclibc" ]; then
 fi
 
 if [ "$DESTARCHLIBC" == "musl" ]; then
-	LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-musl-aarch64.so.1 -Wl,-rpath-link,$DEST/lib"
+	LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-musl-$DESTARCH.so.1 -Wl,-rpath-link,$DEST/lib"
 fi
 
 CPPFLAGS="-I$DEST/include"
@@ -26,7 +26,20 @@ NINJA="ninja"
 ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH
 export CCACHE_DIR=$HOME/.ccache
-export LT_SYS_LIBRARY_PATH="$PREFIX/lib $DEST/lib /opt/tomatoware/$DESTARCH-$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$GNUEABI/lib"
+
+if [ "$DESTARCH" = "arm" ]; then
+	if [ "$DESTARCHLIBC" = "uclibc" ]; then
+		EABI=gnueabi
+		if [ "$BUILDCROSSTOOLS" == "1" ]; then
+			MIPSEL=mipsel-tomatoware-linux-uclibc
+		fi
+	fi
+	if [ "$DESTARCHLIBC" = "musl" ]; then
+		EABI=eabi
+	fi
+fi
+
+export LT_SYS_LIBRARY_PATH="$PREFIX/lib $DEST/lib /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/lib"
 
 if [ "$DESTARCH" == "aarch64" ]; then
 	PERL_VERSION=5.32.1
@@ -39,13 +52,6 @@ GCC_VERSION=12.2.0
 NINJA_VERSION=1.11.1
 CMAKE_VERSION=3.24.1
 CCACHE_VERSION=4.6.3
-
-if [ "$DESTARCH" = "arm" ]; then
-	GNUEABI=gnueabi
-	if [ "$BUILDCROSSTOOLS" == "1" ]; then
-		MIPSEL=mipsel-tomatoware-linux-uclibc
-	fi
-fi
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then
 	GCCforClang="5.1.0"

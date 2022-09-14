@@ -1,6 +1,6 @@
-diff -Naur gcc-12.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-12.1.0/gcc/config/aarch64/aarch64-linux.h
---- gcc-12.1.0.orig/gcc/config/aarch64/aarch64-linux.h	2022-05-06 01:30:56.000000000 -0600
-+++ gcc-12.1.0/gcc/config/aarch64/aarch64-linux.h	2022-08-12 10:42:40.030925689 -0600
+diff -Naur gcc-12.2.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-12.2.0/gcc/config/aarch64/aarch64-linux.h
+--- gcc-12.2.0.orig/gcc/config/aarch64/aarch64-linux.h	2022-09-15 09:50:30.562982267 -0600
++++ gcc-12.2.0/gcc/config/aarch64/aarch64-linux.h	2022-09-15 09:51:26.194962992 -0600
 @@ -24,7 +24,7 @@
  #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
  
@@ -10,9 +10,21 @@ diff -Naur gcc-12.1.0.orig/gcc/config/aarch64/aarch64-linux.h gcc-12.1.0/gcc/con
  
  #undef  ASAN_CC1_SPEC
  #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
-diff -Naur gcc-12.1.0.orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
---- gcc-12.1.0.orig/gcc/config/linux.h	2022-05-06 01:30:57.000000000 -0600
-+++ gcc-12.1.0/gcc/config/linux.h	2022-08-12 10:41:10.435307329 -0600
+diff -Naur gcc-12.2.0.orig/gcc/config/arm/linux-eabi.h gcc-12.2.0/gcc/config/arm/linux-eabi.h
+--- gcc-12.2.0.orig/gcc/config/arm/linux-eabi.h	2022-09-15 09:50:30.566982266 -0600
++++ gcc-12.2.0/gcc/config/arm/linux-eabi.h	2022-09-15 09:58:17.134679951 -0600
+@@ -89,7 +89,7 @@
+ #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
+ #endif
+ #define MUSL_DYNAMIC_LINKER \
+-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
++  "/opt/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
+ 
+ /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+    use the GNU/Linux version, not the generic BPABI version.  */
+diff -Naur gcc-12.2.0.orig/gcc/config/linux.h gcc-12.2.0/gcc/config/linux.h
+--- gcc-12.2.0.orig/gcc/config/linux.h	2022-09-15 09:50:30.546982271 -0600
++++ gcc-12.2.0/gcc/config/linux.h	2022-09-15 09:51:26.238962971 -0600
 @@ -99,10 +99,10 @@
     GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
     GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
@@ -28,9 +40,9 @@ diff -Naur gcc-12.1.0.orig/gcc/config/linux.h gcc-12.1.0/gcc/config/linux.h
  #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
  #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
-diff -Naur gcc-12.1.0.orig/gcc/config/mips/linux.h gcc-12.1.0/gcc/config/mips/linux.h
---- gcc-12.1.0.orig/gcc/config/mips/linux.h	2022-05-06 01:30:57.000000000 -0600
-+++ gcc-12.1.0/gcc/config/mips/linux.h	2022-08-12 10:41:10.479307135 -0600
+diff -Naur gcc-12.2.0.orig/gcc/config/mips/linux.h gcc-12.2.0/gcc/config/mips/linux.h
+--- gcc-12.2.0.orig/gcc/config/mips/linux.h	2022-09-15 09:50:30.546982271 -0600
++++ gcc-12.2.0/gcc/config/mips/linux.h	2022-09-15 09:51:26.254962963 -0600
 @@ -30,12 +30,12 @@
  
  #undef UCLIBC_DYNAMIC_LINKER32

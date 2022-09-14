@@ -11,9 +11,9 @@ fi
 if [ ! -f $BASE/.configured ]; then
 
 	#Copy lib and include files from toolchain for use in the deployment system.
-	cp -rf /opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/sysroot/lib $DEST
-	cp -rf /opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/sysroot/usr $DEST
-	cp -rf /opt/tomatoware/$DESTARCH$FLOAT${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/sysroot/bin $DEST
+	cp -rf /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/lib $DEST
+	cp -rf /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/usr $DEST
+	cp -rf /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/bin $DEST
 	cp -rf $DEST/usr/include $DEST
 	rm -rf $DEST/usr/include
 	ln -sf ../include $DEST/usr/include
@@ -21,20 +21,20 @@ if [ ! -f $BASE/.configured ]; then
 	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]];then
 
 		#Add include paths for clang to find things
-		ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
-		ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/ $DEST/lib/gcc/c++2
+		ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
+		ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/include/c++/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/ $DEST/lib/gcc/c++2
 	fi
 
 	if [ "$DESTARCH" == "arm" ];then
 
-		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21.0.0
-		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21
-		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so
+		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21.0.0
+		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so.21
+		ln -sf ./gcc/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/libgo.so.21.0.0 $DEST/lib/libgo.so
 	fi
 
 	if [ "$DESTARCHLIBC" == "musl" ]; then
-		ln -sf /mmc/lib/libc.so $DEST/lib/ld-musl-aarch64.so.1
-		ln -sf /mmc/lib/ld-musl-aarch64.so.1 $DEST/bin/ldd
+		ln -sf /mmc/lib/libc.so $DEST/lib/ld-musl-$DESTARCH.so.1
+		ln -sf /mmc/lib/ld-musl-$DESTARCH.so.1 $DEST/bin/ldd
 	fi
 
 	#Remove build path directory $BASE from all libtool .la files.
@@ -42,7 +42,7 @@ if [ ! -f $BASE/.configured ]; then
 	find $DEST/lib -iname \*.la -exec sed -i 's,'"$BASE"',,g' {} \;
 
 	#Change the base library libtool (.la) files to reference their correct location in the target system.
-	find $DEST/lib -iname \*.la -exec sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"''"$FLOAT"''"${PREFIX////-}"'\/'"$DESTARCH"'-linux-'"$DESTARCHLIBC"','"$PREFIX"',g' {} \;
+	find $DEST/lib -iname \*.la -exec sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"''"$DESTARCHLIBC"''"${PREFIX////-}"'\/'"$DESTARCH"'-linux-'"$DESTARCHLIBC"','"$PREFIX"',g' {} \;
 
 	#Remove build path directory $BASE from all pkg-config .pc files.
 	#This makes sure the pkg-config .pc files show the correct paths to libraries for the deployment system.
@@ -57,7 +57,7 @@ if [ ! -f $BASE/.configured ]; then
 	grep -Irl "\#\! \/bin\/bash" $DEST | xargs sed -i -e '1,1s,\#\! \/bin\/bash,\#\! '"$PREFIX"'\/bin\/bash,g'
 
 	#Set corect M4 path in autom4te & autoupdate
-	sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"''"$FLOAT"''"${PREFIX////-}"'\/usr\/bin\/\/m4,'"$PREFIX"'\/bin\/m4,g' $DEST/bin/autom4te $DEST/bin/autoupdate
+	sed -i 's,\/opt\/tomatoware\/'"$DESTARCH"''"$DESTARCHLIBC"''"${PREFIX////-}"'\/usr\/bin\/\/m4,'"$PREFIX"'\/bin\/m4,g' $DEST/bin/autom4te $DEST/bin/autoupdate
 
 	#Copy and set correct interpreter path for the .autorun file
 	cp $SRC/.autorun $DEST
@@ -86,9 +86,9 @@ fi
 
 #Create tarball of the compiled project.
 
-Status "Creating $DESTARCH$FLOAT${PREFIX////-}.tgz"
+Status "Creating $DESTARCH-$DESTARCHLIBC${PREFIX////-}.tgz"
 
 cd $BASE$PREFIX
-rm -f $BASE/$DESTARCH$FLOAT${PREFIX////-}.tgz
-fakeroot-tcp tar zvcf $BASE/$DESTARCH$FLOAT${PREFIX////-}.tgz $DESTARCH-tomatoware-linux-$DESTARCHLIBC$GNUEABI $MIPSEL bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
+rm -f $BASE/$DESTARCH-$DESTARCHLIBC${PREFIX////-}.tgz
+fakeroot-tcp tar zvcf $BASE/$DESTARCH-$DESTARCHLIBC${PREFIX////-}.tgz $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI $MIPSEL bin/ docs/ etc/ include/ lib/ libexec/ man/ sbin/ share/ ssl/ tmp/ usr/ var/ .autorun .vimrc
 touch $BASE/.packaged
