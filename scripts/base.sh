@@ -2057,10 +2057,12 @@ fi
 cd unzip
 
 if [ ! -f .patched ]; then
-	for file in $SRC/unzip/debian/patches/*.patch
-	do
-		patch -p1 < "$file"
-	done
+	if [[ ! ("$DESTARCH" == "arm" && "$DESTARCHLIBC" == "musl") ]]; then
+		for file in $SRC/unzip/debian/patches/*.patch
+		do
+			patch -p1 < "$file"
+		done
+	fi
 	patch -p1 < $PATCHES/unzip/0001-Add-a-CMakeFile.txt-to-ease-cross-compilation.patch
 	touch .patched
 fi
