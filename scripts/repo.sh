@@ -620,7 +620,7 @@ if [ ! -f .repo ]; then
 
 	if [ "$DESTARCH" == "arm" ];then
 		sed -i 's,main,main '"$DESTARCHLIBC"',g' \
-		$DEST/etc/apt/sources.list.d
+		$DEST/etc/apt/sources.list.d/tomatoware.list
 	fi
 	touch .repo
 fi

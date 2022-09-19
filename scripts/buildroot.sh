@@ -585,7 +585,10 @@ if [ ! -f .symlinked ]; then
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
-	ln -sf gccgo $DEST/bin/$DESTARCH-linux-gccgo
+
+	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+		ln -sf gccgo $DEST/bin/$DESTARCH-linux-gccgo
+	fi
 	touch .symlinked
 fi
 
