@@ -617,6 +617,11 @@ if [ ! -f .repo ]; then
 	mkdir -p $DEST/share/keyrings
 	cat $SRC/apt/apt_pub.gpg | gpg --dearmor > $DEST/share/keyrings/tomatoware-archive-keyring.gpg
 	cp $SRC/apt/tomatoware.list $DEST/etc/apt/sources.list.d
+
+	if [ "$DESTARCH" == "arm" ];then
+		sed -i 's,main,main '"$DESTARCHLIBC"',g' \
+		$DEST/etc/apt/sources.list.d
+	fi
 	touch .repo
 fi
 
