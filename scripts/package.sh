@@ -68,7 +68,12 @@ if [ ! -f $BASE/.configured ]; then
 	sed -i 's,\/mmc,'"$PREFIX"',g' $DEST/etc/profile
 
 	if [ "$DESTARCH" == "arm" ];then
-		echo "export CARGO_BUILD_TARGET=\"armv7-unknown-linux-uclibceabi\"" >> $DEST/etc/profile
+		if [ "$DESTARCHLIBC" == "uclibc" ];then
+			echo "export CARGO_BUILD_TARGET=\"armv7-unknown-linux-uclibceabi\"" >> $DEST/etc/profile
+		fi
+		if [ "$DESTARCHLIBC" == "musl" ];then
+			echo "export CARGO_BUILD_TARGET=\"armv7-unknown-linux-musleabi\"" >> $DEST/etc/profile
+		fi
 	fi
 
 	if [ "$DESTARCH" == "aarch64" ];then
