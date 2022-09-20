@@ -402,7 +402,7 @@ Status "compiling mold"
 
 MOLD_VERSION=1.4.2
 
-if [ "$DESTARCH" == "aarch64" ];then
+if [ "$DESTARCHLIBC" == "musl" ];then
 
 cd $SRC/mold
 
@@ -419,6 +419,12 @@ cd mold/build
 if [ ! -f .patched ]; then
 	patch -d $SRC/mold/mold -p1 < $PATCHES/mold/ld_preload.patch
 	touch .patched
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	EXTRACONFIG="
+	-DMI_LIBPTHREAD=/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/lib/libpthread.a
+	-DMI_LIBRT=/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/lib/librt.a"
 fi
 
 if [ ! -f .configured ]; then
@@ -439,6 +445,7 @@ if [ ! -f .configured ]; then
 	-DMOLD_USE_MOLD=ON \
 	-DTBBMALLOC_BUILD=ON \
 	-DTBB_BUILD=ON \
+	$EXTRACONFIG \
 	..
 	touch .configured
 fi
