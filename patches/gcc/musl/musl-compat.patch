@@ -1,0 +1,13 @@
+diff -Naur gcc-12.2.0.orig/libgo/sysinfo.c gcc-12.2.0/libgo/sysinfo.c
+--- gcc-12.2.0.orig/libgo/sysinfo.c	2022-09-21 08:28:55.714263440 -0600
++++ gcc-12.2.0/libgo/sysinfo.c	2022-09-21 08:44:32.140770963 -0600
+@@ -149,9 +149,6 @@
+ #if defined(HAVE_SYS_TIMEX_H)
+ #include <sys/timex.h>
+ #endif
+-#if defined(HAVE_SYS_SYSINFO_H)
+-#include <sys/sysinfo.h>
+-#endif
+ #if defined(HAVE_UTIME_H)
+ #include <utime.h>
+ #endif
