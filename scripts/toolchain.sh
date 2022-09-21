@@ -83,7 +83,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
 
-	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+	if [[ ! ("$DESTARCH" == "arm" && "$DESTARCHLIBC" == "musl") ]]; then
 		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/golang.patch
 	fi
 
@@ -110,6 +110,22 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
 	fi
 
+	if [ "$DESTARCH" == "aarch64" ];then
+
+		cp $BASE/patches/gcc/musl/musl-compat.patch \
+		   $BASE/patches/gcc/musl/0030-gcc-go-Fix-handling-of-signal-34-on-musl.patch \
+		   $BASE/patches/gcc/musl/0032-gcc-go-undef-SETCONTEXT_CLOBBERS_TLS-in-proc.c.patch \
+		   $BASE/patches/gcc/musl/0034-Use-generic-errstr.go-implementation-on-musl.patch \
+		   $BASE/patches/gcc/musl/0037-libgo-Recognize-off64_t-and-loff_t-definitions-of-mu.patch \
+		   $BASE/patches/gcc/musl/0039-gcc-go-Use-int64-type-as-offset-argument-for-mmap.patch \
+		   $BASE/patches/gcc/musl/0041-go-gospec-forcibly-disable-fsplit-stack-support.patch \
+		   $BASE/patches/gcc/musl/0042-gcc-go-fix-build-error-with-SYS_SECCOMP.patch \
+		   $BASE/patches/gcc/musl/0049-libgo-adjust-name-of-union-in-sigevent-struct.patch \
+		   $BASE/patches/gcc/musl/0051-libgo-Explicitly-define-SYS_timer_settime-for-32-bit.patch \
+		   $BASE/patches/gcc/musl/0053-libgo-make-match.sh-POSIX-shell-compatible.patch \
+		   $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
+#		   $BASE/patches/gcc/musl/0033-gcc-go-link-to-libucontext.patch \
+	fi
 	mkdir -p $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch \
 	   $BASE/patches/gcc/0005-arm-static-pie.patch \
@@ -132,7 +148,38 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$EABI/sysroot/bin
 	fi
 
-	if [ "$DESTARCHLIBC" == "musl" ]; then
+	if [ "$DESTARCH" == "aarch64" ]; then
 		echo "$MUSLVER" > $TOOLCHAINDIR/version
+
+		LIBUCONTEXT_VERSION=1.2
+
+		cd $SRC/libucontext
+
+		if [ ! -f .extracted ]; then
+			rm -rf libucontext libucontext-${LIBUCONTEXT_VERSION}
+			tar xvJf libucontext-${LIBUCONTEXT_VERSION}.tar.xz
+			mv libucontext-${LIBUCONTEXT_VERSION} libucontext
+			touch .extracted
+		fi
+
+		cd libucontext
+
+		if [ ! -f .built ]; then
+			$MAKE1 \
+			ARCH=$DESTARCH \
+			CC=`which $DESTARCH-linux-gcc` \
+			AR=`which $DESTARCH-linux-ar`
+			touch .built
+		fi
+
+		if [ ! -f .installed ]; then
+			$MAKE1 \
+			ARCH=$DESTARCH \
+			CC=`which $DESTARCH-linux-gcc` \
+			AR=`which $DESTARCH-linux-ar` \
+			DESTDIR=/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot \
+			install
+			touch .installed
+		fi
 	fi
 fi

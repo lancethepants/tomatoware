@@ -495,6 +495,13 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/gcc/0005-arm-static-pie.patch
 	patch -p1 < $PATCHES/gcc/0006-mips-static-pie.patch
 	patch -p1 < gcc-12.1.0-specs-1.patch
+
+	if [ "$DESTARCH" == "aarch64" ];then
+		for file in $PATCHES/gcc/musl/*.patch
+		do
+			patch -p1 < "$file"
+		done
+	fi
 	touch .patched
 fi
 
@@ -528,7 +535,7 @@ if [ "$DESTARCH" == "aarch64" ];then
 	gccextraconfig="--enable-libgomp
 			--with-abi=lp64
 			--with-cpu=cortex-a53"
-	gcclangs="c,c++"
+	gcclangs="c,c++,go"
 fi
 
 if [ ! -f .configured ]; then
