@@ -148,8 +148,11 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		cp $BASE/toolchain/buildroot-${BUILDROOTVER}/output/target/usr/bin/* /opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-uclibc$EABI/sysroot/bin
 	fi
 
-	if [ "$DESTARCH" == "aarch64" ]; then
+	if [ "$DESTARCHLIBC" == "musl" ]; then
 		echo "$MUSLVER" > $TOOLCHAINDIR/version
+	fi
+
+	if [ "$DESTARCH" == "aarch64" ]; then
 
 		LIBUCONTEXT_VERSION=1.2
 
