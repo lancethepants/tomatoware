@@ -114,6 +114,30 @@ if [ ! -f .built-native ]; then
 fi
 
 ############ ################################################################
+# AUTOCONF # ################################################################
+############ ################################################################
+Status "compiling host-autoconf"
+
+cd $SRC/autoconf
+
+if [ ! -f .extracted-native ]; then
+	rm -rf autoconf-native autoconf-${AUTOCONF_VERSION}
+	tar xvJf autoconf-${AUTOCONF_VERSION}.tar.xz
+	mv autoconf-${AUTOCONF_VERSION} autoconf-native
+	touch .extracted-native
+fi
+
+cd autoconf-native
+
+if [ ! -f .built-native ]; then
+	./configure \
+	--prefix=$BASE/native
+	$MAKE
+	$MAKE1 install
+	touch .built-native
+fi
+
+############ ################################################################
 # HOST GCC # ################################################################
 ############ ################################################################
 Status "compiling host-gcc"

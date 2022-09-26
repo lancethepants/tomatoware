@@ -1137,8 +1137,6 @@ fi
 ############ ################################################################
 Status "compiling autoconf"
 
-AUTOCONF_VERSION=2.71
-
 cd $SRC/autoconf
 
 if [ ! -f .extracted ]; then
