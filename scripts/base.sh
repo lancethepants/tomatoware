@@ -444,7 +444,7 @@ fi
 ######### ###################################################################
 Status "compiling expat"
 
-EXPAT_VERSION=2.4.8
+EXPAT_VERSION=2.4.9
 
 cd $SRC/expat
 
