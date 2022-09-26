@@ -545,7 +545,7 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/libffi/0001-Fix-installation-location-of-libffi.patch
 	patch -p1 < $PATCHES/libffi/0002-Fix-use-of-compact-eh-frames-on-MIPS.patch
 	patch -p1 < $PATCHES/libffi/0003-libffi-enable-hardfloat-in-the-MIPS-assembly-code.patch
-	autoreconf
+	autoreconf -fsi
 	touch .patched
 fi
 
@@ -1327,7 +1327,7 @@ if [ ! -f .patched ]; then
 	do
 		patch -p1 < "$file"
 	done
-	autoreconf
+	autoreconf -fsi
 	cp -r ../Python ../Python-native
 	touch .patched
 fi
@@ -1430,7 +1430,7 @@ if [ ! -f .patched ]; then
 	do
 		patch -p1 < "$file"
 	done
-	autoreconf
+	autoreconf -fsi
 	cp -r ../Python ../Python-native
 	touch .patched
 fi
@@ -1811,7 +1811,7 @@ if [ ! -f .patched ]; then
 	do
 		patch -p1 < "$file"
 	done
-	autoreconf
+	autoreconf -fsi
 	touch .patched
 fi
 

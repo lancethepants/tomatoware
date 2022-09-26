@@ -1624,7 +1624,7 @@ fi
 cd file-host
 
 if [ ! -f .built-host ]; then
-	autoreconf -f -i
+	autoreconf -fsi
 	./configure \
 	--prefix=$SRC/file/file-host
 	$MAKE
@@ -1635,7 +1635,7 @@ fi
 cd ../file
 
 if [ ! -f .configured ]; then
-	autoreconf -f -i
+	autoreconf -fsi
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
