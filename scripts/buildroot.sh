@@ -819,7 +819,7 @@ fi
 ######## ####################################################################
 Status "compiling llvm"
 
-LLVM_VERSION=15.0.0
+LLVM_VERSION=15.0.1
 
 if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]]; then
 
