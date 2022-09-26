@@ -608,6 +608,7 @@ fi
 cd ../ncurses
 
 if [ ! -f .configured ]; then
+	PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig \
 	PATH=$SRC/ncurses/ncurses-native/install/bin:$PATH \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -621,7 +622,9 @@ if [ ! -f .configured ]; then
 	--with-normal \
 	--with-shared \
 	--with-fallbacks=xterm,xterm-256color \
-	--disable-stripping
+	--disable-stripping \
+	--enable-pc-files \
+	--with-pkg-config-libdir=$PREFIX/lib/pkgconfig
 	touch .configured
 fi
 
@@ -638,34 +641,24 @@ if [ ! -f .installed ]; then
 fi
 
 if [ ! -f .linked ]; then
-	ln -sf libncursesw.a $DEST/lib/libncurses.a
-	ln -sf libncursesw.so $DEST/lib/libncurses.so
-	ln -sf libncursesw.so.$M $DEST/lib/libncurses.so.$M
-	ln -sf libncursesw.so.$M.$m $DEST/lib/libncurses.so.$M.$m
+
+	for link in ncurses panel menu form
+	do
+		ln -sf lib${link}w.a $DEST/lib/lib${link}.a
+		ln -sf lib${link}w.so $DEST/lib/lib${link}.so
+		ln -sf lib${link}w.so.$M $DEST/lib/lib${link}.so.$M
+		ln -sf lib${link}w.so.$M.$m $DEST/lib/lib${link}.so.$M.$m
+		ln -sf lib${link}w_g.a $DEST/lib/lib${link}_g.a
+		ln -sf ${link}w.pc $DEST/lib/pkgconfig/${link}.pc
+	done
+
 	ln -sf libncurses++w.a $DEST/lib/libncurses++.a
-	ln -sf libncursesw_g.a $DEST/lib/libncurses_g.a
+	ln -sf libncurses++w_g.a $DEST/lib/libncurses++_g.a
 	ln -sf libncursesw.a $DEST/lib/libcurses.a
 	ln -sf libncursesw.so $DEST/lib/libcurses.so
 	ln -sf libcurses.so $DEST/lib/libtinfo.so
 	ln -sf libcurses.a $DEST/lib/libtinfo.a
-
-	ln -sf libpanelw.a $DEST/lib/libpanel.a
-	ln -sf libpanelw.so $DEST/lib/libpanel.so
-	ln -sf libpanelw.so.$M $DEST/lib/libpanel.so.$M
-	ln -sf libpanelw.so.$M.$m $DEST/lib/libpanel.so.$M.$m
-	ln -sf libpanelw_g.a $DEST/lib/libpanel_g.a
-
-	ln -sf libmenuw.a $DEST/lib/libmenu.a
-	ln -sf libmenuw.so $DEST/lib/libmenu.so
-	ln -sf libmenuw.so.$M $DEST/lib/libmenu.so.$M
-	ln -sf libmenuw.so.$M.$m $DEST/lib/libmenu.so.$M.$m
-	ln -sf libmenuw_g.a $DEST/lib/libmenu_g.a
-
-	ln -sf libformw.a $DEST/lib/libform.a
-	ln -sf libformw.so $DEST/lib/libform.so
-	ln -sf libformw.so.$M $DEST/lib/libform.so.$M
-	ln -sf libformw.so.$M.$m $DEST/lib/libform.so.$M.$m
-	ln -sf libformw_g.a $DEST/lib/libform_g.a
+	ln -sf ncurses++w.pc $DEST/lib/pkgconfig/ncurses++.pc
 
 	touch .linked
 fi
