@@ -400,7 +400,7 @@ fi
 ######## ####################################################################
 Status "compiling mold"
 
-MOLD_VERSION=1.4.2
+MOLD_VERSION=1.5.0
 
 if [ "$DESTARCHLIBC" == "musl" ];then
 
@@ -442,7 +442,6 @@ if [ ! -f .configured ]; then
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DMOLD_USE_MIMALLOC=ON \
-	-DMOLD_USE_MOLD=ON \
 	-DTBBMALLOC_BUILD=ON \
 	-DTBB_BUILD=ON \
 	$EXTRACONFIG \
