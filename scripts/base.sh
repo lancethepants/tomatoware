@@ -1833,7 +1833,7 @@ fi
 ######## ####################################################################
 Status "compiling bash"
 
-BASH_VERSION=5.1.16
+BASH_VERSION=5.2
 
 cd $SRC/bash
 
@@ -1847,7 +1847,6 @@ fi
 cd bash
 
 if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
-	patch < $PATCHES/bash/001-compile-fix.patch
 	patch < $PATCHES/bash/002-force-internal-readline.patch
 	patch -p1 < $PATCHES/bash/bash-random.patch
 	touch .patched
