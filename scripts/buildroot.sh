@@ -400,7 +400,7 @@ fi
 ######## ####################################################################
 Status "compiling mold"
 
-MOLD_VERSION=1.5.0
+MOLD_VERSION=1.5.1
 
 if [ "$DESTARCHLIBC" == "musl" ];then
 
