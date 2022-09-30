@@ -668,7 +668,7 @@ fi
 ############### #############################################################
 Status "compiling libreadline"
 
-LIBREADLINE_VERSION=8.1.2
+LIBREADLINE_VERSION=8.2
 
 cd $SRC/libreadline
 
@@ -682,7 +682,7 @@ fi
 cd readline
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/readline/001-ncurses.patch
+	patch -p1 < $PATCHES/readline/0001-curses-link.patch
 	patch -p1 < $PATCHES/readline/002-no-rpath.patch
 	touch .patched
 fi
