@@ -544,7 +544,7 @@ fi
 ####### #####################################################################
 Status "compiling apt"
 
-APT_VERSION=2.5.2
+APT_VERSION=2.5.3
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -565,10 +565,6 @@ if [ ! -f .patched ]; then
 	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
 	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
 	patch -p1 < $PATCHES/apt/apt-sandbox-as-nobody.patch
-	patch -p1 -R < $PATCHES/apt/reverse-701a501f.patch
-	if [ "$DESTARCHLIBC" == "musl" ]; then
-		patch -p1 < $PATCHES/apt/fix-musl.patch
-	fi
 	touch .patched
 fi
 
