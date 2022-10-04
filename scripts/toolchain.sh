@@ -83,7 +83,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	mkdir $BASE/toolchain
 	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
 
-	if [[ ! ("$DESTARCH" == "arm" && "$DESTARCHLIBC" == "musl") ]]; then
+	if [[ ! ("$DESTARCH" == "arm" && "$DESTARCHLIBC" == "musl") ]] && [ "$DESTARCH" != "x86_64" ]; then
 		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/golang.patch
 	fi
 
@@ -152,7 +152,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 		echo "$MUSLVER" > $TOOLCHAINDIR/version
 	fi
 
-	if [ "$DESTARCH" == "aarch64" ]; then
+	if [[ "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
 
 		LIBUCONTEXT_VERSION=1.2
 

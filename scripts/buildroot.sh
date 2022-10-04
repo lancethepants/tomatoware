@@ -53,9 +53,13 @@ if [ ! -f .patched ]; then
 		patch < $PATCHES/glib2.mipsel/010-move-iconv-to-libs.patch
 	fi
 
-	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]];then
+	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]];then
 		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
 		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
+	fi
+
+	if [ "$DESTARCH" == "x86_64" ];then
+		patch -p1 < $PATCHES/glib2/frexpl.patch
 	fi
 
 	touch .patched
@@ -87,6 +91,7 @@ if [ ! -f .configured ]; then
 		-Dselinux='disabled' \
 		-Dlibmount='disabled' \
 		-Dman='false' \
+		-Dtests='false' \
 		-Dc_std=gnu11 \
 		-Dc_args="-Wno-error=missing-include-dirs $CPPFLAGS $CFLAGS" \
 		-Dcpp_args="-Wno-error=missing-include-dirs $CPPFLAGS $CXXFLAGS" \
@@ -101,7 +106,7 @@ if [ "$DESTARCH" == "mipsel" ] && [ ! -f .built ]; then
 	touch .built
 fi
 
-if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]] && [ ! -f .built ]; then
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]] && [ ! -f .built ]; then
 	$SRC/meson/meson/meson.py \
 	compile \
 	-C build
@@ -113,7 +118,7 @@ if [ "$DESTARCH" == "mipsel" ] && [ ! -f .installed ]; then
 	touch .installed
 fi
 
-if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]] && [ ! -f .installed ]; then
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]] && [ ! -f .installed ]; then
 	DESTDIR=$BASE \
 	$SRC/meson/meson/meson.py \
 	install \
@@ -402,7 +407,7 @@ Status "compiling mold"
 
 MOLD_VERSION=1.5.1
 
-if [ "$DESTARCHLIBC" == "musl" ];then
+if [ "$DESTARCHLIBC" == "musl" ] && [ "$DESTARCH" != "x86_64" ];then
 
 cd $SRC/mold
 
@@ -535,6 +540,16 @@ if [ "$DESTARCH" == "aarch64" ];then
 			--with-abi=lp64
 			--with-cpu=cortex-a53"
 	gcclangs="c,c++,go"
+fi
+
+if [ "$DESTARCH" == "x86_64" ];then
+	gccextraconfig="--enable-libgomp
+			--with-abi=m64
+			--enable-libquadmath
+			--enable-libquadmath-support
+			--enable-lto
+			--with-arch=x86-64-v2"
+	gcclangs="c,c++"
 fi
 
 if [ ! -f .configured ]; then
@@ -820,7 +835,7 @@ Status "compiling llvm"
 
 LLVM_VERSION=15.0.1
 
-if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]]; then
+if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
 
 cd $SRC/llvm
 
@@ -882,6 +897,13 @@ if [ "$DESTARCH" == "aarch64" ];then
 	LLVM_TARGET_ARCH="AArch64"
 	HOST_TRIPLE="aarch64-tomatoware-linux"
 	TARGET_TRIPLE="aarch64-tomatoware-linux-musl"
+fi
+
+if [ "$DESTARCH" == "x86_64" ];then
+	TARGETS_TO_BUILD="X86"
+	LLVM_TARGET_ARCH="X86"
+	HOST_TRIPLE="x86_64-tomatoware-linux"
+	TARGET_TRIPLE="x86_64-tomatoware-linux-musl"
 fi
 
 C_INCLUDE_DIRS=\
@@ -1041,6 +1063,16 @@ if [ ! -f .built ]; then
 
 		tar xvjf $SRC/golang/go-linux-arm64-bootstrap.tbz -C $DEST/bin
 		mv $DEST/bin/go-linux-arm64-bootstrap $DEST/bin/go-bin
+	fi
+
+	if [ "$DESTARCH" == "x86_64" ]; then
+		PATH=$SRC/golang/go-native/bin:$PATH \
+		GOOS=linux \
+		GOARCH=amd64 \
+		./bootstrap.bash
+
+		tar xvjf $SRC/golang/go-linux-amd64-bootstrap.tbz -C $DEST/bin
+		mv $DEST/bin/go-linux-amd64-bootstrap $DEST/bin/go-bin
 	fi
 	touch .built
 fi
@@ -2105,14 +2137,16 @@ fi
 
 unset UPX_UCLDIR
 
-if [ "$DESTARCH" == "aarch64" ]; then
-	cp $SRC/upx/upx.aarch64 $DEST/bin/upx
+if [[ "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
+	cp $SRC/upx/upx.$DESTARCH $DEST/bin/upx
 fi
 
 ####### #####################################################################
 # GDB # #####################################################################
 ####### #####################################################################
 Status "compiling gdb"
+
+if [ "$DESTARCH" != "x86_64" ]; then
 
 GDB_VERSION=12.1
 
@@ -2180,6 +2214,8 @@ fi
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
+fi
+
 fi
 
 ######## ####################################################################

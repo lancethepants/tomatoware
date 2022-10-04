@@ -195,6 +195,10 @@ if [ "$DESTARCH" == "aarch64" ];then
 	os=aarch64-unknown-linux-musl
 fi
 
+if [ "$DESTARCH" == "x86_64" ];then
+	os=x86_64-unknown-linux-musl
+fi
+
 if [ ! -f .configured ]; then
 	CC=$DESTARCH-linux-gcc \
 	CXX=$DESTARCH-linux-g++ \
@@ -209,7 +213,8 @@ if [ ! -f .configured ]; then
 	./configure --prefix=$PREFIX --host=$os \
 	--enable-static \
 	--disable-rpath \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
+	cross_compiling=yes
 	touch .configured
 fi
 
@@ -256,7 +261,8 @@ if [ ! -f .configured ]; then
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
+	cross_compiling=yes
 	touch .configured
 fi
 
@@ -303,7 +309,8 @@ if [ ! -f .configured ]; then
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
+	cross_compiling=yes
 	touch .configured
 fi
 
@@ -350,7 +357,8 @@ if [ ! -f .configured ]; then
 	./configure --prefix=$PREFIX --host=$os \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
+	cross_compiling=yes
 	touch .configured
 fi
 
@@ -395,7 +403,8 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
-	--enable-static
+	--enable-static \
+	cross_compiling=yes
 	touch .configured
 fi
 
@@ -447,7 +456,8 @@ if [ ! -f .configured ]; then
 	--with-libassuan-prefix=$DEST \
 	--with-ksba-prefix=$DEST \
 	--with-npth-prefix=$DEST \
-	--disable-ldap
+	--disable-ldap \
+	cross_compiling=yes
 	touch .configured
 fi
 
