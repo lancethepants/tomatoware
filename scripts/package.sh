@@ -18,7 +18,7 @@ if [ ! -f $BASE/.configured ]; then
 	rm -rf $DEST/usr/include
 	ln -sf ../include $DEST/usr/include
 
-	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" ]];then
+	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]];then
 
 		# Add include paths for clang to find things
 		ln -sf ./$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/$GCC_VERSION/include/c++/ $DEST/lib/gcc/c++
@@ -81,6 +81,10 @@ if [ ! -f $BASE/.configured ]; then
 	if [ "$DESTARCH" == "aarch64" ];then
 		echo "export CARGO_BUILD_TARGET=\"aarch64-unknown-linux-musl\"" >> $DEST/etc/profile
 		echo "unset ldd" >> $DEST/etc/profile
+	fi
+
+	if [ "$DESTARCH" == "x86_64" ];then
+		echo "export CARGO_BUILD_TARGET=\"x86_64-unknown-linux-musl\"" >> $DEST/etc/profile
 	fi
 
 	# Create tmp directory

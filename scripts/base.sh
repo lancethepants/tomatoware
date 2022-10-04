@@ -316,6 +316,10 @@ if [ "$DESTARCH" == "aarch64" ];then
 	os="linux-aarch64"
 fi
 
+if [ "$DESTARCH" == "x86_64" ];then
+	os="linux-x86_64"
+fi
+
 if [ ! -f .configured ]; then
 	./Configure $os \
 	$LDFLAGS \
@@ -852,10 +856,15 @@ fi
 
 cd  db/build_unix
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
-	cp $PATCHES/gnuconfig/config.guess \
-	   $PATCHES/gnuconfig/config.sub \
-	   $SRC/bdb/db/dist
+if [ ! -f .patched ]; then
+	if [ "$DESTARCH" == "aarch64" ]; then
+		cp $PATCHES/gnuconfig/config.guess \
+		   $PATCHES/gnuconfig/config.sub \
+		   $SRC/bdb/db/dist
+	fi
+	if [ "$DESTARCH" == "x86_64" ]; then
+		patch -d $SRC/bdb/db -p1 < $PATCHES/bdb/0002-atomic_compare_exchange.patch
+	fi
 	touch .patched
 fi
 

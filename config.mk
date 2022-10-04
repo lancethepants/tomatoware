@@ -4,6 +4,7 @@
 export DESTARCH ?= aarch64
 #export DESTARCH ?= arm
 #export DESTARCH ?= mipsel
+#export DESTARCH ?= x86_64
 
 # Arm Target Libc
 # Only Supported for Arm
@@ -16,7 +17,7 @@ export PREFIX ?= /mmc
 #export PREFIX ?= /mnt
 
 # Build llvm/clang Compiler
-# Only Supported For Arm and Aarch64
+# Only Supported For Arm, Aarch64, and x86_64
 export BUILDLLVM ?= 1
 
 # Build Mipsel Cross-Toolchain
@@ -45,3 +46,8 @@ export EXTRACFLAGS = -mcpu=cortex-a53
 export PATH := $(PATH):/opt/tomatoware/aarch64-$(DESTARCHLIBC)$(subst /,-,$(PREFIX))/bin/
 endif
 
+ifeq ($(DESTARCH), x86_64)
+export DESTARCHLIBC = musl
+export EXTRACFLAGS =
+export PATH := $(PATH):/opt/tomatoware/x86_64-$(DESTARCHLIBC)$(subst /,-,$(PREFIX))/bin/
+endif

@@ -1,0 +1,20 @@
+[host_machine]
+system = 'linux'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
+
+[binaries]
+c = 'x86_64-linux-gcc'
+cpp = 'x86_64-linux-g++'
+ar = 'x86_64-linux-ar'
+strip = 'x86_64-linux-strip'
+pkgconfig = '/usr/bin/pkg-config'
+
+[properties]
+have_c99_vsnprintf=true
+have_c99_snprintf=true
+have_unix98_printf=true
+
+[built-in options]
+wrap_mode = 'nodownload'

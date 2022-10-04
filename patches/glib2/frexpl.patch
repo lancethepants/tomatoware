@@ -1,0 +1,22 @@
+diff -Naur glib-2.74.0.orig/glib/gnulib/meson.build glib-2.74.0/glib/gnulib/meson.build
+--- glib-2.74.0.orig/glib/gnulib/meson.build	2022-10-11 12:55:09.622830923 -0600
++++ glib-2.74.0/glib/gnulib/meson.build	2022-10-11 13:51:16.144645102 -0600
+@@ -302,12 +302,12 @@
+   gl_cv_func_frexpl_broken_beyond_repair = true
+ endif
+ 
+-if not gl_cv_func_frexp_works and gl_cv_func_frexp_broken_beyond_repair
+-  error ('frexp() is missing or broken beyond repair, and we have nothing to replace it with')
+-endif
+-if not gl_cv_func_frexpl_works and gl_cv_func_frexpl_broken_beyond_repair
+-  error ('frexpl() is missing or broken beyond repair, and we have nothing to replace it with')
+-endif
++#if not gl_cv_func_frexp_works and gl_cv_func_frexp_broken_beyond_repair
++#  error ('frexp() is missing or broken beyond repair, and we have nothing to replace it with')
++#endif
++#if not gl_cv_func_frexpl_works and gl_cv_func_frexpl_broken_beyond_repair
++#  error ('frexpl() is missing or broken beyond repair, and we have nothing to replace it with')
++#endif
+ 
+ math_h_config.set ('REPLACE_FREXP', gl_cv_func_frexp_works ? 0 : 1)
+ math_h_config.set ('REPLACE_FREXPL', gl_cv_func_frexpl_works ? 0 : 1)
