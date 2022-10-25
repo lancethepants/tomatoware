@@ -329,7 +329,7 @@ fi
 ########### #################################################################
 Status "compiling libksba"
 
-LIBKSBA_VERSION=1.6.1
+LIBKSBA_VERSION=1.6.2
 
 cd $SRC/libksba
 
