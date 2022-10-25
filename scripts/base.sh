@@ -1414,7 +1414,7 @@ fi
 ########### #################################################################
 Status "compiling python3"
 
-PYTHON3_VERSION=3.10.7
+PYTHON3_VERSION=3.10.8
 
 cd $SRC/python3
 
