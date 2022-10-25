@@ -1709,7 +1709,7 @@ fi
 ########### #################################################################
 Status "compiling openssh"
 
-OPENSSH_VERSION=9.0p1
+OPENSSH_VERSION=9.1p1
 
 cd $SRC/openssh
 
