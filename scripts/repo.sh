@@ -165,7 +165,7 @@ fi
 ################ ############################################################
 Status "compiling libgpg-error"
 
-LIBGPG_ERROR_VERSION=1.45
+LIBGPG_ERROR_VERSION=1.46
 
 cd $SRC/libgpg-error
 
