@@ -405,7 +405,7 @@ fi
 ######## ####################################################################
 Status "compiling mold"
 
-MOLD_VERSION=1.5.1
+MOLD_VERSION=1.6.0
 
 if [ "$DESTARCHLIBC" == "musl" ] && [ "$DESTARCH" != "x86_64" ];then
 
