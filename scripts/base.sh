@@ -45,7 +45,7 @@ fi
 ######## ####################################################################
 Status "compiling zlib"
 
-ZLIB_VERSION=1.2.12
+ZLIB_VERSION=1.2.13
 
 cd $SRC/zlib
 
