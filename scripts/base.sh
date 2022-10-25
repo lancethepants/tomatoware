@@ -2198,7 +2198,7 @@ fi
 ########### #################################################################
 Status "compiling libedit"
 
-LIBEDIT_VERSION=20210910-3.1
+LIBEDIT_VERSION=20221009-3.1
 
 cd $SRC/libedit
 
