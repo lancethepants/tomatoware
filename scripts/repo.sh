@@ -476,7 +476,7 @@ fi
 ###################### ######################################################
 Status "compiling time zone database"
 
-TZ_VERSION=2022d
+TZ_VERSION=2022e
 
 cd $SRC/tz
 
