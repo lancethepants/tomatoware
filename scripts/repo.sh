@@ -423,7 +423,7 @@ fi
 ######### ###################################################################
 Status "compiling gnupg"
 
-GNUPG_VERSION=2.3.7
+GNUPG_VERSION=2.3.8
 
 cd $SRC/gnupg
 
