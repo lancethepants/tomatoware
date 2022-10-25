@@ -164,7 +164,7 @@ fi
 ############ ################################################################
 Status "compiling xz utils"
 
-XZ_UTILS_VERSION=5.2.6
+XZ_UTILS_VERSION=5.2.7
 
 cd $SRC/xz
 
