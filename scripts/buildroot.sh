@@ -26,7 +26,7 @@ Status "compiling glib"
 if [ "$DESTARCH" == "mipsel" ];then
 	GLIB_VERSION=2.26.1
 else
-	GLIB_VERSION=2.74.0
+	GLIB_VERSION=2.74.1
 fi
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
