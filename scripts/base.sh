@@ -532,7 +532,7 @@ fi
 ########## ##################################################################
 Status "compiling libffi"
 
-LIBFFI_VERSION=3.4.3
+LIBFFI_VERSION=3.4.4
 
 cd $SRC/libffi
 
