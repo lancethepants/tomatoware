@@ -7,27 +7,7 @@ source ./scripts/environment.sh
 ########## ##################################################################
 Status "compiling host-ccache"
 
-cd $SRC/ccache
-
-if [ ! -f .extracted-native ]; then
-	rm -rf ccache-native ccache-${CCACHE_VERSION}
-	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
-	mv ccache-${CCACHE_VERSION} ccache-native
-	touch .extracted-native
-fi
-
-cd ccache-native
-
-if [ ! -f .built-native ]; then
-	cmake \
-	-DCMAKE_INSTALL_PREFIX=$BASE/native \
-	-DZSTD_FROM_INTERNET=ON \
-	-DREDIS_STORAGE_BACKEND=OFF \
-	./
-	$MAKE
-	make install
-	touch .built-native
-fi
+install -D $SRC/ccache/ccache-bin $BASE/native/bin/ccache
 
 if [ ! -f .symlinked-native ]; then
 
@@ -106,8 +86,39 @@ if [ ! -f .built-native ]; then
 	./bootstrap \
 	--prefix=$BASE/native \
 	--parallel=`nproc` \
+	--generator=Ninja \
+	--system-curl \
 	-- \
-	-DCMAKE_USE_OPENSSL=OFF
+	-DCMAKE_BUILD_TYPE=Release
+	$NINJA
+	$NINJA install
+	touch .built-native
+fi
+
+########## ##################################################################
+# CCACHE # ##################################################################
+########## ##################################################################
+Status "compiling host-ccache"
+
+cd $SRC/ccache
+
+if [ ! -f .extracted-native ]; then
+	rm -rf ccache-native ccache-${CCACHE_VERSION}
+	tar xvJf ccache-${CCACHE_VERSION}.tar.xz
+	mv ccache-${CCACHE_VERSION} ccache-native
+	touch .extracted-native
+fi
+
+cd ccache-native
+
+if [ ! -f .built-native ]; then
+	cmake \
+	-Wno-dev \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_PREFIX=$BASE/native \
+	-DZSTD_FROM_INTERNET=ON \
+	-DREDIS_STORAGE_BACKEND=OFF \
+	./
 	$MAKE
 	make install
 	touch .built-native
