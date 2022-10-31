@@ -437,6 +437,13 @@ fi
 
 cd gnupg
 
+if [ ! -f .patched ]; then
+	sed -e '/ks_ldap_free_state/i #if USE_LDAP' \
+	    -e '/ks_get_state =/a #endif' \
+	    -i dirmngr/server.c
+	touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
 	CC=$DESTARCH-linux-gcc \
