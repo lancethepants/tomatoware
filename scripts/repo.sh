@@ -211,6 +211,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	./configure --prefix=$PREFIX --host=$os \
+	--enable-install-gpg-error-config \
 	--enable-static \
 	--disable-rpath \
 	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
