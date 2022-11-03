@@ -1,0 +1,12 @@
+diff -Naur libedit-20221009-3.1_orig/src/sys.h libedit-20221009-3.1/src/sys.h
+--- libedit-20221009-3.1_orig/src/sys.h	2022-11-03 10:46:51.215723504 -0600
++++ libedit-20221009-3.1/src/sys.h	2022-11-03 10:47:05.247730975 -0600
+@@ -44,7 +44,7 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
+-#if defined(HAVE_SYS_TYPES_H) && defined(__sun)
++#if defined(HAVE_SYS_TYPES_H)
+ #include <sys/types.h>
+ #endif
+ 
