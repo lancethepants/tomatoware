@@ -2211,6 +2211,12 @@ fi
 
 cd libedit
 
+if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "uclibc" ]; then
+	patch -p1 < $PATCHES/libedit/libedit-uclibc.patch
+	touch .patched
+fi
+
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
