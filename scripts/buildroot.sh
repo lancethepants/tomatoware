@@ -2223,7 +2223,7 @@ fi
 ######## ####################################################################
 Status "compiling less"
 
-LESS_VERSION=590
+LESS_VERSION=608
 
 cd $SRC/less
 
