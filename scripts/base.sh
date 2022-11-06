@@ -389,7 +389,7 @@ fi
 ######## ####################################################################
 Status "compiling curl"
 
-CURL_VERSION=7.85.0
+CURL_VERSION=7.86.0
 
 cd $SRC/curl
 
