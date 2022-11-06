@@ -562,7 +562,7 @@ fi
 ####### #####################################################################
 Status "compiling apt"
 
-APT_VERSION=2.5.3
+APT_VERSION=2.5.4
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
