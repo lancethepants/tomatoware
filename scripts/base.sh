@@ -286,7 +286,7 @@ fi
 ########### #################################################################
 Status "compiling openssl"
 
-OPENSSL_VERSION=1.1.1q
+OPENSSL_VERSION=1.1.1s
 
 cd $SRC/openssl
 
