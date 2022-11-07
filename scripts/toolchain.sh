@@ -108,6 +108,10 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 
 	if [ "$DESTARCH" == "arm" ];then
 		rm $BASE/toolchain/patches/uclibc/007-uclibc-remove-prlimit.patch
+
+		if [ "$DESTARCHLIBC" == "musl" ]; then
+			cp $PATCHES/musl/arm-musl.patch $BASE/toolchain/patches/musl/
+		fi
 	fi
 
 	if [ "$DESTARCH" == "aarch64" ];then
