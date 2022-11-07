@@ -1,0 +1,83 @@
+diff -Naur musl-1.2.3_orig/include/sys/random.h musl-1.2.3/include/sys/random.h
+--- musl-1.2.3_orig/include/sys/random.h	2022-11-07 11:16:29.130013916 -0700
++++ musl-1.2.3/include/sys/random.h	1969-12-31 17:00:00.000000000 -0700
+@@ -1,20 +0,0 @@
+-#ifndef _SYS_RANDOM_H
+-#define _SYS_RANDOM_H
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+-#define __NEED_size_t
+-#define __NEED_ssize_t
+-#include <bits/alltypes.h>
+-
+-#define GRND_NONBLOCK	0x0001
+-#define GRND_RANDOM	0x0002
+-#define GRND_INSECURE	0x0004
+-
+-ssize_t getrandom(void *, size_t, unsigned);
+-
+-#ifdef __cplusplus
+-}
+-#endif
+-#endif
+diff -Naur musl-1.2.3_orig/include/unistd.h musl-1.2.3/include/unistd.h
+--- musl-1.2.3_orig/include/unistd.h	2022-11-07 11:16:29.130013916 -0700
++++ musl-1.2.3/include/unistd.h	2022-11-07 11:16:40.446008160 -0700
+@@ -180,7 +180,6 @@
+ long syscall(long, ...);
+ int execvpe(const char *, char *const [], char *const []);
+ int issetugid(void);
+-int getentropy(void *, size_t);
+ extern int optreset;
+ #endif
+ 
+diff -Naur musl-1.2.3_orig/src/linux/getrandom.c musl-1.2.3/src/linux/getrandom.c
+--- musl-1.2.3_orig/src/linux/getrandom.c	2022-11-07 11:16:29.134013914 -0700
++++ musl-1.2.3/src/linux/getrandom.c	1969-12-31 17:00:00.000000000 -0700
+@@ -1,7 +0,0 @@
+-#include <sys/random.h>
+-#include "syscall.h"
+-
+-ssize_t getrandom(void *buf, size_t buflen, unsigned flags)
+-{
+-	return syscall_cp(SYS_getrandom, buf, buflen, flags);
+-}
+diff -Naur musl-1.2.3_orig/src/misc/getentropy.c musl-1.2.3/src/misc/getentropy.c
+--- musl-1.2.3_orig/src/misc/getentropy.c	2022-11-07 11:16:29.146013908 -0700
++++ musl-1.2.3/src/misc/getentropy.c	1969-12-31 17:00:00.000000000 -0700
+@@ -1,33 +0,0 @@
+-#define _BSD_SOURCE
+-#include <unistd.h>
+-#include <sys/random.h>
+-#include <pthread.h>
+-#include <errno.h>
+-
+-int getentropy(void *buffer, size_t len)
+-{
+-	int cs, ret = 0;
+-	char *pos = buffer;
+-
+-	if (len > 256) {
+-		errno = EIO;
+-		return -1;
+-	}
+-
+-	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
+-
+-	while (len) {
+-		ret = getrandom(pos, len, 0);
+-		if (ret < 0) {
+-			if (errno == EINTR) continue;
+-			else break;
+-		}
+-		pos += ret;
+-		len -= ret;
+-		ret = 0;
+-	}
+-
+-	pthread_setcancelstate(cs, 0);
+-
+-	return ret;
+-}
