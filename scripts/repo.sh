@@ -508,11 +508,15 @@ fi
 
 cd ../tz
 
+if [[ "$DESTARCH" == "mipsel" || "$DESTARCH" == "arm" ]];then
+	GETRANDOM="-DHAVE_GETRANDOM=0"
+fi
+
 if [ ! -f .installed ]; then
 	$MAKE1 install \
 	cc=$DESTARCH-linux-gcc \
 	LFLAGS="$LDFLAGS" \
-	CFLAGS="$CFLAGS" \
+	CFLAGS="$CFLAGS $GETRANDOM" \
 	TOPDIR=$PREFIX \
 	USRDIR="" \
 	DESTDIR=$BASE \
