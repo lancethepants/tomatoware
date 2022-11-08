@@ -1960,7 +1960,7 @@ fi
 ########### #################################################################
 Status "compiling texinfo"
 
-TEXINFO_VERSION=6.8
+TEXINFO_VERSION=7.0
 
 cd $SRC/texinfo
 
