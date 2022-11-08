@@ -2076,69 +2076,44 @@ fi
 ####### #####################################################################
 Status "compiling upx"
 
-UCL_VERSION=1.03
-UPX_VERSION=3.94
-
-if [ "$DESTARCHLIBC" == "uclibc" ]; then
-
-export UPX_UCLDIR=$SRC/upx/ucl
+UPX_VERSION=4.0.0
 
 cd $SRC/upx
 
 if [ ! -f .extracted ]; then
-	rm -rf ucl upx ucl-${UCL_VERSION} upx-${UPX_VERSION}-src
-	tar zxvf ucl-${UCL_VERSION}.tar.gz
+	rm -rf upx upx-${UPX_VERSION}-src
 	tar xvJf upx-${UPX_VERSION}-src.tar.xz
-	mv ucl-${UCL_VERSION} ucl
 	mv upx-${UPX_VERSION}-src upx
 	touch .extracted
 fi
 
-cd ucl
+mkdir -p upx/build
+cd upx/build
 
-if [ ! -f .patched ] && [ "$DESTARCH" == "aarch64" ]; then
-	cp $PATCHES/gnuconfig/config.guess \
-	$PATCHES/gnuconfig/config.sub \
-	$SRC/upx/ucl/acconfig
-	touch .patched
+if [ ! -f .configured ]; then
+	cmake \
+	-GNinja \
+	-Wno-dev \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_SYSTEM_NAME="Linux" \
+	-DCMAKE_INSTALL_PREFIX=$PREFIX \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+	..
+	touch .configured
 fi
-
-if [ ! -f .built_ucl ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS="$CFLAGS -std=c90" \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	$MAKE
-	touch .built_ucl
-fi
-
-cd ../upx
 
 if [ ! -f .built ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$MAKE \
-	CXX=$DESTARCH-linux-g++ \
-	all \
-	CXXFLAGS_WERROR= \
-	CHECK_WHITESPACE=/bin/true
+	$NINJA
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	cp ./src/upx.out $DEST/bin/upx
-	cp ./doc/upx.1 $DEST/man/man1
+	DESTDIR=$BASE $NINJA install
 	touch .installed
-fi
-
-fi
-
-unset UPX_UCLDIR
-
-if [[ "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
-	cp $SRC/upx/upx.$DESTARCH $DEST/bin/upx
 fi
 
 ####### #####################################################################
