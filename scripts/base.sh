@@ -1842,7 +1842,7 @@ fi
 ######## ####################################################################
 Status "compiling bash"
 
-BASH_VERSION=5.2
+BASH_VERSION=5.2.9
 
 cd $SRC/bash
 
