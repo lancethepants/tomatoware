@@ -1922,7 +1922,7 @@ fi
 ####### #####################################################################
 Status "compiling sed"
 
-SED_VERSION=4.8
+SED_VERSION=4.9
 
 cd $SRC/sed
 
