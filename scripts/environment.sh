@@ -26,6 +26,7 @@ NINJA="ninja"
 ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH
 export CCACHE_DIR=$HOME/.ccache
+export CCACHE_NOINODECACHE=1
 
 if [ "$DESTARCH" = "arm" ]; then
 	if [ "$DESTARCHLIBC" = "uclibc" ]; then
