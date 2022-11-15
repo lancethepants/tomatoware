@@ -15,7 +15,7 @@ MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-uclibc${PREFIX////-}"
 if [ ! -d /opt/tomatoware ]; then
 
 	sudo mkdir -p /opt/tomatoware
-	sudo chmod -R 777 /opt/tomatoware
+	sudo chmod 777 /opt/tomatoware
 fi
 
 # Test for toolchain up-to-date.
