@@ -1510,7 +1510,7 @@ fi
 ######### ###################################################################
 Status "compiling unrar"
 
-UNRAR_VERSION=6.2.1
+UNRAR_VERSION=6.2.2
 
 cd $SRC/unrar
 
