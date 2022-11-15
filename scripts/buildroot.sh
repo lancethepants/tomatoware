@@ -407,7 +407,7 @@ Status "compiling mold"
 
 MOLD_VERSION=1.7.0
 
-if [ "$DESTARCHLIBC" == "musl" ] && [ "$DESTARCH" != "x86_64" ];then
+if [ "$DESTARCHLIBC" == "musl" ];then
 
 cd $SRC/mold
 
@@ -432,12 +432,15 @@ if [ "$DESTARCH" == "arm" ];then
 	-DMI_LIBRT=/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI/sysroot/lib/librt.a"
 fi
 
+if [ "$DESTARCH" != "x86_64" ];then
+	EXTRACONFIG="$EXTRACONFIG -DCMAKE_SYSTEM_NAME=Linux"
+fi
+
 if [ ! -f .configured ]; then
 	cmake \
 	-GNinja \
 	-Wno-dev \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
