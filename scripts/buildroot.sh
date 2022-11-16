@@ -1694,62 +1694,6 @@ if [ ! -f .edit_sed ]; then
 	touch .edit_sed
 fi
 
-
-############## ##############################################################
-# UTIL-LINUX # ##############################################################
-############## ##############################################################
-Status "compiling util-linux"
-
-if [ "$DESTARCH" == "mipsel" ];then
-	UTIL_LINUX_VERSION=2.34
-else
-	UTIL_LINUX_VERSION=2.38.1
-fi
-
-cd $SRC/util-linux
-
-if [ ! -f .extracted ]; then
-	rm -rf util-linux util-linux-${UTIL_LINUX_VERSION}
-	tar xvJf util-linux-${UTIL_LINUX_VERSION}.tar.xz
-	mv util-linux-${UTIL_LINUX_VERSION} util-linux
-	touch .extracted
-fi
-
-cd util-linux
-
-if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
-	sed -i 's,epoll_create1,epoll_create,g' ./libmount/src/monitor.c
-	touch .patched
-fi
-
-if [ ! -f .configured ]; then
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
-	--disable-rpath \
-	--disable-mount \
-	--disable-chfn-chsh-password \
-	--without-python \
-	--disable-nls \
-	--disable-wall \
-	--disable-su \
-	--disable-rfkill \
-	--disable-raw
-	touch .configured
-fi
-
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
-
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
 ######### ###################################################################
 # PATCH # ###################################################################
 ######### ###################################################################
