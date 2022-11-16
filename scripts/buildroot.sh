@@ -834,7 +834,7 @@ fi
 ######## ####################################################################
 Status "compiling llvm"
 
-LLVM_VERSION=15.0.4
+LLVM_VERSION=15.0.5
 
 if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
 
