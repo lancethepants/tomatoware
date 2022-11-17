@@ -2066,8 +2066,6 @@ fi
 ####### #####################################################################
 Status "compiling gdb"
 
-if [ "$DESTARCH" != "x86_64" ]; then
-
 GDB_VERSION=12.1
 
 cd $SRC/gdb
@@ -2091,7 +2089,10 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
+	./configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--enable-gdb \
 	--enable-gdbserver \
 	--enable-tui \
@@ -2134,8 +2135,6 @@ fi
 if [ ! -f .installed ]; then
 	$MAKE1 install DESTDIR=$BASE
 	touch .installed
-fi
-
 fi
 
 ######## ####################################################################
