@@ -178,44 +178,16 @@ fi
 
 cd libgpg-error
 
-if [ "$DESTARCH" == "mipsel" ]; then
-	os=mips-unknown-linux-gnu
-fi
-
-if [ "$DESTARCH" == "arm" ];then
-	if [ "$DESTARCHLIBC" == "uclibc" ];then
-		os=arm-unknown-linux-gnueabi
-	fi
-	if [ "$DESTARCHLIBC" == "musl" ];then
-		os=arm-unknown-linux-musleabi
-	fi
-fi
-
-if [ "$DESTARCH" == "aarch64" ];then
-	os=aarch64-unknown-linux-musl
-fi
-
-if [ "$DESTARCH" == "x86_64" ];then
-	os=x86_64-unknown-linux-musl
-fi
-
 if [ ! -f .configured ]; then
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
+	$CONFIGURE \
 	--enable-install-gpg-error-config \
 	--enable-static \
 	--disable-rpath \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
-	cross_compiling=yes
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -248,22 +220,14 @@ fi
 cd libgcrypt
 
 if [ ! -f .configured ]; then
-	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
+	$CONFIGURE \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
-	cross_compiling=yes
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -296,22 +260,14 @@ fi
 cd libassuan
 
 if [ ! -f .configured ]; then
-	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
+	$CONFIGURE \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
-	cross_compiling=yes
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -344,22 +300,14 @@ fi
 cd libksba
 
 if [ ! -f .configured ]; then
-	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
+	$CONFIGURE \
 	--with-libgpg-error-prefix=$DEST \
 	--enable-static \
-	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH" \
-	cross_compiling=yes
+	lt_cv_sys_lib_dlsearch_path_spec="$LT_SYS_LIBRARY_PATH"
 	touch .configured
 fi
 
@@ -392,20 +340,12 @@ fi
 cd npth
 
 if [ ! -f .configured ]; then
-	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
-	--enable-static \
-	cross_compiling=yes
+	$CONFIGURE \
+	--enable-static
 	touch .configured
 fi
 
@@ -445,18 +385,11 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .configured ]; then
-	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
-	LD=$DESTARCH-linux-ld \
-	STRIP=$DESTARCH-linux-strip \
-	AR=$DESTARCH-linux-ar \
-	RANLIB=$DESTARCH-linux-ranlib \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$os \
+	$CONFIGURE \
 	--disable-rpath \
 	--with-libgpg-error-prefix=$DEST \
 	--with-gpg-error-prefix=$DEST \
@@ -464,8 +397,7 @@ if [ ! -f .configured ]; then
 	--with-libassuan-prefix=$DEST \
 	--with-ksba-prefix=$DEST \
 	--with-npth-prefix=$DEST \
-	--disable-ldap \
-	cross_compiling=yes
+	--disable-ldap
 	touch .configured
 fi
 
