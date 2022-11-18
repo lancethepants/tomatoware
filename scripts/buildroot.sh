@@ -1640,19 +1640,25 @@ FILE_VERSION=5.43
 cd $SRC/file
 
 if [ ! -f .extracted ]; then
-	rm -rf file file-host file-${FILE_VERSION}
+	rm -rf file file-native file-${FILE_VERSION}
 	tar zxvf file-${FILE_VERSION}.tar.gz
 	mv file-${FILE_VERSION} file
-	cp -r file file-host
 	touch .extracted
 fi
 
-cd file-host
+cd file
+
+if [ ! -f .patched ]; then
+        autoreconf -fsi
+        cp -r ../file ../file-native
+        touch .patched
+fi
+
+cd ../file-native
 
 if [ ! -f .built-host ]; then
-	autoreconf -fsi
 	./configure \
-	--prefix=$SRC/file/file-host
+	--prefix=$SRC/file/file-native
 	$MAKE
 	$MAKE1 install
 	touch .built-host
@@ -1661,7 +1667,6 @@ fi
 cd ../file
 
 if [ ! -f .configured ]; then
-	autoreconf -fsi
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
@@ -1672,7 +1677,7 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	PATH=$SRC/file/file-host/bin:$PATH \
+	PATH=$SRC/file/file-native/bin:$PATH \
 	$MAKE
 	touch .built
 fi
