@@ -7,15 +7,15 @@ diff -Naur unrar.orig/makefile unrar/makefile
  # Linux using GCC
 -CXX=c++
 -CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
-+CXX=$(DESTARCH)-linux-g++
++CXX=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-g++
 +CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else $(EXTRACFLAGS)
  LIBFLAGS=-fPIC
  DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
 -STRIP=strip
 -AR=ar
 -LDFLAGS=-pthread
-+STRIP=$(DESTARCH)-linux-strip
-+AR=$(DESTARCH)-linux-ar
++STRIP=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-strip
++AR=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-ar
 +LDFLAGS=$(_LDFLAGS)
  DESTDIR=/usr
  

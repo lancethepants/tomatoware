@@ -6,7 +6,7 @@ diff -Naur bzip2-1.0.8_orig/Makefile-libbz2_so bzip2-1.0.8/Makefile-libbz2_so
  
  SHELL=/bin/sh
 -CC=gcc
-+CC=$(DESTARCH)-linux-gcc
++CC=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-gcc
  BIGFILES=-D_FILE_OFFSET_BITS=64
 -CFLAGS=-fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)
 +CFLAGS=$(EXTRACFLAGS) -fpic -fPIC -Wall -Winline -O2 -g $(BIGFILES)

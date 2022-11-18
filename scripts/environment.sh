@@ -19,7 +19,7 @@ fi
 CPPFLAGS="-I$DEST/include"
 CFLAGS=$EXTRACFLAGS
 CXXFLAGS=$CFLAGS
-CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-linux"
+CONFIGURE="./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI"
 MAKE1="make"
 MAKE="make -j`nproc`"
 NINJA="ninja"

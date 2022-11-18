@@ -63,7 +63,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	CROSS_PREFIX=$DESTARCH-linux- \
+	CROSS_PREFIX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI- \
 	./configure \
 	--prefix=$PREFIX
 	touch .configured
@@ -136,8 +136,8 @@ fi
 cd lz4
 
 if [ ! -f .built ]; then
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
 	PREFIX=$PREFIX \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -148,8 +148,8 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
 	PREFIX=$PREFIX \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -216,8 +216,8 @@ fi
 cd zstd
 
 if [ ! -f .built ]; then
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
 	PREFIX=$PREFIX \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -228,8 +228,8 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
 	PREFIX=$PREFIX \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
@@ -266,8 +266,8 @@ fi
 if [ ! -f .built ]; then
 	$MAKE \
 	LDFLAGS="$LDFLAGS" \
-	CC=$DESTARCH-linux-gcc \
-	CXX=$DESTARCH-linux-g++ \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
 	OPTFLAGS="$CFLAGS" \
 	-j`nproc`
 	touch .built
@@ -330,12 +330,16 @@ if [ ! -f .configured ]; then
 fi
 
 if [ ! -f .built ]; then
-	$MAKE1 CC=$DESTARCH-linux-gcc
+	$MAKE1 \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
-	$MAKE1 install CC=$DESTARCH-linux-gcc INSTALLTOP=$DEST OPENSSLDIR=$DEST/ssl
+	$MAKE1 \
+	install CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	INSTALLTOP=$DEST \
+	OPENSSLDIR=$DEST/ssl
 	touch .installed
 fi
 
@@ -733,7 +737,7 @@ cd lua
 if [ ! -f .built ]; then
 	$MAKE1 \
 	linux \
-	CC=$DESTARCH-linux-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	INSTALL_TOP=$BASE$PREFIX \
 	MYCFLAGS="$CFLAGS $CPPFLAGS" \
 	MYLDFLAGS="$LDFLAGS"
@@ -743,7 +747,7 @@ fi
 if [ ! -f .installed ]; then
 	$MAKE1 \
 	linux \
-	CC=$DESTARCH-linux-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	INSTALL_TOP=$BASE$PREFIX \
 	MYCFLAGS="$CFLAGS $CPPFLAGS" \
 	MYLDFLAGS="$LDFLAGS" \
@@ -857,11 +861,11 @@ fi
 cd  db/build_unix
 
 if [ ! -f .patched ]; then
-	if [ "$DESTARCH" == "aarch64" ]; then
-		cp $PATCHES/gnuconfig/config.guess \
-		   $PATCHES/gnuconfig/config.sub \
-		   $SRC/bdb/db/dist
-	fi
+
+	cp $PATCHES/gnuconfig/config.guess \
+	   $PATCHES/gnuconfig/config.sub \
+	   $SRC/bdb/db/dist
+
 	if [ "$DESTARCH" == "x86_64" ]; then
 		patch -d $SRC/bdb/db -p1 < $PATCHES/bdb/0002-atomic_compare_exchange.patch
 	fi
@@ -1098,8 +1102,8 @@ if [ ! -f .configured ]; then
 	cmake \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DINSTALL_INCLUDEDIR=include/mysql \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
@@ -1164,7 +1168,7 @@ if [ ! -f .configured ]; then
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
 	--prefix=$PREFIX \
-	--target=$DESTARCH-linux \
+	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--use-threads \
 	-Duseshrplib
 	touch .configured
@@ -1428,9 +1432,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure \
-	--prefix=$PREFIX \
-	--host=$DESTARCH-linux \
+	$CONFIGURE \
 	--build=x86_64-linux-gnu \
 	--without-ensurepip \
 	--with-system-ffi \
@@ -1526,9 +1528,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure \
-	--prefix=$PREFIX \
-	--host=$DESTARCH-linux \
+	$CONFIGURE \
 	--build=x86_64-linux-gnu \
 	--without-ensurepip \
 	--with-openssl=$DEST \
@@ -1625,8 +1625,8 @@ if [ ! -f .built ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$MAKE \
-	CC=$DESTARCH-linux-gcc \
-	AR=$DESTARCH-linux-ar \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	AR=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -1647,8 +1647,8 @@ if [ ! -f .installed ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$MAKE1 \
-	CC=$DESTARCH-linux-gcc \
-	AR=$DESTARCH-linux-ar \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	AR=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ar \
 	prefix=$PREFIX \
 	FREAD_READS_DIRECTORIES=no \
 	SNPRINTF_RETURNS_BOGUS=no \
@@ -2135,7 +2135,7 @@ if [ ! -f .configured ]; then
 	-GNinja \
 	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	./
@@ -2219,7 +2219,7 @@ else
 fi
 
 if ! [[ -f .configured ]]; then
-	echo  "using gcc : $DESTARCH : $DESTARCH-linux-g++ ;" > $SRC/boost/user-config.jam
+	echo  "using gcc : $DESTARCH : $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ ;" > $SRC/boost/user-config.jam
 	./bootstrap.sh
 	touch .configured
 fi

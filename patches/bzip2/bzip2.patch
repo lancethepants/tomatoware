@@ -9,9 +9,9 @@ diff -Naur bzip2-1.0.8.orig/Makefile bzip2-1.0.8/Makefile
 -AR=ar
 -RANLIB=ranlib
 -LDFLAGS=
-+CC=$(DESTARCH)-linux-gcc
-+AR=$(DESTARCH)-linux-ar
-+RANLIB=$(DESTARCH)-linux-ranlib
++CC=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-gcc
++AR=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-ar
++RANLIB=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-ranlib
 +LDFLAGS=$(_LDFLAGS)
  
  BIGFILES=-D_FILE_OFFSET_BITS=64

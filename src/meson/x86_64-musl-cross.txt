@@ -1,14 +1,14 @@
 [host_machine]
 system = 'linux'
-cpu_family = 'aarch64'
-cpu = 'aarch64'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
 endian = 'little'
 
 [binaries]
-c = 'aarch64-linux-gcc'
-cpp = 'aarch64-linux-g++'
-ar = 'aarch64-linux-ar'
-strip = 'aarch64-linux-strip'
+c = 'x86_64-tomatoware-linux-musl-gcc'
+cpp = 'x86_64-tomatoware-linux-musl-g++'
+ar = 'x86_64-tomatoware-linux-musl-ar'
+strip = 'x86_64-tomatoware-linux-musl-strip'
 pkgconfig = '/usr/bin/pkg-config'
 
 [properties]

@@ -5,10 +5,10 @@ cpu = 'armv7-a'
 endian = 'little'
 
 [binaries]
-c = 'arm-linux-gcc'
-cpp = 'arm-linux-g++'
-ar = 'arm-linux-ar'
-strip = 'arm-linux-strip'
+c = 'arm-tomatoware-linux-uclibcgnueabi-gcc'
+cpp = 'arm-tomatoware-linux-uclibcgnueabi-g++'
+ar = 'arm-tomatoware-linux-uclibcgnueabi-ar'
+strip = 'arm-tomatoware-linux-uclibcgnueabi-strip'
 pkgconfig = '/usr/bin/pkg-config'
 
 [properties]
