@@ -613,12 +613,16 @@ if [ ! -f .symlinked ]; then
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-cc
 	ln -sf gcc $DEST/bin/$DESTARCH-linux-gcc
 	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-cc
+	ln -sf gcc $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc
 	ln -sf g++ $DEST/bin/c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-c++
 	ln -sf g++ $DEST/bin/$DESTARCH-linux-g++
+	ln -sf g++ $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-c++
+	ln -sf g++ $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++
 
-	if [ "$DESTARCHLIBC" == "uclibc" ]; then
+	if [[ "$DESTARCH" == "mipsel" || "$DESTARCH" == "aarch64" ]] || [[ "$DESTARCH" == "arm" && "$DESTARCHLIBC" == "uclibc" ]]; then
 		ln -sf gccgo $DEST/bin/$DESTARCH-linux-gccgo
+		ln -sf gccgo $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gccgo
 	fi
 	touch .symlinked
 fi
