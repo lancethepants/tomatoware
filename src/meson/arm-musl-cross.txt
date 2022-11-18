@@ -1,0 +1,20 @@
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'armv7-a'
+endian = 'little'
+
+[binaries]
+c = 'arm-tomatoware-linux-musleabi-gcc'
+cpp = 'arm-tomatoware-linux-musleabi-g++'
+ar = 'arm-tomatoware-linux-musleabi-ar'
+strip = 'arm-tomatoware-linux-musleabi-strip'
+pkgconfig = '/usr/bin/pkg-config'
+
+[properties]
+have_c99_vsnprintf=true
+have_c99_snprintf=true
+have_unix98_printf=true
+
+[built-in options]
+wrap_mode = 'nodownload'

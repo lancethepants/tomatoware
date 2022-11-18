@@ -83,7 +83,7 @@ if [ ! -f .configured ]; then
 		PATH=$SRC/perl/native/bin:$PATH \
 		$SRC/meson/meson/meson.py \
 		build \
-		--cross-file $SRC/meson/$DESTARCH-cross.txt \
+		--cross-file $SRC/meson/$DESTARCH-$DESTARCHLIBC-cross.txt \
 		--prefix /mmc \
 		-Dbuildtype='release' \
 		-Ddefault_library='both' \
@@ -310,9 +310,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils/configure \
-	--prefix=$PREFIX \
-	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	../binutils/$CONFIGURE \
 	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
@@ -360,15 +358,13 @@ fi
 
 cd build-binutils
 
-hostos=arm-tomatoware-linux-uclibcgnueabi
-targetos=mipsel-tomatoware-linux-uclibc
-
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	../binutils/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	../binutils/$CONFIGURE \
+	--target=mipsel-tomatoware-linux-uclibc \
 	--with-sysroot=$PREFIX/mipsel$PREFIX \
 	--enable-gold=yes \
 	--disable-werror \
@@ -444,8 +440,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
@@ -558,9 +554,7 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc/configure \
-	--prefix=$PREFIX \
-	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	../gcc/$CONFIGURE \
 	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
@@ -657,8 +651,6 @@ fi
 
 cd ../gcc-build
 
-hostos=arm-tomatoware-linux-uclibcgnueabi
-targetos=mipsel-tomatoware-linux-uclibc
 gccextraconfig="--disable-libgomp
 		--with-abi=32
 		--with-arch=mips32"
@@ -666,7 +658,8 @@ gccextraconfig="--disable-libgomp
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	../gcc/configure --prefix=$PREFIX --host=$hostos --target=$targetos \
+	../gcc/$CONFIGURE \
+	--target=mipsel-tomatoware-linux-uclibc \
 	--with-mpc-include=$DEST/include \
 	--with-mpc-lib=$DEST/lib \
 	--with-mpfr-include=$DEST/include \
@@ -757,8 +750,8 @@ fi
 cd ninja
 
 if [ ! -f .configured ]; then
-	CXX=$DESTARCH-linux-g++ \
-	AR=$DESTARCH-linux-ar \
+	CXX=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++ \
+	AR=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ar \
 	LDFLAGS=$LDFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
@@ -806,8 +799,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
@@ -937,8 +930,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS $MFLOAT" \
 	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS $MFLOAT" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
@@ -1110,8 +1103,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS $atomic" \
@@ -1299,6 +1292,7 @@ fi
 cd check
 
 if [ ! -f .configured ]; then
+	autoreconf -fsi
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
@@ -1542,7 +1536,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure --prefix=$PREFIX --host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI
+	$CONFIGURE
 	touch .configured
 fi
 
@@ -2042,8 +2036,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_SYSTEM_NAME="Linux" \
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
@@ -2089,9 +2083,7 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	./configure \
-	--prefix=$PREFIX \
-	--host=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
+	$CONFIGURE \
 	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--enable-gdb \
 	--enable-gdbserver \
@@ -2247,7 +2239,6 @@ if [ "$DESTARCHLIBC" == "musl" ]; then
 fi
 
 if [ ! -f .built ]; then
-	DESTARCH=$DESTARCH
 	_PREFIX=$PREFIX \
 	_LDFLAGS="$LDFLAGS $lfts" \
 	_CPPFLAGS="$CPPFLAGS -fcommon" \
@@ -2292,7 +2283,9 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	$procpsextraconfig
+	$procpsextraconfig \
+	ac_cv_func_malloc_0_nonnull=yes \
+	ac_cv_func_realloc_0_nonnull=yes
 	touch .configured
 fi
 

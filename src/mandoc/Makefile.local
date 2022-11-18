@@ -1,7 +1,7 @@
 BUILD_TARGETS	= 
 INSTALL_TARGETS	= 
-AR		= ${DESTARCH}-linux-ar
-CC		= ${DESTARCH}-linux-gcc
+AR		= ${DESTARCH}-tomatoware-linux-${DESTARCHLIBC}${EABI}-ar
+CC		= ${DESTARCH}-tomatoware-linux-${DESTARCHLIBC}${EABI}-gcc
 CFLAGS		= -g -W -Wall -Wmissing-prototypes -Wstrict-prototypes -Wwrite-strings -Wno-unused-parameter ${_CPPFLAGS}
 LDADD		=     -lz
 LDFLAGS		= ${_LDFLAGS}

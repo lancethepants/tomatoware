@@ -446,7 +446,7 @@ fi
 
 if [ ! -f .installed ]; then
 	$MAKE1 install \
-	cc=$DESTARCH-linux-gcc \
+	cc=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	LFLAGS="$LDFLAGS" \
 	CFLAGS="$CFLAGS $GETRANDOM" \
 	TOPDIR=$PREFIX \
@@ -475,7 +475,7 @@ fi
 cd xxHash
 
 if [ ! -f .built ]; then
-	CC=$DESTARCH-linux-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	CFLAGS="-std=c99 $CFLAGS" \
 	LDFLAGS=$LDFLAGS \
 	prefix=$PREFIX \
@@ -531,8 +531,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_INSTALL_PREFIX=$PREFIX \
 	-DCMAKE_INCLUDE_PATH=$DEST/include \
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
-	-DCMAKE_C_COMPILER=`which $DESTARCH-linux-gcc` \
-	-DCMAKE_CXX_COMPILER=`which $DESTARCH-linux-g++` \
+	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
+	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS" \
 	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
