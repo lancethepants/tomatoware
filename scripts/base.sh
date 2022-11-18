@@ -331,13 +331,18 @@ fi
 
 if [ ! -f .built ]; then
 	$MAKE1 \
-	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	AR=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ar \
+	RANLIB=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ranlib
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
 	$MAKE1 \
-	install CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	install \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	AR=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ar \
+	RANLIB=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-ranlib \
 	INSTALLTOP=$DEST \
 	OPENSSLDIR=$DEST/ssl
 	touch .installed
