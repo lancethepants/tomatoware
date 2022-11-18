@@ -168,6 +168,12 @@ if [ ! -f .installed ]; then
 	touch .installed
 fi
 
+if [ ! -f .symlinked ]; then
+	ln -sf pkg-config $DEST/bin/$DESTARCH-linux-pkg-config
+	ln -sf pkg-config $DEST/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-pkg-config
+	touch .symlinked
+fi
+
 ####### #####################################################################
 # GMP # #####################################################################
 ####### #####################################################################
