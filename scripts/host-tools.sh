@@ -16,18 +16,18 @@ if [ ! -f .symlinked-native ]; then
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-g++
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc
 	ln -sf ccache $BASE/native/bin/$DESTARCH-linux-gcc-$GCC_VERSION
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-c++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-cc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-g++
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-gcc
-	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-uclibc$EABI-gcc-$GCC_VERSION
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-c++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-cc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc
+	ln -sf ccache $BASE/native/bin/$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc-$GCC_VERSION
 
 	ln -sf ccache $BASE/native/bin/cc
 	ln -sf ccache $BASE/native/bin/gcc
 	ln -sf ccache $BASE/native/bin/c++
 	ln -sf ccache $BASE/native/bin/g++
 
-	if [ "$DESTARCH" == "arm" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
+	if [ "$DESTARCH" == "arm" ] && [ "$DESTARCHLIBC" == "uclibc" ] && [ "$BUILDCROSSTOOLS" == "1" ]; then
 
 		ln -sf ccache $BASE/native/bin/mipsel-linux-c++
 		ln -sf ccache $BASE/native/bin/mipsel-linux-cc
