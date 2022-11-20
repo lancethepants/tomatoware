@@ -1526,6 +1526,15 @@ fi
 
 cd ../Python
 
+if [ ! -f .patched2 ]; then
+	if [ "$DESTARCHLIBC" == "musl" ];then
+		sed -i 's,\/mmc,'"$PREFIX"',g' $PATCHES/python3/musl/musl-find_library.patch
+		patch -p1 < $PATCHES/python3/musl/detect-host-os.patch
+		patch -p1 < $PATCHES/python3/musl/musl-find_library.patch
+	fi
+	touch .patched2
+fi
+
 if [ ! -f .configured ]; then
 	PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig \
 	PATH=$SRC/python3/native3/bin:$PATH \
