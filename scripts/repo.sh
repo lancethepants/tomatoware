@@ -32,7 +32,9 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
+	./configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-linux \
 	--disable-rpath \
 	--with-sysroot=$PREFIX \
 	--without-libselinux \
