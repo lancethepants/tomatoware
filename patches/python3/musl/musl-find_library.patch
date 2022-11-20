@@ -1,0 +1,45 @@
+diff -Naur Python-3.11.0.orig/Lib/ctypes/util.py Python-3.11.0/Lib/ctypes/util.py
+--- Python-3.11.0.orig/Lib/ctypes/util.py	2022-11-19 18:13:38.255714962 -0700
++++ Python-3.11.0/Lib/ctypes/util.py	2022-11-19 18:13:46.563677737 -0700
+@@ -265,6 +265,41 @@
+         def find_library(name, is64 = False):
+             return _get_soname(_findLib_crle(name, is64) or _findLib_gcc(name))
+ 
++    elif True:
++
++        # Patched for Alpine Linux / musl - search manually system paths
++        def _is_elf(filepath):
++            try:
++                with open(filepath, 'rb') as fh:
++                    return fh.read(4) == b'\x7fELF'
++            except:
++                return False
++
++        def find_library(name):
++            from glob import glob
++            # absolute name?
++            if os.path.isabs(name):
++                return name
++            # special case for libm, libcrypt and libpthread and musl
++            if name in ['m', 'crypt', 'pthread']:
++                name = 'c'
++            elif name in ['libm.so', 'libcrypt.so', 'libpthread.so']:
++                name = 'libc.so'
++            # search in standard locations (musl order)
++            paths = ['/mmc/lib', '/mmc/usr/local/lib', '/mmc/usr/lib']
++            if 'MUSL_LD_LIBRARY_PATH' in os.environ:
++                paths = os.environ['MUSL_LD_LIBRARY_PATH'].split(':') + paths
++            for d in paths:
++                f = os.path.join(d, name)
++                if _is_elf(f):
++                    return os.path.basename(f)
++
++                prefix = os.path.join(d, 'lib'+name)
++                for suffix in ['.so', '.so.*']:
++                    for f in glob('{0}{1}'.format(prefix, suffix)):
++                        if _is_elf(f):
++                            return os.path.basename(f)
++
+     else:
+ 
+         def _findSoname_ldconfig(name):

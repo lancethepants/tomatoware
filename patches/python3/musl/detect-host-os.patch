@@ -1,0 +1,24 @@
+diff -Naur Python-3.11.0.orig/configure Python-3.11.0/configure
+--- Python-3.11.0.orig/configure	2022-11-19 18:18:33.362392726 -0700
++++ Python-3.11.0/configure	2022-11-19 18:19:07.826238291 -0700
+@@ -6173,7 +6173,7 @@
+ 
+ if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
+   PLATFORM_TRIPLET=`grep -v '^#' conftest.out | grep -v '^ *$' | tr -d ' 	'`
+-  case "$build_os" in
++  case "$host_os" in
+   linux-musl*)
+     PLATFORM_TRIPLET=`echo "$PLATFORM_TRIPLET" | sed 's/linux-gnu/linux-musl/'`
+     ;;
+diff -Naur Python-3.11.0.orig/configure.ac Python-3.11.0/configure.ac
+--- Python-3.11.0.orig/configure.ac	2022-11-19 18:18:33.410392511 -0700
++++ Python-3.11.0/configure.ac	2022-11-19 18:18:56.738287977 -0700
+@@ -1071,7 +1071,7 @@
+ 
+ if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
+   PLATFORM_TRIPLET=`grep -v '^#' conftest.out | grep -v '^ *$' | tr -d ' 	'`
+-  case "$build_os" in
++  case "$host_os" in
+   linux-musl*)
+     PLATFORM_TRIPLET=`echo "$PLATFORM_TRIPLET" | sed 's/linux-gnu/linux-musl/'`
+     ;;
