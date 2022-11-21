@@ -27,14 +27,17 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
+	EABI=$EABI \
 	_LDFLAGS=$LDFLAGS \
 	$MAKE
+	EABI=$EABI \
 	_LDFLAGS=$LDFLAGS \
 	$MAKE -f Makefile-libbz2_so
 	touch .built
 fi
 
 if [ ! -f .installed ]; then
+	EABI=$EABI \
 	_LDFLAGS=$LDFLAGS \
 	$MAKE1 install PREFIX=$DEST
 	touch .installed
@@ -1599,6 +1602,7 @@ if [ ! -f .patched ]; then
 fi
 
 if [ ! -f .built ]; then
+	EABI=$EABI \
 	_LDFLAGS=$LDFLAGS \
 	$MAKE1
 	touch .built
