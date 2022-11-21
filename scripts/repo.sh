@@ -185,7 +185,9 @@ if [ ! -f .configured ]; then
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE \
+	./configure \
+	--prefix=$PREFIX \
+	--host=$DESTARCH-linux \
 	--enable-install-gpg-error-config \
 	--enable-static \
 	--disable-rpath \
