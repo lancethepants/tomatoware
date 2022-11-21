@@ -23,50 +23,31 @@ fi
 ######## ####################################################################
 Status "compiling glib"
 
-if [ "$DESTARCH" == "mipsel" ];then
-	GLIB_VERSION=2.26.1
-else
-	GLIB_VERSION=2.75.0
-fi
-
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
-cd $SRC/glib2
+if [ "$DESTARCH" == "mipsel" ];then
 
-if [ ! -f .extracted ]; then
-	rm -rf glib glib-${GLIB_VERSION}
-	if [ "$DESTARCH" == "mipsel" ];then
+	GLIB_VERSION=2.26.1
+
+	cd $SRC/glib2
+
+	if [ ! -f .extracted ]; then
+		rm -rf glib glib-${GLIB_VERSION}
 		tar zxvf glib-${GLIB_VERSION}.tar.gz
-	else
-		tar xvJf glib-${GLIB_VERSION}.tar.xz
+		mv glib-${GLIB_VERSION} glib
+		touch .extracted
 	fi
-	mv glib-${GLIB_VERSION} glib
-	touch .extracted
-fi
 
-cd glib
+	cd glib
 
-if [ ! -f .patched ]; then
-	if [ "$DESTARCH" == "mipsel" ];then
+	if [ ! -f .patched ]; then
 		patch < $PATCHES/glib2.mipsel/001-automake-compat.patch
 		patch -p1 < $PATCHES/glib2.mipsel/002-missing-gthread-include.patch
 		patch < $PATCHES/glib2.mipsel/010-move-iconv-to-libs.patch
+		touch .patched
 	fi
 
-	if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]];then
-		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
-		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
-	fi
-
-	if [ "$DESTARCH" == "x86_64" ];then
-		patch -p1 < $PATCHES/glib2/frexpl.patch
-	fi
-
-	touch .patched
-fi
-
-if [ ! -f .configured ]; then
-	if [ "$DESTARCH" == "mipsel" ];then
+	if [ ! -f .configured ]; then
 		LDFLAGS=$LDFLAGS \
 		CPPFLAGS=$CPPFLAGS \
 		CFLAGS=$CFLAGS \
@@ -79,8 +60,45 @@ if [ ! -f .configured ]; then
 		ac_cv_func_posix_getpwuid_r=yes \
 		ac_cv_func_posix_getgrgid_r=yes
 		touch .configured
-	else
-		PATH=$SRC/perl/native/bin:$PATH \
+	fi
+
+	if [ ! -f .built ]; then
+		$MAKE
+		touch .built
+	fi
+
+	if [ ! -f .installed ]; then
+		$MAKE1 install DESTDIR=$BASE
+		touch .installed
+	fi
+fi
+
+if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
+
+	GLIB_VERSION=2.75.0
+
+	cd $SRC/glib2
+
+	if [ ! -f .extracted ]; then
+		rm -rf glib glib-${GLIB_VERSION}
+		tar xvJf glib-${GLIB_VERSION}.tar.xz
+		mv glib-${GLIB_VERSION} glib
+		touch .extracted
+	fi
+
+	cd glib
+
+	if [ ! -f .patched ]; then
+		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
+		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
+		if [ "$DESTARCH" == "x86_64" ];then
+			patch -p1 < $PATCHES/glib2/frexpl.patch
+		fi
+		touch .patched
+	fi
+
+	if [ ! -f .configured ]; then
+		PATH=$SRC/python3/native3/bin:$PATH \
 		$SRC/meson/meson/meson.py \
 		build \
 		--cross-file $SRC/meson/$DESTARCH-$DESTARCHLIBC-cross.txt \
@@ -99,31 +117,21 @@ if [ ! -f .configured ]; then
 		-Dcpp_link_args="$LDFLAGS"
 		touch .configured
 	fi
-fi
 
-if [ "$DESTARCH" == "mipsel" ] && [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
+	if [ ! -f .built ]; then
+		$SRC/meson/meson/meson.py \
+		compile \
+		-C build
+		touch .built
+	fi
 
-if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]] && [ ! -f .built ]; then
-	$SRC/meson/meson/meson.py \
-	compile \
-	-C build
-	touch .built
-fi
-
-if [ "$DESTARCH" == "mipsel" ] && [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
-
-if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]] && [ ! -f .installed ]; then
-	DESTDIR=$BASE \
-	$SRC/meson/meson/meson.py \
-	install \
-	-C build
-	touch .installed
+	if [ ! -f .installed ]; then
+		DESTDIR=$BASE \
+		$SRC/meson/meson/meson.py \
+		install \
+		-C build
+		touch .installed
+	fi
 fi
 
 unset PKG_CONFIG_LIBDIR
