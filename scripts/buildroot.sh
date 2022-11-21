@@ -2254,6 +2254,7 @@ if [ "$DESTARCHLIBC" == "musl" ]; then
 fi
 
 if [ ! -f .built ]; then
+	EABI=$EABI \
 	_PREFIX=$PREFIX \
 	_LDFLAGS="$LDFLAGS $lfts" \
 	_CPPFLAGS="$CPPFLAGS -fcommon" \
@@ -2262,6 +2263,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
+	EABI=$EABI \
 	DESTARCH=$DESTARCH
 	_PREFIX=$PREFIX \
 	_LDFLAGS="$LDFLAGS $lfts" \
