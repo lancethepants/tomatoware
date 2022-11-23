@@ -488,7 +488,7 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	CC=$DESTARCH-linux-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	CFLAGS="-std=c99 $CFLAGS" \
 	LDFLAGS=$LDFLAGS \
 	prefix=$PREFIX \
