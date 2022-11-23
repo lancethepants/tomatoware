@@ -1824,7 +1824,10 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE STRIP_OPT="-s --strip-program=$DESTARCH-linux-strip"
+	$MAKE1 \
+	install \
+	DESTDIR=$BASE \
+	STRIP_OPT="-s --strip-program=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-strip"
 	touch .installed
 fi
 
@@ -2067,7 +2070,10 @@ if [ ! -f .built ]; then
 fi
 
 if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE STRIP=$DESTARCH-linux-strip
+	$MAKE1 \
+	install \
+	DESTDIR=$BASE \
+	STRIP=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-strip
 	touch .installed
 fi
 
