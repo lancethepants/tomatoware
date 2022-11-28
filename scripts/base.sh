@@ -308,7 +308,7 @@ if [ ! -f .patched ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "mipsel" ]]; t
 fi
 
 if [ "$DESTARCH" == "mipsel" ];then
-	os=linux-mips32
+	os="linux-mips32 -mips32 -mtune=mips32"
 fi
 
 if [ "$DESTARCH" == "arm" ];then
@@ -316,11 +316,11 @@ if [ "$DESTARCH" == "arm" ];then
 fi
 
 if [ "$DESTARCH" == "aarch64" ];then
-	os="linux-aarch64"
+	os="linux-aarch64 -mcpu=cortex-a53"
 fi
 
 if [ "$DESTARCH" == "x86_64" ];then
-	os="linux-x86_64"
+	os="linux-x86_64 -march=x86-64-v2"
 fi
 
 if [ ! -f .configured ]; then
