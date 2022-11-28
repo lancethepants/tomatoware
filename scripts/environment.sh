@@ -17,9 +17,7 @@ NINJA="ninja"
 
 ORIGINALPATH=$PATH
 export PATH=$BASE/native/bin:$PATH
-
 export CCACHE_DIR=$HOME/.ccache
-export CCACHE_NOINODECACHE=1
 
 if [ "$DESTARCHLIBC" == "uclibc" ]; then
 	LDFLAGS="-L$DEST/lib -s -Wl,--dynamic-linker=$PREFIX/lib/ld-uClibc.so.1 -Wl,-rpath-link,$DEST/lib"
@@ -45,7 +43,7 @@ BINUTILS_VERSION=2.38
 GCC_VERSION=12.2.0
 NINJA_VERSION=1.11.1
 CMAKE_VERSION=3.25.0
-CCACHE_VERSION=4.7.3
+CCACHE_VERSION=4.7.4
 AUTOCONF_VERSION=2.71
 
 if [ "$DESTARCH" == "aarch64" ]; then
