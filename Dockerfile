@@ -7,7 +7,6 @@ RUN	apt-get update && \
 	bc \
 	bison \
 	build-essential \
-	cmake \
 	cpio \
 	curl \
 	docbook-xsl \
@@ -15,6 +14,7 @@ RUN	apt-get update && \
 	gawk \
 	gettext \
 	git \
+	libcurl4-openssl-dev \
 	libexpat1-dev \
 	libffi-dev \
 	libglib2.0-dev \
