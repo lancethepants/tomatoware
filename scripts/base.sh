@@ -205,7 +205,7 @@ fi
 ######## ####################################################################
 Status "compiling zstd"
 
-ZSTD_VERSION=1.5.2
+ZSTD_VERSION=1.5.6
 
 cd $SRC/zstd
 
