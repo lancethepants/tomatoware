@@ -421,7 +421,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--with-ssl=$DEST \
+	--with-openssl=$DEST \
 	--with-zstd=$DEST \
 	--with-ca-path=$PREFIX/ssl/certs
 	touch .configured
@@ -460,7 +460,7 @@ fi
 ######### ###################################################################
 Status "compiling expat"
 
-EXPAT_VERSION=2.5.0
+EXPAT_VERSION=2.6.2
 
 cd $SRC/expat
 
