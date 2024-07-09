@@ -7,7 +7,7 @@ export SRC=$SRC
 
 MUSLVER="1.2.3"
 UCLIBCVER="1.0.42"
-BUILDROOTVER="git"
+BUILDROOTVER="2024.05"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}"
 MIPSELTOOLCHAINDIR="/opt/tomatoware/mipsel-uclibc${PREFIX////-}"
 
@@ -81,7 +81,7 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 	echo -e '\033]2;'Building Toolchain'\007'
 
 	mkdir $BASE/toolchain
-	tar xvjf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.bz2 -C $BASE/toolchain
+	tar xvJf $SRC/toolchain/buildroot-${BUILDROOTVER}.tar.xz -C $BASE/toolchain
 
 	if [[ ! ("$DESTARCH" == "arm" && "$DESTARCHLIBC" == "musl") ]] && [ "$DESTARCH" != "x86_64" ]; then
 		patch -d $BASE/toolchain/buildroot-${BUILDROOTVER} -p1 < $PATCHES/buildroot/golang.patch

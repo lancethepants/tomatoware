@@ -60,7 +60,7 @@ fi
 cd ninja-native
 
 if [ ! -f .built-native ]; then
-	python ./configure.py --bootstrap
+	python3 ./configure.py --bootstrap
 	mkdir -p $BASE/native/bin
 	cp ninja $BASE/native/bin
 	touch .built-native
