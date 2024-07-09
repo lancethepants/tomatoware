@@ -1,0 +1,7 @@
+.count
+.symlinked-native
+/src/
+/mmc/
+/opt/
+/native/
+config.mk
