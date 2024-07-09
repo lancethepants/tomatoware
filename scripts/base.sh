@@ -497,13 +497,13 @@ fi
 ########### #################################################################
 Status "compiling libpcap"
 
-LIBPCAP_VERSION=1.10.1
+LIBPCAP_VERSION=1.10.4
 
 cd $SRC/libpcap
 
 if [ ! -f .extracted ]; then
 	rm -rf libpcap libpcap-${LIBPCAP_VERSION}
-	tar zxvf libpcap-${LIBPCAP_VERSION}.tar.gz
+	tar xvJf libpcap-${LIBPCAP_VERSION}.tar.xz
 	mv libpcap-${LIBPCAP_VERSION} libpcap
 	touch .extracted
 fi
