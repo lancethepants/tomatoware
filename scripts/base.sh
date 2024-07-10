@@ -1901,6 +1901,11 @@ fi
 
 cd zsh
 
+if [ ! -f .patched ]; then
+        patch -p1 < $PATCHES/zsh/zsh-ncurses.patch
+        touch .patched
+fi
+
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
