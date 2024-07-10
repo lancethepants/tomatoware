@@ -1681,7 +1681,7 @@ fi
 ########### #################################################################
 Status "compiling openssh"
 
-OPENSSH_VERSION=9.1p1
+OPENSSH_VERSION=9.8p1
 
 cd $SRC/openssh
 
@@ -1703,8 +1703,8 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
+	CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types" \
+	CXXFLAGS="$CXXFLAGS -Wno-error=incompatible-pointer-types" \
 	$CONFIGURE \
 	--without-rpath \
 	--with-ssl-dir=$DEST \
