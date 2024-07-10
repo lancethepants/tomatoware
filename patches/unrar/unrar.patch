@@ -1,12 +1,12 @@
 diff -Naur unrar.orig/makefile unrar/makefile
---- unrar.orig/makefile	2022-08-18 09:12:27.977466147 -0600
-+++ unrar/makefile	2022-08-18 09:13:54.789536219 -0600
+--- unrar.orig/makefile	2024-07-10 10:17:55.491715893 -0600
++++ unrar/makefile	2024-07-10 10:18:49.079781315 -0600
 @@ -2,13 +2,13 @@
  # Makefile for UNIX - unrar
  
  # Linux using GCC
 -CXX=c++
--CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
+-CXXFLAGS=-march=native -O2 -std=c++11 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
 +CXX=$(DESTARCH)-tomatoware-linux-$(DESTARCHLIBC)$(EABI)-g++
 +CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else $(EXTRACFLAGS)
  LIBFLAGS=-fPIC
@@ -19,4 +19,4 @@ diff -Naur unrar.orig/makefile unrar/makefile
 +LDFLAGS=$(_LDFLAGS)
  DESTDIR=/usr
  
- # Linux using LCC
+ ##########################
