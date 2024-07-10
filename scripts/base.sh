@@ -2119,12 +2119,13 @@ fi
 ########## ##################################################################
 Status "compiling boost"
 
-BOOST_VERSION=1_80_0
+BOOST_VERSION=1_85_0
 
 cd $SRC/boost
 
 if [ ! -f .extracted ]; then
 	rm -rf boost boost_${BOOST_VERSION} build
+	cat boost_${BOOST_VERSION}.tar.xz.parta* >boost_${BOOST_VERSION}.tar.xz
 	tar xvJf boost_${BOOST_VERSION}.tar.xz
 	mv boost_${BOOST_VERSION} boost
 	mkdir -p $SRC/boost/build
