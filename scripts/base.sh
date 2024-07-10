@@ -1770,7 +1770,7 @@ fi
 ########## ##################################################################
 Status "compiling screen"
 
-SCREEN_VERSION=4.9.0
+SCREEN_VERSION=4.9.1
 
 cd $SRC/screen
 
@@ -1795,8 +1795,8 @@ fi
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
+	CFLAGS="$CFLAGS -Wno-implicit-function-declaration" \
+	CXXFLAGS="$CXXFLAGS -Wno-implicit-function-declaration" \
 	$CONFIGURE \
 	--enable-colors256
 	touch .configured
