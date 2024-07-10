@@ -1584,7 +1584,7 @@ fi
 ########## ##################################################################
 Status "compiling strace"
 
-STRACE_VERSION=4.21
+STRACE_VERSION=6.9
 
 cd $SRC/strace
 
