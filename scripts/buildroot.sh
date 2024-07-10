@@ -318,6 +318,8 @@ if [ ! -f .configured ]; then
 	--target=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI \
 	--with-sysroot=$PREFIX \
 	--enable-gold=yes \
+	--enable-gprofng=no \
+	--without-zstd \
 	--disable-werror \
 	--disable-nls \
 	--disable-rpath
