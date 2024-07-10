@@ -500,7 +500,7 @@ if [ ! -f .patched ]; then
 		patch -p1 < $PATCHES/gcc/0002-go-runtime-mips-epoll-fix.patch
 	fi
 	patch -p1 < 0003-add-tomatoware-certs-path.patch
-	patch -p1 < $PATCHES/gcc/0004-libstdc-condition-variable.patch
+#	patch -p1 < $PATCHES/gcc/0004-libstdc-condition-variable.patch
 	patch -p1 < $PATCHES/gcc/0005-arm-static-pie.patch
 	patch -p1 < $PATCHES/gcc/0006-mips-static-pie.patch
 	patch -p1 < gcc-12.1.0-specs-1.patch
