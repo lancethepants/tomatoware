@@ -9,7 +9,7 @@ c = 'arm-tomatoware-linux-musleabi-gcc'
 cpp = 'arm-tomatoware-linux-musleabi-g++'
 ar = 'arm-tomatoware-linux-musleabi-ar'
 strip = 'arm-tomatoware-linux-musleabi-strip'
-pkgconfig = '/usr/bin/pkg-config'
+pkg-config = '/usr/bin/pkg-config'
 
 [properties]
 have_c99_vsnprintf=true
