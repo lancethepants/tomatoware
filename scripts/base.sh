@@ -2082,7 +2082,7 @@ fi
 ######## ####################################################################
 Status "compiling gzip"
 
-GZIP_VERSION=1.12
+GZIP_VERSION=1.13
 
 cd $SRC/gzip
 
