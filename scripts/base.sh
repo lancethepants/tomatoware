@@ -1627,7 +1627,7 @@ fi
 ####### #####################################################################
 Status "compiling pam"
 
-LINUX_PAM_VERSION=1.5.2
+LINUX_PAM_VERSION=1.6.1
 
 cd $SRC/pam
 
