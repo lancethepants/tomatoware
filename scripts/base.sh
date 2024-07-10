@@ -1993,7 +1993,7 @@ fi
 ######## ####################################################################
 Status "compiling tmux"
 
-TMUX_VERSION=3.3a
+TMUX_VERSION=3.4
 
 cd $SRC/tmux
 
