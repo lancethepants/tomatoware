@@ -1733,7 +1733,7 @@ fi
 ######## ####################################################################
 Status "compiling htop"
 
-HTOP_VERSION=3.2.1
+HTOP_VERSION=3.3.0
 
 cd $SRC/htop
 
