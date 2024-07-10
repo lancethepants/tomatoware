@@ -594,7 +594,7 @@ fi
 ########### #################################################################
 Status "compiling ncurses"
 
-NCURSES_VERSION=6.3
+NCURSES_VERSION=6.5
 M=${NCURSES_VERSION%.*}
 m=${NCURSES_VERSION#*.}
 
