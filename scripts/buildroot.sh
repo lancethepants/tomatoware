@@ -75,7 +75,7 @@ fi
 
 if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
 
-	GLIB_VERSION=2.75.0
+	GLIB_VERSION=2.80.4
 
 	cd $SRC/glib2
 
@@ -88,18 +88,8 @@ if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64
 
 	cd glib
 
-	if [ ! -f .patched ]; then
-		patch -p1 < $PATCHES/glib2/0001-fix-compile-time-atomic-detection.patch
-		patch -p1 < $PATCHES/glib2/0003-Add-Wno-format-nonliteral-to-compiler-arguments.patch
-		if [ "$DESTARCH" == "x86_64" ];then
-			patch -p1 < $PATCHES/glib2/frexpl.patch
-		fi
-		touch .patched
-	fi
-
 	if [ ! -f .configured ]; then
-		PATH=$SRC/python3/native3/bin:$PATH \
-		$SRC/meson/meson/meson.py \
+		$SRC/meson/meson/meson.py setup \
 		build \
 		--cross-file $SRC/meson/$DESTARCH-$DESTARCHLIBC-cross.txt \
 		--prefix /mmc \
@@ -108,11 +98,11 @@ if [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64
 		-Dstrip='true' \
 		-Dselinux='disabled' \
 		-Dlibmount='disabled' \
-		-Dman='false' \
+		-Dman-pages='disabled' \
 		-Dtests='false' \
 		-Dc_std=gnu11 \
-		-Dc_args="-Wno-error=missing-include-dirs $CPPFLAGS $CFLAGS" \
-		-Dcpp_args="-Wno-error=missing-include-dirs $CPPFLAGS $CXXFLAGS" \
+		-Dc_args="$CPPFLAGS $CFLAGS -Wno-missing-include-dirs" \
+		-Dcpp_args="$CPPFLAGS $CXXFLAGS -Wno-missing-include-dirs" \
 		-Dc_link_args="$LDFLAGS" \
 		-Dcpp_link_args="$LDFLAGS"
 		touch .configured
