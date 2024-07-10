@@ -1925,7 +1925,7 @@ fi
 ####### #####################################################################
 Status "compiling vim"
 
-VIM_VERSION=9.0
+VIM_VERSION=9.1
 M=${VIM_VERSION%.*}
 m=${VIM_VERSION#*.}
 
