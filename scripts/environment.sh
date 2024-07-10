@@ -49,7 +49,7 @@ AUTOCONF_VERSION=2.71
 if [ "$DESTARCH" == "aarch64" ]; then
 	PERL_VERSION=5.32.1
 else
-	PERL_VERSION=5.36.0
+	PERL_VERSION=5.40.0
 fi
 
 if [ "$BUILDLLVM" == "1" ] && [ "$DESTARCH" == "arm" ]; then

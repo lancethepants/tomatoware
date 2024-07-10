@@ -1118,7 +1118,7 @@ if [ ! -f .configured ]; then
 	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
 	-DHAVE_GCC_ATOMIC_BUILTINS=1 \
-	-DCMAKE_C_FLAGS="$CFLAGS" \
+	-DCMAKE_C_FLAGS="$CFLAGS -Wno-int-conversion" \
 	-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	./
@@ -1147,7 +1147,7 @@ Status "compiling perl"
 if [ "$DESTARCH" == "aarch64" ]; then
 	PERL_CROSS_VERSION=1.3.5
 else
-	PERL_CROSS_VERSION=1.4
+	PERL_CROSS_VERSION=1.5.3
 fi
 
 
@@ -1176,8 +1176,8 @@ cd ../perl
 
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
+	CPPFLAGS="$CPPFLAGS -Wno-implicit-function-declaration" \
+	CFLAGS="$CFLAGS -Wno-implicit-function-declaration" \
 	CXXFLAGS=$CXXFLAGS \
 	./configure \
 	--prefix=$PREFIX \
