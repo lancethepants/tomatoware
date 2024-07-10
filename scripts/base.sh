@@ -774,7 +774,7 @@ fi
 ########### #################################################################
 Status "compiling libgdbm"
 
-LIBGDBM_VERSION=1.23
+LIBGDBM_VERSION=1.24
 
 cd $SRC/libgdbm
 
