@@ -215,7 +215,7 @@ fi
 ######## ####################################################################
 Status "compiling mpfr"
 
-MPFR_VERSION=4.1.1
+MPFR_VERSION=4.2.1
 
 cd $SRC/mpfr
 
