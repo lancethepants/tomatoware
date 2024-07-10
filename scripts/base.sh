@@ -1657,6 +1657,7 @@ if [ ! -f .configured ]; then
 	--disable-rpath \
 	--enable-read-both-confs \
 	--disable-nls \
+	--disable-nis \
 	ac_cv_search_crypt=no \
 	ac_cv_func_quotactl=no
 	touch .configured
