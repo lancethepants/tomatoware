@@ -1331,7 +1331,7 @@ Status "compiling util-linux"
 if [ "$DESTARCH" == "mipsel" ];then
 	UTIL_LINUX_VERSION=2.34
 else
-	UTIL_LINUX_VERSION=2.38.1
+	UTIL_LINUX_VERSION=2.40.2
 fi
 
 cd $SRC/util-linux
@@ -1351,6 +1351,7 @@ if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 fi
 
 if [ ! -f .configured ]; then
+	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
