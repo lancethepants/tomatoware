@@ -2274,7 +2274,7 @@ fi
 ############# ###############################################################
 Status "compiling procps-ng"
 
-PROCPS_VERSION=4.0.0
+PROCPS_VERSION=4.0.4
 
 cd $SRC/procps-ng
 
