@@ -1641,7 +1641,7 @@ fi
 ######## ####################################################################
 Status "compiling file"
 
-FILE_VERSION=5.43
+FILE_VERSION=5.45
 
 cd $SRC/file
 
