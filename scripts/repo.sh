@@ -288,7 +288,7 @@ fi
 ############# ###############################################################
 Status "compiling libassuan"
 
-LIBASSUAN_VERSION=2.5.5
+LIBASSUAN_VERSION=3.0.1
 
 cd $SRC/libassuan
 
