@@ -1,0 +1,11 @@
+diff -Naur apt-2.9.6.orig/cmdline/apt-internal-solver.cc apt-2.9.6/cmdline/apt-internal-solver.cc
+--- apt-2.9.6.orig/cmdline/apt-internal-solver.cc	2024-07-11 15:12:53.183807031 -0600
++++ apt-2.9.6/cmdline/apt-internal-solver.cc	2024-07-11 15:13:57.179958720 -0600
+@@ -36,6 +36,7 @@
+ #include <sstream>
+ #include <string>
+ #include <unistd.h>
++#include <libgen.h>
+ 
+ #include <apti18n.h>
+ 									/*}}}*/
