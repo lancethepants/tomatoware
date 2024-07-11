@@ -2072,7 +2072,7 @@ fi
 ####### #####################################################################
 Status "compiling gdb"
 
-GDB_VERSION=12.1
+GDB_VERSION=15.1
 
 cd $SRC/gdb
 
@@ -2110,7 +2110,7 @@ if [ ! -f .configured ]; then
 	--without-included-gettext \
 	--disable-werror \
 	--enable-static \
-	--without-mpfr \
+	--without-zstd \
 	ac_cv_type_uintptr_t=yes \
 	gt_cv_func_gettext_libintl=yes \
 	ac_cv_func_dcgettext=yes \
