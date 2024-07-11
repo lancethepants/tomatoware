@@ -550,7 +550,7 @@ fi
 ####### #####################################################################
 Status "compiling apt"
 
-APT_VERSION=2.5.4
+APT_VERSION=2.9.6
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -567,10 +567,11 @@ fi
 cd apt
 
 if [ ! -f .patched ]; then
-	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
+#	patch -p1 < $PATCHES/apt/apt-no-nquery.patch
 	patch -p1 < $PATCHES/apt/apt-remove-dpkg-path.patch
-	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
+#	patch -p1 < $PATCHES/apt/apt-cstdarg.patch
 	patch -p1 < $PATCHES/apt/apt-sandbox-as-nobody.patch
+	patch -p1 < $PATCHES/apt/apt-musl-basename.patch
 	touch .patched
 fi
 
@@ -585,8 +586,8 @@ if [ ! -f .configured ]; then
 	-DCMAKE_LIBRARY_PATH=$DEST/lib \
 	-DCMAKE_C_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc` \
 	-DCMAKE_CXX_COMPILER=`which $DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-g++` \
-	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS" \
-	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS" \
+	-DCMAKE_C_FLAGS="$CPPFLAGS $CFLAGS -fpermissive" \
+	-DCMAKE_CXX_FLAGS="$CPPFLAGS $CXXFLAGS -fpermissive" \
 	-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
 	-DBERKELEY_INCLUDE_DIRS=$DEST/include \
 	-DWITH_DOC=OFF \
