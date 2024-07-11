@@ -381,11 +381,13 @@ fi
 
 cd npth
 
-for file in $PATCHES/npth/*.patch
-do
-	patch -p1 < "$file"
-done
-
+if [ ! -f .patched ]; then
+	for file in $PATCHES/npth/*.patch
+	do
+		patch -p1 < "$file"
+	done
+	touch .patched
+fi
 
 if [ ! -f .configured ]; then
 	autoreconf -fsi
@@ -394,6 +396,7 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
+	--enable-install-npth-config \
 	--enable-static
 	touch .configured
 fi
@@ -413,7 +416,7 @@ fi
 ######### ###################################################################
 Status "compiling gnupg"
 
-GNUPG_VERSION=2.3.8
+GNUPG_VERSION=2.4.5
 
 cd $SRC/gnupg
 
