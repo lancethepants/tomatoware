@@ -1322,7 +1322,7 @@ fi
 ############# ###############################################################
 Status "compiling coreutils"
 
-COREUTILS_VERSION=9.1
+COREUTILS_VERSION=9.5
 
 cd $SRC/coreutils
 
