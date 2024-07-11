@@ -837,7 +837,7 @@ fi
 ######## ####################################################################
 Status "compiling llvm"
 
-LLVM_VERSION=15.0.6
+LLVM_VERSION=18.1.8
 
 if [ "$BUILDLLVM" == "1" ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "aarch64" || "$DESTARCH" == "x86_64" ]]; then
 
@@ -845,6 +845,7 @@ cd $SRC/llvm
 
 if [ ! -f .extracted ]; then
 	rm -rf llvm-project llvm-project-host llvm-project-${LLVM_VERSION}.src
+	cat llvm-project-${LLVM_VERSION}.src.tar.xz.parta* >llvm-project-${LLVM_VERSION}.src.tar.xz
 	tar xvJf llvm-project-${LLVM_VERSION}.src.tar.xz
 	mv llvm-project-${LLVM_VERSION}.src llvm-project
 	tar xvJf llvm-project-${LLVM_VERSION}.src.tar.xz
