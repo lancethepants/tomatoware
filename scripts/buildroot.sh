@@ -1098,11 +1098,6 @@ fi
 
 cd ccache
 
-if [ ! -f .patched ] && [ "$DESTARCHLIBC" == "musl" ];then
-	patch -p1 < $PATCHES/ccache/ccache-musl.patch
-	touch .patched
-fi
-
 if [ "$DESTARCH" == "mipsel" ]; then
 	atomic="-latomic"
 fi
