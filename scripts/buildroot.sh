@@ -2146,7 +2146,7 @@ fi
 ######## ####################################################################
 Status "compiling less"
 
-LESS_VERSION=608
+LESS_VERSION=643
 
 cd $SRC/less
 
