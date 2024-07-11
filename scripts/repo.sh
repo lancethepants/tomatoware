@@ -143,7 +143,7 @@ fi
 ########## ##################################################################
 Status "compiling gnutls"
 
-GNUTLS_VERSION=3.7.8
+GNUTLS_VERSION=3.8.6
 
 export PKG_CONFIG_LIBDIR=$DEST/lib/pkgconfig
 
@@ -161,8 +161,8 @@ cd gnutls
 if [ ! -f .configured ]; then
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
+	CFLAGS="$CFLAGS -Wno-missing-include-dirs" \
+	CXXFLAGS="$CXXFLAGS -Wno-missing-include-dirs" \
 	$CONFIGURE \
 	--disable-rpath \
 	--with-default-trust-store-file=$PREFIX/ssl/certs/ca-certificates.crt \
