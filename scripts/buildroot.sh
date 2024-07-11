@@ -2318,7 +2318,7 @@ fi
 ############ ################################################################
 Status "compiling unixodbc"
 
-UNIXODBC_VERSION=2.3.11
+UNIXODBC_VERSION=2.3.12
 
 cd $SRC/odbc
 
