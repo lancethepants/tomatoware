@@ -1442,7 +1442,7 @@ fi
 ######## ####################################################################
 Status "compiling gawk"
 
-GAWK_VERSION=5.2.1
+GAWK_VERSION=5.3.0
 
 cd $SRC/gawk
 
