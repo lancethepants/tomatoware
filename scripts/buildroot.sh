@@ -1365,7 +1365,7 @@ fi
 ############# ###############################################################
 Status "compiling diffutils"
 
-DIFFUTILS_VERSION=3.8
+DIFFUTILS_VERSION=3.10
 
 cd $SRC/diffutils
 
