@@ -1599,7 +1599,7 @@ fi
 ######## ####################################################################
 Status "compiling make"
 
-MAKE_VERSION=4.4
+MAKE_VERSION=4.4.1
 
 cd $SRC/make
 
