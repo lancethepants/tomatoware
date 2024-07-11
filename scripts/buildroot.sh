@@ -1015,13 +1015,13 @@ fi
 ########## ##################################################################
 Status "compiling golang"
 
-GOLANG_VERSION=1.19.3
+GOLANG_VERSION=1.22.5
 
 cd $SRC/golang
 
 if [ ! -f .extracted ]; then
 	rm -rf go go-*
-	tar xvJf go${GOLANG_VERSION}.linux-amd64.tar.xz
+	tar zxvf go${GOLANG_VERSION}.linux-amd64.tar.gz
 	mv go go-native
 	tar zxvf go${GOLANG_VERSION}.src.tar.gz
 	touch .extracted
