@@ -106,7 +106,7 @@ fi
 ########## ##################################################################
 Status "compiling nettle"
 
-NETTLE_VERSION=3.8.1
+NETTLE_VERSION=3.10
 
 cd $SRC/nettle
 
