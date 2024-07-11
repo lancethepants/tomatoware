@@ -1525,36 +1525,36 @@ Status "compiling slibtool"
 
 SLIBTOOL_VERSION=0.5.34
 
-cd $SRC/slibtool
+#cd $SRC/slibtool
 
-if [ ! -f .extracted ]; then
-	rm -rf slibtool slibtool-${SLIBTOOL_VERSION}
-	tar xvJf slibtool-${SLIBTOOL_VERSION}.tar.xz
-	mv slibtool-${SLIBTOOL_VERSION} slibtool
-	touch .extracted
-fi
+#if [ ! -f .extracted ]; then
+#	rm -rf slibtool slibtool-${SLIBTOOL_VERSION}
+#	tar xvJf slibtool-${SLIBTOOL_VERSION}.tar.xz
+#	mv slibtool-${SLIBTOOL_VERSION} slibtool
+#	touch .extracted
+#fi
 
-cd slibtool
+#cd slibtool
 
-if [ ! -f .configured ]; then
-	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
-	LDFLAGS=$LDFLAGS \
-	CPPFLAGS=$CPPFLAGS \
-	CFLAGS=$CFLAGS \
-	CXXFLAGS=$CXXFLAGS \
-	$CONFIGURE
-	touch .configured
-fi
+#if [ ! -f .configured ]; then
+#	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+#	LDFLAGS=$LDFLAGS \
+#	CPPFLAGS=$CPPFLAGS \
+#	CFLAGS=$CFLAGS \
+#	CXXFLAGS=$CXXFLAGS \
+#	$CONFIGURE
+#	touch .configured
+#fi
 
-if [ ! -f .built ]; then
-	$MAKE
-	touch .built
-fi
+#if [ ! -f .built ]; then
+#	$MAKE
+#	touch .built
+#fi
 
-if [ ! -f .installed ]; then
-	$MAKE1 install DESTDIR=$BASE
-	touch .installed
-fi
+#if [ ! -f .installed ]; then
+#	$MAKE1 install DESTDIR=$BASE
+#	touch .installed
+#fi
 
 ###### ######################################################################
 # M4 # ######################################################################
