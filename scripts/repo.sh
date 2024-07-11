@@ -248,7 +248,7 @@ fi
 ############# ###############################################################
 Status "compiling libgcrypt"
 
-LIBGCRYPT_VERSION=1.10.1
+LIBGCRYPT_VERSION=1.11.0
 
 cd $SRC/libgcrypt
 
