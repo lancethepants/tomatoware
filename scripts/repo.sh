@@ -513,7 +513,7 @@ fi
 ########## ##################################################################
 Status "compiling xxhash"
 
-XXHASH_VERSION=0.8.1
+XXHASH_VERSION=0.8.2
 
 cd $SRC/xxhash
 
