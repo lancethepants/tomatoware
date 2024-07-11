@@ -2,12 +2,50 @@
 
 source ./scripts/environment.sh
 
+######### ###################################################################
+# LIBMD # ###################################################################
+######### ###################################################################
+Status "compiling libmd"
+
+LIBMD_VERSION=1.1.0
+
+cd $SRC/libmd
+
+if [ ! -f .extracted ]; then
+	rm -rf libmd libmd-${LIBMD_VERSION}
+	tar xvJf libmd-${LIBMD_VERSION}.tar.xz
+	mv libmd-${LIBMD_VERSION} libmd
+	touch .extracted
+fi
+
+cd libmd
+
+if [ ! -f .configured ]; then
+	LDFLAGS=$LDFLAGS \
+	CPPFLAGS=$CPPFLAGS \
+	CFLAGS=$CFLAGS \
+	CXXFLAGS=$CXXFLAGS \
+	$CONFIGURE \
+	--disable-rpath
+	touch .configured
+fi
+
+if [ ! -f .built ]; then
+	$MAKE
+	touch .built
+fi
+
+if [ ! -f .installed ]; then
+	$MAKE1 install DESTDIR=$BASE
+	touch .installed
+fi
+
 ######## ####################################################################
 # DPKG # ####################################################################
 ######## ####################################################################
 Status "compiling dpkg"
 
-DPKG_VERSION=1.21.9
+DPKG_VERSION=1.22.6
 
 cd $SRC/dpkg
 
