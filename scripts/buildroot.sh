@@ -1910,7 +1910,7 @@ fi
 ########### #################################################################
 Status "compiling texinfo"
 
-TEXINFO_VERSION=7.0
+TEXINFO_VERSION=7.1
 
 cd $SRC/texinfo
 
@@ -1929,7 +1929,8 @@ if [ ! -f .configured ]; then
 	CFLAGS=$CFLAGS \
 	CXXFLAGS=$CXXFLAGS \
 	$CONFIGURE \
-	--disable-rpath
+	--disable-rpath \
+	texinfo_cv_sys_iconv_converts_euc_cn=yes
 	touch .configured
 fi
 
