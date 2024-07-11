@@ -1403,7 +1403,7 @@ fi
 ############# ###############################################################
 Status "compiling findutils"
 
-FINDUTILS_VERSION=4.9.0
+FINDUTILS_VERSION=4.10.0
 
 cd $SRC/findutils
 
