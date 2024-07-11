@@ -1949,7 +1949,7 @@ fi
 ######## ####################################################################
 Status "compiling cpio"
 
-CPIO_VERSION=2.13
+CPIO_VERSION=2.15
 
 cd $SRC/cpio
 
