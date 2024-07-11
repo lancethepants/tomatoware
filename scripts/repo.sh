@@ -368,7 +368,7 @@ fi
 ######## ####################################################################
 Status "compiling npth"
 
-NPTH_VERSION=1.6
+NPTH_VERSION=1.7
 
 cd $SRC/npth
 
@@ -381,7 +381,14 @@ fi
 
 cd npth
 
+for file in $PATCHES/npth/*.patch
+do
+	patch -p1 < "$file"
+done
+
+
 if [ ! -f .configured ]; then
+	autoreconf -fsi
 	LDFLAGS=$LDFLAGS \
 	CPPFLAGS=$CPPFLAGS \
 	CFLAGS=$CFLAGS \
