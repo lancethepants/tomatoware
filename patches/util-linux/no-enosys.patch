@@ -1,0 +1,14 @@
+diff -Naur util-linux-2.40.2.orig/configure util-linux-2.40.2/configure
+--- util-linux-2.40.2.orig/configure	2024-07-12 10:57:15.694808628 -0600
++++ util-linux-2.40.2/configure	2024-07-12 11:10:46.046236834 -0600
+@@ -36613,8 +36613,8 @@
+ 
+ fi
+  if test "x$build_enosys" = xyes; then
+-  BUILD_ENOSYS_TRUE=
+-  BUILD_ENOSYS_FALSE='#'
++  BUILD_ENOSYS_TRUE='#'
++  BUILD_ENOSYS_FALSE=
+ else
+   BUILD_ENOSYS_TRUE='#'
+   BUILD_ENOSYS_FALSE=

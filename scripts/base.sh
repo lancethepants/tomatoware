@@ -307,10 +307,10 @@ fi
 
 cd openssl
 
-if [ ! -f .patched ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "mipsel" ]]; then
-	patch -p1 < $PATCHES/openssl/140-allow-prefer-chacha20.patch
-	touch .patched
-fi
+#if [ ! -f .patched ] && [[ "$DESTARCH" == "arm" || "$DESTARCH" == "mipsel" ]]; then
+#	patch -p1 < $PATCHES/openssl/140-allow-prefer-chacha20.patch
+#	touch .patched
+#fi
 
 if [ "$DESTARCH" == "mipsel" ];then
 	os="linux-mips32 -mips32 -mtune=mips32"
@@ -1350,6 +1350,15 @@ if [ ! -f .patched ] && [ "$DESTARCH" == "mipsel" ];then
 	touch .patched
 fi
 
+if [ ! -f .patched ] && [ "$DESTARCH" == "arm" ];then
+	patch -p1 < $PATCHES/util-linux/no-enosys.patch
+	touch .patched
+fi
+
+if [ "$DESTARCH" == "arm" ];then
+	util_linux_config="--disable-lsfd --disable-hwclock"
+fi
+
 if [ ! -f .configured ]; then
 	PKG_CONFIG_PATH="$DEST/lib/pkgconfig" \
 	LDFLAGS=$LDFLAGS \
@@ -1365,7 +1374,8 @@ if [ ! -f .configured ]; then
 	--disable-wall \
 	--disable-su \
 	--disable-rfkill \
-	--disable-raw
+	--disable-raw \
+	$util_linux_config
 	touch .configured
 fi
 
