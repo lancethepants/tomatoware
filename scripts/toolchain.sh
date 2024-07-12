@@ -5,7 +5,7 @@ source ./scripts/environment.sh
 export BASE=$BASE
 export SRC=$SRC
 
-MUSLVER="1.2.3"
+MUSLVER="1.2.5"
 UCLIBCVER="1.0.42"
 BUILDROOTVER="2024.05"
 TOOLCHAINDIR="/opt/tomatoware/$DESTARCH-$DESTARCHLIBC${PREFIX////-}"
