@@ -18,6 +18,6 @@ Tomatoware can be compiled with different root prefixes. This allows it to co-ex
 
 Edit `config.mk` to set the desired architecture and prefix and run `make`.
 
-Debian 10 is used to build this project. An included Dockerfile can be used to create a working enviornment. Otherwise the following packages should be sufficient.
+Debian 12 is used to build this project. An included Dockerfile can be used to create a working enviornment. Otherwise the following packages should be sufficient.
 
 apt-get install autoconf-archive automake bc bison build-essential cpio curl docbook-xsl flex gawk gettext git libcurl4-openssl-dev libexpat1-dev libffi-dev libglib2.0-dev libncurses5-dev libtool libxml2-dev locales pkg-config po4a python-dev rsync sudo swig texinfo unzip vim wget xsltproc
