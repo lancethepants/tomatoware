@@ -131,8 +131,8 @@ if [ ! -f $TOOLCHAINDIR/bin/$DESTARCH-linux-gcc ]; then
 #		   $BASE/patches/gcc/musl/0033-gcc-go-link-to-libucontext.patch \
 	fi
 	mkdir -p $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
-	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch \
-	   $BASE/patches/gcc/0005-arm-static-pie.patch \
+#	cp $BASE/patches/gcc/0004-libstdc-condition-variable.patch \
+	cp $BASE/patches/gcc/0005-arm-static-pie.patch \
 	   $BASE/patches/gcc/0006-mips-static-pie.patch \
 	   $BASE/toolchain/buildroot-${BUILDROOTVER}/package/gcc/${GCC_VERSION}
 
