@@ -498,7 +498,7 @@ fi
 
 if [ ! -f .installed ]; then
 	$MAKE1 install \
-	cc=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
+	CC=$DESTARCH-tomatoware-linux-$DESTARCHLIBC$EABI-gcc \
 	LFLAGS="$LDFLAGS" \
 	CFLAGS="$CFLAGS $GETRANDOM" \
 	TOPDIR=$PREFIX \
