@@ -1,0 +1,17 @@
+tomatoware: look for time zone files in /mmc/share/zoneinfo first
+
+The firmware has no zoneinfo database; ours is in the bundle. Only used
+when TZ names a zone (TZ=Europe/Paris) rather than giving a POSIX rule.
+
+diff -Naur a/src/time/__tz.c b/src/time/__tz.c
+--- a/src/time/__tz.c	2026-10-08 14:39:51.808393327 -0600
++++ b/src/time/__tz.c	2026-10-08 14:39:51.808393327 -0600
+@@ -129,7 +129,7 @@
+ 	const unsigned char *map = 0;
+ 	size_t i;
+ 	static const char search[] =
+-		"/usr/share/zoneinfo/\0/share/zoneinfo/\0/etc/zoneinfo/\0";
++		"/mmc/share/zoneinfo/\0/usr/share/zoneinfo/\0/share/zoneinfo/\0/etc/zoneinfo/\0";
+ 
+ 	s = getenv("TZ");
+ 	if (!s) s = "/etc/localtime";

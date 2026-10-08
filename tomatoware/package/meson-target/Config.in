@@ -1,0 +1,8 @@
+config BR2_PACKAGE_MESON_TARGET
+	bool "meson"
+	depends on BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_NINJA_TARGET # runtime
+	help
+	  Meson build system, built for the target.
+
+	  https://mesonbuild.com/

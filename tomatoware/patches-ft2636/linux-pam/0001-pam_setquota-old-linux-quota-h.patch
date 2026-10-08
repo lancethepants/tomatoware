@@ -1,0 +1,23 @@
+pam_setquota: build against Linux 2.6.36 headers
+
+<linux/quota.h> from Linux 2.6.36 still declares quotactl() itself, with a
+different type from the libc declaration in <sys/quota.h>:
+
+  linux/quota.h:175:6: error: conflicting types for 'quotactl'
+
+Later kernels removed that declaration from the exported header. Rename it
+while including the header so only the libc one remains.
+
+--- a/modules/pam_setquota/pam_setquota.c	2026-10-10 18:45:09.850142271 -0600
++++ b/modules/pam_setquota/pam_setquota.c	2026-10-10 18:45:09.858142266 -0600
+@@ -12,7 +12,10 @@
+ 
+ #include <sys/types.h>
+ #include <sys/quota.h>
++/* Old Linux headers declare their own, conflicting quotactl(). */
++#define quotactl linux_quotactl
+ #include <linux/quota.h>
++#undef quotactl
+ #include <pwd.h>
+ #include <syslog.h>
+ #include <errno.h>

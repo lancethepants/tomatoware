@@ -1,0 +1,42 @@
+bundled: add a minimal linux/time_types.h for pre-5.1 kernel headers
+
+strace uses its bundled kernel headers when the toolchain's are older, but
+the bundled taskstats.h and io_uring.h include <linux/time_types.h>, which
+is not bundled and only exists in Linux 5.1+ headers:
+
+  bundled/linux/include/uapi/linux/taskstats.h:21:10: fatal error:
+  linux/time_types.h: No such file or directory
+
+The real header needs __kernel_time64_t, which Linux 2.6.36 doesn't have
+either, so add only the structs strace needs, spelled with plain types.
+
+diff -Naur a/bundled/linux/include/uapi/linux/time_types.h b/bundled/linux/include/uapi/linux/time_types.h
+--- a/bundled/linux/include/uapi/linux/time_types.h	1969-12-31 17:00:00.000000000 -0700
++++ b/bundled/linux/include/uapi/linux/time_types.h	2026-10-10 21:38:06.003708592 -0600
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Subset of Linux 5.1+ <linux/time_types.h> for building against older
++ * kernel headers, which lack __kernel_time64_t. Layouts are identical.
++ */
++#ifndef _UAPI_LINUX_TIME_TYPES_H
++#define _UAPI_LINUX_TIME_TYPES_H
++
++#include <linux/types.h>
++
++struct __kernel_timespec {
++	long long	tv_sec;			/* seconds */
++	long long	tv_nsec;		/* nanoseconds */
++};
++
++struct __kernel_itimerspec {
++	struct __kernel_timespec it_interval;	/* timer period */
++	struct __kernel_timespec it_value;	/* timer expiration */
++};
++
++struct __kernel_sock_timeval {
++	__s64 tv_sec;
++	__s64 tv_usec;
++};
++
++#endif /* _UAPI_LINUX_TIME_TYPES_H */

@@ -1,0 +1,18 @@
+mold -run: preload through MUSL_LD_PRELOAD
+
+Tomatoware's musl loader reads MUSL_LD_PRELOAD instead of LD_PRELOAD (see
+patches/musl), so "mold -run" has to set that name for its wrapper library
+to be loaded into the child.
+
+diff -Naur a/src/subprocess-unix.cc b/src/subprocess-unix.cc
+--- a/src/subprocess-unix.cc	2026-10-09 09:13:30.293460286 -0600
++++ b/src/subprocess-unix.cc	2026-10-09 09:13:30.293460286 -0600
+@@ -102,7 +102,7 @@
+   std::string dso_path = find_dso(ctx, self);
+ 
+   // Set environment variables
+-  setenv("LD_PRELOAD", dso_path.c_str(), 1);
++  setenv("MUSL_LD_PRELOAD", dso_path.c_str(), 1);
+   setenv("MOLD_PATH", self.c_str(), 1);
+ 
+   // If ld, ld.lld or ld.gold is specified, run mold instead

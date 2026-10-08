@@ -1,0 +1,15 @@
+config BR2_PACKAGE_MOLD
+	bool "mold"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_GCC_AT_LEAST_10 # C++20
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS # mold-wrapper.so
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_ZSTD
+	help
+	  mold is a faster drop-in replacement for the GNU linker.
+
+	  This is the 2.x series, the last one written in C++; 3.0
+	  was rewritten in Rust.
+
+	  https://github.com/rui314/mold

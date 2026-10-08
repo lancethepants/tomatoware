@@ -1,0 +1,8 @@
+config BR2_PACKAGE_DISTCC
+	bool "distcc"
+	depends on BR2_USE_MMU # fork()
+	help
+	  distcc distributes compilation of C and C++ code across
+	  several machines on a network.
+
+	  https://www.distcc.org/

@@ -1,0 +1,46 @@
+stat: accept statx-only flags on kernels without statx
+
+Without statx (Linux < 4.11) musl falls back to the fstatat syscall and
+passes the caller's flags through. Linux 2.6.36 rejects AT_NO_AUTOMOUNT
+(added in 2.6.38) and the AT_STATX_SYNC_* bits with EINVAL, so coreutils'
+ls and stat fail on every file:
+
+  ls: cannot access '.': Invalid argument
+
+Both are hints, so drop them on the fallback path rather than fail.
+
+diff -Naur a/src/linux/statx.c b/src/linux/statx.c
+--- a/src/linux/statx.c	2026-10-10 19:27:46.756631440 -0600
++++ b/src/linux/statx.c	2026-10-10 19:27:46.768631432 -0600
+@@ -4,6 +4,7 @@
+ #include <syscall.h>
+ #include <sys/sysmacros.h>
+ #include <errno.h>
++#include <fcntl.h>
+ 
+ int statx(int dirfd, const char *restrict path, int flags, unsigned mask, struct statx *restrict stx)
+ {
+@@ -16,7 +17,8 @@
+ 	if (ret != -ENOSYS) return __syscall_ret(ret);
+ 
+ 	struct stat st;
+-	ret = fstatat(dirfd, path, &st, flags);
++	/* The sync type is only a hint, and fstatat doesn't accept it. */
++	ret = fstatat(dirfd, path, &st, flags & ~AT_STATX_SYNC_TYPE);
+ 	if (ret) return ret;
+ 
+ 	*stx = (struct statx){0};
+diff -Naur a/src/stat/fstatat.c b/src/stat/fstatat.c
+--- a/src/stat/fstatat.c	2026-10-10 19:27:46.756631440 -0600
++++ b/src/stat/fstatat.c	2026-10-10 19:27:46.768631432 -0600
+@@ -78,6 +78,10 @@
+ 	int ret;
+ 	struct kstat kst;
+ 
++	/* On 32-bit arm this is only reached without statx (Linux < 4.11).
++	 * Linux < 2.6.38 rejects AT_NO_AUTOMOUNT, so treat it as a hint. */
++	flag &= ~AT_NO_AUTOMOUNT;
++
+ 	if (flag==AT_EMPTY_PATH && fd>=0 && !*path) {
+ 		ret = __syscall(SYS_fstat, fd, &kst);
+ 		if (ret==-EBADF && __syscall(SYS_fcntl, fd, F_GETFD)>=0) {

@@ -1,0 +1,12 @@
+config BR2_PACKAGE_MANDOC
+	bool "mandoc"
+	depends on BR2_USE_MMU # fork()
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_MUSL_FTS if !BR2_TOOLCHAIN_USES_GLIBC
+	select BR2_PACKAGE_LESS # runtime, the pager
+	help
+	  mandoc formats manual pages; it provides man, apropos,
+	  whatis and makewhatis.
+
+	  https://mandoc.bsd.lv/

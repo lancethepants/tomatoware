@@ -1,0 +1,6 @@
+/src/buildroot/
+/output/
+/.patch
+/.extract-buildroot
+/.download-buildroot
+/.target

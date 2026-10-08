@@ -1,0 +1,8 @@
+config BR2_PACKAGE_M4_TARGET
+	bool "m4"
+	depends on BR2_USE_WCHAR
+	depends on BR2_USE_MMU # fork()
+	help
+	  GNU m4 macro processor, built for the target.
+
+	  https://www.gnu.org/software/m4/

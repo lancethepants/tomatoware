@@ -1,0 +1,19 @@
+--- a/package/strace/Config.in	2026-10-10 21:37:55.851715132 -0600
++++ b/package/strace/Config.in	2026-10-10 21:37:55.891715106 -0600
+@@ -1,6 +1,8 @@
+ config BR2_PACKAGE_STRACE
+ 	bool "strace"
+-	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_1 # time_types.h
++	# 2.6.x: tomatoware's arm-ft target carries the missing time_types.h
++	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_1 || \
++		BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_REALLY_OLD # time_types.h
+ 	depends on !BR2_RISCV_32
+ 	help
+ 	  A useful diagnostic, instructional, and debugging tool.
+@@ -13,4 +15,5 @@
+ 	  https://strace.io
+ 
+ comment "strace needs a toolchain w/ headers >= 5.1"
+-	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_1
++	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_1 && \
++		!BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_REALLY_OLD

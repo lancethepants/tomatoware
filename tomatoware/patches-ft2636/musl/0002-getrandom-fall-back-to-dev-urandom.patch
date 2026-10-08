@@ -1,0 +1,33 @@
+getrandom: fall back to /dev/urandom without the syscall
+
+getrandom() arrived in Linux 3.17. On 2.6.36 musl's wrapper fails with
+ENOSYS, and so does getentropy(), which is built on it. git, for one, has
+no fallback of its own:
+
+  error: unable to get random bytes for temporary file: Function not implemented
+
+Read /dev/urandom (/dev/random for GRND_RANDOM) instead, as the syscall
+does internally.
+
+diff -Naur a/src/linux/getrandom.c b/src/linux/getrandom.c
+--- a/src/linux/getrandom.c	2026-10-10 19:29:06.292580512 -0600
++++ b/src/linux/getrandom.c	2026-10-10 19:29:06.296580509 -0600
+@@ -1,7 +1,17 @@
+ #include <sys/random.h>
++#include <fcntl.h>
+ #include "syscall.h"
+ 
+ ssize_t getrandom(void *buf, size_t buflen, unsigned flags)
+ {
+-	return syscall_cp(SYS_getrandom, buf, buflen, flags);
++	long ret = __syscall_cp(SYS_getrandom, buf, buflen, flags);
++	if (ret != -ENOSYS) return __syscall_ret(ret);
++
++	/* Linux < 3.17 has no getrandom; read the device it reads. */
++	int fd = __sys_open(flags & GRND_RANDOM ? "/dev/random" : "/dev/urandom",
++		O_RDONLY|O_CLOEXEC|O_NOCTTY|(flags & GRND_NONBLOCK ? O_NONBLOCK : 0));
++	if (fd < 0) return __syscall_ret(fd);
++	ret = __syscall_cp(SYS_read, fd, buf, buflen);
++	__syscall(SYS_close, fd);
++	return __syscall_ret(ret);
+ }

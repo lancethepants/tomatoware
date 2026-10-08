@@ -1,0 +1,45 @@
+tomatoware: musl dynamic linker lives in /mmc/lib
+
+Makes every binary the toolchain links request the bundled loader, both
+for the Buildroot cross compiler and for the native compiler built from
+the same source.
+
+diff -Naur a/gcc/config/aarch64/aarch64-linux.h b/gcc/config/aarch64/aarch64-linux.h
+--- a/gcc/config/aarch64/aarch64-linux.h	2026-10-08 07:16:58.297164438 -0600
++++ b/gcc/config/aarch64/aarch64-linux.h	2026-10-08 07:18:57.108981445 -0600
+@@ -24,7 +24,7 @@
+ #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef MUSL_DYNAMIC_LINKER
+-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
++#define MUSL_DYNAMIC_LINKER "/mmc/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
+ 
+ #undef  ASAN_CC1_SPEC
+ #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
+diff -Naur a/gcc/config/arm/linux-eabi.h b/gcc/config/arm/linux-eabi.h
+--- a/gcc/config/arm/linux-eabi.h	2026-10-08 07:16:58.297164438 -0600
++++ b/gcc/config/arm/linux-eabi.h	2026-10-08 07:18:57.112981438 -0600
+@@ -89,7 +89,7 @@
+ #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
+ #endif
+ #define MUSL_DYNAMIC_LINKER \
+-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
++  "/mmc/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
+ 
+ /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+    use the GNU/Linux version, not the generic BPABI version.  */
+diff -Naur a/gcc/config/i386/linux64.h b/gcc/config/i386/linux64.h
+--- a/gcc/config/i386/linux64.h	2026-10-08 07:16:58.297164438 -0600
++++ b/gcc/config/i386/linux64.h	2026-10-08 07:18:57.112981438 -0600
+@@ -32,8 +32,8 @@
+ #define GLIBC_DYNAMIC_LINKERX32 "/libx32/ld-linux-x32.so.2"
+ 
+ #undef MUSL_DYNAMIC_LINKER32
+-#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
++#define MUSL_DYNAMIC_LINKER32 "/mmc/lib/ld-musl-i386.so.1"
+ #undef MUSL_DYNAMIC_LINKER64
+-#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
++#define MUSL_DYNAMIC_LINKER64 "/mmc/lib/ld-musl-x86_64.so.1"
+ #undef MUSL_DYNAMIC_LINKERX32
+-#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
++#define MUSL_DYNAMIC_LINKERX32 "/mmc/lib/ld-musl-x32.so.1"

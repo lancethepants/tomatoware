@@ -1,0 +1,9 @@
+config BR2_PACKAGE_BISON_TARGET
+	bool "bison"
+	depends on BR2_USE_WCHAR
+	depends on BR2_USE_MMU # fork()
+	select BR2_PACKAGE_M4_TARGET # runtime
+	help
+	  GNU parser generator, built for the target.
+
+	  https://www.gnu.org/software/bison/

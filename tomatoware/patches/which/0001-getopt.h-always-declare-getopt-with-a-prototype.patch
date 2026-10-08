@@ -1,0 +1,30 @@
+getopt.h: always declare getopt with a prototype
+
+Outside glibc the bundled getopt.h declares "extern int getopt();". Up to
+C17 that is a declaration without a prototype and is compatible with the
+one in <unistd.h>. In C23, which GCC 15 and later use by default, it means
+"int getopt(void)", so it conflicts with musl's declaration:
+
+  getopt.h:105:12: error: conflicting types for 'getopt'; have 'int(void)'
+
+The prototype used for glibc is the POSIX one and matches musl's, so use
+it unconditionally.
+
+diff -Naur a/getopt.h b/getopt.h
+--- a/getopt.h	2026-10-08 13:11:57.296534105 -0600
++++ b/getopt.h	2026-10-08 13:11:57.304534093 -0600
+@@ -96,14 +96,7 @@
+ #define optional_argument 2
+ 
+ #if defined(__STDC__) && __STDC__
+-#ifdef __GNU_LIBRARY__
+-/* Many other libraries have conflicting prototypes for getopt, with
+-   differences in the consts, in stdlib.h.  To avoid compilation
+-   errors, only prototype getopt for the GNU C library.  */
+ extern int getopt(int argc, char *const *argv, const char *shortopts);
+-#else  /* not __GNU_LIBRARY__ */
+-extern int getopt();
+-#endif /* __GNU_LIBRARY__ */
+ extern int getopt_long(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *longind);
+ extern int getopt_long_only(int argc, char *const *argv, const char *shortopts, const struct option *longopts,
+                             int *longind);

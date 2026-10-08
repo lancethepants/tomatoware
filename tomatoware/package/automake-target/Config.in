@@ -1,0 +1,9 @@
+config BR2_PACKAGE_AUTOMAKE_TARGET
+	bool "automake"
+	depends on BR2_USE_MMU # perl
+	select BR2_PACKAGE_AUTOCONF_TARGET # runtime
+	select BR2_PACKAGE_PERL # runtime
+	help
+	  GNU automake, built for the target.
+
+	  https://www.gnu.org/software/automake/

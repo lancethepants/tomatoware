@@ -1,0 +1,21 @@
+arm: support -static-pie
+
+Carried over from old tomatoware (0005-arm-static-pie.patch); the arm
+LINK_SPEC still has no static-pie handling in gcc 16.
+
+diff -Naur a/gcc/config/arm/linux-elf.h b/gcc/config/arm/linux-elf.h
+--- a/gcc/config/arm/linux-elf.h	2026-08-07 01:46:05.855685116 -0600
++++ b/gcc/config/arm/linux-elf.h	2026-10-08 07:18:57.140981395 -0600
+@@ -66,9 +66,10 @@
+    %{static:-Bstatic} \
+    %{shared:-shared} \
+    %{symbolic:-Bsymbolic} \
+-   %{!static: \
++   %{!static:%{!static-pie: \
+      %{rdynamic:-export-dynamic} \
+-     %{!shared:-dynamic-linker " GNU_USER_DYNAMIC_LINKER "}} \
++     %{!shared:-dynamic-linker " GNU_USER_DYNAMIC_LINKER "}}} \
++   %{static-pie:-Bstatic -pie --no-dynamic-linker -z text} \
+    -X \
+    %{mbig-endian:-EB} %{mlittle-endian:-EL}" \
+    SUBTARGET_EXTRA_LINK_SPEC

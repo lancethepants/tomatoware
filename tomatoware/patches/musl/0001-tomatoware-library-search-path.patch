@@ -1,0 +1,33 @@
+tomatoware: search /mmc for libraries, use private loader env vars
+
+Tomatoware is unpacked at /mmc next to a firmware that has its own libc
+(on Tomato64 that is also musl), so the loader must never fall back to
+the firmware's /lib and /usr/lib, and must not react to LD_LIBRARY_PATH /
+LD_PRELOAD meant for firmware binaries.
+
+The optional path file needs no change: musl looks for it relative to the
+loader itself, i.e. /mmc/etc/ld-musl-<arch>.path.
+
+diff -Naur a/ldso/dynlink.c b/ldso/dynlink.c
+--- a/ldso/dynlink.c	2026-10-08 07:16:57.369165868 -0600
++++ b/ldso/dynlink.c	2026-10-08 07:18:57.104981451 -0600
+@@ -1157,7 +1157,7 @@
+ 					sys_path = "";
+ 				}
+ 			}
+-			if (!sys_path) sys_path = "/lib:/usr/local/lib:/usr/lib";
++			if (!sys_path) sys_path = "/mmc/lib:/mmc/usr/local/lib:/mmc/usr/lib";
+ 			fd = path_open(name, sys_path, buf, sizeof buf);
+ 		}
+ 		pathname = buf;
+@@ -1819,8 +1819,8 @@
+ 
+ 	/* Only trust user/env if kernel says we're not suid/sgid */
+ 	if (!libc.secure) {
+-		env_path = getenv("LD_LIBRARY_PATH");
+-		env_preload = getenv("LD_PRELOAD");
++		env_path = getenv("MUSL_LD_LIBRARY_PATH");
++		env_preload = getenv("MUSL_LD_PRELOAD");
+ 	}
+ 
+ 	/* Activate error handler function */

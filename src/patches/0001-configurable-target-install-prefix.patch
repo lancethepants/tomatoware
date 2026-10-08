@@ -1,0 +1,58 @@
+diff -Naur a/package/Makefile.in b/package/Makefile.in
+--- a/package/Makefile.in	2026-10-08 07:18:32.141019775 -0600
++++ b/package/Makefile.in	2026-10-08 07:18:40.989006191 -0600
+@@ -127,6 +127,12 @@
+ STAGING_SUBDIR = $(GNU_TARGET_NAME)/sysroot
+ STAGING_DIR    = $(HOST_DIR)/$(STAGING_SUBDIR)
+ 
++# Install prefix that target packages are configured with. A BR2_EXTERNAL
++# tree can override these from its external.mk to build a relocated tree.
++TARGET_INSTALL_PREFIX ?= /usr
++TARGET_INSTALL_SYSCONFDIR ?= /etc
++TARGET_INSTALL_LOCALSTATEDIR ?= /var
++
+ ifeq ($(BR2_OPTIMIZE_0),y)
+ TARGET_OPTIMIZATION = -O0
+ endif
+diff -Naur a/package/pkg-autotools.mk b/package/pkg-autotools.mk
+--- a/package/pkg-autotools.mk	2026-10-08 07:18:32.141019775 -0600
++++ b/package/pkg-autotools.mk	2026-10-08 07:18:32.149019762 -0600
+@@ -174,10 +174,10 @@
+ 		--target=$$(GNU_TARGET_NAME) \
+ 		--host=$$(GNU_TARGET_NAME) \
+ 		--build=$$(GNU_HOST_NAME) \
+-		--prefix=/usr \
+-		--exec-prefix=/usr \
+-		--sysconfdir=/etc \
+-		--localstatedir=/var \
++		--prefix=$$(TARGET_INSTALL_PREFIX) \
++		--exec-prefix=$$(TARGET_INSTALL_PREFIX) \
++		--sysconfdir=$$(TARGET_INSTALL_SYSCONFDIR) \
++		--localstatedir=$$(TARGET_INSTALL_LOCALSTATEDIR) \
+ 		--program-prefix="" \
+ 		--disable-gtk-doc \
+ 		--disable-gtk-doc-html \
+diff -Naur a/package/pkg-cmake.mk b/package/pkg-cmake.mk
+--- a/package/pkg-cmake.mk	2026-10-08 07:18:32.141019775 -0600
++++ b/package/pkg-cmake.mk	2026-10-08 07:18:40.989006191 -0600
+@@ -107,7 +107,7 @@
+ 		-G$$($$(PKG)_GENERATOR) \
+ 		-DCMAKE_MAKE_PROGRAM="$$($$(PKG)_GENERATOR_PROGRAM)" \
+ 		-DCMAKE_TOOLCHAIN_FILE="$$(HOST_DIR)/share/buildroot/toolchainfile.cmake" \
+-		-DCMAKE_INSTALL_PREFIX="/usr" \
++		-DCMAKE_INSTALL_PREFIX="$$(TARGET_INSTALL_PREFIX)" \
+ 		-DCMAKE_INSTALL_RUNSTATEDIR="/run" \
+ 		-DCMAKE_COLOR_MAKEFILE=OFF \
+ 		-DBUILD_DOC=OFF \
+diff -Naur a/package/pkg-meson.mk b/package/pkg-meson.mk
+--- a/package/pkg-meson.mk	2026-10-08 07:18:32.141019775 -0600
++++ b/package/pkg-meson.mk	2026-10-08 07:18:32.149019762 -0600
+@@ -158,7 +158,7 @@
+ 	CXX_FOR_BUILD="$$(HOSTCXX)" \
+ 	$$($$(PKG)_CONF_ENV) \
+ 	$$(MESON) setup \
+-		--prefix=/usr \
++		--prefix=$$(TARGET_INSTALL_PREFIX) \
+ 		--libdir=lib \
+ 		--default-library=$(PKG_MESON_DEFAULT_LIBRARY) \
+ 		--buildtype=$(if $(BR2_ENABLE_RUNTIME_DEBUG),debug,release) \

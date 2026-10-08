@@ -1,0 +1,9 @@
+config BR2_PACKAGE_AUTOCONF_TARGET
+	bool "autoconf"
+	depends on BR2_USE_MMU # perl
+	select BR2_PACKAGE_M4_TARGET # runtime
+	select BR2_PACKAGE_PERL # runtime
+	help
+	  GNU autoconf, built for the target.
+
+	  https://www.gnu.org/software/autoconf/

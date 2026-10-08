@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# This is not a system-wide setting, it only applies to the current terminal
+# session. Source it at login:  . @PREFIX@/etc/profile
+
+PATH=@PREFIX@/sbin:@PREFIX@/bin:/opt/usr/sbin:/opt/sbin:/opt/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+
+export PATH
+export TERM=xterm
+export TERMINFO=@PREFIX@/share/terminfo
+export TMP=@PREFIX@/tmp
+export TEMP=@PREFIX@/tmp
+export TMPDIR=@PREFIX@/tmp
+export PKG_CONFIG_LIBDIR=@PREFIX@/lib/pkgconfig:@PREFIX@/share/pkgconfig
+export CONFIG_SHELL=@PREFIX@/bin/bash
+
+# Root's home is RAM-backed on the router and emptied at every reboot. Keep
+# the caches that pip, ccache and others put under ~/.cache on disk instead.
+export XDG_CACHE_HOME=@PREFIX@/var/cache
+export M4=@PREFIX@/bin/m4
+
+alias ls='ls --color'

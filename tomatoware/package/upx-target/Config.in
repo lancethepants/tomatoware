@@ -1,0 +1,7 @@
+config BR2_PACKAGE_UPX_TARGET
+	bool "upx"
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  The Ultimate Packer for eXecutables, built for the target.
+
+	  https://upx.github.io/

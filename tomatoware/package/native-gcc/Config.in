@@ -1,0 +1,16 @@
+config BR2_PACKAGE_NATIVE_GCC
+	bool "native-gcc"
+	depends on BR2_TOOLCHAIN_BUILDROOT_MUSL
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on !BR2_STATIC_LIBS
+	select BR2_PACKAGE_BINUTILS
+	select BR2_PACKAGE_BINUTILS_TARGET
+	select BR2_PACKAGE_GMP
+	select BR2_PACKAGE_MPFR
+	select BR2_PACKAGE_MPC
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_ZSTD
+	help
+	  GCC built to run on the target and produce code for the
+	  target, from the same source and patches as the Buildroot
+	  cross compiler.

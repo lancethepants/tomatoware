@@ -1,0 +1,6 @@
+Patches applied only to the arm-ft target, on top of patches/.
+
+arm-ft builds against vanilla Linux 2.6.36.4 kernel headers so its programs
+run on FreshTomato ARM firmware. Current package versions sometimes assume a
+newer kernel; fixes for that go here, laid out like patches/
+(<package>/<NNNN>-<name>.patch), so the other targets never see them.
